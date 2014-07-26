@@ -4,7 +4,7 @@ class Model_login extends CI_Model{
 
     public function check_user( $username, $password ){
 
-		$query = $this->db->get_where('tbl_usuarios', array('usuario' => $username,'clave' => $password ) );
+		$query = $this->db->get_where('tbl_usuarios', array('usuario' => $username,'contrasena' => $password ) );
 
 		if( $query->num_rows() > 0 ){
 

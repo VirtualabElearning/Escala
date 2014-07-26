@@ -49,11 +49,11 @@
   <div class="matter">
     <div class="container">
 
-      <!-- Today status. jQuery Sparkline plugin used. -->
+      <!-- Today estatus. jQuery Sparkline plugin used. -->
 
 
 
-      <!-- Today status ends -->
+      <!-- Today estatus ends -->
 
 
 

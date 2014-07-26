@@ -97,3 +97,10 @@ cursor: pointer;
 background-color: #d0cfd6;
 border: 0px;
 }
+
+
+#contador{
+   margin-left: 274px;
+    position: relative;
+    top: -15px;	
+}

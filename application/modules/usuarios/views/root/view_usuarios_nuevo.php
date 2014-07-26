@@ -59,9 +59,10 @@
 										<?php echo input_text ("Titulo","titulo","titulo","Ingrese el titulo del contenido"); ?>
 										<?php echo form_error('titulo', '<div class="mensaje_error">', '</div>'); ?>
 
-										<?php echo textarea ("Descripcion","descripcion","descripcion","Ingrese la decripcion del contenido"); ?>
+										<?php echo textarea ("Resumen de perfil","resumen_de_perfil","resumen_de_perfil","Ingrese el resumen de perfil"); ?>
 										<?php echo form_error('descripcion', '<div class="mensaje_error">', '</div>'); ?>
-
+										<div id="contador"></div>
+										
 
 										<div class="form-group">
 											<label class="col-lg-2 control-label">Foto</label>
@@ -90,7 +91,7 @@
 											</div>
 										</div>
 
-										<?php echo editor ("Contenido","contenido","contenido") ?>
+										
 										<?php echo form_error('contenido', '<div class="mensaje_error">', '</div>'); ?>
 
 										<?php 
@@ -102,31 +103,31 @@
 											<div class="col-lg-offset-2 col-lg-6">
 												<button type="submit" class="btn btn-sm btn-primary">Guardar</button>
 												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
-													
+
 											</div>
 										</div>
 
-                                <?=form_close()?>
+										<?=form_close()?>
 
-                            </div>
-                        </div>
-                        <div class="widget-foot">
-                        	<!-- Footer goes here -->
-                        </div>
-                    </div>
-                </div>  
+									</div>
+								</div>
+								<div class="widget-foot">
+									<!-- Footer goes here -->
+								</div>
+							</div>
+						</div>  
 
-            </div>
-        </div>
-    </div>
-</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-<!-- Matter ends -->
+		<!-- Matter ends -->
 
-</div>
+	</div>
 
-<!-- Mainbar ends -->        
-<div class="clearfix"></div>
+	<!-- Mainbar ends -->        
+	<div class="clearfix"></div>
 
 </div>
 <!-- Content ends -->

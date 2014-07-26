@@ -1,1 +1,1 @@
-view_admin_menu_perfil
+view_admin_menu_resumen_de_perfil

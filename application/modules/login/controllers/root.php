@@ -45,7 +45,7 @@ class Root extends CI_Controller {
 		 aplico reglas en los campos del login (requerido,sin espacios,llamo una funcion extra para validacion en la bd) 
 		 **/
 		 $this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean|trim');
-		 $this->form_validation->set_rules('clave', 'Contraseña', 'required|xss_clean|trim|callback_username_check');
+		 $this->form_validation->set_rules('contrasena', 'Contraseña', 'required|xss_clean|trim|callback_username_check');
 		 $this->form_validation->set_rules('redirect', 'Error URL', 'xss_clean|trim');
 		 $redirect=base64_decode($this->input->post('redirect'));
 
@@ -96,16 +96,16 @@ class Root extends CI_Controller {
 	public function username_check(){
 		$this->load->model('model_login');
 		/**
-		Evaluo en la funcion si existe, si la clave es correcta.
+		Evaluo en la funcion si existe, si la contrasena es correcta.
 		**/
 
 		
-		$result = $this->model_login->check_user( $this->input->post('correo'), sha1($this->input->post('clave')) );
+		$result = $this->model_login->check_user( $this->input->post('correo'), sha1($this->input->post('contrasena')) );
 
 		switch($result){
 			case 'no-existe':
 			/** 
-			Muestro mensaje de error si el usuario o la clave es incorrecta
+			Muestro mensaje de error si el usuario o la contrasena es incorrecta
 			 **/
 			$this->form_validation->set_message('username_check', 'Nombre de usuario o contraseña incorrectos');
 			return false;
@@ -157,7 +157,7 @@ $this->load->model('model_login');
 $data['perfil'] = $this->model_login->detalle('usuarios',array('id_usuarios',$id_usuarios));
 
 
-$data['titulo']="Perfil";
+$data['titulo']="perfil";
 $this->load->view('root/view_perfil',$data );
 
 }

@@ -89,7 +89,7 @@
                             <span class="btn btn-file">
                               <span class="fileupload-exists">Cambiar</span>
                               <span class="fileupload-new">Seleccione imagen</span>         
-                              <input type="file" value="uploads/perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
+                              <input type="file" value="uploads/resumen_de_perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
                             </span>
                             <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
 

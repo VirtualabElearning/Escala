@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <!-- Title and other stuffs -->
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Adminsitrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -17,11 +17,12 @@
   <!-- Main content starts -->
   <div class="content">
 
-    <?php $this->load->view('view_root_menu'); ?> 
+      <?php $this->load->view('view_root_menu'); ?> 
+
     <div class="mainbar">
 
       <div class="page-head">
-        <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo $titulo; ?></h2>
+        <h2 class="pull-left"><i class="fa fa-table"></i>  <?php echo str_replace("_", " ", $titulo); ?></h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
@@ -39,7 +40,7 @@
 
               <div class="widget">
                 <div class="widget-head">
-                  <div class="pull-left"><?php echo $titulo; ?></div>
+                  <div class="pull-left"><?php echo str_replace("_", " ", $titulo); ?></div>
                   <div class="widget-icons pull-right">
                     <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
                     <a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -54,10 +55,10 @@
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
 
-                    <?php echo input_text ("Nombre","nombre","nombre","Ingrese el nombre del status",$detalle->nombre); ?>
+                    <?php echo input_text ("Nombre","nombre","nombre","Ingrese el titulo de la categoria de curso",$detalle->nombre); ?>
                     <?php echo form_error('nombre', '<div class="mensaje_error">', '</div>'); ?>
 
-                    <?php echo textarea ("Descripcion","descripcion","descripcion","Ingrese la decripcion del status",$detalle->descripcion); ?>
+                    <?php echo textarea ("Descripcion","descripcion","descripcion","Ingrese la decripcion de la categoria de curso",$detalle->descripcion); ?>
                     <?php echo form_error('descripcion', '<div class="mensaje_error">', '</div>'); ?>
 
                     <?php 

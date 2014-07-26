@@ -65,7 +65,8 @@ public function guardar()
 	$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean');
 	$this->form_validation->set_rules('id_roles', 'Rol', 'required|xss_clean');
 	$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
-	$this->form_validation->set_rules('clave', 'Clave', 'required|xss_clean');
+	$this->form_validation->set_rules('contrasena', 'contrasena', 'xss_clean');
+	$this->form_validation->set_rules('resumen_de_perfil', 'resumen_de_perfil', 'xss_clean');
 
 	if($this->form_validation->run() == FALSE)
 	{ 
@@ -82,15 +83,16 @@ public function guardar()
 			'apellidos' => $this->input->post ('apellidos'),
 			'correo' => $this->input->post ('correo'),
 			'identificacion' => $this->input->post ('identificacion'),
-			'clave' => sha1($this->input->post ('clave')),
-			'perfil' => $this->input->post ('perfil'),
+			'resumen_de_perfil' => $this->input->post ('resumen_de_perfil'),
 			'id_roles' => $this->input->post ('id_roles'),
 			'id_estados' => $this->input->post ('id_estados'),
 
 			);
 
+		if ($this->input->post ('contrasena')) {
+			$data[$variables['contrasena']]=sha1($this->input->post ('contrasena'));
 
-
+		}
 		if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
 
@@ -111,7 +113,7 @@ public function guardar()
 				#echo $this->upload->display_errors(); exit;
 				#$this->editar($id,$this->upload->display_errors());
 				#$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
-				
+
 			}
 
 			else
@@ -149,8 +151,8 @@ public function guardar()
 			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';
 			redirect($accion_url);
 		}
-		
-		
+
+
 
 
 
@@ -163,6 +165,7 @@ public function guardar()
 
 
 }
+
 
 
 public function borrar()

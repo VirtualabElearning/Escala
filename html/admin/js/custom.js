@@ -5,38 +5,57 @@
 
 $(document).ready(function(){
 
-  $('#clave,#clave2').keyup(function(event) {
+
+if ($("#resumen_de_perfil").length>0)  {
+var caracteres= 140;
+$("#contador").append("Usted tiene <strong>"+ $( "#resumen_de_perfil" ).val().length+"</strong> caracteres restantes de "+caracteres);
+
+}
+
+$( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
+
+  console.log($(this).val().length+'\n');
+  $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres restantes de "+caracteres);
+    if($(this).val().length > caracteres){
+        $(this).val($(this).val().substr(0, caracteres));
+}
+
+  });
+
+
+  $('#contrasena,#contrasena2').keyup(function(event) {
     $(this).next().remove();
   });
 
   $('.guardar_usuario_clic').click(function(event) {
 
     event.preventDefault();
-    if ( $('#clave').val()=='' )  {
-      $('#clave').parent().append('<div class="mensaje_error">Por favor, ingrese la clave</div>');
-      return false;
-    }
+    if ( $('#contrasena').val()!='' )  {
 
-    if ( $('#clave2').val()=='' )  {
-      $('#clave2').parent().append('<div class="mensaje_error">Por favor, ingrese la clave nuevamente</div>');
-      return false;
-    }
-
-    if ( $('#clave2').val()=='' )  {
-      $('#clave2').parent().append('<div class="mensaje_error">Por favor, ingrese la clave nuevamente</div>');
-      return false;
-    }
-
-
-    if ( $('#clave').val()!=$('#clave2').val() )  {
-      $('#clave,#clave2').parent().append('<div class="mensaje_error">Las claves no son iguales</div>');
-      return false;
+      if ( $('#contrasena2').val()=='' )  {
+        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contrasena nuevamente</div>');
+        return false;
       }
 
-      $('.form-horizontal').submit();
+      if ( $('#contrasena2').val()=='' )  {
+        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contrasena nuevamente</div>');
+        return false;
+      }
 
 
-    });
+      if ( $('#contrasena').val()!=$('#contrasena2').val() )  {
+        $('#contrasena,#contrasena2').parent().append('<div class="mensaje_error">Las contrasenas no son iguales</div>');
+        return false;
+      }
+
+
+    }
+
+
+    $('.form-horizontal').submit();
+
+
+  });
 
 
 

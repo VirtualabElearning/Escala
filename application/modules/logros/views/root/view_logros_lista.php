@@ -202,7 +202,7 @@
       $(".ajax-loader").show();
       var orden = $(this).sortable('toArray').toString();
       $.ajax({
-        url: '<?php echo $this->uri->segment(1); ?>/admin/ordenar',
+        url: '<?php echo $this->uri->segment(1); ?>/root//ordenar',
         data: {"data": orden},
         type: 'post'
       }).done(function(data) {

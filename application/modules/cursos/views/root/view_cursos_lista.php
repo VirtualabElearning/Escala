@@ -14,13 +14,16 @@
 
   <?php $this->load->view('view_root_header'); ?> 
 
+
   <!-- Main content starts -->
 
   <div class="content">
 
    <?php $this->load->view('view_root_menu'); ?> 
 
+
    <div class="mainbar">
+
 
     <div class="page-head">
       <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo $titulo; ?></h2>
@@ -36,6 +39,9 @@
       <div class="clearfix"></div>
 
     </div>
+
+
+
 
 
     <div class="matter">
@@ -70,6 +76,7 @@
 
 
 
+
                       <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
 
 
@@ -83,17 +90,19 @@
 
                         <tbody>
 
+
                           <?php #krumo ($lista); ?>
 
                           <?php foreach ($lista as $key => $value): ?>
 
-                            <tr id="<?php echo $value->id_status; ?>">
+                            <tr id="<?php echo $value->id_cursos; ?>">
                              <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_status; ?></td>
+                             <td><?php echo $value->id_cursos; ?></td>
                              <td><?php echo $value->nombre; ?></td>
+                             <td><?php echo $value->titulo; ?></td>
                              <td><?php echo $value->descripcion; ?></td>
                              <td><?php echo $value->id_estados; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_status; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_status; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 
                          <?php endforeach ?>         
@@ -193,7 +202,7 @@
       $(".ajax-loader").show();
       var orden = $(this).sortable('toArray').toString();
       $.ajax({
-        url: '<?php echo $this->uri->segment(1); ?>/admin/ordenar',
+        url: '<?php echo $this->uri->segment(1); ?>/root//ordenar',
         data: {"data": orden},
         type: 'post'
       }).done(function(data) {

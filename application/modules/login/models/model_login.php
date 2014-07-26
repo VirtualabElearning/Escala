@@ -6,7 +6,7 @@ class Model_login extends CI_Model{
 
 
 
-		$query = $this->db->get_where('usuarios', array('correo' => $username,'clave' => $password ) );
+		$query = $this->db->get_where('usuarios', array('correo' => $username,'contrasena' => $password ) );
 
 
 
@@ -38,7 +38,7 @@ class Model_login extends CI_Model{
 		if ($where) {
 			$this->db->where($where[0],$where[1]);
 		}
-		$this->db->select('usuarios.id_usuarios,usuarios.nombres,usuarios.apellidos,usuarios.foto,usuarios.correo,usuarios.identificacion,usuarios.perfil,roles.nombre as nombre_rol,estados.nombre as nombre_estado');
+		$this->db->select('usuarios.id_usuarios,usuarios.nombres,usuarios.apellidos,usuarios.foto,usuarios.correo,usuarios.identificacion,usuarios.resumen_de_perfil,roles.nombre as nombre_rol,estados.nombre as nombre_estado');
 		$this->db->join('roles', 'roles.id_roles = usuarios.id_roles');
         $this->db->join('estados', 'estados.id_estados = usuarios.id_estados');
 		$query = $this->db->get($tabla);

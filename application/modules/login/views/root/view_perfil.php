@@ -92,9 +92,9 @@
 
 
                   <div class="clear_div">
-                    <h5> <label for="name" class="control-label col-lg-2">Perfil</label></h5>
+                    <h5> <label for="name" class="control-label col-lg-2">perfil</label></h5>
 
-                    <div class="txtperfil">  <p><?php echo $perfil->perfil; ?></p></div>
+                    <div class="txtperfil">  <p><?php echo $perfil->resumen_de_perfil; ?></p></div>
                   </div>
 
 

@@ -18,7 +18,7 @@ class Root extends CI_Controller {
 /**
 Configuracion generica del modulo
 **/
-$this->variables=array('modulo'=>'status','id'=>'id_status','modelo'=>'model_status');
+$this->variables=array('modulo'=>'estatus','id'=>'id_estatus','modelo'=>'model_estatus');
 
 }
 
@@ -34,7 +34,7 @@ public function lista()
 	$variables = $this->variables;
 	$data['titulo']=$variables['modulo'];
 	$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
-	$data['titulos']=array("Orden","ID","Nombre status","Descripcion","Estado","Opciones");
+	$data['titulos']=array("Orden","ID","Nombre estatus","Descripcion","Estado","Opciones");
 	$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 }
 

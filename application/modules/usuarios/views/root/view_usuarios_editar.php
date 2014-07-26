@@ -72,12 +72,12 @@
                     <?php echo form_error('correo', '<div class="mensaje_error">', '</div>'); ?>
 
 
-                    <?php echo password ("Contraseña","clave","clave","Ingrese la contraseña",''); ?>
-                    <?php echo form_error('clave', '<div class="mensaje_error">', '</div>'); ?>
+                    <?php echo password ("Contraseña","contrasena","contrasena","Ingrese la contraseña",''); ?>
+                    <?php echo form_error('contrasena', '<div class="mensaje_error">', '</div>'); ?>
 
 
-                    <?php echo password ("Contraseña","clave2","clave2","Otra vez la contraseña",''); ?>
-                    <?php echo form_error('clave2', '<div class="mensaje_error">', '</div>'); ?>
+                    <?php echo password ("Contraseña","contrasena2","contrasena2","Otra vez la contraseña",''); ?>
+                    <?php echo form_error('contrasena2', '<div class="mensaje_error">', '</div>'); ?>
 
 
 
@@ -118,16 +118,11 @@
                             </span>
                             <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
 
-
-
                             <?php if ($error_extra && $error_extra!='null'): ?>
                               <div class="mensaje_error"> <?php echo $error_extra; ?></div>
                             <?php endif ?>
 
                           </div>
-
-
-
 
 
                         </div>
@@ -136,10 +131,9 @@
 
 
 
-                    <?php echo textarea ("Perfil","perfil","perfil","Ingrese un resumen de su perfil",$detalle->perfil); ?>
-                    <?php echo form_error('perfil', '<div class="mensaje_error">', '</div>'); ?>
-
-
+                    <?php echo textarea ("Resumen de perfil","resumen_de_perfil","resumen_de_perfil","Ingrese un resumen de perfil",$detalle->resumen_de_perfil); ?>
+                    <?php echo form_error('resumen_de_perfil', '<div class="mensaje_error">', '</div>'); ?>
+                    <div id="contador"></div>
 
 
 
@@ -152,42 +146,42 @@
                       <div class="col-lg-offset-2 col-lg-6">
                        <button type="button" class="guardar_usuario_clic btn btn-sm btn-primary">Guardar</button>
 
-                        <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
+                       <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
 
 
 
-                      </div>
-                    </div>
+                     </div>
+                   </div>
 
-                    <?php if ($this->uri->segment(4)): ?>
-                      <?=form_hidden('id',$this->uri->segment(4))?>
-                      <?=form_hidden('foto_antes',$detalle->foto)?>
-                    <?php endif ?>
+                   <?php if ($this->uri->segment(4)): ?>
+                    <?=form_hidden('id',$this->uri->segment(4))?>
+                    <?=form_hidden('foto_antes',$detalle->foto)?>
+                  <?php endif ?>
 
- <?=form_hidden('redirect',@$redirect)?>
+                  <?=form_hidden('redirect',@$redirect)?>
 
- 
-                    <?=form_close()?>
 
-                  </div>
-                </div>
-                <div class="widget-foot">
-                  <!-- Footer goes here -->
+                  <?=form_close()?>
+
                 </div>
               </div>
-            </div>  
+              <div class="widget-foot">
+                <!-- Footer goes here -->
+              </div>
+            </div>
+          </div>  
 
-          </div>
         </div>
       </div>
     </div>
-
-    <!-- Matter ends -->
-
   </div>
 
-  <!-- Mainbar ends -->        
-  <div class="clearfix"></div>
+  <!-- Matter ends -->
+
+</div>
+
+<!-- Mainbar ends -->        
+<div class="clearfix"></div>
 
 </div>
 <!-- Content ends -->

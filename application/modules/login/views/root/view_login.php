@@ -60,8 +60,8 @@
                 <div class="form-group">
                   <label class="control-label col-lg-3" for="inputPassword">Contraseña</label>
                   <div class="col-lg-9">
-                    <input type="password" name="clave" autocomplete="off" class="form-control" id="inputPassword" placeholder="Password">
-                    <?php echo form_error('clave', '<div class="mensaje_error">', '</div>'); ?>
+                    <input type="password" name="contrasena" autocomplete="off" class="form-control" id="inputPassword" placeholder="Password">
+                    <?php echo form_error('contrasena', '<div class="mensaje_error">', '</div>'); ?>
                   </div>
                 </div>
                 <!-- Remember me checkbox and sign in button -->

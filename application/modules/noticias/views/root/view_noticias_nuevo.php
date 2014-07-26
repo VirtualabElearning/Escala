@@ -75,14 +75,14 @@
 
 
 													<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">						
-														<img src="uploads/perfil/2524e95f51cd37a6cef307ddffa86fcc_thumb.jpg" alt="img"/>
+														<img src="uploads/resumen_de_perfil/2524e95f51cd37a6cef307ddffa86fcc_thumb.jpg" alt="img"/>
 													</div>
 
 													<div>
 														<span class="btn btn-file">
 															<span class="fileupload-exists">Cambiar</span>
 															<span class="fileupload-new">Seleccione imagen</span>					
-															<input type="file" value="uploads/perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
+															<input type="file" value="uploads/resumen_de_perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
 														</span>
 														<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
 													</div>
