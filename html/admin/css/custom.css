@@ -1,0 +1,99 @@
+.mensaje_error{
+	border: 1px solid #F01818;
+	background: #FAB9B9;
+	color: #000;
+	margin-top: 5px;
+}
+
+.logo_app{
+	text-align: center;
+}
+
+
+.ultimos-registrados i {
+max-width: 20px;
+width: 20px;
+position: absolute;
+left: 14px;
+}
+
+
+.ultimos-registrados tr td:first-child {
+position: relative;
+}
+
+
+.sidebar #nav li ul li.open a {
+background: #eee;
+border-bottom: 1px solid #ddd;
+}
+
+.txtperfil {
+
+	  float: left;
+	  width: 500px;
+}
+
+
+.clear_div {
+
+	clear: both;
+}
+
+
+
+.foto_img {
+	 max-width: 10%!important;
+}
+
+.foto_img_edit {
+	 max-width: 50%!important;
+}
+
+
+
+.fileupload-exists .fileupload-new, .fileupload-new .fileupload-exists {
+display: none;
+}
+
+.btn-file > input {
+position: absolute;
+top: 0;
+right: 0;
+margin: 0;
+opacity: 0;
+filter: alpha(opacity=0);
+transform: translate(-300px, 0) scale(4);
+font-size: 23px;
+direction: ltr;
+cursor: pointer;
+}
+
+.btn-file {
+overflow: hidden;
+position: relative;
+vertical-align: middle;
+}
+
+
+.fileupload .btn {
+padding: 5px 18px !important;
+}
+
+.fileupload .btn {
+vertical-align: middle;
+}
+
+.btn {
+display: inline-block;
+padding: 7px 18px;
+margin-bottom: 0;
+font-size: 12px;
+line-height: 20px;
+color: #444444;
+text-align: center;
+vertical-align: middle;
+cursor: pointer;
+background-color: #d0cfd6;
+border: 0px;
+}

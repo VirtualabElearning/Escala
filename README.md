@@ -1,4 +1,4 @@
 Escala
 ======
 
-Proyecto Escala
+Escala
