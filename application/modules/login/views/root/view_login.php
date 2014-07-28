@@ -45,6 +45,13 @@
                 <div class="logo_app"><img src="html/admin/img/logo_app.jpg" alt=""></div>
 
 
+
+<?php if (@$error_extra): ?>
+  <div class="mensaje_error"><?php echo base64_decode($error_extra); ?></div>
+<?php endif ?>
+
+
+
                 <?php $attributos=array('class'=>'form-horizontal'); ?>
                 <!-- Login form -->
                 <?=form_open(base_url().'login/root/validar',$attributos)?>
@@ -81,9 +88,9 @@
                   <button type="reset" class="btn btn-default btn-sm">Reset</button>
                 </div>
                 <br />
-
-
-
+<?php  ?>
+<a href="<?php echo base_url().'login/root/iniciar_sesion/'.$this->uri->segment(4).'/' ?>Facebook">Entrar con Facebook</a><br />
+<a href="<?php echo base_url().'login/root/iniciar_sesion/'.$this->uri->segment(4).'/' ?>Twitter">Entrar con Twitter</a><br />
 
                 <?=form_hidden('redirect',$redirect)?>
                 <?=form_hidden('token',$token)?>

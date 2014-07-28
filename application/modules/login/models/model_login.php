@@ -27,6 +27,8 @@ class Model_login extends CI_Model{
 		$this->db->where($where[0],$where[1]);
 		$this->db->join('roles', 'roles.id_roles = usuarios.id_roles');
 		$query = $this->db->get($tabla);
+			#echo  $this->db->last_query()."<br>";
+		#exit;
 
 		return $query->row();
 	}
