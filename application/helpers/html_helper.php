@@ -37,13 +37,17 @@ if (!function_exists('textarea')) {
 
 
 if (!function_exists('checkbox')) {
-	function checkbox ($texto,$id,$nombre,$placeholder,$opciones)  {
+	function checkbox ($texto,$opciones,$saltar=null,$valores=null)  {
 		$html = '<div class="form-group">
 		<label class="col-lg-2 control-label">'.$texto.'</label>
 		<div class="col-lg-5">';
 
-			foreach ($opciones as $key => $value) {
-				$html.= '<label class="checkbox-inline"><input type="checkbox" id="inlineCheckbox1" value="'.$key.'">'.$value.'</label>';
+			foreach ($opciones as $dkey => $value) {
+				$key=explode ("|",$dkey);
+
+				$html.= '<label class="checkbox-inline"><input type="checkbox" name="'.$key[0].'" id="'.$key[1].'" value="'.$key[2].'" '.@$key[3].'>'.$value.'</label>';
+
+				if ($saltar==1)  {  $html.="<br>";  }
 			}
 
 			$html.='</div></div>';
@@ -56,7 +60,7 @@ if (!function_exists('checkbox')) {
 
 
 	if (!function_exists('radiobutton')) {
-		function radiobutton ($texto,$id,$nombre,$placeholder,$opciones)  {
+		function radiobutton ($texto,$id,$nombre,$opciones)  {
 			$html = '<div class="form-group">
 			<label class="col-lg-2 control-label">'.$texto.'</label>
 			<div class="col-lg-5">';

@@ -8,6 +8,9 @@ class Model_Cursos extends CI_Model{
 
 
 	public function listado($tabla,$where=null,$order_by=null){
+
+		$this->db->select("cursos.orden,cursos.id_cursos,categoria_cursos.nombre as nombre_categoria,cursos.titulo,cursos.descripcion,cursos.id_estados");
+
 		if ($where) {
 			$this->db->where($where[0],$where[1]);
 		}

@@ -57,7 +57,7 @@ public function guardar()
 	$id=$this->input->post ('id');
 	$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
 	$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
-	$this->form_validation->set_rules('contenido', 'Contenido', 'required|xss_clean');
+	$this->form_validation->set_rules('contenido', 'Contenido', 'required');
 	$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 
 	if($this->form_validation->run() == FALSE)

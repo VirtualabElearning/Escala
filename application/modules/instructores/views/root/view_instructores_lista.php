@@ -95,9 +95,9 @@
 
                           <?php foreach ($lista as $key => $value): ?>
 
-                            <tr id="<?php echo $value->id_aprendices; ?>">
+                            <tr id="<?php echo $value->id_instructores; ?>">
                              <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_aprendices; ?></td>
+                             <td><?php echo $value->id_instructores; ?></td>
                              <td><?php echo $value->nombre; ?></td>
                              <td><img src="<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>" alt="img"/></td>
                              <td><?php echo $value->nombres; ?></td>
@@ -105,7 +105,7 @@
                              <td><?php echo $value->identificacion; ?></td>
                              <td><?php echo $value->correo; ?></td>
                              <td><?php echo $value->id_estados; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_aprendices; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_aprendices; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_instructores; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_instructores; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 
                          <?php endforeach ?>         

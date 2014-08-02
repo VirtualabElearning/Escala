@@ -45,6 +45,7 @@ public function guardar ($tabla,$data,$idname=null,$where=null) {
 		$this->db->where($where[0],$where[1]);
 		$this->db->update($tabla, $data);
 
+#echo  $this->db->last_query()."<br>";
 
 		$id_retorno=$where[1];
 	

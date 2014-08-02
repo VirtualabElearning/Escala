@@ -63,7 +63,7 @@ public function guardar()
 	{ 
 
 		#$this->editar($id);
-      echo   $this->form_validation->display_errors();
+      echo  validation_errors();
       exit;
 	}
 

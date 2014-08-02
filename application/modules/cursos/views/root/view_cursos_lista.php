@@ -98,11 +98,11 @@
                             <tr id="<?php echo $value->id_cursos; ?>">
                              <td><?php echo $value->orden; ?></td>
                              <td><?php echo $value->id_cursos; ?></td>
-                             <td><?php echo $value->nombre; ?></td>
+                             <td><?php echo $value->nombre_categoria; ?></td>
                              <td><?php echo $value->titulo; ?></td>
                              <td><?php echo $value->descripcion; ?></td>
                              <td><?php echo $value->id_estados; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                             <td>  <a href="modulos/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-success btn-xs"><i class="fa"></i> Modulos </a>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 
                          <?php endforeach ?>         

@@ -89,8 +89,6 @@
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">
 
-                        <!--  -->
-
 
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
@@ -129,6 +127,24 @@
                     <div id="contador"></div>
                     <?php echo form_error('resumen_de_perfil', '<div class="mensaje_error">', '</div>'); ?>
 
+                    <?php $array_opc=array(); ?>
+                    <?php $cursos_checked=json_decode($detalle->cursos_asignados); $checkeado=""; ?>
+                    <?php foreach ($lista_cursos as $key => $value_cursos): ?>
+                      <?php $checkeado=""; ?>
+                      <?php if ( @in_array($value_cursos->id_cursos,$cursos_checked)) { $checkeado="checked"; }  ?>
+                      <?php $array_opc['cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$value_cursos->id_cursos.'|'.$checkeado]=$value_cursos->titulo." [".$value_cursos->categoria_curso."] "; ?>
+                    <?php endforeach ?>
+
+                    <?php 
+
+                    #krumo ($array_opc); exit;
+
+
+                    echo checkbox ('Cursos asignados',$array_opc,1,'');
+                    ?>                
+
+
+
 
 
 
@@ -142,42 +158,42 @@
                       <div class="col-lg-offset-2 col-lg-6">
                        <button type="button" class="guardar_usuario_clic btn btn-sm btn-primary">Guardar</button>
 
-                        <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
+                       <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
 
 
 
-                      </div>
-                    </div>
+                     </div>
+                   </div>
 
-                    <?php if ($this->uri->segment(4)): ?>
-                      <?=form_hidden('id',$this->uri->segment(4))?>
-                      <?=form_hidden('foto_antes',$detalle->foto)?>
-                    <?php endif ?>
+                   <?php if ($this->uri->segment(4)): ?>
+                    <?=form_hidden('id',$this->uri->segment(4))?>
+                    <?=form_hidden('foto_antes',$detalle->foto)?>
+                  <?php endif ?>
 
- <?=form_hidden('redirect',@$redirect)?>
+                  <?=form_hidden('redirect',@$redirect)?>
 
- 
-                    <?=form_close()?>
 
-                  </div>
-                </div>
-                <div class="widget-foot">
-                  <!-- Footer goes here -->
+                  <?=form_close()?>
+
                 </div>
               </div>
-            </div>  
+              <div class="widget-foot">
+                <!-- Footer goes here -->
+              </div>
+            </div>
+          </div>  
 
-          </div>
         </div>
       </div>
     </div>
-
-    <!-- Matter ends -->
-
   </div>
 
-  <!-- Mainbar ends -->        
-  <div class="clearfix"></div>
+  <!-- Matter ends -->
+
+</div>
+
+<!-- Mainbar ends -->        
+<div class="clearfix"></div>
 
 </div>
 <!-- Content ends -->

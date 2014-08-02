@@ -33,11 +33,15 @@
 <script src="html/admin/js/bootstrap-fileupload.js"></script>
 
 <!-- jQuery Flot -->
+
+
+<?php if ($this->uri->segment(1)=='inicio'): ?>
 <script src="html/admin/js/excanvas.min.js"></script>
 <script src="html/admin/js/jquery.flot.js"></script>
 <script src="html/admin/js/jquery.flot.resize.js"></script>
 <script src="html/admin/js/jquery.flot.pie.js"></script>
 <script src="html/admin/js/jquery.flot.stack.js"></script>
+<?php endif; ?>
 
 <!-- jQuery Notification - Noty -->
 <script src="html/admin/js/jquery.noty.js"></script> <!-- jQuery Notify -->
@@ -62,7 +66,7 @@
  
 $('input[type=file]').fileupload();
   
-
+<?php if ($this->uri->segment(1)=='inicio'): ?>
 /*   GRAFICA DEL HOME   */
 
         var d1 = [];
@@ -102,7 +106,7 @@ $('input[type=file]').fileupload();
         plotWithOptions();
 
 /*   GRAFICA DEL HOME   */
-
+<?php endif; ?>
 
 
 

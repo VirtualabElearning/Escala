@@ -1,205 +1,190 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/* Controlador de la aplicacion */
 class Root extends CI_Controller {
 
-	/**
-	Controlador de la aplicacion
-	 **/
-
-
+	/* variable para cargar los datos globales del modulo */
 	var $variables = array();
-
 
 	public function __construct()
 	{
 		parent::__construct();
+		/* Verifica si tiene login de usuario, si no, lo redirecciona a iniciar sesion. */
 		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
 		
-/**
-Configuracion generica del modulo
-**/
-$this->variables=array('modulo'=>'contenidos','id'=>'id_contenidos','modelo'=>'model_contenidos');
+		/* Configuracion generica del modulo */
+		$this->variables=array('modulo'=>'contenidos','id'=>'id_contenidos','modelo'=>'model_contenidos');
 
-}
-
-
-public function index()
-{
-	$this->lista();
-}
-
-
-public function lista()
-{
-	$variables = $this->variables;
-	$data['titulo']=$variables['modulo'];
-	$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
-	$data['titulos']=array("Orden","ID","Titulo","Descripcion","Estado","Opciones");
-	$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
-}
-
-
-
-public function nuevo()
-{
-	$variables = $this->variables;
-	$data['titulo']=$variables['modulo'];
-	$data['lista']=$this->model_generico->listado($variables['modulo']);
-	$data['titulos']=array("ID","Titulo","Descripcion","Estado","Opciones");
-	$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
-}
-
-
-
-public function guardar()
-{
-	$variables = $this->variables;
-	$id=$this->input->post ('id');
-	$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
-	$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
-	$this->form_validation->set_rules('contenido', 'Contenido', 'required|xss_clean');
-	$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
-
-	if($this->form_validation->run() == FALSE)
-	{ 
-
-		#$this->editar($id);
-		echo   $this->form_validation->display_errors();
-		exit;
 	}
 
-	else {
+	public function index()
+	{
+		/* Funcion que lista los datos de la tabla asignada al modulo */
+		$this->lista();
+	}
 
-		$data = array(
-			'titulo' => $this->input->post ('titulo'),
-			'descripcion' => $this->input->post ('descripcion'),
-			'contenido' => $this->input->post ('contenido'),
-			'id_estados' => $this->input->post ('id_estados'),
-			);
+	/* Funcion listado de registros */
+	public function lista()
+	{ /* Cargo variables globales */
+		$variables = $this->variables;
+		/* Titulo = nombre modulo */
+		$data['titulo']=$variables['modulo'];
+		/* Consulto el listado de la tabla asignada del modulo */
+		$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
+		/* Muestro los campos necesarios para el listado */
+		$data['titulos']=array("Orden","ID","Titulo","Descripcion","Estado","Opciones");
+		/* Muestro al vista dinamica del listado */
+		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
+	}
 
 
+	/* Funcion nuevo registro */
+	public function nuevo()
+	{	/* Cargo variables globales */
+		$variables = $this->variables;
+		/* Titulo = nombre modulo */
+		$data['titulo']=$variables['modulo'];
+		/*Cargo la vista de nuevo registro*/
+		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
+	}
 
-		if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
+
+	/* Funcion guardar  registro */
+	public function guardar()
+	{
+		/* Cargo variables globales */
+		$variables = $this->variables;
+		/* variable id del registro (solo funciona cuando es editar) */
+		$id=$this->input->post ('id');
+		/* Reglas de validacion basicas de los campos del formulario */
+		$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
+		$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
+		$this->form_validation->set_rules('contenido', 'Contenido', 'required');
+		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
+
+		/* si existe alguna validacion que no pasa, las muestra en pantalla */
+		if($this->form_validation->run() == FALSE)
+		{ 
+
+		#$this->editar($id);
+			echo   validation_errors();
+			exit;
+		}
+
+		else {
+			/* Guardo en un array los valores de los campos a guardar */
+			$data = array(
+				'titulo' => $this->input->post ('titulo'),
+				'descripcion' => $this->input->post ('descripcion'),
+				'contenido' => $this->input->post ('contenido'),
+				'id_estados' => $this->input->post ('id_estados'),
+				);
 
 
-		$config['upload_path']   =   "uploads/".$variables['modulo']."/";
-		$config['allowed_types'] =   "gif|jpg|jpeg|png";
-		$config['max_size']      =   "5000";
-		$config['max_width']     =   "2000";
-		$config['max_height']    =   "2000";
-		$config['remove_spaces']  = TRUE;
-		$config['encrypt_name']  = TRUE;
-		$this->load->library('upload',$config);
+			/* si tiene id, es editar y me guarda la fecha de modificacion y quien lo modifico, de lo contrario quien lo creo y la fecha de creacion */
+			if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
-		if ($_FILES['userfile']['tmp_name'])  {
-			if(!$this->upload->do_upload())
+			/*configuracion basica para subir una foto*/
+			$config['upload_path']   =   "uploads/".$variables['modulo']."/";
+			$config['allowed_types'] =   "gif|jpg|jpeg|png";
+			$config['max_size']      =   "5000";
+			$config['max_width']     =   "2000";
+			$config['max_height']    =   "2000";
+			$config['remove_spaces']  = TRUE;
+			$config['encrypt_name']  = TRUE;
+			$this->load->library('upload',$config);
 
-			{
+			if ($_FILES['userfile']['tmp_name'])  {
+				if(!$this->upload->do_upload())
+
+				{
 
 				#echo $this->upload->display_errors(); exit;
 				#$this->editar($id,$this->upload->display_errors());
 				#$this->load->view('admin/view_'.$variables['modulo'].'_editar',$data);
-				
-			}
 
-			else
-
-			{
-
-				$finfo=$this->upload->data();
-
-
-				if ($this->input->post ('foto_antes'))  {
-					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
 				}
 
+				else
 
-				$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
-				$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+				{
+					/* subo la foto */
+					$finfo=$this->upload->data();
 
+					/* Si existe la foto antes, la borra y sube la nueva */
+					if ($this->input->post ('foto_antes'))  {
+						@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+					}
 
-				$data['foto'] = $finfo['file_name'];
-
-
-
+					/* obtengo nombre de la foto y la extension */
+					$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
+					$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+					$data['foto'] = $finfo['file_name'];
+				}
 
 			}
 
-
+			/* Guardo todos los registros a la base de datos */
+			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
+			/* Redirecciono al listado */
+			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';
+			redirect($accion_url);
 		}
 
+	}
 
+	/* Funcion borrar registro */
+	public function borrar()
+	{
+		/* Cargo variables globales */
+		$variables = $this->variables;
+		/* Reglas basicas del id */
+		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
+		/* guardo el dato en una variable */
+		$id=$this->input->post('id');
+		/* Consulto el detalle del registo */
+		$detalle=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
+		/* Borro la foto si existe */
+		@unlink('uploads/'.$variables['modulo'].'/'.$detalle->foto);
 
-
-		$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
-
-		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';
+		/* Borro el registro que consulté */
+		$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
+		/* Redirecciono */
+		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
 		redirect($accion_url);
-
-
-
-
-
-
-
 	}
 
 
 
-}
+	/* Funcion editar */
+	public function editar($id,$error_extra=null)
+	{
+		/* Cargo variables globales */
+		$variables = $this->variables;
+		/* Titulo = nombre del modulo */
+		$data['titulo']=$variables['modulo'];
+		/* Consulto el detalle del registro */
+		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
+		/* Si existe un error extra, lo carga en la variable */
+		$data['error_extra']=$error_extra;
+		/* Cargo la vista de editar */
+		$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
+
+	}
 
 
-public function borrar()
-{
-	$variables = $this->variables;
-	$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
+	/* Funcion ordenar (aplica en el listado de registros a la hora de arrastrar y soltar) */
+	public function ordenar()
+	{ /* Cargo variables globales */
+		$variables = $this->variables;
+		/* Cargo orden de los registros */
+		$data = $this->input->post('data');
+		/* Divido por coma, los registros a ordenar */
+		$dataarray=explode (",",$data);
+		foreach ($dataarray as $key => $value) {
+			/* Guardo nuevo orden de cada uno de los registros */
+			$this->model_generico->ordenar($variables['modulo'],array("orden"=>$key+1),array($variables['id'],$value));
+		}
 
-	$id=$this->input->post('id');
-
-	$detalle=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
-	@unlink('uploads/'.$variables['modulo'].'/'.$detalle->foto);
-
-
-	$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
-	$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
-	redirect($accion_url);
-}
-
-
-
-
-public function editar($id,$error_extra=null)
-{
-	$variables = $this->variables;
-	$data['titulo']=$variables['modulo'];
-	$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
-	$data['error_extra']=$error_extra;
-	$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
-
-}
-
-
-
-public function ordenar()
-{
-	$variables = $this->variables;
-	$data = $this->input->post('data');
-	$dataarray=explode (",",$data);
-	foreach ($dataarray as $key => $value) {
-		$this->model_generico->ordenar($variables['modulo'],array("orden"=>$key+1),array($variables['id'],$value));
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-}
-

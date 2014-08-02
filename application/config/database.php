@@ -49,9 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'virtua_escala';
+$db['default']['username'] = 'virtuala_escal4';
 $db['default']['password'] = 'dG6h&_h5Ku8&_o';
-$db['default']['database'] = 'virtua_escala';
+$db['default']['database'] = 'virtuala_escala';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
