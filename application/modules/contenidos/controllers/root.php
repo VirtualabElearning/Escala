@@ -14,6 +14,16 @@ class Root extends CI_Controller {
 		/* Configuracion generica del modulo */
 		$this->variables=array('modulo'=>'contenidos','id'=>'id_contenidos','modelo'=>'model_contenidos');
 
+
+		/*configuracion basica para subir una foto*/
+		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
+		$config['allowed_types'] =   "gif|jpg|jpeg|png";
+		$config['max_size']      =   "5000";
+		$config['max_width']     =   "2000";
+		$config['max_height']    =   "2000";
+		$config['remove_spaces']  = TRUE;
+		$config['encrypt_name']  = TRUE;
+		$this->load->library('upload',$config);
 	}
 
 	public function index()
@@ -47,6 +57,26 @@ class Root extends CI_Controller {
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 	}
 
+// funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
+	public function check_foto()
+	{
+		if ($_FILES['userfile']['tmp_name'])  {
+			if ($this->upload->do_upload('userfile'))
+			{
+				$upload_data    = $this->upload->data();
+				$_POST['userfile'] = $upload_data['file_name'];
+				return true;
+			}
+			else
+			{
+				$this->form_validation->set_message('check_foto', $this->upload->display_errors());
+				return false;
+			}
+
+		}
+
+	}
+
 
 	/* Funcion guardar  registro */
 	public function guardar()
@@ -60,14 +90,13 @@ class Root extends CI_Controller {
 		$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
 		$this->form_validation->set_rules('contenido', 'Contenido', 'required');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
+		$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
 
 		/* si existe alguna validacion que no pasa, las muestra en pantalla */
 		if($this->form_validation->run() == FALSE)
 		{ 
+			if ($id)  { $this->editar($id); } else { $this->nuevo();  }
 
-		#$this->editar($id);
-			echo   validation_errors();
-			exit;
 		}
 
 		else {
@@ -83,28 +112,9 @@ class Root extends CI_Controller {
 			/* si tiene id, es editar y me guarda la fecha de modificacion y quien lo modifico, de lo contrario quien lo creo y la fecha de creacion */
 			if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
-			/*configuracion basica para subir una foto*/
-			$config['upload_path']   =   "uploads/".$variables['modulo']."/";
-			$config['allowed_types'] =   "gif|jpg|jpeg|png";
-			$config['max_size']      =   "5000";
-			$config['max_width']     =   "2000";
-			$config['max_height']    =   "2000";
-			$config['remove_spaces']  = TRUE;
-			$config['encrypt_name']  = TRUE;
-			$this->load->library('upload',$config);
+			
 
 			if ($_FILES['userfile']['tmp_name'])  {
-				if(!$this->upload->do_upload())
-
-				{
-
-				#echo $this->upload->display_errors(); exit;
-				#$this->editar($id,$this->upload->display_errors());
-				#$this->load->view('admin/view_'.$variables['modulo'].'_editar',$data);
-
-				}
-
-				else
 
 				{
 					/* subo la foto */
@@ -121,6 +131,14 @@ class Root extends CI_Controller {
 					$data['foto'] = $finfo['file_name'];
 				}
 
+			}
+			else {
+				## elimino la foto
+				if ($this->input->post ('foto_antes'))  {
+						@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+					}
+				## campo vacio de la foto
+				$data['foto'] = "";
 			}
 
 			/* Guardo todos los registros a la base de datos */
@@ -154,7 +172,6 @@ class Root extends CI_Controller {
 	}
 
 
-
 	/* Funcion editar */
 	public function editar($id,$error_extra=null)
 	{
@@ -170,7 +187,6 @@ class Root extends CI_Controller {
 		$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
 
 	}
-
 
 	/* Funcion ordenar (aplica en el listado de registros a la hora de arrastrar y soltar) */
 	public function ordenar()

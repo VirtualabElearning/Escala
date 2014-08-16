@@ -14,26 +14,16 @@
 
   <?php $this->load->view('view_root_header'); ?> 
 
-
-  <!-- Main content starts -->
-
   <div class="content">
 
    <?php $this->load->view('view_root_menu'); ?> 
-
-
    <div class="mainbar">
-
-
     <div class="page-head">
       <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo $titulo; ?></h2>
-
-      <!-- Breadcrumb -->
       <div class="bread-crumb pull-right">
-        <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
-        <!-- Divider -->
+       <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
         <span class="divider">/</span> 
-        <a href="#" class="bread-current">Principal</a>
+      <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
       </div>
 
       <div class="clearfix"></div>
@@ -99,12 +89,12 @@
                              <td><?php echo $value->orden; ?></td>
                              <td><?php echo $value->id_instructores; ?></td>
                              <td><?php echo $value->nombre; ?></td>
-                             <td><img src="<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>" alt="img"/></td>
+                             <td><img class="foto_img" src="<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>" alt="img"/></td>
                              <td><?php echo $value->nombres; ?></td>
                              <td><?php echo $value->apellidos; ?></td>
                              <td><?php echo $value->identificacion; ?></td>
                              <td><?php echo $value->correo; ?></td>
-                             <td><?php echo $value->id_estados; ?></td>
+                             <td><?php echo $value->estado_nombre; ?></td>
                              <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_instructores; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_instructores; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 

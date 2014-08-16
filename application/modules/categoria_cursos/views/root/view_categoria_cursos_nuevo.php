@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Adminsitrador</title>
+	<title>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro) - Adminsitrador</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -15,12 +15,11 @@
 		<?php $this->load->view('view_root_menu'); ?> 
 		<div class="mainbar">
 			<div class="page-head">
-				<h2 class="pull-left"><i class="fa fa-table"></i>  <?php echo str_replace("_", " ", $titulo); ?></h2>
+				<h2 class="pull-left"><i class="fa fa-table"></i>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro)</h2>
 				<div class="bread-crumb pull-right">
-					<a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
+					  <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
 					<span class="divider">/</span> 
-					<a href="inicio/root" class="bread-current">Principal</a>
-				</div>
+ <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>				</div>
 				<div class="clearfix"></div>
 			</div>
 			<div class="matter">
@@ -50,8 +49,8 @@
 										?>
 										<div class="form-group">
 											<div class="col-lg-offset-2 col-lg-6">
-												<button type="submit" class="btn btn-sm btn-primary">Guardar</button>
-												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
+												<button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
+												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
 											</div>
 										</div>
 										<?=form_close()?>

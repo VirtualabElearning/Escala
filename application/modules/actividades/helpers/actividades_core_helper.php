@@ -1,7 +1,7 @@
 <?php 
 
 if (!function_exists('generar_campos_actividad')) {
-	function generar_campos_actividad ($id_tipo_actividades,$id_actividad,$tabla_actividad,$datos_actividad,$id_modulos)  {
+	function generar_campos_actividad ($id_tipo_actividades,$id_actividad,$tabla_actividad,$datos_actividad,$id_modulos,$id_cursos,$id_modulos,$id_actividades_barra)  {
 		
 
 		#echo "id_tipo_actividades :{$id_tipo_actividades} <br>";
@@ -14,15 +14,17 @@ if (!function_exists('generar_campos_actividad')) {
 				case '1':  # video
 
 				echo input_text_actividades ("Url del video","url_video","url_video","Ingrese la url del video (Url youtube completa)",@$datos_actividad->url_video );
+				echo input_text_actividades ("Pregunta","pregunta","pregunta","Ingrese la pregunta",@$datos_actividad->pregunta );
 				echo hidden_actividades('id_actividades_videos','id_actividades_videos',@$datos_actividad->id_actividades_videos);
-				
+				$opciones=array('1'=>'Selección múltiple','2'=>'Lista desplegable','3'=>'Campo de texto');
+				echo select_actividades ("Tipo pregunta","tipo_pregunta","tipo_pregunta",$opciones,@$datos_actividad->tipo_pregunta );
 				break;
 
 
 				case '2':  # foro
 
 				echo hidden_actividades('id_actividades_foro','id_actividades_videos',@$datos_actividad->id_actividades_foro);
-				echo editor_actividades ("Contenido","contenido_foro","contenido_foro","Ingrese el contenido del foro",@$datos_actividad->contenido_foro );
+				echo editor_actividades ("Discusión","contenido_foro","contenido_foro","Ingrese el contenido del foro",@$datos_actividad->contenido_foro );
 				echo input_foto_actividades ('Foto','actividades_foro',@$datos_actividad->foto,'');
 				
 
@@ -31,16 +33,21 @@ if (!function_exists('generar_campos_actividad')) {
 				break;
 
 				case '3':  # evaluacion
+/*
+echo $id_tipo_actividades;
+echo "<br>";
+echo $id_actividad;
+echo "<br>";
+echo $tabla_actividad;
+echo "<br>";
+echo "<br>";
+echo $id_cursos."<br>";
+echo $id_modulos."<br>";
+echo $id_actividades_barra."<br>";
+*/
+			
 
-				echo input_text_actividades ("Pregunta","pregunta","pregunta","Ingrese la pregunta",@$datos_actividad->pregunta );
-
-
-				$opciones=array('1'=>'radiobutton','2'=>'checkbox','3'=>'select');
-
-				echo select_actividades ("Tipo pregunta","tipo_pregunta","tipo_pregunta",$opciones,@$datos_actividad->tipo_pregunta );
-
-
-
+				echo gen_preguntas($id_cursos,$id_modulos,$id_actividades_barra);
 
 
 				break;
@@ -73,6 +80,9 @@ if (!function_exists('generar_campos_actividad')) {
 				$data['url_video']=$post['url_video'];
 				$data['id_actividades_videos']=@$post['id_actividades_videos'];
 				$data['id_modulos']=@$post['id_modulos'];
+				$data['pregunta']=@$post['pregunta'];
+				$data['tipo_pregunta']=@$post['tipo_pregunta'];
+				if ($data['tipo_pregunta']==3)  { $data['variables_pregunta']=''; }
 				break;
 
 
@@ -137,10 +147,9 @@ if (!function_exists('generar_campos_actividad')) {
 				//$data['url_video']=$post['url_video'];
 				$data['id_actividades_evaluacion']=@$post['id_actividades_evaluacion'];
 				$data['id_modulos']=@$post['id_modulos'];
-				$data['pregunta']=@$post['pregunta'];
-				$data['tipo_pregunta']=@$post['tipo_pregunta'];
-
-
+				#$data['pregunta']=@$post['pregunta'];
+				#$data['tipo_pregunta']=@$post['tipo_pregunta'];
+				#if ($data['tipo_pregunta']==3)  { $data['variables_pregunta']=''; }
 
 				break;
 
@@ -171,7 +180,9 @@ if (!function_exists('generar_campos_actividad')) {
 
 				unset($data['url_video']);
 				unset($data['id_actividades_videos']);
-
+				unset($data['tipo_pregunta']);
+				unset($data['variables_pregunta']);
+				unset($data['pregunta']);	
 				break;
 
 

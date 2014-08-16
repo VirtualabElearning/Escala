@@ -4,40 +4,29 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <!-- Title and other stuffs -->
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Adminsitrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
-
 <body>
-
   <?php $this->load->view('view_root_header'); ?> 
-
-  <!-- Main content starts -->
   <div class="content">
-
     <?php $this->load->view('view_root_menu'); ?> 
     <div class="mainbar">
-
+ 
       <div class="page-head">
-        <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo $titulo; ?></h2>
-        <!-- Breadcrumb -->
+        <h2 class="pull-left"><i class="fa fa-table"></i> Modulo <?php echo $titulo; ?> (Editar registro)</h2>
         <div class="bread-crumb pull-right">
-          <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
-          <!-- Divider -->
+           <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
           <span class="divider">/</span> 
-          <a href="#" class="bread-current">Principal</a>
+           <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
         </div>
-        <div class="clearfix"></div>
+         <div class="clearfix"></div>
       </div>
-
-
       <div class="matter">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-
 
               <div class="widget">
                 <div class="widget-head">
@@ -56,59 +45,27 @@
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
 
-
                     <?php foreach ($roles as $key => $value) {$data_roles[$value->id_roles]=$value->nombre; } ?>
-
-
                     <?php echo select ("Rol","id_roles","id_roles",$data_roles,$detalle->id_roles); ?>
-                    <?php echo input_text ("Nombres","nombres","nombres","Ingrese los nombres",$detalle->nombres); ?>
-                    <?php echo form_error('nombres', '<div class="mensaje_error">', '</div>'); ?>
-
-                    <?php echo input_text ("Apellidos","apellidos","apellidos","Ingrese los apellidos",$detalle->apellidos); ?>
-                    <?php echo form_error('apellidos', '<div class="mensaje_error">', '</div>'); ?>
-
-
-                    <?php echo input_text ("Correo","correo","correo","Ingrese el correo",$detalle->correo); ?>
-                    <?php echo form_error('correo', '<div class="mensaje_error">', '</div>'); ?>
-
-
-                    <?php echo password ("Contraseña","contrasena","contrasena","Ingrese la contraseña",''); ?>
-                    <?php echo form_error('contrasena', '<div class="mensaje_error">', '</div>'); ?>
-
-
-                    <?php echo password ("Contraseña","contrasena2","contrasena2","Otra vez la contraseña",''); ?>
-                    <?php echo form_error('contrasena2', '<div class="mensaje_error">', '</div>'); ?>
-
-
-
-
-                    <?php echo input_text ("Identificacion","identificacion","identificacion","Ingrese el numero de identificacion",$detalle->identificacion); ?>
-                    <?php echo form_error('identificacion', '<div class="mensaje_error">', '</div>'); ?>
-
-
-
-
+                    <?php echo input_text ("Nombres","nombres","nombres","Ingrese los nombres",$detalle->nombres,form_error('nombres', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo input_text ("Apellidos","apellidos","apellidos","Ingrese los apellidos",$detalle->apellidos,form_error('apellidos', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo input_text ("Correo","correo","correo","Ingrese el correo",$detalle->correo,form_error('correo', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo password ("Contraseña","contrasena","contrasena","Ingrese la contraseña",'',form_error('contrasena', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo password ("Repetir Contraseña","contrasena2","contrasena2","Repetir la contraseña",'',form_error('contrasena2', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo input_text ("Identificacion","identificacion","identificacion","Ingrese el numero de identificacion",$detalle->identificacion,form_error('identificacion', '<div class="mensaje_error">', '</div>')); ?>
 
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">
-
-                        <!--  -->
-
-
+                        <input type="hidden" name="image">
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                             <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
                           </div>
 
-
-
-                          <?php #if ($detalle->foto): ?> 
                           <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
                             <img src="<?php echo base_url().'uploads/'.$titulo.'/'.$detalle->foto; ?>" alt="img"/>
                           </div>
-                          <?php #endif ?>
-
 
                           <div>
                             <span class="btn btn-file">
@@ -117,26 +74,14 @@
                               <input type="file" value="uploads/perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
                             </span>
                             <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
-
-                            <?php if ($error_extra && $error_extra!='null'): ?>
-                              <div class="mensaje_error"> <?php echo $error_extra; ?></div>
-                            <?php endif ?>
-
+                            <?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
                           </div>
-
-
                         </div>
                       </div>
                     </div>
 
-
-
-                    <?php echo textarea ("Resumen de perfil","resumen_de_perfil","resumen_de_perfil","Ingrese un resumen de perfil",$detalle->resumen_de_perfil); ?>
-                    <?php echo form_error('resumen_de_perfil', '<div class="mensaje_error">', '</div>'); ?>
+                    <?php echo textarea ("Resumen de perfil","resumen_de_perfil","resumen_de_perfil","Ingrese un resumen de perfil",$detalle->resumen_de_perfil,form_error('resumen_de_perfil', '<div class="mensaje_error">', '</div>')); ?>
                     <div id="contador"></div>
-
-
-
                     <?php 
                     $opciones=array("1"=>"Activo","0"=>"Inactivo");
                     echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
@@ -146,56 +91,37 @@
                       <div class="col-lg-offset-2 col-lg-6">
                        <button type="button" class="guardar_usuario_clic btn btn-sm btn-primary">Guardar</button>
 
-                       <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
-
-
-
+                       <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
                      </div>
                    </div>
 
-                   <?php if ($this->uri->segment(4)): ?>
+                 <?php if ($this->input->post('id')): ?>
+                    <?=form_hidden('id',$this->input->post('id'))?>
+                    <?=form_hidden('foto_antes',$detalle->foto)?>
+                      <?=form_hidden('redirect',$this->input->post('redirect'))?>
+                  <?php endif; ?>
+
+                  <?php if ($this->uri->segment(4)): ?>
                     <?=form_hidden('id',$this->uri->segment(4))?>
                     <?=form_hidden('foto_antes',$detalle->foto)?>
+                     <?=form_hidden('redirect',@$redirect)?>
                   <?php endif ?>
-
-                  <?=form_hidden('redirect',@$redirect)?>
-
-
+                 
                   <?=form_close()?>
-
                 </div>
               </div>
               <div class="widget-foot">
-                <!-- Footer goes here -->
               </div>
             </div>
           </div>  
-
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Matter ends -->
-
 </div>
-
-<!-- Mainbar ends -->        
+    
 <div class="clearfix"></div>
-
 </div>
-<!-- Content ends -->
-
-
-
-
-
-
 <?php $this->load->view('view_admin_footer'); ?>
-
-
-
-
-
 </body>
 </html>

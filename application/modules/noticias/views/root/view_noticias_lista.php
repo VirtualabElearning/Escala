@@ -4,7 +4,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <!-- Title and other stuffs -->
   <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
@@ -13,36 +12,18 @@
 <body>
 
   <?php $this->load->view('view_root_header'); ?> 
-
-
-  <!-- Main content starts -->
-
   <div class="content">
-
    <?php $this->load->view('view_root_menu'); ?> 
-
-
    <div class="mainbar">
-
-
     <div class="page-head">
       <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo $titulo; ?></h2>
-
-      <!-- Breadcrumb -->
       <div class="bread-crumb pull-right">
-        <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
-        <!-- Divider -->
+       <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
         <span class="divider">/</span> 
-        <a href="#" class="bread-current">Principal</a>
+       <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
       </div>
-
       <div class="clearfix"></div>
-
     </div>
-
-
-
-
 
     <div class="matter">
       <div class="container">
@@ -100,7 +81,7 @@
                              <td><?php echo $value->id_noticias; ?></td>
                              <td><?php echo $value->titulo; ?></td>
                              <td><?php echo $value->descripcion; ?></td>
-                             <td><?php echo $value->id_estados; ?></td>
+                             <td><?php echo $value->estado_nombre; ?></td>
                              <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_noticias; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_noticias; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 

@@ -17,76 +17,82 @@
     <div class="page-head">
       <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo str_replace("_", " ", $titulo); ?></h2>
       <div class="bread-crumb pull-right">
-        <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
-        <span class="divider">/</span> 
-        <a href="inicio/root" class="bread-current">Principal</a>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div class="matter">
+       <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
+       <span class="divider">/</span> 
+       <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>      </div>
+       <div class="clearfix"></div>
+     </div>
+     <div class="matter">
       <div class="container">
         <div class="row">
-          <div class="col-md-12">
-            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
-            <div class="widget">
-              <div class="widget-head">
-                <div class="pull-left"><?php echo str_replace("_", " ", $titulo); ?></div>
-                <div class="widget-icons pull-right">
-                  <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-                  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                </div>  
-                <div class="clearfix"></div>
-              </div>
-              <div class="widget-content">
-                <div class="padd">
-                  <div class="page-tables">
-              
-                    <div class="table-responsive">
-                      
-                      <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
-                        <thead>
-                          <tr>
-                            <?php foreach ($titulos as $key => $value): ?>
-                              <th> <?php echo $value; ?> </th>
-                            <?php endforeach ?>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php #krumo ($lista); ?>
-                          <?php foreach ($lista as $key => $value): ?>
+          <?php if (validation_errors()): ?>
+            <div class="col-md-12">
+              <div class="alert alert-warning">
+               <?php echo validation_errors(); ?>
+             </div>
+           </div>
+         <?php endif ?>
+         <div class="col-md-12">
+          <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+          <div class="widget">
+            <div class="widget-head">
+              <div class="pull-left"><?php echo str_replace("_", " ", $titulo); ?></div>
+              <div class="widget-icons pull-right">
+                <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+              </div>  
+              <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+              <div class="padd">
+                <div class="page-tables">
 
-                            <tr id="<?php echo $value->id_categoria_cursos; ?>">
-                             <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_categoria_cursos; ?></td>
-                             <td><?php echo $value->nombre; ?></td>
-                             <td><?php echo $value->descripcion; ?></td>
-                             <td><?php echo $value->id_estados; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_categoria_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_categoria_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
-                           </tr>
-                         <?php endforeach ?>         
-                       </tbody>
-                       <tfoot>
+                  <div class="table-responsive">
+
+                    <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
+                      <thead>
                         <tr>
                           <?php foreach ($titulos as $key => $value): ?>
                             <th> <?php echo $value; ?> </th>
                           <?php endforeach ?>
                         </tr>
-                      </tfoot>
-                    </table>
+                      </thead>
+                      <tbody>
+                        <?php #krumo ($lista); ?>
+                        <?php foreach ($lista as $key => $value): ?>
 
-                    <div class="clearfix"></div>
-                  </div>
+                          <tr id="<?php echo $value->id_categoria_cursos; ?>">
+                           <td><?php echo $value->orden; ?></td>
+                           <td><?php echo $value->id_categoria_cursos; ?></td>
+                           <td><?php echo $value->nombre; ?></td>
+                           <td><?php echo $value->descripcion; ?></td>
+                           <td><?php echo $value->estado_nombre; ?></td>
+                           <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_categoria_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_categoria_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                         </tr>
+                       <?php endforeach ?>         
+                     </tbody>
+                     <tfoot>
+                      <tr>
+                        <?php foreach ($titulos as $key => $value): ?>
+                          <th> <?php echo $value; ?> </th>
+                        <?php endforeach ?>
+                      </tr>
+                    </tfoot>
+                  </table>
+
+                  <div class="clearfix"></div>
                 </div>
               </div>
+            </div>
 
-            </div>
-            <div class="widget-foot">
-            </div>
           </div>
-        </div>  
-      </div>
+          <div class="widget-foot">
+          </div>
+        </div>
+      </div>  
     </div>
   </div>
+</div>
 </div>
 
 </div>

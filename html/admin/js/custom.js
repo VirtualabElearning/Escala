@@ -1,27 +1,114 @@
 /* JS */
 
 
-/* Navigation */
+
 
 $(document).ready(function(){
 
 
-if ($("#resumen_de_perfil").length>0)  {
-var caracteres= 140;
-$("#contador").append("Usted tiene <strong>"+ $( "#resumen_de_perfil" ).val().length+"</strong> caracteres restantes de "+caracteres);
+$('.fileupload-exists').click(function(event) {
 
-}
+$('#image').val('');
 
-$( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
 
-  console.log($(this).val().length+'\n');
-  $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres restantes de "+caracteres);
-    if($(this).val().length > caracteres){
-        $(this).val($(this).val().substr(0, caracteres));
+});
+
+
+/*
+  $('#cambis').bind('DOMNodeInserted', function() {
+
+    var filename=$(this).html();
+    var parts = filename.split('.');
+    var ext=(parts.length > 1) ? parts.pop() : '';
+
+
+    var extensionsimg = ["jpg", "jpeg", "png", "gif", "bmp", "jpe", "tif", "tiff", "dib"];
+    var a = extensionsimg.indexOf(ext); 
+    if (a==-1)  {
+
+      var icon='default.png';
+
+
+      alert (ext);
+
+      switch(ext) {
+        case 'doc':
+        icon='doc.png';
+        break;
+        case 'docx':
+        icon='doc.png';
+        break;
+        case 'pdf':
+        icon='pdf.png';
+        break;
+        default:
+        icon='default.png';
+      } 
+
+
+      $('#cambis').html('<img src="html/admin/img/archives/'+icon+'" alt="" />');
+
+    }
+  });
+*/
+
+  $(document).keyup(function(e) {
+
+if ($('.pp_default').length==0)  {
+    if (e.keyCode == 13) { $('.btnguardar').click(); }    
+    if (e.keyCode == 27) { $('.btncancelar').click(); } 
+  
 }
 
   });
 
+
+  if ($("#resumen_de_perfil").length>0)  {
+    var caracteres= 140;
+    $("#contador").append("Usted tiene <strong>"+ $( "#resumen_de_perfil" ).val().length+"</strong> caracteres de "+caracteres);
+
+  }
+
+
+
+
+  $( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
+
+    console.log($(this).val().length+'\n');
+    $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres);
+    if($(this).val().length > caracteres){
+      $(this).val($(this).val().substr(0, caracteres));
+    }
+
+  });
+
+
+
+
+
+
+
+
+
+
+  if ($("#descripcion").length>0)  {
+    var caracteres_des= 60;
+    $("#contador").append("Usted tiene <strong>"+ $( "#descripcion" ).val().length+"</strong> caracteres de "+caracteres_des);
+
+  }
+
+
+
+  $( "#descripcion" ).bind( "keyup keypress", function() {
+
+    console.log($(this).val().length+'\n');
+    $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres_des);
+    if($(this).val().length > caracteres_des){
+      $(this).val($(this).val().substr(0, caracteres_des));
+    }
+
+  });
+  
 
   $('#contrasena,#contrasena2').keyup(function(event) {
     $(this).next().remove();
@@ -33,18 +120,18 @@ $( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
     if ( $('#contrasena').val()!='' )  {
 
       if ( $('#contrasena2').val()=='' )  {
-        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contrasena nuevamente</div>');
+        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contraseña nuevamente</div>');
         return false;
       }
 
       if ( $('#contrasena2').val()=='' )  {
-        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contrasena nuevamente</div>');
+        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contraseña nuevamente</div>');
         return false;
       }
 
 
       if ( $('#contrasena').val()!=$('#contrasena2').val() )  {
-        $('#contrasena,#contrasena2').parent().append('<div class="mensaje_error">Las contrasenas no son iguales</div>');
+        $('#contrasena,#contrasena2').parent().append('<div class="mensaje_error">Las contraseñas no son iguales</div>');
         return false;
       }
 
@@ -413,6 +500,12 @@ $('.modal').appendTo($('body'));
 jQuery("a[class^='prettyPhoto']").prettyPhoto({
   overlay_gallery: false, social_tools: false
 });
+
+
+jQuery("a[class^='prettyFrame']").prettyPhoto({
+  social_tools: false
+});
+
 
 /* Slim Scroll */
 

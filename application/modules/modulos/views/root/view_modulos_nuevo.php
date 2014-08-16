@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Adminsitrador</title>
+	<title>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro) - Adminsitrador</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -15,11 +15,11 @@
 		<?php $this->load->view('view_root_menu'); ?> 
 		<div class="mainbar">
 			<div class="page-head">
-				<h2 class="pull-left"><i class="fa fa-table"></i>  <?php echo str_replace("_", " ", $titulo); ?></h2>
+				<h2 class="pull-left"><i class="fa fa-table"></i>  <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro) </h2>
 				<div class="bread-crumb pull-right">
-					<a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
+					<a href="inicio/root"><i class="fa fa-home"></i> Inicio</a>  
 					<span class="divider">/</span> 
-					<a href="#" class="bread-current">Principal</a>
+					<a href="<?php echo str_replace("_", " ", $titulo); ?>/root/lista/<?php echo $this->uri->segment(5); ?>" class="bread-current">Cursos</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -41,25 +41,31 @@
 										<br />
 										<?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
 										<?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-										<?php echo input_text ("Nombre","nombre_modulo","nombre_modulo","Ingrese el titulo del modulo"); ?>
-										<?php echo form_error('nombre_modulo', '<div class="mensaje_error">', '</div>'); ?>
-										<?php echo textarea ("Introduccion","introduccion_modulo","introduccion_modulo","Ingrese la introduccion del modulo"); ?>
-										<?php echo form_error('introduccion_modulo', '<div class="mensaje_error">', '</div>'); ?>
-										<?php echo editor ("Contenido","contenido_modulo","contenido_modulo") ?>
-
+										<?php echo input_text ("Nombre","nombre_modulo","nombre_modulo","Ingrese el titulo del modulo",$this->input->post('nombre_modulo'),form_error('nombre_modulo', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo textarea ("Introduccion","introduccion_modulo","introduccion_modulo","Ingrese la introduccion del modulo",$this->input->post('introduccion_modulo'),form_error('introduccion_modulo', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo editor ("Contenido","contenido_modulo","contenido_modulo",$this->input->post('contenido_modulo')) ?>
+										<?php 
+										foreach ($tipo_planes as $key => $value_tipo_planes) {
+											$opciones[$value_tipo_planes->id_tipo_planes]=$value_tipo_planes->nombre;
+										} 
+										echo select ("Tipo de plan","id_tipo_planes","id_tipo_planes",$opciones,$this->input->post('id_tipo_planes')); 
+										?>
 										<?php 
 										$opciones=array("1"=>"Activo","0"=>"Inactivo");
-										echo select ("Estado","id_estados","id_estados",$opciones); 
+										echo select ("Estado","id_estados","id_estados",$opciones,$this->input->post('id_estados')); 
 										?>
 										<div class="form-group">
 											<div class="col-lg-offset-2 col-lg-6">
-												<button type="submit" class="btn btn-sm btn-primary">Guardar</button>
-												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(5) ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
+												<button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
+												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4) ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
 											</div>
 										</div>
-										
-										<?=form_hidden('id_cursos',$this->uri->segment(4))?>
-										
+										<?php if ($this->uri->segment(4)): ?>
+											<?=form_hidden('id_cursos',$this->uri->segment(4))?>							
+										<?php endif ?>
+										<?php if ($this->input->post('id_cursos')): ?>
+											<?=form_hidden('id_cursos',$this->input->post('id_cursos'))?>
+										<?php endif ?>
 										<?=form_close()?>
 									</div>
 								</div>
@@ -67,7 +73,6 @@
 								</div>
 							</div>
 						</div>  
-
 					</div>
 				</div>
 			</div>

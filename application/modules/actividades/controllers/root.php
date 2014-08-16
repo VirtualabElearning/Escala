@@ -21,6 +21,39 @@ class Root extends CI_Controller {
 		$this->lista();
 	}
 
+
+
+	/* Funcion para generar preguntas */
+	public function gen_preguntas($id_cursos=null,$id_modulos=null,$id_actividades_barra=null)
+	{
+
+		if (!$id_cursos)  { redirect( 'cursos/root'); }
+		if (!$id_modulos)  { redirect( 'modulos/root/lista/'.$id_cursos); }
+
+		$variables = $this->variables;
+		$data['titulo']="Generador de preguntas";
+		#$data['lista']=$this->{$variables['modelo']}->listado($id_cursos,$id_modulos);
+
+
+
+
+
+		$data['preguntas_actividades']=$this->{$variables['modelo']}->get_actividad_url($id_actividades_barra);
+		
+
+
+
+
+		#$this->load->view('root/view_'.$variables['modulo'].'_genpreguntas',$data);
+		$this->load->view('root/view_'.$variables['modulo'].'_google',$data);
+
+
+	}
+
+
+
+
+
 	/* Funcion para cargar listado de registros */
 	public function lista($id_cursos,$id_modulos)
 	{
@@ -33,25 +66,12 @@ class Root extends CI_Controller {
 		$data['lista']=$this->{$variables['modelo']}->listado($id_cursos,$id_modulos);
 		$actividad_dato="";
 
-		#krumo ($data['lista']);
-
 		foreach ($data['lista'] as $key => $value) {
 			$actividad_dato=$this->{$variables['modelo']}->detalle($value->tabla_actividad,array('id_'.$value->tabla_actividad,$value->id_actividades));
 
 			$data['lista'][$key]->datos_actividad=$actividad_dato;
 			
 		}
-
-
-
-		#krumo ($data['lista']); 
-
-
-
-		#exit;
-
-
-
 
 		$data['titulos']=array("Orden","ID","Categoria curso","Curso","Tipo actividad","Nombre actividad","Descripcion","Estado","Opciones");
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
@@ -80,54 +100,22 @@ class Root extends CI_Controller {
 
 		parse_str($parametros); 
 
-
 # evaluo cual es la correcta de las opciones
 		$opciones_respuesta=array();
 
-		foreach ($respuesta as $key => $value) {
-			if (@$correcta==$key)  { $rtmp='1'; } else { $rtmp='0'; }
 
+		foreach ($respuesta as $key => $value) {
+			//if (@$correcta[$key]==$key)  { $rtmp='1'; } else { $rtmp='0'; }
+
+			if (in_array($key, @$correcta))  { $rtmp='1'; } else { $rtmp='0'; }
 
 			$opciones_respuesta[$key]=array('posible_respuesta'=>$respuesta[$key],'retroalimentacion'=>$retroalimentacion[$key],'correcta'=>$rtmp);
 
 
 		}
 
-#print_r ($respuesta);
-#print_r ($retroalimentacion);
-#print_r ($correcta_rta);
-/*
-		echo "\n\n";
-
-		print_r($opciones_respuesta);
-		echo "\n";
-
-		echo "nombre_pregunta: ".$nombre_pregunta;
-		echo "\n";
-		echo "tipo_pregunta_opc: ".$tipo_pregunta_opc;
-		echo "\n";
-		echo "nom_activ: ".$nom_activ;
-		echo "\n";
-		echo "desc_acti: ".$desc_acti;
-		echo "\n";
 
 
-
-		echo "id_tipo_actividades_var: ".$id_tipo_actividades_var;
-		echo "\n";
-		echo "id_actividades_var: ".$id_actividades_var;
-		echo "\n";
-		echo "id_cursos_var: ".$id_cursos_var;
-		echo "\n";
-		echo "id_modulos_var: ".$id_modulos_var;
-		echo "\n";
-		echo "id_tipo_actividades_antes_var: ".$id_tipo_actividades_antes_var;
-		echo "\n";
-		echo "id_var: ".$id_var;
-		echo "\n";
-		echo "id_estados_var: ".$id_estados_var;    
-		echo "\n";
-*/
 ####################### analizo lo siguiente #################
 #1. Que sea version editar y caso que tenga el mismo tipo de pregunta
 #2. Que sea la version editar y caso que tenga diferente tipo pregunta, para eso:
@@ -154,25 +142,20 @@ class Root extends CI_Controller {
 			$nueva_actividad=$this->{$variables['modelo']}->detalle('tipo_actividades',array('id_tipo_actividades',$id_tipo_actividades_var));
 
 			$data_nuevo=array('nombre_actividad'=>$nom_activ,'descripcion_actividad'=>$desc_acti,
-				'pregunta'=>$nombre_pregunta,'tipo_pregunta'=>$tipo_pregunta_opc,'id_estados'=>$id_estados_var);
+				'pregunta'=>$nombre_pregunta,'tipo_pregunta'=>$tipo_pregunta_opc,'id_estados'=>$id_estados_var,'url_video'=>@$url_video_var);
 
 
 			$data_nuevo['fecha_modificado']=date('Y-m-d H:i:s',time());  
 			$data_nuevo['id_usuario_modificado']=$this->session->userdata('id_usuario');  
 			$data_nuevo['variables_pregunta']=json_encode($opciones_respuesta);
 
+
+
 			# Actualizo la actividad (pregunta con sus posibles respuestas):
 			$nuevo_id_actividad=$this->{$variables['modelo']}->guardar ($nueva_actividad->tabla_actividad,$data_nuevo,'id_'.$nueva_actividad->tabla_actividad,array('id_'.$nueva_actividad->tabla_actividad,$id_actividades_var));
 
 
 			echo "Proceso realizado correctamente!";
-
-
-
-
-
-
-
 
 
 		}
@@ -183,6 +166,8 @@ class Root extends CI_Controller {
 
 ## CASO CUANDO ES UNA ACTIVIDAD DIFERENTE DE LAS PREGUNTAS! BORRO LA ANTERIOR, PONGO LA NUEVA
 
+
+
 ## consulto la tabla que debo borrar el dato:
 			if ($id_tipo_actividades_antes_var)  {
 			#consulto actividad anterior
@@ -190,6 +175,7 @@ class Root extends CI_Controller {
 						## consulto la actividad actual
 				$actividad_actual=$this->{$variables['modelo']}->detalle($actividad->tabla_actividad,array('id_'.$actividad->tabla_actividad,$id_actividades_var));
 			}
+
 
 
 
@@ -220,9 +206,12 @@ class Root extends CI_Controller {
 			}
 
 
+
+
+
 			## datos nuevos a insertar:
 			$data_nuevo=array('id_modulos'=>$id_modulos_var,'nombre_actividad'=>$nom_activ,'descripcion_actividad'=>$desc_acti,
-				'pregunta'=>$nombre_pregunta,'tipo_pregunta'=>$tipo_pregunta_opc,'id_estados'=>$id_estados_var);
+				'pregunta'=>$nombre_pregunta,'tipo_pregunta'=>$tipo_pregunta_opc,'id_estados'=>$id_estados_var,'url_video'=>$url_video_var);
 
 			$data_nuevo['fecha_modificado']=date('Y-m-d H:i:s',time());  
 			$data_nuevo['id_usuario_modificado']=$this->session->userdata('id_usuario');  
@@ -231,6 +220,12 @@ class Root extends CI_Controller {
 			$data_nuevo['variables_pregunta']=json_encode($opciones_respuesta);
 
 # inserto la actividad nueva (pregunta con sus posibles respuestas):
+
+
+
+
+
+
 			$nuevo_id_actividad=$this->{$variables['modelo']}->guardar ($nueva_actividad->tabla_actividad,$data_nuevo,'id_'.$nueva_actividad->tabla_actividad,'');
 
 
@@ -262,6 +257,118 @@ class Root extends CI_Controller {
 		}
 
 
+	}
+
+
+	public function guardar_preguntas_coonrespuestas () {
+
+
+		$variables = $this->variables;
+		$this->load->helper($variables['modulo'].'_core');
+		$this->load->model($variables['modelo']);
+		$parametros = $this->input->post('envio');
+
+		parse_str($parametros); 
+
+# evaluo cual es la correcta de las opciones
+		$opciones_respuesta=array();
+
+
+
+		foreach ($num_pregunta as $num_pregunta_key => $num_pregunta_value) {
+
+			$tmp_array=array();
+
+
+			if ($pregunta[$num_pregunta_key] && $tipo_pregunta[$num_pregunta_key])  {
+				$opciones_respuesta[$num_pregunta_value]['pregunta']=$pregunta[$num_pregunta_key];
+				$opciones_respuesta[$num_pregunta_value]['tipo_pregunta']=$tipo_pregunta[$num_pregunta_key];		
+			}
+
+			switch ( $tipo_pregunta[$num_pregunta_key] )  {
+
+				case 1:  // casilla de verificacion
+				foreach (${"txtop".($num_pregunta_value)} as $respuesta_key => $respuesta_value) {
+					$rtmp='';
+					if (@in_array($respuesta_key, @${"op".($num_pregunta_value)} ) ) { $rtmp='1'; } else { $rtmp='0'; }
+					$tmp_array[]=array('opcion'=>$respuesta_value,'retroalimentacion'=>${"retrotxtop".($num_pregunta_value)}[$respuesta_key],'correcta'=>$rtmp);
+				}
+				break;
+
+
+				case 2:  ///Elegir de una lista
+				foreach (${"lista".($num_pregunta_value)} as $respuesta_key => $respuesta_value) {
+					$rtmp='';
+					if (@in_array($respuesta_key, @${"oplista".($num_pregunta_value)} ) )   { $rtmp='1'; } else { $rtmp='0'; }
+					$tmp_array[]=array('opcion'=>$respuesta_value,'retroalimentacion'=>${"retrolista".($num_pregunta_value)}[$respuesta_key],'correcta'=>$rtmp);
+				}
+				break;
+
+
+				case 3:   //Tipo test
+
+				foreach (${"lista_option".($num_pregunta_value)} as $respuesta_key => $respuesta_value) {
+					$rtmp='';
+					if (  @${"radios".($num_pregunta_value)}[0] ==$respuesta_key )   {   $rtmp='1'; } else { $rtmp='0'; }
+					$tmp_array[]=array('opcion'=>$respuesta_value,'retroalimentacion'=>${"retroradios".($num_pregunta_value)}[$respuesta_key],'correcta'=>$rtmp);
+				}
+				break;
+
+
+				case 4:  // campo de texto
+				foreach (${"campo_pregunta".($num_pregunta_value)} as $respuesta_key => $respuesta_value) {
+					$rtmp='';
+
+					$tmp_array[]=array('texto'=>$respuesta_value,'retroalimentacion'=>${"retrotexto".($num_pregunta_value)}[$respuesta_key]);
+				}
+
+
+
+
+				break;
+
+				default:  // no hace nada es vacio
+				
+
+				unset($tmp_array);
+
+
+				break;
+
+
+			}
+
+
+			if (@$tmp_array)  {
+				$opciones_respuesta[$num_pregunta_value]['variables_respuesta']=json_encode($tmp_array);		
+			}
+
+
+		}
+
+
+
+		$datos_actividad=$this->{$variables['modelo']}->get_actividad_url ($id_actividades_barra);
+
+
+#		print_r($datos_actividad);
+
+		$data=array('variables_pregunta'=>json_encode($opciones_respuesta));
+
+
+		if ($id_actividades_barra) { $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
+
+
+
+#print_r($data);
+
+
+#exit;
+
+		$id_actividad=$this->{$variables['modelo']}->guardar ($datos_actividad->tabla_actividad,$data,'id_'.$datos_actividad->tabla_actividad,array('id_'.$datos_actividad->tabla_actividad,$datos_actividad->{'id_'.$datos_actividad->tabla_actividad}));
+
+
+		echo "Actualizado correctamente!   [".$id_actividad."] ";
 
 
 
@@ -269,9 +376,6 @@ class Root extends CI_Controller {
 
 
 	}
-
-
-
 
 
 	/* Funcion guardar registro */
@@ -282,8 +386,8 @@ class Root extends CI_Controller {
 		$id=$this->input->post ('id');
 		$this->load->helper($variables['modulo'].'_core');
 		/* Validacion de campos de formulario */
-		$this->form_validation->set_rules('nombre_actividad', 'Nombre', 'required|xss_clean');
-		$this->form_validation->set_rules('descripcion_actividad', 'Descripcion', 'required|xss_clean');
+		$this->form_validation->set_rules('nombre_actividad', 'Nombre actividad', 'required|xss_clean');
+		$this->form_validation->set_rules('descripcion_actividad', 'Descripcion actividad', 'required|xss_clean');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 
 
@@ -296,12 +400,10 @@ class Root extends CI_Controller {
 		if($this->form_validation->run() == FALSE)
 		{ 
 
-			if ($id) {
-				$this->editar($id);
-			} else {
-				$this->nuevo($id);
 
-			}
+
+			if ($id)  { $this->editar($this->input->post('id_cursos'),$this->input->post('id_modulos'),$id); } else { $this->nuevo();  }
+
 			#echo validation_errors();
 			#exit;
 
@@ -329,6 +431,7 @@ class Root extends CI_Controller {
 ## funcion que me organiza los campos personalizados por el tipo de acitividad
 			$data=obtener_campos_post_actividad($this->input->post ('id_tipo_actividades'),$data,$this->input->post(),$this);
 			unset($data['id_actividades']);
+
 
 
 
@@ -368,6 +471,9 @@ class Root extends CI_Controller {
 
 			else {
 
+
+
+
 ## guardo primero el dato de la actividad y miro cual es el id:
 				$campos = $this->db->field_data($tipo_actividades_detalle->tabla_actividad);
 
@@ -378,7 +484,7 @@ class Root extends CI_Controller {
 
 				unset($data['id_actividades']);
 
-				
+
 
 
 				$id_acti=$this->model_generico->guardar($tipo_actividades_detalle->tabla_actividad,$data,'id_'.$tipo_actividades_detalle->tabla_actividad,array('id_'.$tipo_actividades_detalle->tabla_actividad,$this->input->post('id_actividades')));
@@ -412,7 +518,29 @@ class Root extends CI_Controller {
 
 
 			/* Redirecciono */
-			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$this->input->post ('id_cursos').'/'.$this->input->post ('id_modulos').'/'.$id.'/guardado_ok';
+
+###  si es desde nueva pregunta, redirecciono para crear las posibles respuestas
+			if ($this->input->post('redirecter_pretty')=='ok')  {
+
+				$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/editar/'.$this->input->post ('id_cursos').'/'.$this->input->post ('id_modulos').'/'.$id.'/guardado_ok_redirect';
+
+			}
+
+
+### si es modo editar y cambio de tipo de actividad
+			elseif  ($this->input->post('redirecter_pretty_editar')=='ok')  {
+
+				$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/editar/'.$this->input->post ('id_cursos').'/'.$this->input->post ('id_modulos').'/'.$id.'/guardado_ok_redirect';
+
+			}
+
+
+
+
+			else{
+				$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$this->input->post ('id_cursos').'/'.$this->input->post ('id_modulos').'/'.$id.'/guardado_ok';
+
+			}
 			redirect($accion_url);
 		}
 	}
@@ -453,7 +581,7 @@ class Root extends CI_Controller {
 		## borro la tabla de actividades barra para dejar limpio el sistema
 		$this->model_generico->borrar('actividades_barra',array('id_actividades_barra'=>$this->input->post ('id')));
 		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$this->uri->segment(4).'/'.$this->uri->segment(5).'/index/borrado_ok';
-		
+
 
 		redirect($accion_url);
 
@@ -465,8 +593,16 @@ class Root extends CI_Controller {
 	}
 
 	/*Funcion editar regitro  */
-	public function editar($id_cursos,$id_modulos,$id,$error_extra=null)
+	public function editar($id_cursos=null,$id_modulos=null,$id=null,$error_extra=null)
 	{
+
+
+
+		if (!$id_cursos) { $id_cursos=$this->input->post('id_cursos'); }
+		if (!$id_modulos) { $id_cursos=$this->input->post('id_modulos'); }
+		if (!$id) { $id_cursos=$this->input->post('id'); }
+
+
 
 		$variables = $this->variables;
 		$this->load->helper($variables['modulo'].'_core');
@@ -486,9 +622,9 @@ class Root extends CI_Controller {
 		$variables = $this->variables;
 		$this->load->helper($variables['modulo'].'_core');
 		$data['titulo']=$variables['modulo'];
-		
+
 		$post=$this->input->post('data');
-		
+
 
 
 		#echo $post['id_tipo_actividades'];
@@ -503,8 +639,8 @@ class Root extends CI_Controller {
 
 ## muestro las posibles respuestas
 		echo $acitividad->variables_pregunta;
-		
-		
+
+
 	}
 
 

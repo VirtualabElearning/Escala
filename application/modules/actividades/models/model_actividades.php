@@ -6,18 +6,19 @@ class Model_Actividades extends CI_Model{
 
 	public function listado($id_cursos,$id_modulos){
 
+
 		$this->db->where('cursos.id_cursos',$id_cursos);
 
 		$this->db->where('modulos.id_modulos',$id_modulos);
 
 
 	#$data['titulos']=array("Orden","ID","Tipo actividad","Nombre actividad","Descripcion","Estado","Opciones");
-		$this->db->select('actividades_barra.id_estados,actividades_barra.orden,actividades_barra.id_actividades_barra,actividades_barra.id_actividades,actividades_barra.id_tipo_actividades,actividades_barra.id_modulos,nombre_tipo_actividades,tabla_actividad,modulos.nombre_modulo,cursos.titulo as nombre_curso,categoria_cursos.nombre as nombre_categoria_curso');
+		$this->db->select('estados.nombre as estado_nombre,actividades_barra.id_estados,actividades_barra.orden,actividades_barra.id_actividades_barra,actividades_barra.id_actividades,actividades_barra.id_tipo_actividades,actividades_barra.id_modulos,nombre_tipo_actividades,tabla_actividad,modulos.nombre_modulo,cursos.titulo as nombre_curso,categoria_cursos.nombre as nombre_categoria_curso');
 		$this->db->join('tipo_actividades', 'tipo_actividades.id_tipo_actividades = actividades_barra.id_tipo_actividades');
 		$this->db->join('modulos', 'modulos.id_modulos = actividades_barra.id_modulos');
 		$this->db->join('cursos', 'modulos.id_cursos = cursos.id_cursos');
 		$this->db->join('categoria_cursos', 'categoria_cursos.id_categoria_cursos = cursos.id_categoria_cursos');
-
+		$this->db->join('estados','actividades_barra.id_estados = estados.id_estados');
 		$this->db->order_by('actividades_barra.orden', 'asc');
 		$query = $this->db->get('actividades_barra');
 	#echo  $this->db->last_query()."<br>";
@@ -111,7 +112,27 @@ class Model_Actividades extends CI_Model{
 
 
 
+	public function get_actividad_url($id_actividades_barra) {
 
+		$this->db->select('id_tipo_actividades,id_modulos,id_actividades');
+		$this->db->where('id_actividades_barra',$id_actividades_barra); 
+		$query = $this->db->get('actividades_barra');
+		$r1=$query->row();
+
+		$this->db->select('tabla_actividad');
+		$this->db->where('id_tipo_actividades',$r1->id_tipo_actividades); 
+		$query = $this->db->get('tipo_actividades');
+		$r2=$query->row();
+
+		$this->db->where('id_'.$r2->tabla_actividad,$r1->id_actividades); 
+		$query = $this->db->get($r2->tabla_actividad);
+		$r3=$query->row();
+
+		$r3->tabla_actividad=$r2->tabla_actividad;
+
+		return $r3;
+
+	}
 
 
 

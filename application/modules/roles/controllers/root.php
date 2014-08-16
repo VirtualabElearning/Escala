@@ -2,9 +2,7 @@
 
 class Root extends CI_Controller {
 
-	/**
-	Controlador de la aplicacion
-	 **/
+	/** Controlador de la aplicacion  **/
 
 
 	var $variables = array();
@@ -15,9 +13,7 @@ class Root extends CI_Controller {
 		parent::__construct();
 		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
 		
-/**
-Configuracion generica del modulo
-**/
+/** Configuracion generica del modulo **/
 $this->variables=array('modulo'=>'roles','id'=>'id_roles','modelo'=>'model_roles');
 
 }
@@ -62,9 +58,9 @@ public function guardar()
 	if($this->form_validation->run() == FALSE)
 	{ 
 
-		#$this->editar($id);
-      echo  validation_errors();
-      exit;
+			if ($id)  { $this->editar($id); } else { $this->nuevo();  }
+
+			
 	}
 
 	else {

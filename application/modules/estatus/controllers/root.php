@@ -52,9 +52,8 @@ class Root extends CI_Controller {
 		if($this->form_validation->run() == FALSE)
 		{ 
 
-		#$this->editar($id);
-			echo  validation_errors();
-			exit;
+		if ($id)  { $this->editar($id); } else { $this->nuevo();  }
+		
 		}
 
 		else {

@@ -6,9 +6,13 @@ class Model_Generico extends CI_Model{
 Funcion que genera el listado de una tabla
 **/
 public function listado($tabla,$where=null,$order_by=null){
+
+	$this->db->select($tabla.".*,estados.nombre as estado_nombre");
 	if ($where) {
 		$this->db->where($where[0],$where[1]);
 	}
+
+	$this->db->join('estados', $tabla.'.id_estados = estados.id_estados');
 
 	if ($order_by) {
 		$this->db->order_by($order_by[0], $order_by[1]); 

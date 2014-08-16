@@ -16,6 +16,18 @@
 			/* Configuracion generica del modulo */
 			$this->variables=array('modulo'=>'cursos','id'=>'id_cursos','modelo'=>'model_cursos');
 			$this->load->model($this->variables['modelo']);
+
+			$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
+			$config['allowed_types'] =   "gif|jpg|jpeg|png";
+			$config['max_size']      =   "5000";
+			$config['max_width']     =   "2000";
+			$config['max_height']    =   "2000";
+			$config['remove_spaces']  = TRUE;
+			$config['encrypt_name']  = TRUE;
+			$this->load->library('upload',$config);
+
+
+
 		}
 
 
@@ -29,8 +41,21 @@
 		{
 			$variables = $this->variables;
 			$data['titulo']=$variables['modulo'];
+			
 			$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],'',array('orden','asc'));
-			$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Descripcion","Estado","Opciones");
+
+
+
+			foreach ($data['lista'] as $key => $value) {
+				unset($data['lista'][$key]->instructores_asignados_nombre);
+				$data['lista'][$key]->instructores_asignados_nombre=$this->{$variables['modelo']}->instructores_lista(json_decode($value->instructores_asignados));
+			}
+
+
+
+
+
+			$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Estado","Opciones");
 			$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 		}
 
@@ -42,9 +67,31 @@
 			$data['titulo']=$variables['modulo'];
 			$data['lista']=$this->model_generico->listado($variables['modulo']);
 			$data['categoria_cursos']=$this->model_generico->listado('categoria_cursos','',array('orden','asc'));
+			$data['instructores_lista']=$this->model_generico->listado('instructores',array('instructores.id_estados',1),array('orden','asc'));
 			$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 		}
 
+
+
+// funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
+		public function check_foto()
+		{
+			if ($_FILES['userfile']['tmp_name'])  {
+				if ($this->upload->do_upload('userfile'))
+				{
+					$upload_data    = $this->upload->data();
+					$_POST['userfile'] = $upload_data['file_name'];
+					return true;
+				}
+				else
+				{
+					$this->form_validation->set_message('check_foto', $this->upload->display_errors());
+					return false;
+				}
+
+			}
+
+		}
 
 
 		public function guardar()
@@ -52,26 +99,33 @@
 			$variables = $this->variables;
 			$id=$this->input->post ('id');
 			$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
-			$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
+			$this->form_validation->set_rules('descripcion', 'Resumen del curso', 'required|xss_clean');
 			$this->form_validation->set_rules('contenido', 'Contenido', 'required');
+			$this->form_validation->set_rules('prerrequisitos', 'Prerrequisitos', 'required');
+			$this->form_validation->set_rules('objetivos_aprendizaje', 'Objetivos de aprendizaje', 'required');
 			$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 			$this->form_validation->set_rules('id_categoria_cursos', 'Categoria cursos', 'required|xss_clean');
+			$this->form_validation->set_rules('instructores_asignados', 'Instructores asignados', 'required|xss_clean');
+			$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
 
 			if($this->form_validation->run() == FALSE)
 			{ 
 
-				$this->editar($id);
+				if ($id)  { $this->editar($id); } else { $this->nuevo();  }
 
 			}
 
 			else {
-
+				$instructores_asignados=json_encode($this->input->post('instructores_asignados'));
 				$data = array(
 					'titulo' => $this->input->post ('titulo'),
 					'descripcion' => $this->input->post ('descripcion'),
+					'objetivos_aprendizaje' => $this->input->post ('objetivos_aprendizaje'),
+					'prerrequisitos' => $this->input->post ('prerrequisitos'),
 					'contenido' => $this->input->post ('contenido'),
 					'id_categoria_cursos' => $this->input->post ('id_categoria_cursos'),
 					'id_estados' => $this->input->post ('id_estados'),
+					'instructores_asignados'=> $instructores_asignados,
 					);
 
 
@@ -79,44 +133,32 @@
 				if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
 
-				$config['upload_path']   =   "uploads/cursos/";
-				$config['allowed_types'] =   "gif|jpg|jpeg|png";
-				$config['max_size']      =   "5000";
-				$config['max_width']     =   "2000";
-				$config['max_height']    =   "2000";
-				$config['remove_spaces']  = TRUE;
-				$config['encrypt_name']  = TRUE;
-				$this->load->library('upload',$config);
+				
 
 				if ($_FILES['userfile']['tmp_name'])  {
-					if(!$this->upload->do_upload())
 
-					{
 
-					#echo $this->upload->display_errors(); exit;
-					#$this->editar($id,$this->upload->display_errors());
-					#$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
-						
+					$finfo=$this->upload->data();
+
+
+					if ($this->input->post ('foto_antes'))  {
+						@unlink('uploads/cursos/'.$this->input->post ('foto_antes'));
 					}
 
-					else
-
-					{
-
-						$finfo=$this->upload->data();
-
-
-						if ($this->input->post ('foto_antes'))  {
-							@unlink('uploads/cursos/'.$this->input->post ('foto_antes'));
-						}
-
-						$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
-						$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
-						$data['foto'] = $finfo['file_name'];
-
-					}
+					$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
+					$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+					$data['foto'] = $finfo['file_name'];
 
 				}
+
+				else {
+
+					if ($this->input->post ('foto_antes'))  {
+						@unlink('uploads/cursos/'.$this->input->post ('foto_antes'));
+					}
+					$data['foto'] = "";
+				}
+
 
 				$id=$this->model_generico->guardar('cursos',$data,$variables['id'],array($variables['id'],$id));
 				$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';
@@ -124,20 +166,53 @@
 			}
 		}
 
+
+
+// funcion para validar datos en cascada
+		public function check_validador($id)
+		{
+			/* consulto en cascada si hay datos para asi evitar error entre llaves foraneas */
+			$if_detalle=$this->model_generico->listado('modulos',array('id_cursos',$id));
+
+			if (count ($if_detalle)==0)  {
+				return true;
+			}
+			else {
+				foreach ($if_detalle as $key => $value) {
+					$cursos[]=$value->nombre_modulo;
+				}
+				$this->form_validation->set_message('check_validador', 'Existe modulos en este curso <b>('.implode(",", $cursos).')</b>, borrelos primero');
+				return false;
+			}
+
+		}
+
+
+
+
+
 		public function borrar()
 		{
 			$variables = $this->variables;
-			$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
+			$this->form_validation->set_rules('id', 'Id', 'required|xss_clean|callback_check_validador');
 
 			$id=$this->input->post('id');
 
 			$detalle=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 			@unlink('uploads/cursos/'.$detalle->foto);
 
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->lista();
+			}
+			else
+			{
+				$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
+				$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
+				redirect($accion_url);
+			}
 
-			$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
-			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
-			redirect($accion_url);
+
 		}
 
 		public function editar($id,$error_extra=null)
@@ -147,10 +222,11 @@
 			$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 			$data['error_extra']=$error_extra;
 			$data['categoria_cursos']=$this->model_generico->listado('categoria_cursos','',array('orden','asc'));
+			$data['instructores_lista']=$this->model_generico->listado('instructores',array('instructores.id_estados',1),array('orden','asc'));
 			$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
 
 		}
- 
+
 		public function ordenar()
 		{
 			$variables = $this->variables;

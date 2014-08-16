@@ -13,40 +13,25 @@
 <body>
 
   <?php $this->load->view('view_root_header'); ?> 
-
-  <!-- Main content starts -->
-
   <div class="content">
-
    <?php $this->load->view('view_root_menu'); ?> 
-
    <div class="mainbar">
-
     <div class="page-head">
       <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo $titulo; ?></h2>
-
-      <!-- Breadcrumb -->
       <div class="bread-crumb pull-right">
-        <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
-        <!-- Divider -->
+        <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
         <span class="divider">/</span> 
-        <a href="#" class="bread-current">Principal</a>
+        <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
       </div>
-
       <div class="clearfix"></div>
-
     </div>
-
 
     <div class="matter">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
 
-
-
             <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
-
             <div class="widget">
               <div class="widget-head">
                 <div class="pull-left"><?php echo $titulo; ?></div>
@@ -58,13 +43,9 @@
               </div>
               <div class="widget-content">
                 <div class="padd">
-
-                  <!-- Table Page -->
                   <div class="page-tables">
-                    <!-- Table -->
                     <div class="table-responsive">
                       
-
 
 
 
@@ -92,7 +73,7 @@
                              <td><?php echo $value->id_estatus; ?></td>
                              <td><?php echo $value->nombre; ?></td>
                              <td><?php echo $value->descripcion; ?></td>
-                             <td><?php echo $value->id_estados; ?></td>
+                             <td><?php echo $value->estado_nombre; ?></td>
                              <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_estatus; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_estatus; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 
@@ -118,7 +99,6 @@
 
 
 
-
                     
                     <div class="clearfix"></div>
                   </div>
@@ -128,7 +108,6 @@
 
             </div>
             <div class="widget-foot">
-              <!-- Footer goes here -->
             </div>
           </div>
         </div>  
@@ -138,17 +117,10 @@
   </div>
 </div>
 
-<!-- Matter ends -->
-
-</div>
-
-<!-- Mainbar ends -->        
+</div>       
 <div class="clearfix"></div>
 
 </div>
-<!-- Content ends -->
-
-
 <form id="borrar_form" action ="<?php echo $this->uri->segment(1); ?>/root/borrar" method="POST">
   <input type="hidden" name="id" id="id">
   <button class='btn btn-danger btn-xs' type="submit" name="borrar" value="borrar"><span class="fa fa-times"></span> Borrar </button>
@@ -172,13 +144,7 @@
    </div>
  </div>
 </div>
-
-
-
 <?php $this->load->view('view_admin_footer'); ?>
-
-
-
 <script>
   var fixHelper = function(e, ui) {
     ui.children().each(function() {
@@ -215,9 +181,6 @@
     });
   });
 
-
 </script>
-
 </body>
-
 </html>

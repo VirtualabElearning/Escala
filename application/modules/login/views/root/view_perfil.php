@@ -24,7 +24,7 @@
         <h2 class="pull-left"><i class="fa fa-table"></i> Mi <?php echo $titulo; ?></h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
-          <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
+          <a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i> Inicio</a> 
           <!-- Divider -->
           <span class="divider">/</span> 
           <a href="#" class="bread-current">Principal</a>

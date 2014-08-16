@@ -12,7 +12,7 @@ class Root extends CI_Controller {
 	 public function __construct()
 	 {
 	 	parent::__construct();
-	 			if ($this->session->userdata('id_usuario'))  {   redirect( base64_decode($this->uri->segment(4)) );  }
+	 			
 
 	 }
  
@@ -28,6 +28,7 @@ class Root extends CI_Controller {
 	 /* funcion de iniciar sesion, valido token generico y aleatorio y lanzo la vista login  */
 
 	 public function iniciar_sesion($url_redirect=null,$red_social=null,$mensaje_error=null){
+	 	if ($this->session->userdata('id_usuario'))  {   redirect( base64_decode($this->uri->segment(4)) );  }
 	 	$data['token'] = $this->token();
 	 	$data['redirect']=$url_redirect;
 

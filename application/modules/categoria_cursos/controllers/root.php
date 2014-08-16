@@ -91,20 +91,59 @@ class Root extends CI_Controller {
 		}
 	}
 
+
+// funcion para validar datos en cascada
+	public function check_validador($id)
+	{
+		/* consulto en cascada si hay datos para asi evitar error entre llaves foraneas */
+		$if_detalle=$this->model_generico->listado('cursos',array('id_categoria_cursos',$id));
+		#krumo ($if_detalle);
+		if (count ($if_detalle)==0)  {
+
+			return true;
+		}
+		else {
+
+			foreach ($if_detalle as $key => $value) {
+				$cursos[]=$value->titulo;
+			}
+
+			$this->form_validation->set_message('check_validador', 'Existe cursos en esta categoria <b>('.implode(",", $cursos).')</b>, borrelos primero');
+			return false;
+		}
+
+	}
+
+
+
+
+
 	/* FUNCION BORRAR */
 	public function borrar()
 	{
 		/*Cargo variables globales*/
 		$variables = $this->variables;
 		/* Validacion basica del id */
-		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
+		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean|callback_check_validador');
+
 		/*Asigno valor del id a una variable*/
 		$id=$this->input->post('id');
 		/*Llamo funcion borrar */
-		$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
-		/*Preparo redireccion al listado de informacion del modulo*/
-		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
-		redirect($accion_url);
+		
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->lista();
+		}
+		else
+		{
+			$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
+			/*Preparo redireccion al listado de informacion del modulo*/
+			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
+			redirect($accion_url);
+		}
+
+		
 	}
 
 	/*FUNCION EDITAR */

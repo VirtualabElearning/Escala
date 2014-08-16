@@ -15,3 +15,78 @@ if (!function_exists('amigable')) {
 	}
 
 }
+
+
+
+if (!function_exists('set_icon_archivo')) {
+	function set_icon_archivo ($extension=null)  {
+		
+		$icon=$extension;
+		$path = $extension;
+		$ext = pathinfo($path, PATHINFO_EXTENSION);
+
+
+		$imgs = array("jpg", "jpeg", "png", "gif", "bmp", "jpe", "tif", "tiff", "dib");
+		if (!in_array($ext, $imgs)) {
+			switch ($ext) {
+				case 'doc':
+				$icon="html/admin/img/archives/doc.png";
+				break;
+
+				case 'docx':
+				$icon="html/admin/img/archives/doc.png";
+				break;
+
+				case 'xls':
+				$icon="html/admin/img/archives/xls.png";
+				break;
+
+				case 'xlsx':
+				$icon="html/admin/img/archives/xls.png";
+				break;
+
+				case 'ppt':
+				$icon="html/admin/img/archives/ppt.png";
+				break;
+
+				case 'pptx':
+				$icon="html/admin/img/archives/ppt.png";
+				break;
+
+				case 'pps':
+				$icon="html/admin/img/archives/ppt.png";
+				break;
+
+				case 'ppsx':
+				$icon="html/admin/img/archives/ppt.png";
+				break;
+
+				case 'txt':
+				$icon="html/admin/img/archives/txt.png";
+				break;
+
+				case 'zip':
+				$icon="html/admin/img/archives/zip.png";
+				break;
+
+				case 'rar':
+				$icon="html/admin/img/archives/zip.png";
+				break;
+
+				case 'pdf':
+				$icon="html/admin/img/archives/pdf.png";
+				break;
+
+				default:
+				$icon="html/admin/img/archives/default.png";
+				break;
+			}
+
+		}
+
+		return $icon;
+	}
+
+}
+
+

@@ -29,7 +29,7 @@
 
       <!-- Breadcrumb -->
       <div class="bread-crumb pull-right">
-        <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
+        <a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i> Inicio</a> 
         <!-- Divider -->
          <span class="divider">/</span> 
        <a href="cursos/root/lista/<?php echo $this->uri->segment(3); ?>" class="bread-current">Cursos</a>
@@ -99,7 +99,7 @@
                              <td><?php echo $value->nombre_tipo_actividades; ?></td>
                              <td><?php echo $value->datos_actividad->nombre_actividad; ?></td>
                              <td><?php echo $value->datos_actividad->descripcion_actividad; ?></td>
-                             <td><?php echo $value->id_estados; ?></td>
+                             <td><?php echo $value->estado_nombre; ?></td>
                              <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>/<?php echo $value->id_actividades_barra; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_actividades_barra; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 

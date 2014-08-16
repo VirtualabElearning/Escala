@@ -30,121 +30,131 @@
 
       <!-- Breadcrumb -->
       <div class="bread-crumb pull-right">
-        <a href="index.html"><i class="fa fa-home"></i> Inicio</a> 
-        <!-- Divider -->
-        <span class="divider">/</span> 
-        <a href="#" class="bread-current">Principal</a>
-      </div>
+       <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
+       <!-- Divider -->
+       <span class="divider">/</span> 
+       <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
+     </div>
 
-      <div class="clearfix"></div>
+     <div class="clearfix"></div>
 
-    </div>
-
-
+   </div>
 
 
 
-    <div class="matter">
-      <div class="container">
-        <div class="row">
+
+
+   <div class="matter">
+    <div class="container">
+      <div class="row">
+
+        <?php if (validation_errors()): ?>
           <div class="col-md-12">
+            <div class="alert alert-warning">
+             <?php echo validation_errors(); ?>
+           </div>
+         </div>
+       <?php endif ?>
+       <div class="col-md-12">
 
 
 
-            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+        <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
 
-            <div class="widget">
-              <div class="widget-head">
-                <div class="pull-left"><?php echo $titulo; ?></div>
-                <div class="widget-icons pull-right">
-                  <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-                  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                </div>  
+        <div class="widget">
+          <div class="widget-head">
+            <div class="pull-left"><?php echo $titulo; ?></div>
+            <div class="widget-icons pull-right">
+              <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+              <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+            </div>  
+            <div class="clearfix"></div>
+          </div>
+          <div class="widget-content">
+            <div class="padd">
+
+              <!-- Table Page -->
+              <div class="page-tables">
+                <!-- Table -->
+                <div class="table-responsive">
+
+
+
+
+
+
+
+
+                  <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
+
+
+                    <thead>
+                      <tr>
+                        <?php foreach ($titulos as $key => $value): ?>
+                          <th> <?php echo $value; ?> </th>
+                        <?php endforeach ?>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+
+
+                      <?php #krumo ($lista); ?>
+
+                      <?php foreach ($lista as $key => $value): ?>
+
+                        <tr id="<?php echo $value->id_cursos; ?>">
+                         <td><?php echo $value->orden; ?></td>
+                         <td><?php echo $value->id_cursos; ?></td>
+                         <td><?php echo $value->nombre_categoria; ?></td>
+                         <td><?php echo $value->titulo; ?></td>
+                         <td><?php echo $value->descripcion; ?></td>
+                         <td><?php echo $value->instructores_asignados_nombre; ?></td>
+
+                         <td><?php echo $value->estado_nombre; ?></td>
+                         <td>  <a href="modulos/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-primary btn-xs"><i class="fa"></i> Modulos </a>  <a href="descargables/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-success btn-xs"><i class="fa"></i> Decargables </a>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                       </tr>
+
+                     <?php endforeach ?>         
+
+                   </tbody>
+                   <tfoot>
+                    <tr>
+                      <?php foreach ($titulos as $key => $value): ?>
+                        <th> <?php echo $value; ?> </th>
+                      <?php endforeach ?>
+                    </tr>
+                  </tfoot>
+                </table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
                 <div class="clearfix"></div>
               </div>
-              <div class="widget-content">
-                <div class="padd">
-
-                  <!-- Table Page -->
-                  <div class="page-tables">
-                    <!-- Table -->
-                    <div class="table-responsive">
-                      
-
-
-
-
-
-
-
-                      <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
-
-
-                        <thead>
-                          <tr>
-                            <?php foreach ($titulos as $key => $value): ?>
-                              <th> <?php echo $value; ?> </th>
-                            <?php endforeach ?>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-
-
-                          <?php #krumo ($lista); ?>
-
-                          <?php foreach ($lista as $key => $value): ?>
-
-                            <tr id="<?php echo $value->id_cursos; ?>">
-                             <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_cursos; ?></td>
-                             <td><?php echo $value->nombre_categoria; ?></td>
-                             <td><?php echo $value->titulo; ?></td>
-                             <td><?php echo $value->descripcion; ?></td>
-                             <td><?php echo $value->id_estados; ?></td>
-                             <td>  <a href="modulos/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-success btn-xs"><i class="fa"></i> Modulos </a>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
-                           </tr>
-
-                         <?php endforeach ?>         
-
-                       </tbody>
-                       <tfoot>
-                        <tr>
-                          <?php foreach ($titulos as $key => $value): ?>
-                            <th> <?php echo $value; ?> </th>
-                          <?php endforeach ?>
-                        </tr>
-                      </tfoot>
-                    </table>
-
-
-
-
-
-
-
-
-
-
-
-
-                    
-                    <div class="clearfix"></div>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
-            <div class="widget-foot">
-              <!-- Footer goes here -->
             </div>
           </div>
-        </div>  
 
+
+        </div>
+        <div class="widget-foot">
+          <!-- Footer goes here -->
+        </div>
       </div>
-    </div>
+    </div>  
+
   </div>
+</div>
+</div>
 </div>
 
 <!-- Matter ends -->

@@ -1,0 +1,71 @@
+  .container {
+  	width: 100%;
+  }
+
+  .retrotxtop{
+  	margin-bottom: 20px;
+  	margin-left: 20px;
+  	margin-top: 5px;
+  }
+
+  .retrolista {
+  	margin-bottom: 20px;
+  	margin-left: 26px;
+  	margin-top: 5px;
+  }
+
+  .form-control.lista {
+  	margin-left: 25px;
+  }
+
+  .checklista{
+  	left: 17px;
+  	position: absolute;
+  	top: 1px;
+  }
+
+  .btn.btn-xs.btn-default.deleter_google-lista{
+  	position: absolute;
+  	right: -40px;
+  	top: 3px;
+  }
+
+  .retroradios{
+  	width: 70%;
+  	margin-bottom: 20px;
+  	margin-left: 0px;
+  	margin-top: 5px;
+  }
+
+
+  .lista-option{
+  	width: 70%;
+  }
+
+  .deleter_google-lista-option{
+  left: 467px;
+    position: absolute;
+    top: 23px;
+  }
+
+  .radio-lista{
+  	position: relative;
+  }
+
+  .lista-option-custom{
+  	position: relative;
+  }
+
+  .list-option-custom{
+  	  position: relative;
+    top: 15px;
+  }
+
+  .retrotexto{
+  	margin-top: 6px;
+  }
+
+  .btn.btn-xs.btn-default.deleter_google-pregunta {
+    float: right;
+    margin-right: 13px;
+}

@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <!-- Title and other stuffs -->
-  <title>Editar <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Adminsitrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -21,13 +21,13 @@
     <div class="mainbar">
 
       <div class="page-head">
-        <h2 class="pull-left"><i class="fa fa-table"></i> Editar <?php echo $titulo; ?></h2>
+        <h2 class="pull-left"><i class="fa fa-table"></i> Modulo <?php echo $titulo; ?> (Editar registro)</h2>
         <div class="bread-crumb pull-right">
           <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
-      <span class="divider">/</span> 
-       <a href="cursos/root/lista/<?php echo $this->uri->segment(4); ?>" class="bread-current">Cursos</a>
-        <span class="divider">/</span> 
-       <a href="modulos/root/lista/<?php echo $this->uri->segment(5); ?>" class="bread-current">Modulos</a>
+          <span class="divider">/</span> 
+          <a href="cursos/root/lista/<?php echo $this->uri->segment(4); ?>" class="bread-current">Cursos</a>
+          <span class="divider">/</span> 
+          <a href="modulos/root/lista/<?php echo $this->uri->segment(5); ?>" class="bread-current">Modulos</a>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -51,33 +51,18 @@
 
                     <br />
 
-
-
-
-
-
-
-
                     <?php #krumo ($detalle); ?>
 
-
-                    <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
+                    <?php $attributos=array('class'=>'form-horizontal','role'=>'form','id'=>'form_editar_actividad'); ?>
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-
-                    <?php echo input_text ("Nombre actividad","nombre_actividad","nombre_actividad","Ingrese el nombre del estatus",$detalle->datos_actividad->nombre_actividad); ?>
-                    <?php echo form_error('nombre_actividad', '<div class="mensaje_error">', '</div>'); ?>
-
-                    <?php echo textarea ("Descripcion actividad","descripcion_actividad","descripcion_actividad","Ingrese la decripcion de la actividad",$detalle->datos_actividad->descripcion_actividad); ?>
-                    <?php echo form_error('descripcion_actividad', '<div class="mensaje_error">', '</div>'); ?>
-
-
+                    <?php echo input_text ("Nombre actividad","nombre_actividad","nombre_actividad","Ingrese el nombre de la actividad",$detalle->datos_actividad->nombre_actividad,form_error('nombre_actividad', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo textarea ("Descripcion actividad","descripcion_actividad","descripcion_actividad","Ingrese la decripcion de la actividad",$detalle->datos_actividad->descripcion_actividad,form_error('descripcion_actividad', '<div class="mensaje_error">', '</div>')); ?>
                     <?php #krumo ($tipo_actividades_lista); ?>
 
                     <?php #krumo ($detalle); ?>
 
-
                     <div class="form-group">
-                      <label class="col-lg-2 control-label">Adicional modulo</label>
+                      <label class="col-lg-2 control-label">Opciones personalizadas</label>
                       <div class="col-lg-10">
 
                        <ul id="myTab" class="nav nav-tabs">
@@ -90,20 +75,14 @@
                        <?php foreach ($tipo_actividades_lista as $key => $actividades_value): ?>
                          <div class="tab-pane fade in <?php if ($detalle->id_tipo_actividades==$actividades_value->id_tipo_actividades): ?> active <?php endif; ?>" id="<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>">
 
-                          <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,$detalle->id_actividades,$detalle->tabla_actividad,$detalle->datos_actividad,$detalle->id_modulos); ?>
+                          <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,$detalle->id_actividades,$detalle->tabla_actividad,$detalle->datos_actividad,$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6)); ?>
 
                         </div>
                       <?php endforeach ?>
                     </div>
-
-
                   </div>
 
                 </div>
-
-
-
-
 
                 <?php 
                 $opciones=array("1"=>"Activo","0"=>"Inactivo");
@@ -112,35 +91,54 @@
 
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
-                    <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
-                    <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>"><button type="button" class="btn btn-sm btn-warning">Cancelar</button></a>
+                    <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
+
+                    <?php if ($this->uri->segment(4)): ?>
+                      <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
+                    <?php endif ?>
+
+                    <?php if ($this->input->post('id')): ?>
+                      <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->input->post('id_cursos'); ?>/<?php echo $this->input->post('id_modulos'); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
+                    <?php endif ?>
 
                   </div>
                 </div>
 
-                <?php if ($this->uri->segment(4)): ?>
-                  <?=form_hidden('id',$this->uri->segment(6))?>
-                  <?=form_hidden('id_modulos',$this->uri->segment(5))?>
-                  <?=form_hidden('id_cursos',$this->uri->segment(4))?>
+                <?php if ($this->input->post('id')): ?>
+                  <?=form_hidden('id',$this->input->post('id'))?>
+                  <?=form_hidden('id_modulos',$this->input->post('id_modulos'))?>
+                  <?=form_hidden('id_cursos',$this->input->post('id_cursos'))?>
                   <?=form_hidden('id_actividades',$detalle->id_actividades)?>
                   <?=form_hidden('id_tipo_actividades',$detalle->id_tipo_actividades)?>
                   <?=form_hidden('id_tipo_actividades_antes',$detalle->id_tipo_actividades)?>
                   <?=form_hidden('id_modulos',$detalle->id_modulos)?>
-                <?php endif ?>
+                <?php endif; ?>
 
-                <?=form_close()?>
 
-              </div>
-            </div>
-            <div class="widget-foot">
-              <!-- Footer goes here -->
-            </div>
+                <?php if ($this->uri->segment(4)): ?>
+                 <?=form_hidden('id',$this->uri->segment(6))?>
+                 <?=form_hidden('id_modulos',$this->uri->segment(5))?>
+                 <?=form_hidden('id_cursos',$this->uri->segment(4))?>
+                 <?=form_hidden('id_actividades',$detalle->id_actividades)?>
+                 <?=form_hidden('id_tipo_actividades',$detalle->id_tipo_actividades)?>
+                 <?=form_hidden('id_tipo_actividades_antes',$detalle->id_tipo_actividades)?>
+                 <?=form_hidden('id_modulos',$detalle->id_modulos)?>
+               <?php endif ?>
+
+
+               <?=form_close()?>
+
+             </div>
+           </div>
+           <div class="widget-foot">
+            <!-- Footer goes here -->
           </div>
-        </div>  
+        </div>
+      </div>  
 
-      </div>
     </div>
   </div>
+</div>
 </div>
 
 <!-- Matter ends -->
@@ -158,61 +156,132 @@
 <script> 
   $(document).ready(function() {
 
-    $('.tipo_actividades').click(function(event) {
-      $( "input[name='id_tipo_actividades']" ).val( $(this).attr('id') );
-    });
+
+    <?php if (  $this->uri->segment(7)=='guardado_ok_redirect'  ) :?>
+    $("#add_preguntas_click").bind('click');
+    $("#add_preguntas_click").click();
+  <?php endif; ?>
 
 
-    $('#tipo_pregunta').parent().attr('class','col-lg-4');
-    $('#tipo_pregunta').parent().after('<div class="col-lg-2"> <a id="add_respuestas" data-toggle="modal" href="#modal_respuestas"><button class="btn btn-sm btn-info" type="button">Agregar respuestas</button></a></div>');
-
-    $('#tipo_pregunta').change(function(event) {
-
-
-    });
+  $('.tipo_actividades').click(function(event) {
+    $( "input[name='id_tipo_actividades']" ).val( $(this).attr('id') );
+  });
 
 
-    $('#add_respuestas').click(function(event) {
-     event.preventDefault();
 
-     $('#nombre_pregunta').val( $('#pregunta').val() );
-     $('#tipo_pregunta_opc').val( $('#tipo_pregunta').val() );
-     $('#nom_activ').val( $('#nombre_actividad').val() );
-     $('#desc_acti').val( $('#descripcion_actividad').val() );
-     $('#id_tipo_actividades_var').val( $( "input[name='id_tipo_actividades']").val());
-     $('#id_actividades_var').val( $( "input[name='id_actividades']").val());
-     $('#id_cursos_var').val( $( "input[name='id_cursos']" ).val());
-     $('#id_modulos_var').val( $( "input[name='id_modulos']" ).val());
-     $('#id_tipo_actividades_antes_var').val( $( "input[name='id_tipo_actividades_antes']").val());
-     $('#id_var').val( $( "input[name='id']" ).val());
-     $('#id_estados_var').val( $('#id_estados').val());
+    //alert ($('div.active #tipo_pregunta option:selected').val());
 
-     if ($('#id_tipo_actividades_antes_var').val()==$( "input[name='id_tipo_actividades']").val())  {
+//$( "input[value='Hot Fuzz']" )
 
-      data = new Object;
-      data.id_tipo_actividades = $( "input[name='id_tipo_actividades']").val();
-      data.id_actividades =$( "input[name='id_actividades']").val();
+$( "select[name='tipo_pregunta']" ).parent().attr('class','col-lg-4');
+$( "select[name='tipo_pregunta']" ).parent().after('<div class="col-lg-2"> <a id="add_respuestas" data-toggle="modal" href="#modal_respuestas"><button class="btn btn-sm btn-info" type="button">Agregar respuestas</button></a></div>');
 
-      jQuery.ajax({
-        type: 'POST',
-        url:'actividades/root/consultar_posibles_respuestas',
-        data:({
-          data:data
-        }),
 
-        ajaxSend:function(result){        
-          console.log ("ajaxSend\n");
-        },
-        success:function(result){       
-          console.log ("success\n");
+
+// si es campo de texto
+if ($('div.active #tipo_pregunta option:selected').val()==3)  {
+ $('#add_respuestas').hide();
+}
+
+
+$( "select[name='tipo_pregunta']" ).change(function(event) {
+ event.preventDefault();
+
+    // $("input[name='id_tipo_actividades']").val($(this).val());
+    if ($(this).val()==3)  {
+     $(this).parent().next().children('#add_respuestas').hide();
+   }
+   else {
+    $(this).parent().next().children('#add_respuestas').show();
+  }
+});
+
+
+$('#add_preguntas').click(function(event) {
+  event.preventDefault(); 
+/// si no son iguales, borro la que esta y meto una nueva con otro tipo de actividad (Fix para preguntas multiples)
+if ($( "input[name='id_tipo_actividades']").val()!=$( "input[name='id_tipo_actividades_antes']").val() )  {
+
+
+  if ( $('#nombre_actividad').val()=='' ) {
+       $("#add_preguntas_click").unbind('click');
+       alert ("Por favor, escriba el nombre de la actividad!");
+       return false;
+     }
+
+     if ( $('#descripcion_actividad').val()=='' ) {
+       $("#add_preguntas_click").unbind('click');
+       alert ("Por favor, escriba la descripcion de la actividad!");
+       return false;
+     }
+
+
+$('form').append('<input type="hidden" name="redirecter_pretty_editar" value="ok" />');
+$('.btnguardar').click();
+
+
+}
+
+else {
+
+  $("#add_preguntas_click").bind('click');
+  $("#add_preguntas_click").click();
+
+}
+
+
+
+
+});
+
+
+
+
+$('#add_respuestas').click(function(event) {
+ event.preventDefault();
+
+ $('#nombre_pregunta').val( $('#pregunta').val() );
+ $('#tipo_pregunta_opc').val( $('#tipo_pregunta').val() );
+ $('#nom_activ').val( $('#nombre_actividad').val() );
+ $('#desc_acti').val( $('#descripcion_actividad').val() );
+ $('#id_tipo_actividades_var').val( $( "input[name='id_tipo_actividades']").val());
+ $('#id_actividades_var').val( $( "input[name='id_actividades']").val());
+ $('#id_cursos_var').val( $( "input[name='id_cursos']" ).val());
+ $('#id_modulos_var').val( $( "input[name='id_modulos']" ).val());
+ $('#id_tipo_actividades_antes_var').val( $( "input[name='id_tipo_actividades_antes']").val());
+ $('#id_var').val( $( "input[name='id']" ).val());
+ $('#id_estados_var').val( $('#id_estados').val());
+// si es tipo video, le envio el video
+if ( $('#id_tipo_actividades_var').val()==1)  {
+  $('#url_video_var').val($('#url_video').val());
+}
+
+if ($('#id_tipo_actividades_antes_var').val()==$( "input[name='id_tipo_actividades']").val())  {
+
+  data = new Object;
+  data.id_tipo_actividades = $( "input[name='id_tipo_actividades']").val();
+  data.id_actividades =$( "input[name='id_actividades']").val();
+
+  jQuery.ajax({
+    type: 'POST',
+    url:'actividades/root/consultar_posibles_respuestas',
+    data:({
+      data:data
+    }),
+
+    ajaxSend:function(result){        
+      console.log ("ajaxSend\n");
+    },
+    success:function(result){       
+      console.log ("success\n");
          // alert (result);
-          var json = $.parseJSON(result);
+         var json = $.parseJSON(result);
 
- 
+
 // ciclo primero para crear elementos
-  $.each(json, function(i,item){
+$.each(json, function(i,item){
 
-    var id_actual=Number(i+1);
+  var id_actual=Number(i+1);
 
 // si existe no hago nada
 if ( $('#rta'+parseInt(Number(i+1))).length>0 )  {
@@ -231,19 +300,20 @@ else {
 
 });
 
-
+console.log(json);
 // ciclo para asignar valores a los elementos creados
- $.each(json, function(i,item){
+$.each(json, function(i,item){
 
-    var id_actual=Number(i+1);
+  var id_actual=Number(i+1);
 
 // si existe el elemento, ingreso valores
 if ( $('#rta'+parseInt(Number(i+1))).length>0 )  {
  $('#rta'+id_actual+' >div >input').val(item.posible_respuesta);
  $('#rta'+id_actual+' >div').next().children().val(item.retroalimentacion);
- if (item.correcta==1)  {  
-  $('#rta'+id_actual+' > div').next().children().children('.opciones_correctas').attr("checked", true);
-  $('#rta'+id_actual+' > div').next().children().children('.opciones_correctas').click();
+ if (item.correcta==1)  { 
+ //alert (id_actual); 
+ $('#rta'+id_actual+' > div').next().children().children('.opciones_correctas').attr("checked", true);
+  //$('#rta'+id_actual+' > div').next().children().children('.opciones_correctas').click();
 } 
 
 else {
@@ -274,6 +344,23 @@ ajaxStop:function(result){
 
 });
 
+
+
+$('.btnguardar').click(function(event) {
+
+ event.preventDefault();
+
+ $('.tab-pane').each(function(index, el) {
+  if ( $(this).hasClass('active') )  { }
+    else { $(this).remove(); }
+});
+
+
+ $('#form_editar_actividad').submit();
+
+
+});
+
 $('.clone').click(function(event) {
 
  event.preventDefault();
@@ -298,7 +385,7 @@ $(document).on('click', '.deleter', function(event) {
 
 $('.guardar_respuestas').click(function(event) {
  event.preventDefault();
-var if_chekeado=0;
+ var if_chekeado=0;
  $('.opciones_correctas').each(function(index, el) {
    var $this = $(this);
 
@@ -307,9 +394,10 @@ var if_chekeado=0;
  });
 
 
-if (if_chekeado==0 && ($('#tipo_pregunta_opc').val()==1 || $('#tipo_pregunta_opc').val()==2|| $('#tipo_pregunta_opc').val()==3) )  {  alert ("Debe indicar al menos una que sea correcta!"); return false;  }
+ if (if_chekeado==0 && ($('#tipo_pregunta_opc').val()==1 || $('#tipo_pregunta_opc').val()==2|| $('#tipo_pregunta_opc').val()==3) )  {  alert ("Debe indicar al menos una que sea correcta!"); return false;  }
 
  var tmp = $('#forma_modal_resp').serialize();
+
 
  jQuery.ajax({
   type: 'POST',
@@ -387,7 +475,7 @@ if (if_chekeado==0 && ($('#tipo_pregunta_opc').val()==1 || $('#tipo_pregunta_opc
 
               <div class="col-lg-1 correctc">
                 <label class="checkbox-inline">
-                  <input type="radio" class="opciones_correctas" checked="true" name="correcta" id="inlineCheckbox1"> Correcta?
+                  <input type="checkbox" class="opciones_correctas" checked="true" name="correcta[]" id="inlineCheckbox1"> Correcta?
                 </label>
               </div>  
             </div>
@@ -412,6 +500,7 @@ if (if_chekeado==0 && ($('#tipo_pregunta_opc').val()==1 || $('#tipo_pregunta_opc
           <input type="hidden" id="id_tipo_actividades_antes_var" name="id_tipo_actividades_antes_var">
           <input type="hidden" id="id_var" name="id_var">
           <input type="hidden" id="id_estados_var" name="id_estados_var">
+          <input type="hidden" id="url_video_var" name="url_video_var">
         </form>
 
 
@@ -435,5 +524,15 @@ if (if_chekeado==0 && ($('#tipo_pregunta_opc').val()==1 || $('#tipo_pregunta_opc
   </div>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

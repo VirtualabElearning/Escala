@@ -18,6 +18,16 @@ class Root extends CI_Controller {
 		/* Cargo el modelo de forma dinamica */
 		$this->load->model($this->variables['modelo']);
 
+		/* Configuracion global de subida de imagen */
+		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
+		$config['allowed_types'] =   "gif|jpg|jpeg|png";
+		$config['max_size']      =   "5000";
+		$config['max_width']     =   "2000";
+		$config['max_height']    =   "2000";
+		$config['remove_spaces']  = TRUE;
+		$config['encrypt_name']  = TRUE;
+		$this->load->library('upload',$config);
+
 	}
 	/* FUNCION POR DEFECTO */
 	public function index()
@@ -38,11 +48,32 @@ class Root extends CI_Controller {
 		$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],'',array('orden','asc'));
 
 		/* Cargo los campos que necesito en el listado ( Solo las etiquetas header ) */
-		$data['titulos']=array("Orden","ID","Rol","Foto","Nombres","Apellidos","Identificacion","Correo","Estado","Opciones");
+		$data['titulos']=array("Orden","ID","Rol","Foto","Nombres","Apellidos","Identificacion","Correo","Tipo plan","Estado","Opciones");
 
 		/* Cargo la vista de forma dinamica */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
+
+// funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
+	public function check_foto()
+	{
+		if ($_FILES['userfile']['tmp_name'])  {
+			if ($this->upload->do_upload('userfile'))
+			{
+				$upload_data    = $this->upload->data();
+				$_POST['userfile'] = $upload_data['file_name'];
+				return true;
+			}
+			else
+			{
+				$this->form_validation->set_message('check_foto', $this->upload->display_errors());
+				return false;
+			}
+		}
+	}
+
+
+
 
 	/* FUNCION NUEVO PARA INGRESARLE VALORES Y LUEGO GUARDARLO EN LA TABLA */
 	public function nuevo()
@@ -51,6 +82,8 @@ class Root extends CI_Controller {
 		/* Titulo = nombre del modulo */
 		$data['titulo']=$variables['modulo'];
 		/*  Cargo vista de ingresar un nuevo dato */
+		$data['roles']=$this->{$variables['modelo']}->get_roles('aprendices');
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes','',array('orden','asc'));
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 	}
 
@@ -68,17 +101,27 @@ class Root extends CI_Controller {
 		$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean');
 		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean');
 		$this->form_validation->set_rules('id_roles', 'Rol', 'required|xss_clean');
+		$this->form_validation->set_rules('id_tipo_planes', 'Tipo de plan', 'required|xss_clean');
+
+
+
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
-		$this->form_validation->set_rules('contrasena', 'contrasena', 'xss_clean');
+		if ($this->input->post ('id'))  { 
+			$this->form_validation->set_rules('contrasena', 'contrasena', 'xss_clean');
+		} else {
+			$this->form_validation->set_rules('contrasena', 'Contraseña', 'required|xss_clean');
+			$this->form_validation->set_rules('contrasena2', 'Repetir contraseña', 'required|xss_clean');
+		}
+
 		$this->form_validation->set_rules('resumen_de_perfil', 'resumen_de_perfil', 'xss_clean');
+		$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
 
 		/* Si existe algun error en la validacion de los campos */
 		if($this->form_validation->run() == FALSE)
 		{ 
 
-			/* Muestro errores de validacion */
-			echo  validation_errors();
-			exit;
+			if ($id)  { $this->editar($id); } else { $this->nuevo();  }
+
 		}
 		/* De lo contrario continuo con el proceso */
 		else {
@@ -90,52 +133,48 @@ class Root extends CI_Controller {
 				'identificacion' => $this->input->post ('identificacion'),
 				'resumen_de_perfil' => $this->input->post ('resumen_de_perfil'),
 				'id_roles' => $this->input->post ('id_roles'),
+				'id_tipo_planes' => $this->input->post ('id_tipo_planes'),
 				'id_estados' => $this->input->post ('id_estados'),
 
 				);
 
 			if ($this->input->post ('contrasena')) {
 				/* Si existe informacion de contraseña, la encripto */
-				$data[$variables['contrasena']]=sha1($this->input->post ('contrasena'));
+				$data['contrasena']=sha1($this->input->post ('contrasena'));
 
 			}
 			/* si es actualizar, envia la fecha de actualizacion, de lo contrario envia fecha de creacion y actualizacion */
 			if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
-			/* Configuracion global de subida de imagen */
-			$config['upload_path']   =   "uploads/".$variables['modulo']."/";
-			$config['allowed_types'] =   "gif|jpg|jpeg|png";
-			$config['max_size']      =   "5000";
-			$config['max_width']     =   "2000";
-			$config['max_height']    =   "2000";
-			$config['remove_spaces']  = TRUE;
-			$config['encrypt_name']  = TRUE;
-			$this->load->library('upload',$config);
+			
 
 			/* Si existe algun error, continua el programa */
 			if ($_FILES['userfile']['tmp_name'])  {
-				if(!$this->upload->do_upload())
 
-				{
-				#echo $this->upload->display_errors(); exit;
+				$finfo=$this->upload->data();
+
+				/* si existia una foto antes, que la borre de la carpeta asignada */
+				if ($this->input->post ('foto_antes'))  {
+					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
 				}
 
-				else
-				{
-					$finfo=$this->upload->data();
-
-					/* si existia una foto antes, que la borre de la carpeta asignada */
-					if ($this->input->post ('foto_antes'))  {
-						@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
-					}
-
-					/* obteno la extesion y nombre de la imagen */
-					$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
-					$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
-					$data['foto'] = $finfo['file_name'];
-				}
-
+				/* obteno la extesion y nombre de la imagen */
+				$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
+				$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+				$data['foto'] = $finfo['file_name'];
 			}
+
+			else {
+				/* si existia una foto antes, que la borre de la carpeta asignada */
+				if ($this->input->post ('foto_antes'))  {
+					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+				}
+				$data['foto'] = "";
+			}
+
+
+
+
 
 			/* Guardo la informacion a la base de datos retornando el id y redireccionando a la vista. */
 			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
@@ -186,7 +225,8 @@ class Root extends CI_Controller {
 		/* cargo informacion para editar */
 		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 		/* Obtengo los roles de usuario comunes */
-		$data['roles']=$this->{$variables['modelo']}->get_roles();
+		$data['roles']=$this->{$variables['modelo']}->get_roles('aprendices');
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes','',array('orden','asc'));
 		/* si existe un mensaje de error extra, lo lleva guardado para mostrarlo despues */
 		$data['error_extra']=$error_extra;
 		$data['redirect']=$redirect;
