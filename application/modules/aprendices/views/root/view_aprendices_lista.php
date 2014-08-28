@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -28,66 +28,71 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
-            <div class="widget">
-              <div class="widget-head">
-                <div class="pull-left"><?php echo $titulo; ?></div>
-                <div class="widget-icons pull-right">
-                  <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-                  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                </div>  
-                <div class="clearfix"></div>
-              </div>
-              <div class="widget-content">
-                <div class="padd">
-                  <div class="page-tables">
-                    <div class="table-responsive">
-                      <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
-                        <thead>
-                          <tr>
-                            <?php foreach ($titulos as $key => $value): ?>
-                              <th> <?php echo $value; ?> </th>
-                            <?php endforeach ?>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php #krumo ($lista); ?>
-                          <?php foreach ($lista as $key => $value): ?>
-                            <tr id="<?php echo $value->id_aprendices; ?>">
-                             <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_aprendices; ?></td>
-                             <td><?php echo $value->nombre; ?></td>
-                             <td><img class="foto_img" src="<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>" alt="img"/></td>
-                             <td><?php echo $value->nombres; ?></td>
-                             <td><?php echo $value->apellidos; ?></td>
-                             <td><?php echo $value->identificacion; ?></td>
-                             <td><?php echo $value->correo; ?></td>
-                             <td><?php echo $value->nombre_plan; ?></td>
-                             <td><?php echo $value->estado_nombre; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_aprendices; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_aprendices; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
-                           </tr>
-                         <?php endforeach ?>         
-                       </tbody>
-                       <tfoot>
+      
+           <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+ 
+           <div class="widget">
+            <div class="widget-head">
+              <div class="pull-left"><?php echo $titulo; ?></div>
+              <div class="widget-icons pull-right">
+                <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+              </div>  
+              <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+              <div class="padd">
+                <div class="page-tables">
+                  <div class="table-responsive">
+                    <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
+                      <thead>
                         <tr>
                           <?php foreach ($titulos as $key => $value): ?>
                             <th> <?php echo $value; ?> </th>
                           <?php endforeach ?>
                         </tr>
-                      </tfoot>
-                    </table>
-                    <div class="clearfix"></div>
-                  </div>
+                      </thead>
+                      <tbody>
+                        <?php #krumo ($lista); ?>
+                        <?php foreach ($lista as $key => $value): ?>
+                          <tr id="<?php echo $value->id_usuarios; ?>">
+                           <td><?php echo $value->orden; ?></td>
+                           <td><?php echo $value->id_usuarios; ?></td>
+                           <td><?php echo $value->nombre; ?></td>
+                           <td><img class="foto_img" src="escalar.php?src=<?php echo base_url().'uploads/'.$carpeta.'/'.$value->foto; ?>&w=126&h=126&zc=1" alt="img"/></td>
+                           <td><?php echo $value->nombres; ?></td>
+                           <td><?php echo $value->apellidos; ?></td>
+                           <td><?php echo $value->identificacion; ?></td>
+                           <td><?php echo $value->correo; ?></td>
+                           <td><?php echo $value->nombre_plan; ?></td>
+                           <td><?php echo $value->estado_nombre; ?></td>
+                           <td>  
+                             <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_usuarios; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
+                             <a href="#" id="<?php echo $value->id_usuarios; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> 
+                           </td>
+                         </tr>
+                       <?php endforeach ?>         
+                     </tbody>
+                     <tfoot>
+                      <tr>
+                        <?php foreach ($titulos as $key => $value): ?>
+                          <th> <?php echo $value; ?> </th>
+                        <?php endforeach ?>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  <div class="clearfix"></div>
                 </div>
               </div>
             </div>
-            <div class="widget-foot">
-            </div>
           </div>
-        </div>  
-      </div>
+          <div class="widget-foot">
+          </div>
+        </div>
+      </div>  
     </div>
   </div>
+</div>
 </div>
 </div>    
 <div class="clearfix"></div>

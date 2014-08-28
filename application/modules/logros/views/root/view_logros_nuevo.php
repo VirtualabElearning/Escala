@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Adminsitrador</title>
+	<title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Administrador</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -42,7 +42,7 @@
 										<?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
 										<?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
 										<?php echo input_text ("Nombre","nombre","nombre","Ingrese el nombre del logro",$this->input->post('nombre'),form_error('nombre', '<div class="mensaje_error">', '</div>')); ?>
-										<?php echo textarea ("Descripcion","descripcion","descripcion","Ingrese la decripcion del contenido",$this->input->post('descripcion'),form_error('descripcion', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo textarea ("Descripción","Descripcion","Descripcion","Ingrese la descripción del contenido",$this->input->post('Descripcion'),form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
 										<div class="form-group">
 											<label class="col-lg-2 control-label">Foto</label>
 											<div class="col-lg-5">

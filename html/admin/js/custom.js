@@ -6,12 +6,30 @@
 $(document).ready(function(){
 
 
-$('.fileupload-exists').click(function(event) {
 
-$('#image').val('');
+ $('.delete_atrib_foto').click(function(event) {
+    $('#atributo_image'+$(this).attr('id')).val('');
+  });
 
 
-});
+
+
+ $('.delete_photoxx').click(function(event) {
+    $('#image').val('');
+  });
+
+
+
+
+$('.delete_testi_foto').click(function(event) {
+    $('#testi_image'+$(this).attr('id')).val('');
+  });
+
+
+
+  $('.fileupload-exists').click(function(event) {
+    $('#image').val('');
+  });
 
 
 /*
@@ -52,35 +70,99 @@ $('#image').val('');
   });
 */
 
-  $(document).keyup(function(e) {
+$(document).keyup(function(e) {
 
-if ($('.pp_default').length==0)  {
-    if (e.keyCode == 13) { $('.btnguardar').click(); }    
-    if (e.keyCode == 27) { $('.btncancelar').click(); } 
-  
+  if ($('.pp_default').length==0) {
+    if ( $('.modal').length>0 && $('.modal').css('display') == 'none'  )  {
+    
+      if (e.keyCode == 13) { $('.btnguardar').click(); }    
+      if (e.keyCode == 27) { $('.btncancelar').click(); } 
+    }
+  }
+
+});
+
+
+if ($("#resumen_de_perfil").length>0)  {
+  var caracteres= 140;
+  $("#contador").append("Usted tiene <strong>"+ $( "#resumen_de_perfil" ).val().length+"</strong> caracteres de "+caracteres);
+
 }
 
-  });
 
 
-  if ($("#resumen_de_perfil").length>0)  {
-    var caracteres= 140;
-    $("#contador").append("Usted tiene <strong>"+ $( "#resumen_de_perfil" ).val().length+"</strong> caracteres de "+caracteres);
+
+$( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
+
+  console.log($(this).val().length+'\n');
+  $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres);
+  if($(this).val().length > caracteres){
+    $(this).val($(this).val().substr(0, caracteres));
+  }
+
+});
+
+
+
+
+
+
+
+
+
+
+if ($("#Descripcion").length>0)  {
+  var caracteres_des= 60;
+  $("#contador").append("Usted tiene <strong>"+ $( "#Descripcion" ).val().length+"</strong> caracteres de "+caracteres_des);
+
+}
+
+
+
+$( "#Descripcion" ).bind( "keyup keypress", function() {
+
+  console.log($(this).val().length+'\n');
+  $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres_des);
+  if($(this).val().length > caracteres_des){
+    $(this).val($(this).val().substr(0, caracteres_des));
+  }
+
+});
+
+
+$('#contrasena,#contrasena2').keyup(function(event) {
+  $(this).next().remove();
+});
+
+$('.guardar_usuario_clic').click(function(event) {
+
+  event.preventDefault();
+  if ( $('#contrasena').val()!='' )  {
+
+    if ( $('#contrasena2').val()=='' )  {
+      $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contraseña nuevamente</div>');
+      return false;
+    }
+
+    if ( $('#contrasena2').val()=='' )  {
+      $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contraseña nuevamente</div>');
+      return false;
+    }
+
+
+    if ( $('#contrasena').val()!=$('#contrasena2').val() )  {
+      $('#contrasena,#contrasena2').parent().append('<div class="mensaje_error">Las contraseñas no son iguales</div>');
+      return false;
+    }
+
 
   }
 
 
+  $('.form-horizontal').submit();
 
 
-  $( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
-
-    console.log($(this).val().length+'\n');
-    $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres);
-    if($(this).val().length > caracteres){
-      $(this).val($(this).val().substr(0, caracteres));
-    }
-
-  });
+});
 
 
 
@@ -88,94 +170,32 @@ if ($('.pp_default').length==0)  {
 
 
 
-
-
-
-  if ($("#descripcion").length>0)  {
-    var caracteres_des= 60;
-    $("#contador").append("Usted tiene <strong>"+ $( "#descripcion" ).val().length+"</strong> caracteres de "+caracteres_des);
-
+$(window).resize(function()
+{
+  if($(window).width() >= 765){
+    $(".sidebar #nav").slideDown(350);
   }
+  else{
+    $(".sidebar #nav").slideUp(350); 
+  }
+});
 
+$(".has_sub > a").click(function(e){
+  e.preventDefault();
+  var menu_li = $(this).parent("li");
+  var menu_ul = $(this).next("ul");
 
-
-  $( "#descripcion" ).bind( "keyup keypress", function() {
-
-    console.log($(this).val().length+'\n');
-    $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres_des);
-    if($(this).val().length > caracteres_des){
-      $(this).val($(this).val().substr(0, caracteres_des));
-    }
-
-  });
-  
-
-  $('#contrasena,#contrasena2').keyup(function(event) {
-    $(this).next().remove();
-  });
-
-  $('.guardar_usuario_clic').click(function(event) {
-
-    event.preventDefault();
-    if ( $('#contrasena').val()!='' )  {
-
-      if ( $('#contrasena2').val()=='' )  {
-        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contraseña nuevamente</div>');
-        return false;
-      }
-
-      if ( $('#contrasena2').val()=='' )  {
-        $('#contrasena2').parent().append('<div class="mensaje_error">Por favor, ingrese la contraseña nuevamente</div>');
-        return false;
-      }
-
-
-      if ( $('#contrasena').val()!=$('#contrasena2').val() )  {
-        $('#contrasena,#contrasena2').parent().append('<div class="mensaje_error">Las contraseñas no son iguales</div>');
-        return false;
-      }
-
-
-    }
-
-
-    $('.form-horizontal').submit();
-
-
-  });
-
-
-
-
-
-
-
-  $(window).resize(function()
-  {
-    if($(window).width() >= 765){
-      $(".sidebar #nav").slideDown(350);
-    }
-    else{
-      $(".sidebar #nav").slideUp(350); 
-    }
-  });
-  
-  $(".has_sub > a").click(function(e){
-    e.preventDefault();
-    var menu_li = $(this).parent("li");
-    var menu_ul = $(this).next("ul");
-
-    if(menu_li.hasClass("open")){
-      menu_ul.slideUp(350);
-      menu_li.removeClass("open")
-    }
-    else{
-      $("#nav > li > ul").slideUp(350);
-      $("#nav > li").removeClass("open");
-      menu_ul.slideDown(350);
-      menu_li.addClass("open");
-    }
-  });
+  if(menu_li.hasClass("open")){
+    menu_ul.slideUp(350);
+    menu_li.removeClass("open")
+  }
+  else{
+    $("#nav > li > ul").slideUp(350);
+    $("#nav > li").removeClass("open");
+    menu_ul.slideDown(350);
+    menu_li.addClass("open");
+  }
+});
 
 /* Old Code 
 

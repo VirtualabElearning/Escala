@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
 
-  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -50,7 +50,7 @@
                     <br />
 
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
-                    <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
+                    <?=form_open_multipart(base_url().$carpeta.'/root/guardar',$attributos)?>
                     <?php foreach ($roles as $key => $value) {$data_roles[$value->id_roles]=$value->nombre; } ?>
 
                     <?php echo select ("Rol","id_roles","id_roles",$data_roles,$this->input->post('id_roles')); ?>
@@ -60,7 +60,8 @@
                     <?php echo password ("Contraseña","contrasena","contrasena","Escriba la contraseña",'',form_error('contrasena', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo password ("Repetir Contraseña","contrasena2","contrasena2","Repetir la contraseña",'',form_error('contrasena2', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo input_text ("Identificacion","identificacion","identificacion","Ingrese el numero de identificacion",$this->input->post('identificacion'),form_error('identificacion', '<div class="mensaje_error">', '</div>')); ?>
-                    
+                      <?php echo input_text ("Profesión","profesion","profesion","Ingrese la profesión",$this->input->post('profesion'),form_error('profesion', '<div class="mensaje_error">', '</div>')); ?>
+
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">

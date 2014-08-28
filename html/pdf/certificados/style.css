@@ -1,0 +1,36 @@
+.wrapper{
+    height: 410px;
+    margin: auto;
+    position: relative;
+    width: 613px;
+	}
+
+	.top {
+
+	}
+
+	.left {
+	 left: 0;
+    position: absolute;
+    top: 0;
+	}
+
+	.content {
+position: relative;
+left: 34px;
+	}
+
+
+
+
+	.right {
+		position: absolute;
+		right: 0px;
+		top: 0px;
+	}
+
+	.down {
+ bottom: 10px;
+    left: 1px;
+    position: absolute;
+	}

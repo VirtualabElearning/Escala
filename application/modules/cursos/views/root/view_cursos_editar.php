@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -53,82 +53,102 @@
                     <?php echo select ('Categoria cursos','id_categoria_cursos','id_categoria_cursos',$opciones,$detalle->id_categoria_cursos);
                     ?>
                     <?php echo input_text ("Titulo","titulo","titulo","Ingrese el titulo del curso",$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
-                    <?php echo textarea ("Resumen del curso","descripcion","descripcion","Ingrese el resumen del curso",$detalle->descripcion,form_error('descripcion', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo textarea ("Resumen del curso","descripcion","descripcion","Ingrese el resumen del curso",$detalle->descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
                     <div id="contador"></div>
 
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">
 
-                        <input type="hidden" name="image" id="image">
+                      <input type="hidden" name="image" id="image" value="<?php echo $detalle->foto; ?>">
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                             <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
                           </div>
 
                           <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
+                           <img src="<?php echo base_url().'uploads/'.$titulo.'/'.$detalle->foto; ?>" alt="img"/>
+                         </div>
 
-                          </div>
-
-                          <div>
-                            <span class="btn btn-file">
-                              <span class="fileupload-exists">Cambiar</span>
-                              <span class="fileupload-new">Seleccione imagen</span>         
-                              <input type="file" value="" name="userfile" id="userfile"/>
-                            </span>
-                            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
-                            <?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
-                          </div>
-
+                         <div>
+                          <span class="btn btn-file">
+                            <span class="fileupload-exists">Cambiar</span>
+                            <span class="fileupload-new">Seleccione imagen</span>         
+                            <input type="file" value="" name="userfile" id="userfile"/>
+                          </span>
+                          <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
+                          <?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
                         </div>
+
                       </div>
                     </div>
-                    <?php echo editor ("Objetivos de parendizaje","objetivos_aprendizaje","objetivos_aprendizaje",$detalle->objetivos_aprendizaje,form_error('objetivos_aprendizaje', '<div class="mensaje_error">', '</div>')) ?>
-                    <?php echo editor ("Prerrequisitos","prerrequisitos","prerrequisitos",$detalle->prerrequisitos,form_error('prerrequisitos', '<div class="mensaje_error">', '</div>')) ?>
-                    <?php echo editor ("Contenidos del curso","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
-                    
-                    <?php $array_opc=array(); ?>
-                    <?php $cursos_checked=json_decode($detalle->instructores_asignados); $checkeado=""; ?>
-                    <?php foreach ($instructores_lista as $key => $value_instructores): ?>
-                      <?php $checkeado=""; ?>
-                      <?php if ( @in_array($value_instructores->id_instructores,$cursos_checked)) { $checkeado="checked"; }  ?>
-                      <?php $array_opc['instructores_asignados[]|'.amigable($value_instructores->nombres." ".$value_instructores->apellidos ).'|'.$value_instructores->id_instructores.'|'.$checkeado]=$value_instructores->nombres." ".$value_instructores->apellidos." [ ".$value_instructores->correo." ] "; ?>
-                    <?php endforeach  ?>
-                    <?php 
-                    echo checkbox ('Instructores asignados',$array_opc,1,''); ?><?php 
-                    $opciones=array("1"=>"Activo","0"=>"Inactivo");
-                    echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
-                    ?>
-                    <div class="form-group">
-                      <div class="col-lg-offset-2 col-lg-6">
-                        <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
-                        <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
-                      </div>
-                    </div>
-
-                    <?php if ($this->input->post('id')): ?>
-                      <?=form_hidden('id',$this->input->post('id'))?>
-                      <?=form_hidden('foto_antes',$detalle->foto)?>
-                    <?php endif; ?>
-
-                    <?php if ($this->uri->segment(4)): ?>
-                      <?=form_hidden('id',$this->uri->segment(4))?>
-                      <?=form_hidden('foto_antes',$detalle->foto)?>
-                    <?php endif ?>
-                    <?=form_close()?>
                   </div>
-                </div>
-                <div class="widget-foot">
+                  <?php echo editor ("Objetivos de parendizaje","objetivos_aprendizaje","objetivos_aprendizaje",$detalle->objetivos_aprendizaje,form_error('objetivos_aprendizaje', '<div class="mensaje_error">', '</div>')) ?>
+                  <?php echo editor ("Prerrequisitos","prerrequisitos","prerrequisitos",$detalle->prerrequisitos,form_error('prerrequisitos', '<div class="mensaje_error">', '</div>')) ?>
+                  <?php echo editor ("Contenidos del curso","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
+
+                  <?php $array_opc=array(); ?>
+                  <?php $cursos_checked=json_decode($detalle->instructores_asignados); $checkeado=""; ?>
+                  <?php foreach ($instructores_lista as $key => $value_instructores): ?>
+                    <?php $checkeado=""; ?>
+                    <?php if ( @in_array($value_instructores->id_usuarios,$cursos_checked)) { $checkeado="checked"; }  ?>
+                    <?php $array_opc['instructores_asignados[]|'.amigable($value_instructores->nombres." ".$value_instructores->apellidos ).'|'.$value_instructores->id_usuarios.'|'.$checkeado]=$value_instructores->nombres." ".$value_instructores->apellidos." [ ".$value_instructores->correo." ] "; ?>
+                  <?php endforeach  ?>
+
+
+
+
+                  <?php 
+                  echo checkbox ('Instructores asignados',$array_opc,1,''); ?>
+                  <?php 
+                  $opciones=array("1"=>"Si","0"=>"No");
+                  echo select ("Destacar?","destacar","destacar",$opciones,$detalle->destacar); 
+                  ?>
+
+                   <?php $opciones=array();
+                    foreach ($tipo_planes as $key => $value) {
+                      $opciones[$value->id_tipo_planes]=$value->nombre;
+                    }
+                    ?>
+                    <?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
+                    ?>
+
+
+
+                  <?php 
+                  $opciones=array("1"=>"Activo","0"=>"Inactivo");
+                  echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
+                  ?>
+                  <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-6">
+                      <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
+                      <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
+                    </div>
+                  </div>
+
+                  <?php if ($this->input->post('id')): ?>
+                    <?=form_hidden('id',$this->input->post('id'))?>
+                    <?=form_hidden('foto_antes',$detalle->foto)?>
+                  <?php endif; ?>
+
+                  <?php if ($this->uri->segment(4)): ?>
+                    <?=form_hidden('id',$this->uri->segment(4))?>
+                    <?=form_hidden('foto_antes',$detalle->foto)?>
+                  <?php endif ?>
+                  <?=form_close()?>
                 </div>
               </div>
-            </div>  
+              <div class="widget-foot">
+              </div>
+            </div>
+          </div>  
 
-          </div>
         </div>
       </div>
     </div>
-  </div>    
-  <div class="clearfix"></div>
+  </div>
+</div>    
+<div class="clearfix"></div>
 
 </div>
 

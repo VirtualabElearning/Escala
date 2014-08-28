@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<title>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro) - Adminsitrador</title>
+	<title>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro) - Administrador</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -41,8 +41,8 @@
 										<?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
 										<?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
 										<?php echo input_text ("Nombre","nombre","nombre","Ingrese el nombre de la categoria de curso"); ?>
-										<?php echo textarea ("Descripcion","descripcion","descripcion","Ingrese la decripcion de la categoria de curso"); ?>
-										<?php echo form_error('descripcion', '<div class="mensaje_error">', '</div>'); ?>
+										<?php echo textarea ("Descripción","Descripcion","Descripcion","Ingrese la descripción de la categoria de curso"); ?>
+										<?php echo form_error('Descripcion', '<div class="mensaje_error">', '</div>'); ?>
 										<?php 
 										$opciones=array("1"=>"Activo","0"=>"Inactivo");
 										echo select ("Estado","id_estados","id_estados",$opciones); 

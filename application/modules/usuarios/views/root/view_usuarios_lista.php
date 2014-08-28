@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -75,7 +75,18 @@
                              <td><?php echo $value->identificacion; ?></td>
                              <td><?php echo $value->correo; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_usuarios; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_usuarios; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+
+                             <td> 
+<?php #solo los master puede editar los mismos master! ?>
+<?php if ( ($this->session->userdata('id_roles')==$value->id_roles) || $this->session->userdata('id_roles')==1 ): ?>
+  
+
+                              <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_usuarios; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar </a> 
+                           
+                             <a href="#" id="<?php echo $value->id_usuarios; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+          <?php endif ?>                
+
+
                            </tr>
 
                          <?php endforeach ?>         

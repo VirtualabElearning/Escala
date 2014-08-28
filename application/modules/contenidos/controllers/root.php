@@ -14,6 +14,8 @@ class Root extends CI_Controller {
 		/* Configuracion generica del modulo */
 		$this->variables=array('modulo'=>'contenidos','id'=>'id_contenidos','modelo'=>'model_contenidos');
 
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
 
 		/*configuracion basica para subir una foto*/
 		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
@@ -35,8 +37,17 @@ class Root extends CI_Controller {
 	/* Funcion listado de registros */
 	public function lista()
 	{ /* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
+		 
 		/* Titulo = nombre modulo */
+
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
+
 		$data['titulo']=$variables['modulo'];
 		/* Consulto el listado de la tabla asignada del modulo */
 		$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
@@ -50,8 +61,13 @@ class Root extends CI_Controller {
 	/* Funcion nuevo registro */
 	public function nuevo()
 	{	/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Titulo = nombre modulo */
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		$data['titulo']=$variables['modulo'];
 		/*Cargo la vista de nuevo registro*/
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
@@ -82,12 +98,12 @@ class Root extends CI_Controller {
 	public function guardar()
 	{
 		/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* variable id del registro (solo funciona cuando es editar) */
 		$id=$this->input->post ('id');
 		/* Reglas de validacion basicas de los campos del formulario */
 		$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
-		$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
+		$this->form_validation->set_rules('Descripcion', 'Descripcion', 'required|xss_clean');
 		$this->form_validation->set_rules('contenido', 'Contenido', 'required');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 		$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
@@ -103,7 +119,7 @@ class Root extends CI_Controller {
 			/* Guardo en un array los valores de los campos a guardar */
 			$data = array(
 				'titulo' => $this->input->post ('titulo'),
-				'descripcion' => $this->input->post ('descripcion'),
+				'Descripcion' => $this->input->post ('Descripcion'),
 				'contenido' => $this->input->post ('contenido'),
 				'id_estados' => $this->input->post ('id_estados'),
 				);
@@ -154,7 +170,7 @@ class Root extends CI_Controller {
 	public function borrar()
 	{
 		/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Reglas basicas del id */
 		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 		/* guardo el dato en una variable */
@@ -176,8 +192,13 @@ class Root extends CI_Controller {
 	public function editar($id,$error_extra=null)
 	{
 		/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Titulo = nombre del modulo */
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		$data['titulo']=$variables['modulo'];
 		/* Consulto el detalle del registro */
 		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
@@ -191,7 +212,7 @@ class Root extends CI_Controller {
 	/* Funcion ordenar (aplica en el listado de registros a la hora de arrastrar y soltar) */
 	public function ordenar()
 	{ /* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Cargo orden de los registros */
 		$data = $this->input->post('data');
 		/* Divido por coma, los registros a ordenar */

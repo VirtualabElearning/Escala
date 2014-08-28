@@ -17,12 +17,12 @@ class Model_Aprendices extends CI_Model{
 
 
 
-		$this->db->join('roles', 'roles.id_roles = aprendices.id_roles');
-		$this->db->join('estados', 'aprendices.id_estados = estados.id_estados');
-		$this->db->join('tipo_planes', 'tipo_planes.id_tipo_planes = aprendices.id_tipo_planes');
+		$this->db->join('roles', 'roles.id_roles = usuarios.id_roles');
+		$this->db->join('estados', 'usuarios.id_estados = estados.id_estados');
+		$this->db->join('tipo_planes', 'tipo_planes.id_tipo_planes = usuarios.id_tipo_planes');
 		/* Si es necesario ordenarlo */
 		if ($order_by) {
-			$this->db->order_by('aprendices.orden');
+			$this->db->order_by('usuarios.orden');
 		}
 
 		/* Obtengo la informacion */

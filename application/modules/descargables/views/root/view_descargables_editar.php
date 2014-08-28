@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -45,7 +45,7 @@
                   <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                   <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
                   <?php echo input_text ("Nombre","nombre_descargable","nombre_descargable","Ingrese el nombre del archivo descargable",$detalle->nombre_descargable,form_error('nombre_descargable', '<div class="mensaje_error">', '</div>')); ?>
-                  <?php echo textarea ("Descripcion","descripcion_descargable","descripcion_descargable","Ingrese la decripcion del archivo descargable",$detalle->descripcion_descargable,form_error('descripcion_descargable', '<div class="mensaje_error">', '</div>')); ?>
+                  <?php echo textarea ("Descripci&oacute;n","descripcion_descargable","descripcion_descargable","Ingrese la descripci&oacute;n del archivo descargable",$detalle->descripcion_descargable,form_error('descripcion_descargable', '<div class="mensaje_error">', '</div>')); ?>
                   <div class="form-group">
                     <label class="col-lg-2 control-label">Archivo</label>
                     <div class="col-lg-5">
@@ -91,12 +91,12 @@
                   <?php if ($this->input->post('id')): ?>
                     <?=form_hidden('id',$this->input->post('id'))?>
                     <?=form_hidden('archivo_antes',$detalle->archivo)?>
-                    <?=form_hidden('id_cursos',$this->input->post('id_cursos'))?>
+                    <?=form_hidden('id_modulos',$this->input->post('id_modulos'))?>
                   <?php endif; ?>
 
                   <?php if ($this->uri->segment(4)): ?>
                     <?=form_hidden('id',$this->uri->segment(4))?>
-                    <?=form_hidden('id_cursos',$this->uri->segment(5))?>
+                    <?=form_hidden('id_modulos',$this->uri->segment(5))?>
                     <?=form_hidden('archivo_antes',$detalle->archivo)?>
                   <?php endif ?>
                   <?=form_close()?>

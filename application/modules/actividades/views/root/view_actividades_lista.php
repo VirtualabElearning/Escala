@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <!-- Title and other stuffs -->
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -31,10 +31,10 @@
       <div class="bread-crumb pull-right">
         <a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i> Inicio</a> 
         <!-- Divider -->
-         <span class="divider">/</span> 
-       <a href="cursos/root/lista/<?php echo $this->uri->segment(3); ?>" class="bread-current">Cursos</a>
         <span class="divider">/</span> 
-       <a href="modulos/root/lista/<?php echo $this->uri->segment(4); ?>" class="bread-current">Modulos</a>
+        <a href="cursos/root/lista/<?php echo $this->uri->segment(3); ?>" class="bread-current">Cursos</a>
+        <span class="divider">/</span> 
+        <a href="modulos/root/lista/<?php echo $this->uri->segment(4); ?>" class="bread-current">Modulos</a>
       </div>
 
       <div class="clearfix"></div>
@@ -47,26 +47,24 @@
         <div class="row">
           <div class="col-md-12">
 
+           <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
 
+           <div class="widget">
+            <div class="widget-head">
+              <div class="pull-left"><?php echo $titulo; ?></div>
+              <div class="widget-icons pull-right">
+                <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+              </div>  
+              <div class="clearfix"></div>
+            </div>
+            <div class="widget-content">
+              <div class="padd">
 
-            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
-
-            <div class="widget">
-              <div class="widget-head">
-                <div class="pull-left"><?php echo $titulo; ?></div>
-                <div class="widget-icons pull-right">
-                  <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-                  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                </div>  
-                <div class="clearfix"></div>
-              </div>
-              <div class="widget-content">
-                <div class="padd">
-
-                  <!-- Table Page -->
-                  <div class="page-tables">
-                    <!-- Table -->
-                    <div class="table-responsive">
+                <!-- Table Page -->
+                <div class="page-tables">
+                  <!-- Table -->
+                  <div class="table-responsive">
 
 
 
@@ -74,22 +72,28 @@
 
 
 
-                      <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
+                    <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
 
 
-                        <thead>
-                          <tr>
-                            <?php foreach ($titulos as $key => $value): ?>
-                              <th> <?php echo $value; ?> </th>
-                            <?php endforeach ?>
-                          </tr>
-                        </thead>
+                      <thead>
+                        <tr>
+                          <?php foreach ($titulos as $key => $value): ?>
+                            <th> <?php echo $value; ?> </th>
+                          <?php endforeach ?>
+                        </tr>
+                      </thead>
 
-                        <tbody> 
+                      <tbody> 
 
-                          <?php #krumo ($lista); ?>
+                        <?php #krumo ($lista); ?>
 
-                          <?php foreach ($lista as $key => $value): ?>
+                        <?php foreach ($lista as $key => $value): ?>
+
+                         <?php ## solo si es video y si es master o admin puede crear pregunta rapida y video, si es un instructor no! ?>
+                         <?php if ($value->id_tipo_actividades==1 ): ?> 
+                           <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
+
+                          
 
                             <tr id="<?php echo $value->id_actividades_barra; ?>">
                              <td><?php echo $value->orden; ?></td>
@@ -99,23 +103,45 @@
                              <td><?php echo $value->nombre_tipo_actividades; ?></td>
                              <td><?php echo $value->datos_actividad->nombre_actividad; ?></td>
                              <td><?php echo $value->datos_actividad->descripcion_actividad; ?></td>
+                              <td><?php echo $value->datos_actividad->nombre; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>/<?php echo $value->id_actividades_barra; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_actividades_barra; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
-                           </tr>
-
-                         <?php endforeach ?>         
-
-                       </tbody>
-                       <tfoot>
-                        <tr>
-                          <?php foreach ($titulos as $key => $value): ?>
-                            <th> <?php echo $value; ?> </th>
-                          <?php endforeach ?>
-                        </tr>
-                      </tfoot>
-                    </table>
+                             <td>  
+                              <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>/<?php echo $value->id_actividades_barra; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
+                              <a href="#" id="<?php echo $value->id_actividades_barra; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                            </tr>
 
 
+                          <?php endif; ?>
+                        <?php else: ?>
+
+
+                            <tr id="<?php echo $value->id_actividades_barra; ?>">
+                             <td><?php echo $value->orden; ?></td>
+                             <td><?php echo $value->id_actividades_barra; ?></td>
+                             <td><?php echo $value->nombre_categoria_curso; ?></td>
+                             <td><?php echo $value->nombre_curso ; ?></td>
+                             <td><?php echo $value->nombre_tipo_actividades; ?></td>
+                             <td><?php echo $value->datos_actividad->nombre_actividad; ?></td>
+                             <td><?php echo $value->datos_actividad->descripcion_actividad; ?></td>
+                              <td><?php echo $value->datos_actividad->nombre; ?></td>
+                             <td><?php echo $value->estado_nombre; ?></td>
+                             <td>  
+                              <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>/<?php echo $value->id_actividades_barra; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
+                              <a href="#" id="<?php echo $value->id_actividades_barra; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                            </tr>
+
+                        <?php endif; ?>
+                      <?php endforeach ?>         
+
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <?php foreach ($titulos as $key => $value): ?>
+                          <th> <?php echo $value; ?> </th>
+                        <?php endforeach ?>
+                      </tr>
+                    </tfoot>
+                  </table>
 
 
 
@@ -126,23 +152,25 @@
 
 
 
-                    
-                    <div class="clearfix"></div>
-                  </div>
+
+
+
+                  <div class="clearfix"></div>
                 </div>
               </div>
+            </div>
 
 
-            </div>
-            <div class="widget-foot">
-              <!-- Footer goes here -->
-            </div>
           </div>
-        </div>  
+          <div class="widget-foot">
+            <!-- Footer goes here -->
+          </div>
+        </div>
+      </div>  
 
-      </div>
     </div>
   </div>
+</div>
 </div>
 
 <!-- Matter ends -->

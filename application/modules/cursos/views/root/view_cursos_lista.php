@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <!-- Title and other stuffs -->
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -56,12 +56,11 @@
          </div>
        <?php endif ?>
        <div class="col-md-12">
-
-
-
-        <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
-
-        <div class="widget">
+         <?php ## si es admin o master ?>
+         <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
+           <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+         <?php endif; ?>
+         <div class="widget">
           <div class="widget-head">
             <div class="pull-left"><?php echo $titulo; ?></div>
             <div class="widget-icons pull-right">
@@ -108,29 +107,45 @@
                          <td><?php echo $value->id_cursos; ?></td>
                          <td><?php echo $value->nombre_categoria; ?></td>
                          <td><?php echo $value->titulo; ?></td>
-                         <td><?php echo $value->descripcion; ?></td>
+                         <td><?php echo $value->Descripcion; ?></td>
                          <td><?php echo $value->instructores_asignados_nombre; ?></td>
-
+                         <td><?php echo $value->tipo_plan; ?></td>
+                         <td><?php if ($value->destacar==1)  { echo "Si"; } else { echo "No"; } ?></td>
                          <td><?php echo $value->estado_nombre; ?></td>
-                         <td>  <a href="modulos/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-primary btn-xs"><i class="fa"></i> Modulos </a>  <a href="descargables/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-success btn-xs"><i class="fa"></i> Decargables </a>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
-                       </tr>
+                         <td>  
 
-                     <?php endforeach ?>         
-
-                   </tbody>
-                   <tfoot>
-                    <tr>
-                      <?php foreach ($titulos as $key => $value): ?>
-                        <th> <?php echo $value; ?> </th>
-                      <?php endforeach ?>
-                    </tr>
-                  </tfoot>
-                </table>
+                          <?php if (in_array($this->session->userdata('id_roles'), $if_modulos)) {  ?>
+                          <a href="modulos/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-primary btn-xs"><i class="fa"></i> <?php echo asignar_frase_diccionario ($diccionario,'{modulo}','Módulos',2) ?> </a> 
+                          <?php } ?>
 
 
 
 
 
+                          <?php if (in_array($this->session->userdata('id_roles'), $if_competencias)) {  ?>
+                          <a href="competencias/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-success btn-xs"><i class="fa"></i>Competencias</a> 
+                          <?php } ?>
+
+
+
+                          <?php ## si es admin o master ?>
+                          <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
+                            <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
+                            <a href="#" id="<?php echo $value->id_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                          <?php endif; ?>
+                        </tr>
+
+                      <?php endforeach ?>         
+
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <?php foreach ($titulos as $key => $value): ?>
+                          <th> <?php echo $value; ?> </th>
+                        <?php endforeach ?>
+                      </tr>
+                    </tfoot>
+                  </table>
 
 
 
@@ -138,22 +153,27 @@
 
 
 
-                
-                <div class="clearfix"></div>
+
+
+
+
+
+
+                  <div class="clearfix"></div>
+                </div>
               </div>
             </div>
+
+
           </div>
-
-
+          <div class="widget-foot">
+            <!-- Footer goes here -->
+          </div>
         </div>
-        <div class="widget-foot">
-          <!-- Footer goes here -->
-        </div>
-      </div>
-    </div>  
+      </div>  
 
+    </div>
   </div>
-</div>
 </div>
 </div>
 

@@ -4,7 +4,7 @@
   <base href="<?=base_url()?>" />   
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

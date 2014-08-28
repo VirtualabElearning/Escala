@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -44,7 +44,7 @@
                     <br />
                     <?php /* GENERO CAMPOS NECESARIOS PARA LA CREACION DEL FORMULARIO (consultar helpers/html_helper.php) */ ?>
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
-                    <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
+                    <?=form_open_multipart(base_url().$carpeta.'/root/guardar',$attributos)?>
                     <?php foreach ($roles as $key => $value) {$data_roles[$value->id_roles]=$value->nombre; } ?>
 
                     <?php echo select ("Rol","id_roles","id_roles",$data_roles,$this->input->post('id_roles')); ?>

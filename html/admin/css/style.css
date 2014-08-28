@@ -1932,7 +1932,7 @@ list-style: none;
 .btn.btn-xs.btn-default.deleter_google {
   position: absolute;
     right: -51px;
-    top: 3px;
+    top: 24px;
 }
 
 .chk-inputs:first-child{
@@ -1946,6 +1946,7 @@ list-style: none;
 
 .prepregunta{
 	margin-top: 20px;
+	clear: both;
 }
 
 .lista-custom{
@@ -1964,3 +1965,48 @@ float: left;
     margin-top: 5px;
     overflow: hidden;
 }
+
+.cloner_btn{
+	margin-left: 6px;
+    margin-top: 20px;
+}
+
+.pregunta_titlex{
+
+	margin-left: 59px;
+}
+
+
+.pregunta_titlex > input {
+ width: 384px;
+
+}
+
+
+.btn.btn-xs.btn-default.deleter {
+    margin-left: 12px;
+    margin-top: 7px;
+}
+
+
+.competencia_class{
+	 margin-top: 10px;
+}
+
+.google-opt{
+	  right: -50px;
+    position: absolute;
+    top: 23px;
+}
+
+.tab-content{
+border-left: 1px solid #ddd;
+border-right: 1px solid #ddd;
+border-bottom: 1px solid #ddd;
+margin-bottom: 40px !important;
+}
+
+#myTab{
+	margin-bottom: 0;
+}
+

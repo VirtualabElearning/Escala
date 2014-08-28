@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Adminsitrador</title>
+  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -65,9 +65,12 @@
                            <td><?php echo $value->orden; ?></td>
                            <td><?php echo $value->id_categoria_cursos; ?></td>
                            <td><?php echo $value->nombre; ?></td>
-                           <td><?php echo $value->descripcion; ?></td>
+                           <td><?php echo $value->Descripcion; ?></td>
                            <td><?php echo $value->estado_nombre; ?></td>
-                           <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_categoria_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_categoria_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                           <td> 
+                           <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_categoria_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
+                            <a href="#" id="<?php echo $value->id_categoria_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> 
+                             </td>
                          </tr>
                        <?php endforeach ?>         
                      </tbody>

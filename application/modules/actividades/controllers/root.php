@@ -12,8 +12,13 @@ class Root extends CI_Controller {
 		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
 		
 		/* Configuracion generica del modulo */
-		$this->variables=array('modulo'=>'actividades','id'=>'id_actividades','modelo'=>'model_actividades');
+		$this->variables=array('modulo'=>'actividades','id'=>'id_actividades','modelo'=>'model_actividades','llave'=>'{actividades}','carpeta'=>'actividades');
 		$this->load->model($this->variables['modelo']);
+
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  
+		if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
 	}
 
 	public function index()
@@ -30,13 +35,19 @@ class Root extends CI_Controller {
 		if (!$id_cursos)  { redirect( 'cursos/root'); }
 		if (!$id_modulos)  { redirect( 'modulos/root/lista/'.$id_cursos); }
 
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+
 		$data['titulo']="Generador de preguntas";
-		#$data['lista']=$this->{$variables['modelo']}->listado($id_cursos,$id_modulos);
+		$data['carpeta']=$variables['carpeta'];
+		
+		$tmp=$this->model_generico->listado('competencias',array('competencias.id_estados',1),array('competencias.orden','asc'));
+		$tmparr=array();
+		foreach ($tmp as $key => $value) {
+			$tmparr[$value->id_competencias]=$value->nombre;
+		}
 
-
-
-
+		$data['competencias']=$tmparr;
+		unset($tmparr);
 
 		$data['preguntas_actividades']=$this->{$variables['modelo']}->get_actividad_url($id_actividades_barra);
 		
@@ -60,9 +71,17 @@ class Root extends CI_Controller {
 
 		if (!$id_cursos)  { redirect( 'cursos/root'); }
 		if (!$id_modulos)  { redirect( 'modulos/root/lista/'.$id_cursos); }
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
 
-		$variables = $this->variables;
-		$data['titulo']=$variables['modulo'];
+
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],2);
+		$data['carpeta']=$variables['carpeta'];
 		$data['lista']=$this->{$variables['modelo']}->listado($id_cursos,$id_modulos);
 		$actividad_dato="";
 
@@ -73,18 +92,27 @@ class Root extends CI_Controller {
 			
 		}
 
-		$data['titulos']=array("Orden","ID","Categoria curso","Curso","Tipo actividad","Nombre actividad","Descripcion","Estado","Opciones");
+		$data['titulos']=array("Orden","ID","Categoria curso","Curso","Tipo actividad","Nombre actividad","Descripcion","Plan","Estado","Opciones");
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
 
 	/* funcion nuevo registro */
 	public function nuevo()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
 		$this->load->helper($variables['modulo'].'_core');
-		$data['titulo']=$variables['modulo'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],1);
+		$data['carpeta']=$variables['carpeta'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
 
+		}
 		$data['tipo_actividades_lista']=$this->{$variables['modelo']}->get_tipo_actividades();
+		$data['tipo_actividades_lista']=$this->{$variables['modelo']}->get_tipo_actividades();
+		$data['logros_lista']=$this->{$variables['modelo']}->get_logros();
+		$data['planes_lista']=$this->{$variables['modelo']}->get_planes();
 
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 	}
@@ -94,7 +122,8 @@ class Root extends CI_Controller {
 
 	public function guardar_respuestas () {
 
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		
 		$this->load->helper($variables['modulo'].'_core');
 		$parametros = $this->input->post('envio');
 
@@ -221,11 +250,6 @@ class Root extends CI_Controller {
 
 # inserto la actividad nueva (pregunta con sus posibles respuestas):
 
-
-
-
-
-
 			$nuevo_id_actividad=$this->{$variables['modelo']}->guardar ($nueva_actividad->tabla_actividad,$data_nuevo,'id_'.$nueva_actividad->tabla_actividad,'');
 
 
@@ -263,7 +287,7 @@ class Root extends CI_Controller {
 	public function guardar_preguntas_coonrespuestas () {
 
 
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$this->load->helper($variables['modulo'].'_core');
 		$this->load->model($variables['modelo']);
 		$parametros = $this->input->post('envio');
@@ -273,8 +297,6 @@ class Root extends CI_Controller {
 # evaluo cual es la correcta de las opciones
 		$opciones_respuesta=array();
 
-
-
 		foreach ($num_pregunta as $num_pregunta_key => $num_pregunta_value) {
 
 			$tmp_array=array();
@@ -282,7 +304,10 @@ class Root extends CI_Controller {
 
 			if ($pregunta[$num_pregunta_key] && $tipo_pregunta[$num_pregunta_key])  {
 				$opciones_respuesta[$num_pregunta_value]['pregunta']=$pregunta[$num_pregunta_key];
-				$opciones_respuesta[$num_pregunta_value]['tipo_pregunta']=$tipo_pregunta[$num_pregunta_key];		
+				$opciones_respuesta[$num_pregunta_value]['tipo_pregunta']=$tipo_pregunta[$num_pregunta_key];	
+				$opciones_respuesta[$num_pregunta_value]['id_competencias']=$id_competencias[$num_pregunta_key];
+
+
 			}
 
 			switch ( $tipo_pregunta[$num_pregunta_key] )  {
@@ -361,8 +386,6 @@ class Root extends CI_Controller {
 
 
 #print_r($data);
-
-
 #exit;
 
 		$id_actividad=$this->{$variables['modelo']}->guardar ($datos_actividad->tabla_actividad,$data,'id_'.$datos_actividad->tabla_actividad,array('id_'.$datos_actividad->tabla_actividad,$datos_actividad->{'id_'.$datos_actividad->tabla_actividad}));
@@ -382,12 +405,14 @@ class Root extends CI_Controller {
 	public function guardar()
 	{
 
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$id=$this->input->post ('id');
 		$this->load->helper($variables['modulo'].'_core');
 		/* Validacion de campos de formulario */
 		$this->form_validation->set_rules('nombre_actividad', 'Nombre actividad', 'required|xss_clean');
 		$this->form_validation->set_rules('descripcion_actividad', 'Descripcion actividad', 'required|xss_clean');
+		$this->form_validation->set_rules('id_logros', 'Logros', 'required|xss_clean');
+		$this->form_validation->set_rules('id_tipo_planes', 'Plan', 'required|xss_clean');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 
 
@@ -414,6 +439,8 @@ class Root extends CI_Controller {
 			$data = array(
 				'nombre_actividad' => $this->input->post ('nombre_actividad'),
 				'descripcion_actividad' => $this->input->post ('descripcion_actividad'),
+				'id_logros' => $this->input->post ('id_logros'),
+				'id_tipo_planes' => $this->input->post ('id_tipo_planes'),
 				'id_estados' => $this->input->post ('id_estados'),
 				);
 
@@ -464,6 +491,8 @@ class Root extends CI_Controller {
 				$data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario'); 
 
 
+
+
 				$id_acti=$this->model_generico->guardar($tipo_actividades_detalle->tabla_actividad,$data,'id_'.$tipo_actividades_detalle->tabla_actividad,array('id_'.$tipo_actividades_detalle->tabla_actividad,''));
 
 
@@ -487,6 +516,18 @@ class Root extends CI_Controller {
 
 
 
+				## si es campo de texto...
+				if ($this->input->post('tipo_pregunta')==4)  {
+					$data['variables_pregunta']="";
+				}
+
+
+#krumo ($data); 
+#echo $tipo_actividades_detalle->tabla_actividad;
+#exit;
+
+
+
 				$id_acti=$this->model_generico->guardar($tipo_actividades_detalle->tabla_actividad,$data,'id_'.$tipo_actividades_detalle->tabla_actividad,array('id_'.$tipo_actividades_detalle->tabla_actividad,$this->input->post('id_actividades')));
 
 			}
@@ -499,6 +540,8 @@ class Root extends CI_Controller {
 			$data['id_actividades_barra']=$this->input->post('id');
 			unset($data['nombre_actividad']);
 			unset($data['descripcion_actividad']);
+			unset($data['id_logros']);
+			unset($data['id_tipo_planes']);
 			$data=eliminar_campos_actividad($this->input->post ('id_tipo_actividades'),$data);
 
 			#krumo ($data);
@@ -548,7 +591,7 @@ class Root extends CI_Controller {
 	/* Funcion borrar registro */
 	public function borrar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 		$id=$this->input->post('id');
 		$this->load->helper($variables['modulo'].'_core');
@@ -595,21 +638,26 @@ class Root extends CI_Controller {
 	/*Funcion editar regitro  */
 	public function editar($id_cursos=null,$id_modulos=null,$id=null,$error_extra=null)
 	{
-
-
-
 		if (!$id_cursos) { $id_cursos=$this->input->post('id_cursos'); }
 		if (!$id_modulos) { $id_cursos=$this->input->post('id_modulos'); }
 		if (!$id) { $id_cursos=$this->input->post('id'); }
 
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
 
+		}
 
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
 		$this->load->helper($variables['modulo'].'_core');
-		$data['titulo']=$variables['modulo'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],1);
+		$data['carpeta']=$variables['carpeta'];
 		$data['detalle']=$this->{$variables['modelo']}->detalle_editar($id);
 		$data['tipo_actividades_lista']=$this->{$variables['modelo']}->get_tipo_actividades();
 		$data['error_extra']=$error_extra;
+		$data['logros_lista']=$this->{$variables['modelo']}->get_logros();
+		$data['planes_lista']=$this->{$variables['modelo']}->get_planes();
 		$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
 	}
 
@@ -619,10 +667,10 @@ class Root extends CI_Controller {
 	public function consultar_posibles_respuestas()
 	{
 
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$this->load->helper($variables['modulo'].'_core');
-		$data['titulo']=$variables['modulo'];
-
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],1);
+		$data['carpeta']=$variables['carpeta'];
 		$post=$this->input->post('data');
 
 
@@ -649,7 +697,7 @@ class Root extends CI_Controller {
 	/* Funcion ordenar (funciona solo en listado de registros, con arrastras y soltar la fila de la tabla) */
 	public function ordenar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data = $this->input->post('data');
 		$dataarray=explode (",",$data);
 

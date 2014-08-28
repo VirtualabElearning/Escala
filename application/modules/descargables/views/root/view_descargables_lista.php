@@ -4,11 +4,13 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
 <body>
+
+
 
   <?php $this->load->view('view_root_header'); ?> 
   <div class="content">
@@ -19,7 +21,7 @@
       <div class="bread-crumb pull-right">
        <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
        <span class="divider">/</span> 
-       <a href="cursos/root">Cursos</a> 
+       <a href="modulos/root">Cursos</a> 
        <span class="divider">/</span> 
        <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
      </div>

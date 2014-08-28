@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <!-- Title and other stuffs -->
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -85,17 +85,18 @@
 
                           <?php foreach ($lista as $key => $value): ?>
 
-                            <tr id="<?php echo $value->id_instructores; ?>">
+                            <tr id="<?php echo $value->id_usuarios; ?>">
                              <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_instructores; ?></td>
+                             <td><?php echo $value->id_usuarios; ?></td>
                              <td><?php echo $value->nombre; ?></td>
-                             <td><img class="foto_img" src="<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>" alt="img"/></td>
+                             <td><img class="foto_img" src="escalar.php?src=<?php echo base_url().'uploads/'.$carpeta.'/'.$value->foto; ?>&w=126&h=126&zc=1" alt="img"/></td>
                              <td><?php echo $value->nombres; ?></td>
                              <td><?php echo $value->apellidos; ?></td>
                              <td><?php echo $value->identificacion; ?></td>
+                             <td><?php echo $value->profesion; ?></td>
                              <td><?php echo $value->correo; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_instructores; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_instructores; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_usuarios; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_usuarios; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>
 
                          <?php endforeach ?>         

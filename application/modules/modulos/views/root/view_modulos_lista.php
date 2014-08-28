@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Adminsitrador</title>
+  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -69,30 +69,40 @@
                        <td><?php echo $value->introduccion_modulo; ?></td>
                        <td><?php echo $value->nombre; ?></td>
                        <td><?php echo $value->estado_nombre; ?></td>
-                       <td> <a href="actividades/root/lista/<?php if ($this->uri->segment(4)) { echo $this->uri->segment(4); } else { echo $this->input->post('id_cursos');  } ?>/<?php echo $value->id_modulos; ?>" class="btn btn-success btn-xs"><i class="fa"></i> Actividades </a>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_modulos; ?>/<?php if ($this->uri->segment(4)) { echo $this->uri->segment(4); } else { echo $this->input->post('id_cursos');  } ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_modulos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
-                     </tr>
-                   <?php endforeach ?>         
-                 </tbody>
-                 <tfoot>
-                  <tr>
-                    <?php foreach ($titulos as $key => $value): ?>
-                      <th> <?php echo $value; ?> </th>
-                    <?php endforeach ?>
-                  </tr>
-                </tfoot>
-              </table>
+                       <td>
+                        <?php if (in_array($this->session->userdata('id_roles'), $if_actividades)) {  ?>
+                        <a href="actividades/root/lista/<?php if ($this->uri->segment(4)) { echo $this->uri->segment(4); } else { echo $this->input->post('id_cursos');  } ?>/<?php echo $value->id_modulos; ?>" class="btn btn-success btn-xs"><i class="fa"></i> <?php echo asignar_frase_diccionario ($diccionario,"{actividades}","Actividades",2); ?> </a>  
+                        <?php } ?>
 
-              <div class="clearfix"></div>
+                        <?php if (in_array($this->session->userdata('id_roles'), $if_descargables)) {  ?>
+                          <a href="descargables/root/lista/<?php echo $value->id_modulos; ?>" class="btn btn-primary btn-xs"><i class="fa"></i> Decargables </a> 
+                          <?php } ?>
+
+                          
+                        <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_modulos; ?>/<?php if ($this->uri->segment(4)) { echo $this->uri->segment(4); } else { echo $this->input->post('id_cursos');  } ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_modulos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                      </tr>
+                    <?php endforeach ?>         
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <?php foreach ($titulos as $key => $value): ?>
+                        <th> <?php echo $value; ?> </th>
+                      <?php endforeach ?>
+                    </tr>
+                  </tfoot>
+                </table>
+
+                <div class="clearfix"></div>
+              </div>
             </div>
           </div>
-        </div>
 
+        </div>
+        <div class="widget-foot">
+        </div>
       </div>
-      <div class="widget-foot">
-      </div>
-    </div>
-  </div>  
-</div>
+    </div>  
+  </div>
 </div>
 </div>
 </div>
@@ -109,11 +119,11 @@
 
   <input type="hidden" name="id" id="id" value="<?php echo $this->input->post('id') ?>">
 
-<?php if ($this->uri->segment(4)): ?>
+  <?php if ($this->uri->segment(4)): ?>
     <input type="hidden" name="id_cursos" id="id_cursos" value="<?php echo $this->uri->segment(4); ?>">
-<?php else: ?>
-  <input type="hidden" name="id_cursos" id="id_cursos" value="<?php echo $this->input->post('id_cursos'); ?>">
-<?php endif ?>
+  <?php else: ?>
+    <input type="hidden" name="id_cursos" id="id_cursos" value="<?php echo $this->input->post('id_cursos'); ?>">
+  <?php endif ?>
 
 
 

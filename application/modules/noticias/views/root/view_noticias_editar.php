@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
 
-  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -46,7 +46,7 @@
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                     <?=form_open_multipart(base_url().'noticias/root/guardar',$attributos)?>
                     <?php echo input_text ("Titulo","titulo","titulo","Ingrese el titulo de la noticia",$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>') ); ?>
-                    <?php echo textarea ("Descripcion","descripcion","descripcion","Ingrese la descripcion de la noticia",$detalle->descripcion,form_error('descripcion', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo textarea ("Descripción","Descripcion","Descripcion","Ingrese la Descripcion de la noticia",$detalle->Descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">

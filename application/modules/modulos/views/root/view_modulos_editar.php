@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> (Editar registro)  - Adminsitrador</title>
+  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> (Editar registro)  - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -41,8 +41,8 @@
                     <br />
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-                    <?php echo input_text ("Nombre","nombre_modulo","nombre_modulo","Ingrese el titulo del modulo",$detalle->nombre_modulo,form_error('nombre_modulo', '<div class="mensaje_error">', '</div>')); ?>
-                    <?php echo textarea ("Introduccion","introduccion_modulo","introduccion_modulo","Ingrese la introduccion del modulo",$detalle->introduccion_modulo,form_error('introduccion_modulo', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo input_text ("Nombre","nombre_modulo","nombre_modulo","Ingrese el nombre",$detalle->nombre_modulo,form_error('nombre_modulo', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo textarea ("Introducción","introduccion_modulo","introduccion_modulo","Ingrese la introducción",$detalle->introduccion_modulo,form_error('introduccion_modulo', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo editor ("Contenido","contenido_modulo","contenido_modulo",$detalle->contenido_modulo,form_error('contenido_modulo', '<div class="mensaje_error">', '</div>')) ?>
                     <?php 
                     foreach ($tipo_planes as $key => $value_tipo_planes) {

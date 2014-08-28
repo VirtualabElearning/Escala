@@ -14,6 +14,8 @@ class Model_Usuarios extends CI_Model{
 		if ($where) {
 			$this->db->where($where[0],$where[1]);
 		}
+		$id_roleszx = array('1', '4');
+		$this->db->where_in('usuarios.id_roles', $id_roleszx);
 		$this->db->join('roles', 'roles.id_roles = usuarios.id_roles');
 		$this->db->join('estados', 'usuarios.id_estados = estados.id_estados');
 		if ($order_by) {

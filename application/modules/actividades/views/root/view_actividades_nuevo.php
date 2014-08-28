@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <!-- Title and other stuffs -->
-  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -62,9 +62,27 @@
 
 
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
-                    <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-                    <?php echo input_text ("Nombre actividad","nombre_actividad","nombre_actividad","Ingrese el nombre de la actividad",$this->input->post('nombre_actividad'),form_error('nombre_actividad', '<div class="mensaje_error">', '</div>')); ?>
-                    <?php echo textarea ("Descripcion actividad","descripcion_actividad","descripcion_actividad","Ingrese la decripcion de la actividad",$this->input->post('descripcion_actividad'),form_error('descripcion_actividad', '<div class="mensaje_error">', '</div>')); ?>
+                    <?=form_open_multipart(base_url().$carpeta.'/root/guardar',$attributos)?>
+                    <?php echo input_text ("Nombre ".asignar_frase_diccionario ($diccionario,'{actividades}','Actividad',1),"nombre_actividad","nombre_actividad","Ingrese el nombre",$this->input->post('nombre_actividad'),form_error('nombre_actividad', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo textarea ("Descripción ".asignar_frase_diccionario ($diccionario,'{actividades}','Actividad',1),"descripcion_actividad","descripcion_actividad","Ingrese la descripción",$this->input->post('Descripcion_actividad'),form_error('Descripcion_actividad', '<div class="mensaje_error">', '</div>')); ?>
+
+                    <?php 
+                    $opciones=array("0"=>"Ninguno");
+                    foreach ($logros_lista as $key => $value) {
+                      $opciones[$value->id_logros]=$value->nombre;
+                    }
+                    echo select ("Logro","id_logros","id_logros",$opciones,$this->input->post('id_logros')); 
+                    ?>
+
+
+
+                    <?php  $opciones=array();
+                    foreach ($planes_lista as $key => $value) {
+                      $opciones[$value->id_tipo_planes]=$value->nombre;
+                    }
+                    echo select ("Plan","id_tipo_planes","id_tipo_planes",$opciones,$this->input->post('id_tipo_planes')); 
+                    ?>
+
                     <?php #krumo ($tipo_actividades_lista); ?>
                     <?php #krumo ($detalle); ?>
 
@@ -74,16 +92,26 @@
 
                        <ul id="myTab" class="nav nav-tabs">
                         <?php foreach ($tipo_actividades_lista as $key => $actividades_value): ?>
-                         <li <?php if ($key==0): ?>  class="active" <?php endif; ?>><a class="tipo_actividades" id="<?php echo $actividades_value->id_tipo_actividades; ?>" href="#<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>" data-toggle="tab"><?php echo ($actividades_value->nombre_tipo_actividades); ?></a></li>
+                          <?php if ($actividades_value->id_tipo_actividades==1 ): ?> 
+                            <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
+                             <li <?php if ($key==0): ?>  class="active" <?php endif; ?>><a class="tipo_actividades" id="<?php echo $actividades_value->id_tipo_actividades; ?>" href="#<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>" data-toggle="tab"><?php echo ($actividades_value->nombre_tipo_actividades); ?></a></li>
+                           <?php endif ?>
+                         <?php else: ?>
+                           <li <?php if ($key==0): ?>  class="active" <?php endif; ?>><a class="tipo_actividades" id="<?php echo $actividades_value->id_tipo_actividades; ?>" href="#<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>" data-toggle="tab"><?php echo ($actividades_value->nombre_tipo_actividades); ?></a></li>
+                         <?php endif ?>
                        <?php endforeach ?>
                      </ul>
 
                      <div id="myTabContent" class="tab-content">
                        <?php foreach ($tipo_actividades_lista as $key => $actividades_value): ?>
                          <div class="tab-pane fade in <?php if ($key==0): ?> active <?php endif; ?> " id="<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>">
-
-                          <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,@$detalle->id_actividades,@$detalle->tabla_actividad,@$detalle->datos_actividad,@$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6)); ?>
-
+                           <?php if ($actividades_value->id_tipo_actividades==1 ): ?> 
+                             <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
+                              <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,@$detalle->id_actividades,@$detalle->tabla_actividad,@$detalle->datos_actividad,@$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6)); ?>
+                            <?php endif ?>
+                          <?php else: ?>
+                            <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,@$detalle->id_actividades,@$detalle->tabla_actividad,@$detalle->datos_actividad,@$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6)); ?>
+                          <?php endif ?>
                         </div>
                       <?php endforeach ?>
                     </div>
@@ -173,9 +201,9 @@
        return false;
      }
 
-     if ( $('#descripcion_actividad').val()=='' ) {
+     if ( $('#Descripcion_actividad').val()=='' ) {
        $("#add_preguntas_click").unbind('click');
-       alert ("Por favor, escriba la descripcion de la actividad!");
+       alert ("Por favor, escriba la Descripcion de la actividad!");
        return false;
      }
 
@@ -183,12 +211,12 @@
 
 
 
-$('form').append('<input type="hidden" name="redirecter_pretty" value="ok" />');
+     $('form').append('<input type="hidden" name="redirecter_pretty" value="ok" />');
 
-$('.btnguardar').click();
+     $('.btnguardar').click();
 
 
-    
+
 
    });
 
@@ -205,7 +233,7 @@ $('.btnguardar').click();
      event.preventDefault();
 
      //$("input[name='id_tipo_actividades']").val($(this).val());
-     if ($(this).val()==3)  {
+     if ($(this).val()==4)  {
       $('#add_respuestas').hide();
     }
     else {
@@ -221,7 +249,7 @@ $('.btnguardar').click();
      $('#nombre_pregunta').val( $('#pregunta').val() );
      $('#tipo_pregunta_opc').val( $('#tipo_pregunta').val() );
      $('#nom_activ').val( $('#nombre_actividad').val() );
-     $('#desc_acti').val( $('#descripcion_actividad').val() );
+     $('#desc_acti').val( $('#Descripcion_actividad').val() );
      $('#id_tipo_actividades_var').val( $( "input[name='id_tipo_actividades']").val());
      $('#id_actividades_var').val( $( "input[name='id_actividades']").val());
      $('#id_cursos_var').val( $( "input[name='id_cursos']" ).val());
@@ -264,10 +292,11 @@ if ( $('#rta'+parseInt(Number(i+1))).length>0 )  {
 }
 // si no, clono e ingreso valores
 else {
+
   $("#id_actual").val(id_actual);
-  $("#rta1").clone().appendTo(".rta_lista");
+  $("#rta0").clone().appendTo(".rta_lista");
   $(".respuestas_lista").last().attr("id","rta"+id_actual);
-  $("#rta"+id_actual).append(' <div class="col-lg-1 "><a class="btn btn-xs btn-default deleter" href="#"><i class="fa fa-times"></i></a></div>');
+  //$("#rta"+id_actual).append(' <div class="col-lg-1 "><a class="btn btn-xs btn-default deleter" href="#"><i class="fa fa-times"></i></a></div>');
   $('#rta'+id_actual+' > div >input').val(item.posible_respuesta);
   $('#rta'+id_actual+' > div').next().children().val(item.retroalimentacion);
 }
@@ -315,20 +344,44 @@ ajaxStop:function(result){
 
 }
 
+
+if ( $('#tipo_pregunta').val()==2 )  {
+  $('.opciones_correctas').each(function(index, el) {
+    $(this).attr('type','radio');
+  });
+
+}
+
+
+if ( $('#tipo_pregunta').val()==1 )  {
+  $('.opciones_correctas').each(function(index, el) {
+    $(this).attr('type','checkbox');
+  });
+
+}
+
+
+
+
 });
 
 $('.clone').click(function(event) {
 
  event.preventDefault();
-
+ $("#id_actual").val( $('.respuestas_lista').length );
  var id_actual=$("#id_actual").val();
  var id_actual_num=parseInt(id_actual);
  id_actual_num++;
  $("#id_actual").val(id_actual_num);
- $("#rta1").clone().appendTo(".rta_lista");
- $(".respuestas_lista").last().attr("id","rta"+id_actual_num);
+ $("#rta0").clone().appendTo(".rta_lista");
+ $(".rta_lista > div").last().attr("id","rta"+id_actual_num);
+ $(".rta_lista > div").last().show();
+ $(".rta_lista > div").last().addClass('respuestas_lista');
 
- $("#rta"+id_actual_num).append(' <div class="col-lg-1 "><a class="btn btn-xs btn-default deleter" href="#"><i class="fa fa-times"></i></a></div>');
+
+
+ $('#rta'+id_actual_num+' > div >input').attr('placeholder','Opcion '+Number(id_actual_num));
+ $('#rta'+id_actual_num+' > div').next().children().attr('placeholder','Retroalimentacion '+Number(id_actual_num));
 
 });
 
@@ -415,11 +468,11 @@ $('.guardar_respuestas').click(function(event) {
 
             <div class="respuestas_lista" id="rta1" class="col-lg-11">
               <div class="col-lg-5">
-                <input type="text" placeholder="Respuesta" name="respuesta[]" class="form-control">
+                <input type="text" placeholder="Opcion 1" name="respuesta[]" class="form-control">
               </div>
 
               <div class="col-lg-5">
-                <input type="text" placeholder="Retroalimentacion" name="retroalimentacion[]" class="form-control">
+                <input type="text" placeholder="Retroalimentacion 1" name="retroalimentacion[]" class="form-control">
               </div>
 
               <div class="col-lg-1 correctc">
@@ -464,5 +517,30 @@ $('.guardar_respuestas').click(function(event) {
   </div>
 </div>
 </div>
+
+
+
+
+
+
+
+<div id="rta0" class="" style="display:none;">
+  <div class="col-lg-5">
+    <input type="text" placeholder="Opcion " name="respuesta[]" class="form-control respuestaclass">
+  </div>
+  <div class="col-lg-5">
+    <input type="text" placeholder="Retroalimentacion" name="retroalimentacion[]" class="retroclass form-control">
+  </div>
+  <div class="col-lg-1 correctc">
+    <label class="checkbox-inline">
+      <input type="checkbox" class="opciones_correctas" name="correcta[]" id="inlineCheckbox1"> Correcta?
+    </label>
+  </div>  
+  <div class="col-lg-1 "><a class="btn btn-xs btn-default deleter" href="#"><i class="fa fa-times"></i></a></div>
+</div>
+
+
+
+
 </body>
 </html>

@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Adminsitrador</title>
+	<title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Administrador</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -45,7 +45,7 @@
 										<?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
 										<?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
 										<?php echo input_text ("Nombre","nombre_descargable","nombre_descargable","Ingrese el nombre del archivo descargable",$this->input->post('nombre_descargable'),form_error('nombre_descargable', '<div class="mensaje_error">', '</div>')); ?>
-										<?php echo textarea ("Descripcion","descripcion_descargable","descripcion_descargable","Ingrese la descripcion del archivo descargable",$this->input->post('descripcion_descargable'),form_error('descripcion_descargable', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo textarea ("Descripci&oacute;n","descripcion_descargable","descripcion_descargable","Ingrese la Descripci&oacute;n del archivo descargable",$this->input->post('descripcion_descargable'),form_error('descripcion_descargable', '<div class="mensaje_error">', '</div>')); ?>
 										<div class="form-group">
 											<label class="col-lg-2 control-label">Archivo</label>
 											<div class="col-lg-5">
@@ -79,7 +79,17 @@
 												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
 											</div>
 										</div>
-										<?=form_hidden('id_cursos',$this->uri->segment(4))?>
+										<?php if ($this->uri->segment(4)): ?>
+											<?=form_hidden('id_modulos',$this->uri->segment(4))?>
+										<?php endif ?>
+										
+
+										<?php if ($this->input->post('id_modulos')): ?>
+											<?=form_hidden('id_modulos',$this->input->post('id_modulos'))?>
+										<?php endif ?>
+										
+
+
 										<?=form_close()?>
 									</div>
 								</div>

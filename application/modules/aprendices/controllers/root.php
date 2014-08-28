@@ -13,8 +13,12 @@ class Root extends CI_Controller {
 		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
 		
 		/* configuracion generica del modulo programado */
-		$this->variables=array('modulo'=>'aprendices','id'=>'id_aprendices','modelo'=>'model_aprendices');
+		$this->variables=array('modulo'=>'aprendices','id'=>'id_aprendices','modelo'=>'model_aprendices','carpeta'=>'aprendices');
 
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  
+		if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
+		
 		/* Cargo el modelo de forma dinamica */
 		$this->load->model($this->variables['modelo']);
 
@@ -40,12 +44,20 @@ class Root extends CI_Controller {
 	public function lista()
 	{
 		/* Muestro el listado de informacion partiendo de la tabla que pertenece este modulo */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
 
-		$data['titulo']=$variables['modulo'];
+		#$data['titulo']=$variables['modulo'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],"{estudiante}",$variables['modulo'],2);
+		$data['carpeta']=$variables['carpeta'];
+
 		/* Consulto la tabla de este modulo, con el parametro del nombre del modulo=tabla y si lleva orden. */
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
 
-		$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],'',array('orden','asc'));
+		}
+		$data['lista']=$this->{$variables['modelo']}->listado('usuarios',array('usuarios.id_roles',3),array('orden','asc'));
 
 		/* Cargo los campos que necesito en el listado ( Solo las etiquetas header ) */
 		$data['titulos']=array("Orden","ID","Rol","Foto","Nombres","Apellidos","Identificacion","Correo","Tipo plan","Estado","Opciones");
@@ -57,7 +69,7 @@ class Root extends CI_Controller {
 // funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
 	public function check_foto()
 	{
-		if ($_FILES['userfile']['tmp_name'])  {
+		if ($_FILES['userfile']['name'])  {
 			if ($this->upload->do_upload('userfile'))
 			{
 				$upload_data    = $this->upload->data();
@@ -78,9 +90,15 @@ class Root extends CI_Controller {
 	/* FUNCION NUEVO PARA INGRESARLE VALORES Y LUEGO GUARDARLO EN LA TABLA */
 	public function nuevo()
 	{  /* Cargo variables globales de configuracion del modulo */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Titulo = nombre del modulo */
-		$data['titulo']=$variables['modulo'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],"{estudiante}",$variables['modulo'],1);
+		$data['carpeta']=$variables['carpeta'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		/*  Cargo vista de ingresar un nuevo dato */
 		$data['roles']=$this->{$variables['modelo']}->get_roles('aprendices');
 		$data['tipo_planes']=$this->model_generico->listado('tipo_planes','',array('orden','asc'));
@@ -91,7 +109,7 @@ class Root extends CI_Controller {
 	public function guardar()
 	{
 		/* Cargo variables globales de configuracion del modulo */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 
 		/* Asigno variable id */
 		$id=$this->input->post ('id');
@@ -144,9 +162,10 @@ class Root extends CI_Controller {
 
 			}
 			/* si es actualizar, envia la fecha de actualizacion, de lo contrario envia fecha de creacion y actualizacion */
-			if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
+			if ($id) { $data['id_usuarios']=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
 			
+
 
 			/* Si existe algun error, continua el programa */
 			if ($_FILES['userfile']['tmp_name'])  {
@@ -165,91 +184,102 @@ class Root extends CI_Controller {
 			}
 
 			else {
+
 				/* si existia una foto antes, que la borre de la carpeta asignada */
-				if ($this->input->post ('foto_antes'))  {
-					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+				if ($this->input->post('image'))  { }   // si existe el post, no hace nada
+					else {
+						if ($this->input->post ('foto_antes'))  {
+							@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+						}
+						$data['foto'] = "";	
+					}
+
 				}
-				$data['foto'] = "";
+
+
+
+
+
+				/* Guardo la informacion a la base de datos retornando el id y redireccionando a la vista. */
+				$id=$this->model_generico->guardar('usuarios',$data,'id_usuarios',array('id_usuarios',$id));
+
+				/* Si tiene un redireccionamiento de donde venia */
+				if ( $this->input->post('redirect')  )  {
+					redirect(base64_decode($this->input->post('redirect')));
+				}
+
+				/* por defecto retornar a la vista de listado*/
+				else {
+					$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';
+					redirect($accion_url);
+				}
+
 			}
 
+		}
+
+		/* FUNCION DE BORRAR UN DATO */
+		public function borrar()
+		{
+			/* Cargo variables globales */
+			$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+			/* Validacion basica del id */
+			$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
+			/*Asigno valor a variable*/
+			$id=$this->input->post('id');
+
+			/* Consulto el detalle de la informacion basado en un id a una tabla asignada al modulo */
+			$detalle=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$id));
+			@unlink('uploads/'.$variables['modulo'].'/'.$detalle->foto);
+
+			/* borro el dato de la tabla asignada */
+			$this->model_generico->borrar('usuarios',array('id_usuarios'=>$this->input->post ('id')));
+			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
+			/* Redirecciono al listado */
+			redirect($accion_url);
+		}
 
 
+		/* FUNCION EDITAR ALGUN DATO DE INFORMACION */
 
+		public function editar($id,$error_extra=null,$redirect=null)
+		{
+			$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+			$data['titulo']=asignar_frase_diccionario ($data['diccionario'],"{estudiante}",$variables['modulo'],1);
+			$data['carpeta']=$variables['carpeta'];
+			$data['menus']=$this->model_generico->menus_root_categorias();
+			foreach ($data['menus'] as $key => $value) {
+				$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
 
-			/* Guardo la informacion a la base de datos retornando el id y redireccionando a la vista. */
-			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
-
-			/* Si tiene un redireccionamiento de donde venia */
-			if ( $this->input->post('redirect')  )  {
-				redirect(base64_decode($this->input->post('redirect')));
 			}
+			/* cargo informacion para editar */
+			$data['detalle']=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$id));
+			/* Obtengo los roles de usuario comunes */
+			$data['roles']=$this->{$variables['modelo']}->get_roles('aprendices');
+			$data['tipo_planes']=$this->model_generico->listado('tipo_planes','',array('orden','asc'));
+			/* si existe un mensaje de error extra, lo lleva guardado para mostrarlo despues */
+			$data['error_extra']=$error_extra;
+			$data['redirect']=$redirect;
+			/* cargo la vista editar junto con la informacion buscada en la tabla con un id*/
+			$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
 
-			/* por defecto retornar a la vista de listado*/
-			else {
-				$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';
-				redirect($accion_url);
+		}
+
+
+		/* FUNCION ORDENAR SEGUN EL LISTADO DE INFORMACION QUE EXISTA (ORDENA CON ARRASTRAR Y SOLTAR EN LA FILA DE LA TABLA EN EL LISTADO) */
+		public function ordenar()
+		{
+			/* Cargo variables globales */
+			$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+			/* Cargo orden de elementos recibidos por ajax */
+			$data = $this->input->post('data');
+			/* Divido los valores por coma y lo convierto en array */
+			$dataarray=explode (",",$data);
+			/* Realizo ciclo para guardar nuevo orden de la informacion */
+			foreach ($dataarray as $key => $value) {
+				$this->model_generico->ordenar('usuarios',array("orden"=>$key+1),array('id_usuarios',$value));
 			}
 
 		}
 
 	}
-
-	/* FUNCION DE BORRAR UN DATO */
-	public function borrar()
-	{
-		/* Cargo variables globales */
-		$variables = $this->variables;
-		/* Validacion basica del id */
-		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
-		/*Asigno valor a variable*/
-		$id=$this->input->post('id');
-
-		/* Consulto el detalle de la informacion basado en un id a una tabla asignada al modulo */
-		$detalle=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
-		@unlink('uploads/'.$variables['modulo'].'/'.$detalle->foto);
-
-		/* borro el dato de la tabla asignada */
-		$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
-		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
-		/* Redirecciono al listado */
-		redirect($accion_url);
-	}
-
-
-	/* FUNCION EDITAR ALGUN DATO DE INFORMACION */
-
-	public function editar($id,$error_extra=null,$redirect=null)
-	{
-		$variables = $this->variables;
-		$data['titulo']=$variables['modulo'];
-		/* cargo informacion para editar */
-		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
-		/* Obtengo los roles de usuario comunes */
-		$data['roles']=$this->{$variables['modelo']}->get_roles('aprendices');
-		$data['tipo_planes']=$this->model_generico->listado('tipo_planes','',array('orden','asc'));
-		/* si existe un mensaje de error extra, lo lleva guardado para mostrarlo despues */
-		$data['error_extra']=$error_extra;
-		$data['redirect']=$redirect;
-		/* cargo la vista editar junto con la informacion buscada en la tabla con un id*/
-		$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
-
-	}
-
-
-	/* FUNCION ORDENAR SEGUN EL LISTADO DE INFORMACION QUE EXISTA (ORDENA CON ARRASTRAR Y SOLTAR EN LA FILA DE LA TABLA EN EL LISTADO) */
-	public function ordenar()
-	{
-		/* Cargo variables globales */
-		$variables = $this->variables;
-		/* Cargo orden de elementos recibidos por ajax */
-		$data = $this->input->post('data');
-		/* Divido los valores por coma y lo convierto en array */
-		$dataarray=explode (",",$data);
-		/* Realizo ciclo para guardar nuevo orden de la informacion */
-		foreach ($dataarray as $key => $value) {
-			$this->model_generico->ordenar($variables['modulo'],array("orden"=>$key+1),array($variables['id'],$value));
-		}
-
-	}
-
-}

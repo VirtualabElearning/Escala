@@ -3,10 +3,10 @@
 class Root extends CI_Controller {
 
 	/*
-	 Archivo de login para los adminsitradores del sistema
+	 Archivo de login para los Administradores del sistema
 	 Donde se ejecuta la accion de recibir la informacion como
 	 correo y contraseña, valida con la base de datos y luego redirecciona a la 
-	 pantalla de inicio del adminsitrador.
+	 pantalla de inicio del Administrador.
 	 */
 
 	 public function __construct()
@@ -233,6 +233,14 @@ public function perfil($id_usuarios)
 {
 
 	$this->load->model('model_login');
+
+
+	$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
+	
 	$data['perfil'] = $this->model_login->detalle('usuarios',array('id_usuarios',$id_usuarios));
 	$data['titulo']="perfil";
 	$this->load->view('root/view_perfil',$data );

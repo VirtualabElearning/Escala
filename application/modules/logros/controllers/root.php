@@ -19,6 +19,11 @@ class Root extends CI_Controller {
 		$this->variables=array('modulo'=>'logros','id'=>'id_logros','modelo'=>'model_logros');
 
 
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);
+		if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
+		
+
 		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
 		$config['allowed_types'] =   "gif|jpg|jpeg|png";
 		$config['max_size']      =   "5000";
@@ -27,6 +32,7 @@ class Root extends CI_Controller {
 		$config['remove_spaces']  = TRUE;
 		$config['encrypt_name']  = TRUE;
 		$this->load->library('upload',$config);
+
 
 
 	}
@@ -40,8 +46,13 @@ class Root extends CI_Controller {
 
 	public function lista()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
 		$data['titulos']=array("Orden","ID","Nombre logro","Foto","Descripcion","Estado","Opciones");
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
@@ -72,8 +83,13 @@ class Root extends CI_Controller {
 
 	public function nuevo()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		$data['lista']=$this->model_generico->listado($variables['modulo']);
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 	}
@@ -82,10 +98,10 @@ class Root extends CI_Controller {
 
 	public function guardar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$id=$this->input->post ('id');
 		$this->form_validation->set_rules('nombre', 'Nombre', 'required|xss_clean');
-		$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
+		$this->form_validation->set_rules('Descripcion', 'Descripcion', 'required|xss_clean');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 		$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
 
@@ -100,7 +116,7 @@ class Root extends CI_Controller {
 
 			$data = array(
 				'nombre' => $this->input->post ('nombre'),
-				'descripcion' => $this->input->post ('descripcion'),
+				'Descripcion' => $this->input->post ('Descripcion'),
 				'id_estados' => $this->input->post ('id_estados'),
 				);
 
@@ -142,7 +158,7 @@ class Root extends CI_Controller {
 
 	public function borrar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 
 		$id=$this->input->post('id');
@@ -159,8 +175,13 @@ class Root extends CI_Controller {
 
 	public function editar($id,$error_extra=null)
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 		$data['error_extra']=$error_extra;
 		$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
@@ -169,7 +190,7 @@ class Root extends CI_Controller {
 
 	public function ordenar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data = $this->input->post('data');
 		$dataarray=explode (",",$data);
 		foreach ($dataarray as $key => $value) {

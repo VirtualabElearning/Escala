@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
 	<!-- Title and other stuffs -->
-	<title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Adminsitrador</title>
+	<title>Modulo <?php echo $titulo; ?> (Nuevo registro) - Administrador</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -108,14 +108,29 @@
 
 
 										<?php $array_opc=array(); ?>
-										<?php $cursos_checked=json_decode($this->input->post('instructores_asignados')); $checkeado=""; ?>
+										<?php $cursos_checked=json_decode($detalle->instructores_asignados); $checkeado=""; ?>
 										<?php foreach ($instructores_lista as $key => $value_instructores): ?>
 											<?php $checkeado=""; ?>
-											<?php if ( @in_array($value_instructores->id_instructores,$cursos_checked)) { $checkeado="checked"; }  ?>
-											<?php $array_opc['instructores_asignados[]|'.amigable($value_instructores->nombres." ".$value_instructores->apellidos ).'|'.$value_instructores->id_instructores.'|'.$checkeado]=$value_instructores->nombres." ".$value_instructores->apellidos." [ ".$value_instructores->correo." ] "; ?>
+											<?php if ( @in_array($value_instructores->id_usuarios,$cursos_checked)) { $checkeado="checked"; }  ?>
+											<?php $array_opc['instructores_asignados[]|'.amigable($value_instructores->nombres." ".$value_instructores->apellidos ).'|'.$value_instructores->id_usuarios.'|'.$checkeado]=$value_instructores->nombres." ".$value_instructores->apellidos." [ ".$value_instructores->correo." ] "; ?>
 										<?php endforeach  ?>
 										<?php 
 										echo checkbox ('Instructores asignados',$array_opc,1,''); ?>
+										<?php
+										echo form_error('instructores_asignados', '<div class="mensaje_error">', '</div>');
+										?>
+										<?php 
+										$opciones=array("1"=>"Si","0"=>"No");
+										echo select ("Destacar?","destacar","destacar",$opciones,$this->input->post('destacar')); 
+										?>
+										<?php $opciones=array();
+										foreach ($tipo_planes as $key => $value) {
+											$opciones[$value->id_tipo_planes]=$value->nombre;
+										}
+										?>
+										<?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
+										?>
+
 										<?php 
 										$opciones=array("1"=>"Activo","0"=>"Inactivo");
 										echo select ("Estado","id_estados","id_estados",$opciones,$this->input->post('id_estados')); 

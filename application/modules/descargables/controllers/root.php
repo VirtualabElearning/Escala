@@ -24,23 +24,37 @@ class Root extends CI_Controller {
 		$config['remove_spaces']  = TRUE;
 		$config['encrypt_name']  = TRUE;
 		$this->load->library('upload',$config);
+
+
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  
+		if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
+
+		
 	}
 
-	public function index($id_cursos=null)
+	public function index($id_modulos=null)
 	{
 		/* Funcion que lista los datos de la tabla asignada al modulo */
-		$this->lista($id_cursos);
+		$this->lista($id_modulos);
 	}
 
 	/* Funcion listado de registros */
-	public function lista($id_cursos=null)
+	public function lista($id_modulos=null)
 	{ /* Cargo variables globales */
-		if (!$id_cursos)  { redirect( 'cursos/root'); }
-		$variables = $this->variables;
+		if (!$id_modulos)  { redirect( 'modulos/root'); }
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
+
 		/* Titulo = nombre modulo */
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		$data['titulo']=$variables['modulo'];
 		/* Consulto el listado de la tabla asignada del modulo */
-		$data['lista']=$this->model_generico->listado($variables['modulo'],array('id_cursos',$id_cursos),array('orden','asc'));
+		$data['lista']=$this->model_generico->listado($variables['modulo'],array('id_modulos',$id_modulos),array('orden','asc'));
 		/* Muestro los campos necesarios para el listado */
 		$data['titulos']=array("Orden","ID","Nombre","Descripcion","Archivo","Estado","Opciones");
 		/* Muestro al vista dinamica del listado */
@@ -51,9 +65,14 @@ class Root extends CI_Controller {
 	/* Funcion nuevo registro */
 	public function nuevo()
 	{	/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Titulo = nombre modulo */
 		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		/*Cargo la vista de nuevo registro*/
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 	}
@@ -83,12 +102,12 @@ class Root extends CI_Controller {
 	public function guardar()
 	{
 		/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* variable id del registro (solo funciona cuando es editar) */
 		$id=$this->input->post ('id');
 		/* Reglas de validacion basicas de los campos del formulario */
 		$this->form_validation->set_rules('nombre_descargable', 'Titulo', 'required|xss_clean');
-		$this->form_validation->set_rules('descripcion_descargable', 'Descripcion', 'required|xss_clean');
+		$this->form_validation->set_rules('descripcion_descargable', 'Descripci&oacute;n', 'required');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 		$this->form_validation->set_rules('image', 'Archivo', 'callback_check_archivo');
 
@@ -105,7 +124,7 @@ class Root extends CI_Controller {
 				'nombre_descargable' => $this->input->post ('nombre_descargable'),
 				'descripcion_descargable' => $this->input->post ('descripcion_descargable'),
 				'id_estados' => $this->input->post ('id_estados'),
-				'id_cursos' => $this->input->post ('id_cursos'),
+				'id_modulos' => $this->input->post ('id_modulos'),
 				);
 
 
@@ -147,7 +166,7 @@ class Root extends CI_Controller {
 			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
 			/* Redirecciono al listado */
 
-			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$this->input->post('id_cursos').'/'.$id.'/guardado_ok';
+			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$this->input->post('id_modulos').'/'.$id.'/guardado_ok';
 			
 
 			redirect($accion_url);
@@ -156,10 +175,10 @@ class Root extends CI_Controller {
 	}
 
 	/* Funcion borrar registro */
-	public function borrar($id_cursos=null)
+	public function borrar($id_modulos=null)
 	{
 		/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Reglas basicas del id */
 		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 		/* guardo el dato en una variable */
@@ -172,7 +191,7 @@ class Root extends CI_Controller {
 		/* Borro el registro que consulté */
 		$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
 		/* Redirecciono */
-		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$id_cursos.'/borrado_ok';
+		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$id_modulos.'/borrado_ok';
 		redirect($accion_url);
 	}
 
@@ -181,9 +200,14 @@ class Root extends CI_Controller {
 	public function editar($id,$error_extra=null)
 	{
 		/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Titulo = nombre del modulo */
 		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		/* Consulto el detalle del registro */
 		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 		/* Si existe un error extra, lo carga en la variable */
@@ -196,7 +220,7 @@ class Root extends CI_Controller {
 	/* Funcion ordenar (aplica en el listado de registros a la hora de arrastrar y soltar) */
 	public function ordenar()
 	{ /* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Cargo orden de los registros */
 		$data = $this->input->post('data');
 		/* Divido por coma, los registros a ordenar */

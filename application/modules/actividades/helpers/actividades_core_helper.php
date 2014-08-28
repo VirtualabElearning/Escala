@@ -16,16 +16,19 @@ if (!function_exists('generar_campos_actividad')) {
 				echo input_text_actividades ("Url del video","url_video","url_video","Ingrese la url del video (Url youtube completa)",@$datos_actividad->url_video );
 				echo input_text_actividades ("Pregunta","pregunta","pregunta","Ingrese la pregunta",@$datos_actividad->pregunta );
 				echo hidden_actividades('id_actividades_videos','id_actividades_videos',@$datos_actividad->id_actividades_videos);
-				$opciones=array('1'=>'Selección múltiple','2'=>'Lista desplegable','3'=>'Campo de texto');
+				$opciones=array('1'=>'Tipo test','2'=>'Elegir de una lista','4'=>'Campo de texto');
 				echo select_actividades ("Tipo pregunta","tipo_pregunta","tipo_pregunta",$opciones,@$datos_actividad->tipo_pregunta );
 				break;
 
 
-				case '2':  # foro
 
+
+
+				case '2':  # foro
+				$error=form_error('image', '<div class="mensaje_error">', '</div>');
 				echo hidden_actividades('id_actividades_foro','id_actividades_videos',@$datos_actividad->id_actividades_foro);
 				echo editor_actividades ("Discusión","contenido_foro","contenido_foro","Ingrese el contenido del foro",@$datos_actividad->contenido_foro );
-				echo input_foto_actividades ('Foto','actividades_foro',@$datos_actividad->foto,'');
+				echo input_foto_actividades ('Foto','actividades_foro',@$datos_actividad->foto,$error);
 				
 
 
@@ -45,12 +48,12 @@ echo $id_cursos."<br>";
 echo $id_modulos."<br>";
 echo $id_actividades_barra."<br>";
 */
-			
-
-				echo gen_preguntas($id_cursos,$id_modulos,$id_actividades_barra);
 
 
-				break;
+echo gen_preguntas($id_cursos,$id_modulos,$id_actividades_barra);
+
+
+break;
 
 
 				case '4':  # clases en vivo
@@ -136,8 +139,19 @@ echo $id_actividades_barra."<br>";
 					}
 
 				}
+				else {
 
-				break;
+
+						if (   $post['image']   )  { }   // si existe el post, no hace nada
+						else {
+							if ($post['foto_antes'])  {
+								@unlink('uploads/actividades_foro/'.$post['foto_antes']);
+							}
+							$data['foto'] = "";	
+						}
+
+					}
+					break;
 
 
 
@@ -289,12 +303,15 @@ echo $id_actividades_barra."<br>";
 				$html = '<div class="form-group">
 				<label class="col-lg-1 control-label">'.$texto.'</label>
 				<div class="col-lg-5">
+					<input type="hidden" name="image" id="image" value="'.base_url().'uploads/'.$carpeta.'/'.$valor.'">
+
 					<div class="fileupload'; 
 					if ($valor):  
-						$html.='fileupload-exists';
-					else :  $html.='fileupload-new';  
+						$html.=' fileupload-exists ';
+					else :  $html.=' fileupload-new ';  
 					endif;  
 					$html.='" data-provides="fileupload">
+
 					<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 						<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
 					</div>
@@ -307,7 +324,7 @@ echo $id_actividades_barra."<br>";
 							<span class="fileupload-new">Seleccione imagen</span>         
 							<input type="file" value="" name="userfile" id="userfile"/>
 						</span>
-						<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>';
+						<a href="#" class="btn fileupload-exists delete_photoxx" data-dismiss="fileupload">Borrar</a>';
 						if ($error_extra):
 							$html.='<div class="mensaje_error"> '.$error_extra.'</div>';
 						endif;

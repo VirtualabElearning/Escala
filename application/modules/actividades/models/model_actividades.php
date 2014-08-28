@@ -15,6 +15,7 @@ class Model_Actividades extends CI_Model{
 	#$data['titulos']=array("Orden","ID","Tipo actividad","Nombre actividad","Descripcion","Estado","Opciones");
 		$this->db->select('estados.nombre as estado_nombre,actividades_barra.id_estados,actividades_barra.orden,actividades_barra.id_actividades_barra,actividades_barra.id_actividades,actividades_barra.id_tipo_actividades,actividades_barra.id_modulos,nombre_tipo_actividades,tabla_actividad,modulos.nombre_modulo,cursos.titulo as nombre_curso,categoria_cursos.nombre as nombre_categoria_curso');
 		$this->db->join('tipo_actividades', 'tipo_actividades.id_tipo_actividades = actividades_barra.id_tipo_actividades');
+
 		$this->db->join('modulos', 'modulos.id_modulos = actividades_barra.id_modulos');
 		$this->db->join('cursos', 'modulos.id_cursos = cursos.id_cursos');
 		$this->db->join('categoria_cursos', 'categoria_cursos.id_categoria_cursos = cursos.id_categoria_cursos');
@@ -31,6 +32,7 @@ class Model_Actividades extends CI_Model{
 
 		$this->db->select('actividades_barra.id_estados,actividades_barra.orden,actividades_barra.id_actividades_barra,actividades_barra.id_actividades,actividades_barra.id_tipo_actividades,actividades_barra.id_modulos,nombre_tipo_actividades,tabla_actividad');
 		$this->db->join('tipo_actividades', 'tipo_actividades.id_tipo_actividades = actividades_barra.id_tipo_actividades');
+
 		$this->db->where('id_actividades_barra',$id); 
 		$query = $this->db->get('actividades_barra');
 		$resultados=$query->row();
@@ -61,6 +63,11 @@ class Model_Actividades extends CI_Model{
 
 
 	public function detalle($tabla,$where=null){
+
+#$this->db->select("");
+	$this->db->join('tipo_planes', 'tipo_planes.id_tipo_planes = '.$tabla.'.id_tipo_planes');
+
+
 
 		if (@$where[1]) {
 			$this->db->where($where[0],$where[1]);
@@ -135,6 +142,22 @@ class Model_Actividades extends CI_Model{
 	}
 
 
+public function get_logros() {
+		$this->db->select('logros.id_logros,logros.nombre');
+		$this->db->where('id_estados',1); 
+		$query = $this->db->get('logros');
+		return $query->result();
+
+}
+
+
+public function get_planes() {
+		$this->db->select('tipo_planes.id_tipo_planes,tipo_planes.nombre');
+		$this->db->where('id_estados',1); 
+		$query = $this->db->get('tipo_planes');
+		return $query->result();
+
+}
 
 
 

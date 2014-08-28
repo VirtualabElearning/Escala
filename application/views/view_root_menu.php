@@ -1,56 +1,30 @@
+   <?php #krumo ($diccionario); ?>
     <div class="sidebar">
       <div class="sidebar-dropdown"><a href="inicio/root">Navegacion</a></div>
-
-
       <ul id="nav">
-
         <li <?php if ($this->uri->segment(1)=='inicio')  { ?> class="open" <?php } ?> ><a href="inicio/root"><i class="fa fa-home"></i> Principal</a>
         </li>
-
-
-        <li class="has_sub <?php if ($this->uri->segment(1)=='contenidos' || $this->uri->segment(1)=='noticias')  { ?> open <?php } ?>">
-          <a href="#"><i class="fa fa-file-o"></i> Contenidos web <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-          <ul <?php if ($this->uri->segment(1)=='contenidos' || $this->uri->segment(1)=='noticias')  { ?> style="display: block;" <?php } ?>>
-            <li <?php if ($this->uri->segment(1)=='contenidos')  { ?> class="open" <?php } ?>><a href="contenidos/root">Contenidos</a></li>
-            <li <?php if ($this->uri->segment(1)=='noticias')  { ?> class="open" <?php } ?>><a href="noticias/root">Noticias</a></li>
-          </ul>
-        </li> 
-
-        <li class="has_sub <?php if ($this->uri->segment(1)=='usuarios' || $this->uri->segment(1)=='roles')  { ?> open <?php } ?>"><a href="#"><i class="fa fa-users"></i> Usuarios <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-          <ul>
-            <li <?php if ($this->uri->segment(1)=='usuarios')  { ?> class="open" <?php } ?>><a href="usuarios/root">Masters y Administradores</a></li>
-            <li <?php if ($this->uri->segment(1)=='instructores')  { ?> class="open" <?php } ?>><a href="instructores/root">Instructores</a></li>
-            <li <?php if ($this->uri->segment(1)=='aprendices')  { ?> class="open" <?php } ?>><a href="aprendices/root">Aprendices</a></li>
-            <li <?php if ($this->uri->segment(1)=='roles')  { ?> class="open" <?php } ?>><a href="roles/root">Lista de roles</a></li>
-          </ul> 
-        </li>       
-
-
-
- <li class="has_sub <?php if ($this->uri->segment(1)=='categoria_cursos' || $this->uri->segment(1)=='cursos')  { ?> open <?php } ?>">
-          <a href="#"><i class="fa fa-file-o"></i> Cursos <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-      <ul <?php if ($this->uri->segment(1)=='categoria_cursos' || $this->uri->segment(1)=='cursos')  { ?> style="display: block;" <?php } ?>>
-            <li <?php if ($this->uri->segment(1)=='categoria_cursos')  { ?> class="open" <?php } ?>><a href="categoria_cursos/root">Categoria de cursos</a></li>
-            <li <?php if ($this->uri->segment(1)=='cursos')  { ?> class="open" <?php } ?>><a href="cursos/root">Lista de cursos</a></li>
-
-          </ul>
-        </li> 
-
-
-
-        <li class="has_sub <?php if ($this->uri->segment(1)=='configuracion' || $this->uri->segment(1)=='tipo_planes' || $this->uri->segment(1)=='logros' || $this->uri->segment(1)=='estatus')  { ?> open <?php } ?>">
-          <a href="#"><i class="fa fa-file-o"></i> Sistema <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-          <ul <?php if ($this->uri->segment(1)=='configuracion' || $this->uri->segment(1)=='tipo_planes')  { ?> style="display: block;" <?php } ?>>
-            <li <?php if ($this->uri->segment(1)=='configuracion')  { ?> class="open" <?php } ?>><a href="contenidos/root">Configuracion</a></li>
-           <li <?php if ($this->uri->segment(1)=='estatus')  { ?> class="open" <?php } ?>><a href="estatus/root">Lista de estatus</a></li>
-            <li <?php if ($this->uri->segment(1)=='tipo_planes')  { ?> class="open" <?php } ?>><a href="tipo_planes/root">Tipo de planes</a></li>
-            <li <?php if ($this->uri->segment(1)=='logros')  { ?> class="open" <?php } ?>><a href="logros/root">Logros</a></li>
-
-          </ul>
-        </li> 
-
-
-
-
-      </ul>
-    </div>
+        <?php foreach ($menus as $menus_key => $menus_value): ?>
+         <?php $armenu=array(); ?>
+         <?php if ($menus_value->submenus): ?>
+           <?php foreach ($menus_value->submenus as $submenus_key => $submenus_value): ?>
+            <?php if (in_array($this->session->userdata('id_roles'), json_decode($submenus_value->id_roles))) : ?>
+             <?php $armenu[]=$submenus_value->carpeta; ?>
+           <?php endif ?>
+         <?php endforeach; ?>
+         <?php if (count($armenu)>0): ?>
+           <li class="has_sub <?php if (in_array($this->uri->segment(1), $armenu)) { ?> open <?php } ?>">
+            <a href="#"><i class="fa fa-file-o"></i> <?php echo $menus_value->nombre; ?> <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+            <ul <?php if (in_array($this->uri->segment(1), $armenu)) { ?> style="display: block;" <?php } ?>>
+             <?php foreach ($menus_value->submenus as $submenus_key => $submenus_value): ?>
+              <?php if (in_array($this->session->userdata('id_roles'), json_decode($submenus_value->id_roles)) && $submenus_value->mostrar==1): ?>
+               <li <?php if ($this->uri->segment(1)==$submenus_value->carpeta)  { ?> class="open" <?php } ?>><a href="<?php echo $submenus_value->carpeta; ?>/root"><?php echo asignar_frase_diccionario ($diccionario,$submenus_value->llave,$submenus_value->nombre,2); ?></a></li>
+             <?php endif ?>
+           <?php endforeach ?>
+         </ul>
+       </li> 
+     <?php endif ?>
+   <?php endif ?>
+ <?php endforeach ?>
+</ul>
+</div>

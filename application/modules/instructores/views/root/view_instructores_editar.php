@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
 
-  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Adminsitrador</title>
+  <title>Modulo <?php echo $titulo; ?> (Editar registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -42,7 +42,7 @@
                   <div class="padd">
                     <br />
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
-                    <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
+                    <?=form_open_multipart(base_url().$carpeta.'/root/guardar',$attributos)?>
                     <?php foreach ($roles as $key => $value) {$data_roles[$value->id_roles]=$value->nombre; } ?>
                     <?php echo select ("Rol","id_roles","id_roles",$data_roles,$detalle->id_roles); ?>
                     <?php echo input_text ("Nombres","nombres","nombres","Ingrese los nombres",$detalle->nombres,form_error('nombres', '<div class="mensaje_error">', '</div>')); ?>
@@ -51,22 +51,24 @@
                     <?php echo password ("Contraseña","contrasena","contrasena","Escriba la contraseña",'',form_error('contrasena', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo password ("Repetir Contraseña","contrasena2","contrasena2","Repetir la contraseña",'',form_error('contrasena2', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo input_text ("Identificacion","identificacion","identificacion","Ingrese el numero de identificacion",$detalle->identificacion,form_error('identificacion', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo input_text ("Profesión","profesion","profesion","Ingrese la profesión",$detalle->profesion,form_error('profesion', '<div class="mensaje_error">', '</div>')); ?>
+
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">
-                        <input type="hidden" name="image">
+                          <input type="hidden" name="image" id="image" value="<?php echo base_url().'uploads/'.$carpeta.'/'.$detalle->foto; ?>">
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                             <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
                           </div>
                           <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
-                            <img src="<?php echo base_url().'uploads/'.$titulo.'/'.$detalle->foto; ?>" alt="img"/>
+                            <img src="<?php echo base_url().'uploads/'.$carpeta.'/'.$detalle->foto; ?>" alt="img"/>
                           </div>
                           <div>
                             <span class="btn btn-file">
                               <span class="fileupload-exists">Cambiar</span>
                               <span class="fileupload-new">Seleccione imagen</span>         
-                              <input type="file" value="uploads/perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
+                               <input type="file" value="<?php echo $detalle->foto;  ?>" name="userfile" id="userfile"/>
                             </span>
                             <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
                             <?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>

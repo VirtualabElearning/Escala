@@ -12,8 +12,14 @@ class Root extends CI_Controller {
 		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
 		
 		/* configuracion generica del modulo */
-		$this->variables=array('modulo'=>'modulos','id'=>'id_modulos','modelo'=>'model_modulos');
+		$this->variables=array('modulo'=>'modulos','id'=>'id_modulos','modelo'=>'model_modulos','llave'=>'{modulo}');
 		$this->load->model($this->variables['modelo']);
+
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);
+		if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
+
+		
 	}
 
 	/* funcion por defecto del controlador */
@@ -27,14 +33,25 @@ class Root extends CI_Controller {
 	{
 		if (!$id_cursos)  { redirect( 'cursos/root'); }
 		/* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 
-		$data['titulo']=$variables['modulo'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],2);
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		/* Llamo ala funcion generica para traer el listado de informacion del modulo */
 		$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],array('id_cursos',$id_cursos),array('orden','asc'));
 		/* Envio header de la tabla de los campos que necesito mostrar */
 		$data['titulos']=array("Orden","ID","Nombre","Descripcion","Tipo de plan","Estado","Opciones");
 		/* Cargo vista de listado de informacion */
+
+
+		$trmp=$this->model_generico->mispermisos($this->session->userdata('id_roles'),'actividades');	
+		$data['if_actividades']=json_decode($trmp->id_roles);
+		$data['if_descargables']=json_decode($trmp->id_roles);
+
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
 
@@ -42,10 +59,15 @@ class Root extends CI_Controller {
 	public function nuevo()
 	{
 		/* Cargo variables globales del modulo*/
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 
 		/* Titulo = nombre del modulo */
-		$data['titulo']=$variables['modulo'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],1);
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
 		/* Cargo vista del modulo */
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
@@ -55,7 +77,7 @@ class Root extends CI_Controller {
 	public function guardar()
 
 	{ /* Cargo variables globales */
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 
 		/* asigno variable id de lo que voy  aguardar (solo si es modo editar) */
 		$id=$this->input->post ('id');
@@ -154,7 +176,7 @@ class Root extends CI_Controller {
 	{
 		
 		/*Cargo variables globales*/
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Validacion basica del id */
 		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean|callback_check_validador');
 		/*Asigno valor del id a una variable*/
@@ -180,8 +202,13 @@ class Root extends CI_Controller {
 	public function editar($id,$error_extra=null)
 	{
 		/*Cargo variables globales*/
-		$variables = $this->variables;
-		$data['titulo']=$variables['modulo'];
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],1);
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		/*LLamo funcion para cargar informacion detalle para editarlo*/
 		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
@@ -197,7 +224,7 @@ class Root extends CI_Controller {
 	public function ordenar()
 	{
 		/*Cargo variables globales*/
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/*Cargo orden de listas*/
 		$data = $this->input->post('data');
 		/*Separo el orden traido por la coma*/

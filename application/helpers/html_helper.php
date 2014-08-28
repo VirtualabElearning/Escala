@@ -45,7 +45,9 @@ if (!function_exists('input_text')) {
 						foreach ($opciones as $dkey => $value) {
 							$key=explode ("|",$dkey);
 
-							$html.= '<label class="checkbox-inline"><input type="checkbox" name="'.$key[0].'" id="'.$key[1].'" value="'.$key[2].'" '.@$key[3].'>'.$value.'</label>';
+							$html.= '<label class="checkbox-inline"><input '; 
+							if (@$key[4]=='checked')  { $html.="checked=true";  }
+							$html.='type="checkbox" name="'.$key[0].'" id="'.$key[1].'" value="'.$key[2].'" '.@$key[3].'>'.$value.'</label>';
 
 							if ($saltar==1)  {  $html.="<br>";  }
 						}

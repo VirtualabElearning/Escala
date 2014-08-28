@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <!-- Title and other stuffs -->
-  <title>Listado de <?php echo $titulo; ?> - Adminsitrador</title>
+  <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -83,7 +83,7 @@
                              <td><?php echo $value->id_logros; ?></td>
                              <td><?php echo $value->nombre; ?></td>
                              <td><img class="foto_img" src="<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>" alt="img"/></td>
-                             <td><?php echo $value->descripcion; ?></td>
+                             <td><?php echo $value->Descripcion; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>
                              <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_logros; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_logros; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                            </tr>

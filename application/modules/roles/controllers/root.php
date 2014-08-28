@@ -16,6 +16,12 @@ class Root extends CI_Controller {
 /** Configuracion generica del modulo **/
 $this->variables=array('modulo'=>'roles','id'=>'id_roles','modelo'=>'model_roles');
 
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);
+		if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
+
+		
+
 }
 
 
@@ -27,8 +33,13 @@ public function index()
 
 public function lista()
 {
-	$variables = $this->variables;
+	$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 	$data['titulo']=$variables['modulo'];
+	$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 	$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
 	$data['titulos']=array("Orden","ID","Nombre rol","Descripcion","Estado","Opciones");
 	$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
@@ -38,8 +49,13 @@ public function lista()
 
 public function nuevo()
 {
-	$variables = $this->variables;
+	$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 	$data['titulo']=$variables['modulo'];
+	$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 	$data['lista']=$this->model_generico->listado($variables['modulo']);
 	$data['titulos']=array("ID","Titulo","Descripcion","Estado","Opciones");
 	$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
@@ -49,10 +65,10 @@ public function nuevo()
 
 public function guardar()
 {
-	$variables = $this->variables;
+	$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 	$id=$this->input->post ('id');
 	$this->form_validation->set_rules('nombre', 'Nombre', 'required|xss_clean');
-	$this->form_validation->set_rules('descripcion', 'Descripcion', 'required|xss_clean');
+	$this->form_validation->set_rules('Descripcion', 'Descripcion', 'required|xss_clean');
 	$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 
 	if($this->form_validation->run() == FALSE)
@@ -67,7 +83,7 @@ public function guardar()
 
 		$data = array(
 			'nombre' => $this->input->post ('nombre'),
-			'descripcion' => $this->input->post ('descripcion'),
+			'Descripcion' => $this->input->post ('Descripcion'),
 			'id_estados' => $this->input->post ('id_estados'),
 			);
 
@@ -92,7 +108,7 @@ public function guardar()
 
 public function borrar()
 {
-	$variables = $this->variables;
+	$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 	$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 
 	$id=$this->input->post('id');
@@ -107,8 +123,13 @@ public function borrar()
 
 public function editar($id,$error_extra=null)
 {
-	$variables = $this->variables;
+	$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 	$data['titulo']=$variables['modulo'];
+	$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 	$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 	$data['error_extra']=$error_extra;
 	$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
@@ -119,7 +140,7 @@ public function editar($id,$error_extra=null)
 
 public function ordenar()
 {
-	$variables = $this->variables;
+	$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 	$data = $this->input->post('data');
 	$dataarray=explode (",",$data);
 	foreach ($dataarray as $key => $value) {

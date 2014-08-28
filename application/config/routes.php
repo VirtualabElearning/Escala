@@ -38,8 +38,16 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "inicio/publico";
 $route['404_override'] = '';
+
+$route['login/admin'] = "login/root";
+
+$route['inicio'] = "inicio/publico";
+$route['cursos'] = "cursos/publico";
+$route['cursos/buscar'] = "cursos/publico/buscar";
+#$route['cursos/(:any)/(:any)'] = "cursos/publico/$1/$2";
+
 
 
 /* End of file routes.php */

@@ -10,8 +10,12 @@ class Root extends CI_Controller {
 		parent::__construct();
 		/* si no existe login de sesion, lo redirecciona para realziar dicha operacion */
 		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
-		$this->variables=array('modulo'=>'instructores','id'=>'id_instructores','modelo'=>'model_instructores');
+		$this->variables=array('modulo'=>'instructores','id'=>'id_instructores','modelo'=>'model_instructores','carpeta'=>'instructores');
 		$this->load->model($this->variables['modelo']);
+
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);
+		if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
 
 		/** Variables de configuracion basicas de subir una foto */	
 		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
@@ -36,11 +40,18 @@ class Root extends CI_Controller {
 	public function lista()
 	{
 		/** Variables globales */
-		$variables = $this->variables;
-		$data['titulo']=$variables['modulo'];
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],"{docente}",$variables['modulo'],2);
+		$data['carpeta']=$variables['carpeta'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
 		/** Cargo listado de registros */
-		$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],'',array('orden','asc'));
-		$data['titulos']=array("Orden","ID","Rol","Foto","Nombres","Apellidos","Identificacion","Correo","Estado","Opciones");
+		$data['lista']=$this->{$variables['modelo']}->listado('usuarios',array('usuarios.id_roles','2'),array('orden','asc'));
+		#krumo ($data['lista']); exit;
+		$data['titulos']=array("Orden","ID","Rol","Foto","Nombres","Apellidos","Identificacion","Profesión","Correo","Estado","Opciones");
 		/* Cargo vista para mostrar el listado de registros */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
@@ -50,9 +61,15 @@ class Root extends CI_Controller {
 	public function nuevo()
 	{
 		/** cargo variables blogales */
-		$variables = $this->variables;
-		$data['titulo']=$variables['modulo'];
-		$data['lista']=$this->model_generico->listado($variables['modulo']);
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],"{docente}",$variables['modulo'],1);
+		$data['carpeta']=$variables['carpeta'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
+		#$data['lista']=$this->model_generico->listado($variables['modulo']);
 		$data['roles']=$this->{$variables['modelo']}->get_roles('instructores');
 		#$data['lista_cursos']=$this->{$variables['modelo']}->get_cursos_disponibles();
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
@@ -62,7 +79,7 @@ class Root extends CI_Controller {
 // funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
 	public function check_foto()
 	{
-		if ($_FILES['userfile']['tmp_name'])  {
+		if ($_FILES['userfile']['name'])  {
 			if ($this->upload->do_upload('userfile'))
 			{
 				$upload_data    = $this->upload->data();
@@ -80,12 +97,14 @@ class Root extends CI_Controller {
 	/** [guarda registros] */
 	public function guardar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$id=$this->input->post ('id');
+
 		/** Valido los campos traidos del formulario */
 		$this->form_validation->set_rules('nombres', 'Nombres', 'required|xss_clean');
 		$this->form_validation->set_rules('apellidos', 'Apellidos', 'required|xss_clean');
 		$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean');
+		$this->form_validation->set_rules('profesion', 'Profesión', 'required|xss_clean');
 		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean');
 		$this->form_validation->set_rules('id_roles', 'Rol', 'required|xss_clean');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
@@ -93,7 +112,7 @@ class Root extends CI_Controller {
 		if ($this->input->post ('id'))  { 
 			$this->form_validation->set_rules('contrasena', 'Contraseña', 'xss_clean');
 		} else {
-				$this->form_validation->set_rules('contrasena', 'Contraseña', 'required|xss_clean');
+			$this->form_validation->set_rules('contrasena', 'Contraseña', 'required|xss_clean');
 			$this->form_validation->set_rules('contrasena2', 'Repetir contraseña', 'required|xss_clean');
 		}
 
@@ -115,6 +134,7 @@ class Root extends CI_Controller {
 				'apellidos' => $this->input->post ('apellidos'),
 				'correo' => $this->input->post ('correo'),
 				'identificacion' => $this->input->post ('identificacion'),
+				'profesion' => $this->input->post ('profesion'),
 				'resumen_de_perfil' => $this->input->post ('resumen_de_perfil'),
 				'id_roles' => $this->input->post ('id_roles'),
 				'id_estados' => $this->input->post ('id_estados'),
@@ -128,37 +148,41 @@ class Root extends CI_Controller {
 			}
 
 			/** Si tiene id, es porque es editar, debe guardar la fecha de modificacion y quien lo edito,de lo contrario quien lo creo y cuando lo creo */
-			if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
+			if ($id) { $data['id_usuarios']=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
 
+			/* Si existe algun error, continua el programa */
 			if ($_FILES['userfile']['tmp_name'])  {
-				
+
 				$finfo=$this->upload->data();
 
-				/* Si existe una foto antes, la borra y sube la nueva */
+				/* si existia una foto antes, que la borre de la carpeta asignada */
 				if ($this->input->post ('foto_antes'))  {
 					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
 				}
 
+				/* obteno la extesion y nombre de la imagen */
 				$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
 				$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
-
-
 				$data['foto'] = $finfo['file_name'];
-
 			}
 
 			else {
-				## elimino la foto
-				if ($this->input->post ('foto_antes'))  {
-					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+
+				/* si existia una foto antes, que la borre de la carpeta asignada */
+				if ($this->input->post('image'))  { }   // si existe el post, no hace nada
+					else {
+						if ($this->input->post ('foto_antes'))  {
+							@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+						}
+						$data['foto'] = "";	
+					}
+
 				}
-				## campo vacio de la foto
-				$data['foto'] = "";
-			}
+
 
 			/* Guardo el registro */
-			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
+			$id=$this->model_generico->guardar('usuarios',$data,'id_usuarios',array('id_usuarios',$id));
 
 			if ( $this->input->post('redirect')  )  {
 				redirect(base64_decode($this->input->post('redirect')));
@@ -175,16 +199,20 @@ class Root extends CI_Controller {
 	/* Funcion borrar registro */
 	public function borrar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+
+
+
+
 		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 
 		$id=$this->input->post('id');
 
-		$detalle=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
+		$detalle=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$id));
 		@unlink('uploads/'.$variables['modulo'].'/'.$detalle->foto);
 
 
-		$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
+		$this->model_generico->borrar('usuarios',array('id_usuarios'=>$this->input->post ('id')));
 		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
 		redirect($accion_url);
 	}
@@ -193,9 +221,16 @@ class Root extends CI_Controller {
 	/* Funcion editar registro */
 	public function editar($id,$error_extra=null,$redirect=null)
 	{
-		$variables = $this->variables;
-		$data['titulo']=$variables['modulo'];
-		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],"{docente}",$variables['modulo'],1);
+		$data['carpeta']=$variables['carpeta'];
+		
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
+		$data['detalle']=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$id));
 		$data['roles']=$this->{$variables['modelo']}->get_roles('instructores');
 		$data['error_extra']=$error_extra;
 		$data['redirect']=$redirect;
@@ -214,7 +249,7 @@ class Root extends CI_Controller {
 	/* funcion ordenar registros de un listado */
 	public function ordenar()
 	{
-		$variables = $this->variables;
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data = $this->input->post('data');
 		$dataarray=explode (",",$data);
 		foreach ($dataarray as $key => $value) {

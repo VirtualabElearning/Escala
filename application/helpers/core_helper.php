@@ -18,6 +18,41 @@ if (!function_exists('amigable')) {
 
 
 
+if (!function_exists('asignar_frase_diccionario')) {
+	function asignar_frase_diccionario ($diccionario,$llave,$default,$tipo=1)  {
+
+
+
+		if (trim($llave)!='')    {
+
+		    #singular
+			if ($tipo==1)  {
+				$data_frase=explode ("|",$diccionario[$llave]);
+				$texto=$data_frase[0];
+
+			}
+            #plural
+			if ($tipo==2)  {
+				$data_frase=explode ("|",$diccionario[$llave]);
+				$texto=$data_frase[1];
+			}
+
+		}
+
+		else {
+			
+			$texto=$default;	
+		}
+
+
+
+
+		return $texto; 
+	}
+
+}
+
+
 if (!function_exists('set_icon_archivo')) {
 	function set_icon_archivo ($extension=null)  {
 		
@@ -86,6 +121,12 @@ if (!function_exists('set_icon_archivo')) {
 
 		return $icon;
 	}
+
+
+
+
+
+
 
 }
 
