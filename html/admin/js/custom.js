@@ -14,6 +14,7 @@ $(document).ready(function(){
 
 
 
+
  $('.delete_photoxx').click(function(event) {
     $('#image').val('');
   });

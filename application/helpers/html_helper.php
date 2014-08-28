@@ -1,10 +1,10 @@
 <?php 
 
 if (!function_exists('input_text')) {
-	function input_text ($texto,$id,$nombre,$placeholder,$valor=null,$error=null)  {
+	function input_text ($texto,$id,$nombre,$placeholder,$valor=null,$error=null,$clases=null)  {
 		$html = '<div class="form-group">
 		<label class="col-lg-2 control-label">'.$texto.'</label>
-		<div class="col-lg-5"><input type="text" name="'.$nombre.'" value="'.$valor.'" id="'.$id.'" class="form-control" placeholder="'.$placeholder.'">
+		<div class="col-lg-5"><input type="text" name="'.$nombre.'" value="'.$valor.'" id="'.$id.'" class="form-control '.$clases.'" placeholder="'.$placeholder.'">
 			'.$error.'</div></div>';
 			return $html;
 		}

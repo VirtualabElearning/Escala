@@ -56,7 +56,7 @@
     <div class="curso <?php if ($contador==3): ?>tercero<?php $contador=0; endif; ?>">
       <div class="curso_wrap">
         <div class="curso_pic">
-         <img src="uploads/cursos/<?php echo $value->foto; ?>" alt="><?php echo $value->titulo; ?>">
+         <img src="escalar.php?src=<?php echo base_url(); ?>uploads/cursos/<?php echo $value->foto; ?>&amp;w=306&amp;h=218&amp;zc=1" alt="><?php echo $value->titulo; ?>">
        </div>
        <div class="curso_des">
         <h2><?php echo $value->categoria_cursos; ?></h2>

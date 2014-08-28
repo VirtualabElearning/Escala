@@ -45,7 +45,8 @@
             <div class="curso <?php if ($key==2)  {  echo "tercero";  } ?>">
                 <div class="curso_wrap">
                     <div class="curso_pic">
-                        <img src="uploads/cursos/<?php echo $value->foto; ?>" alt="><?php echo $value->titulo; ?>">
+
+                        <img src="escalar.php?src=<?php echo base_url(); ?>uploads/cursos/<?php echo $value->foto; ?>&amp;w=306&amp;h=218&amp;zc=1" alt="><?php echo $value->titulo; ?>">
                     </div>
                     <div class="curso_des">
                         <h2><?php echo $value->categoria_cursos; ?></h2>
@@ -111,6 +112,9 @@
                     <div class="testi_pep clear">
                         <div class="pep clear">
                             <div class="pep_pic">
+
+
+
                                 <img src="uploads/pagina_inicio/<?php echo json_decode(json_decode($inicio->testimonios)->testi_fotos)[$key]->{"testi_foto".($key+1)}; ?>" alt="<?php echo json_decode(json_decode($inicio->testimonios)->nombres_completos)[$key]->{"testi_nombres_completos".($key+1)}; ?>">
                             </div>
                             <div class="pepName">

@@ -40,19 +40,32 @@
 											<br />
 											<?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
 											<?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-											<?php echo input_text ("Singular","singular","singular","Ingrese la frase para el diccionario en singular",$this->input->post('singular')); ?>
-											<?php echo form_error('singular', '<div class="mensaje_error">', '</div>'); ?>
 											
 
-											<?php echo input_text ("Plural","plural","plural","Ingrese la frase para el diccionario en plural",$this->input->post('plural')); ?>
-											<?php echo form_error('plural', '<div class="mensaje_error">', '</div>'); ?>
+											<?php 
+											$opciones=array(""=>"Seleccione");
+											foreach ($categorias_modulos_lista as $key => $value) {
+												$opciones[$value->id_categorias_modulos_app]=$value->nombre ;
+											}
+											echo select ("Categoria Módulo","id_categorias_modulos_app","id_categorias_modulos_app",$opciones,$this->input->post('id_categorias_modulos_app')); 
+											?>
 
-											<?php echo input_text ("Llave","llave","llave","Ingrese la llave del diccionario",$this->input->post('llave')); ?>
+											<?php echo input_text ("Nombre","nombre","nombre","Ingrese el nombre",$this->input->post('nombre')); ?>
+											<?php echo form_error('nombre', '<div class="mensaje_error">', '</div>'); ?>
+
+											<?php echo input_text ("Llave","llave","llave","Ingrese la llave del diccionario  (No es obligatorio, ver modulo diccionario)",$this->input->post('llave')); ?>
 											<?php echo form_error('llave', '<div class="mensaje_error">', '</div>'); ?>
+
+											<?php echo textarea ("Descripción","descripcion","descripcion","Ingrese la descripción",$this->input->post('descripcion'),form_error('descripcion', '<div class="mensaje_error">', '</div>')); ?>
+
+											<?php echo input_text ("Carpeta","carpeta","carpeta","Ingrese el nombre de la carpeta",$this->input->post('carpeta')); ?>
+											<?php echo form_error('carpeta', '<div class="mensaje_error">', '</div>'); ?>
+
+
 
 											<?php 
 											$opciones=array("1"=>"Activo","0"=>"Inactivo");
-											echo select ("Estado","id_estados","id_estados",$opciones); 
+											echo select ("Estado","id_estados","id_estados",$opciones,$this->input->post('id_estados')); 
 											?>
 											<div class="form-group">
 												<div class="col-lg-offset-2 col-lg-6">
