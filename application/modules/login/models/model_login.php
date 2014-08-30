@@ -2,14 +2,16 @@
 
 class Model_login extends CI_Model{
 
-	public function check_user( $username, $password ){
 
 
+	public function check_user( $username, $password,$id_roles=null ){
 
-		$query = $this->db->get_where('usuarios', array('correo' => $username,'contrasena' => $password ) );
+		$extra=array('correo' => $username,'contrasena' => $password );
+
+if ($id_roles) { $extra['id_roles']=$id_roles; }
 
 
-
+		$query = $this->db->get_where('usuarios', $extra );
 		if( $query->num_rows() > 0 ){
 
 			if( $query->row()->id_estados == 0 ){
@@ -49,7 +51,14 @@ class Model_login extends CI_Model{
 
 
 
+public function guardar_user_social ($data) {
 
+
+
+$this->db->insert('usuarios', $data); 
+
+
+}
 
 
 }

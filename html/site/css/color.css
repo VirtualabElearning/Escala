@@ -2,19 +2,19 @@
     Color # 1 
    ======================== ================================================== */
 
-.atributos,.light_blue,.curso_btn,.circle{
+.atributos,.light_blue,.curso_btn,.circle,.login_btn,.brand_line{
   background-color:#0f8dcd;
   color: #fff;
 }
 
-.light_blue:hover,.curso_btn:hover{
+.light_blue:hover,.curso_btn:hover,.login_btn:hover{
   background-color:#33adeb;
   color: #fff;
 }
 /* ==========================================================================
     Color # 1 TEXTO
    ======================== ================================================== */
-.curso_des h2, .encabezado_wrap h6{
+.curso_des h2, .encabezado_wrap h6,.col2_wrap h4,.pensum_block h2,.teacher_col2 h3{
   color:#0f8dcd;
 }
 /* ==========================================================================
@@ -32,7 +32,7 @@
 /* ==========================================================================
     Color # 2 TEXTO
    ======================== ================================================== */
-.dark_blue,nav ul li,.atributo_wrap h2,h4,.plan_wrap h3{  
+.dark_blue,nav ul li,.atributo_wrap h2,h4,.plan_wrap h3, .autocomplete-jquery-item {  
   color: #0c4a6e;
 }
 /* ==========================================================================
@@ -41,19 +41,20 @@
 /* ==========================================================================
     Color # 3 TEXTO
    ======================== ================================================== */
-.atributo_wrap p, h5,.curso_des p,.testimonial_wrap p,.pepName h5,.pepName p{
+.desktop_nav a:link,.desktop_nav a:visited,.desktop_nav a:active,.atributo_wrap p, h5,.curso_des p,.testimonial_wrap p,.pepName h5,.pepName p,.col2_wrap p,
+.col2_wrap ul,.pensum_block p,.teacher_col2 h2,.teacher_col2 p{
   color:#575756;
 }
 /* ==========================================================================
     Color # 4
    ======================== ================================================== */
-.filtro input{
+.filtro input,.login_wrap input{
   background-color: #fff;
 }
 /* ==========================================================================
     Color # 4 TEXTO
    ======================== ================================================== */
-.encabezado_wrap p{
+.encabezado_wrap p,.empezar_btn,.facebook_btn{
   color:#fff;
 }
 /* ==========================================================================

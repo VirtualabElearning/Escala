@@ -123,7 +123,30 @@ if (!function_exists('set_icon_archivo')) {
 	}
 
 
+if (!function_exists('envio_correo')) {
 
+	function envio_correo ($array_claves,$from_mail,$from_name,$to_mail,$asunto,$to_name,$plantilla_correo,$thiz) {
+
+		$content = file_get_contents( $plantilla_correo );
+		foreach ($array_claves as $key => $value) {
+			$content = str_replace($key, $value, $content);
+		}
+
+		$config['mailtype'] = 'html';
+		$thiz->load->library("email");
+		$thiz->email->initialize($config);
+
+		$thiz->email->from($from_mail, $from_name);
+		$thiz->email->to($to_mail,$to_name);
+		$thiz->email->subject($asunto);
+		$thiz->email->message( $content );
+		$thiz->email->send();
+
+		return true;
+
+	}
+
+	}
 
 
 

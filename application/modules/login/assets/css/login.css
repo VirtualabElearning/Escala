@@ -1,0 +1,6 @@
+.mensaje_error{
+ background: none repeat scroll 0 0 #ffdcdc;
+    border: 1px solid #ff9696;
+    margin: 8px;
+    padding: 10px;
+}

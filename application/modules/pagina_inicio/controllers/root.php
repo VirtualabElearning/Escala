@@ -64,7 +64,9 @@ class Root extends CI_Controller {
 
 		/* Reglas de validacion basicas de los campos del formulario */
 
-
+		$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
+		$this->form_validation->set_rules('descripcion', 'Descripción', 'required|xss_clean');
+		$this->form_validation->set_rules('keywords', 'Keywords', 'required|xss_clean');
 		$this->form_validation->set_rules('slogan', 'Slogan', 'required|xss_clean');
 		$this->form_validation->set_rules('titulo_destacados', 'Titulo destacados', 'required|xss_clean');
 		$this->form_validation->set_rules('descripcion_destacados', 'Descrición destacados', 'required|xss_clean');
@@ -292,6 +294,9 @@ else {
 
 	$data = array(
 		'slogan' => $this->input->post('slogan'),
+		'titulo' => $this->input->post('titulo'),
+		'descripcion' => $this->input->post('descripcion'),
+		'keywords' => $this->input->post('keywords'),
 		'titulo_destacados' => $this->input->post('titulo_destacados'),
 		'descripcion_destacados' => $this->input->post('descripcion_destacados'),
 		'cajas' => json_encode($cajas),

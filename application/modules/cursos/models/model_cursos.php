@@ -131,7 +131,8 @@ class Model_Cursos extends CI_Model{
 		$this->db->join('categoria_cursos', 'categoria_cursos.id_categoria_cursos = cursos.id_categoria_cursos');
 		$this->db->where('cursos.id_estados',1);
 
-		if ($palabra)  {
+
+		if ($palabra!='')  {
 			$this->db->like('cursos.titulo', $palabra); 
 			#$this->db->or_like('cursos.descripcion', $palabra); 
 			$this->db->or_like('categoria_cursos.nombre', $palabra); 		

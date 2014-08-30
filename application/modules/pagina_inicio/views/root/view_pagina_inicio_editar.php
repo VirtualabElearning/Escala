@@ -42,6 +42,14 @@
                   <br />
                   <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                   <?=form_open_multipart(base_url().str_replace(" ", "_", $titulo).'/root/guardar',$attributos)?>
+                 
+                  <?php echo input_text ("Título","titulo","titulo","Ingrese el titulo de la pagina de inicio",@$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
+
+                 <?php echo textarea ("Descrición","descripcion","descripcion","Ingrese la descrición de la pagina de inicio",@$detalle->descripcion,form_error("descripcion", '<div class="mensaje_error">', '</div>')) ?>
+
+                 <?php echo textarea ("Keywords","keywords","keywords","Ingrese los keywords de la pagina de inicio",@$detalle->keywords,form_error("keywords", '<div class="mensaje_error">', '</div>')) ?>
+
+
                   <?php echo input_text ("Slogan","slogan","slogan","Ingrese el slogan que tendrá en la web",@$detalle->slogan,form_error('slogan', '<div class="mensaje_error">', '</div>')); ?>
 
 

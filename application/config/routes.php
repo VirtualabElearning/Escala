@@ -46,6 +46,20 @@ $route['login/admin'] = "login/root";
 $route['inicio'] = "inicio/publico";
 $route['cursos'] = "cursos/publico";
 $route['cursos/buscar'] = "cursos/publico/buscar";
+$route['cursos/buscar_curso'] = "cursos/publico/buscar_curso";
+
+
+
+
+$route['ingresar'] = "login/publico/ingresar";
+$route['registro'] = "login/publico/registro";
+$route['cursos/mis_cursos'] = "cursos/publico/mis_cursos";
+$route['ingresar/validar'] = "login/publico/validar";
+$route['facebook_login'] = "login/publico/facebook";
+$route['salir_sistema'] = "login/publico/salir";
+//$route['ingresar/assets'] = "assets";
+
+
 #$route['cursos/(:any)/(:any)'] = "cursos/publico/$1/$2";
 
 

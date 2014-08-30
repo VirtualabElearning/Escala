@@ -12,15 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <?php $this->load->view('view_site_css_js'); ?>
-   <link rel="stylesheet" href="html/plugins/autocomplete/autocomplete.css">
- <script type="text/javascript" src="html/plugins/autocomplete/autocomplete.js"></script>
 
-
-  <script>
-            $(document).ready(function(){
-                $('.autocomplete').autocomplete();
-            });
-        </script>
 </head>
 <body>
 
@@ -40,10 +32,10 @@
         <div class="circle_wrap">
           <img src="html/site/img/icono_4.png" alt="">
         </div>
-        <div class="filtro autocomplete">
+        <div class="filtro">
          <?php $attributos=array("method"=>"get","id"=>"formbuscar","name"=>"formbuscar"); ?>
          <?=form_open(base_url().$this->uri->segment(1).'/buscar',$attributos)?>
-         <input type="text" data-source="<?php echo $this->uri->segment(1); ?>/buscar_curso?buscar=" class="autocomplete" name="buscar" id="buscar"  autocomplete="off" value="<?php echo $this->input->get('buscar'); ?>" placeholder="* Buscar cursos">
+         <input type="text" name="buscar" id="buscar"  autocomplete="off" value="<?php echo $this->input->get('buscar'); ?>" placeholder="* Buscar cursos">
          <img src="html/site/img/search_icon.png" alt="">
          <?=form_close()?>
        </div>

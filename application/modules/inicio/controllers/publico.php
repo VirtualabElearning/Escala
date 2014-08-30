@@ -31,7 +31,7 @@ class Publico extends CI_Controller {
 
 		## consulto los tipos de planes existentes en el sistema para traerlos con sus respectivos contenidos
 		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
-
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
 		$this->load->view('publico/view_inicio',$data);
 
 	}

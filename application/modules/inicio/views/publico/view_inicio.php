@@ -7,8 +7,9 @@
     <base href="<?=base_url()?>" /> 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
-    <meta name="description" content="">
+    <title><?php echo $inicio->titulo; ?> | <?php echo $custom_sistema->nombre_sistema; ?></title>
+    <meta name="description" content="<?php echo $inicio->descripcion; ?>">
+    <meta name="keywords" content="<?php echo $inicio->keywords; ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 

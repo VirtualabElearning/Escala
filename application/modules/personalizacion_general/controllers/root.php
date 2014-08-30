@@ -95,6 +95,8 @@ class Root extends CI_Controller {
 
 		/* Validaciones  basicas de lo que voy a editar */
 		$this->form_validation->set_rules('nombre_sistema', 'Nombre sistema', 'required|xss_clean');
+		$this->form_validation->set_rules('correo_contacto', 'Correo contacto', 'required|xss_clean');
+		$this->form_validation->set_rules('nombre_contacto', 'Nombre contacto', 'required|xss_clean');
 		$this->form_validation->set_rules('descripcion_sistema', 'Descripción sistema', 'required|xss_clean');
 		$this->form_validation->set_rules('keywords_sistema', 'Keywords sistema', 'xss_clean');
 		$this->form_validation->set_rules('colores_sistema1', 'Color 1', 'required|xss_clean');
@@ -112,8 +114,8 @@ class Root extends CI_Controller {
 		if($this->form_validation->run() == FALSE)
 		{ 
 
-		 $this->personalizacion_general($id); 
-		  echo validation_errors();
+			$this->personalizacion_general($id); 
+			echo validation_errors();
 			
 		}
 
@@ -121,6 +123,8 @@ class Root extends CI_Controller {
 			/* Asigno en array los valores de los campos llegados por el formulario */
 			$data = array(
 				'nombre_sistema' => $this->input->post ('nombre_sistema'),
+				'nombre_contacto' => $this->input->post ('nombre_contacto'),
+				'correo_contacto' => $this->input->post ('correo_contacto'),
 				'descripcion_sistema' => $this->input->post ('descripcion_sistema'),
 				'keywords_sistema' => $this->input->post ('keywords_sistema'),
 				'colores_sistema1' => $this->input->post ('colores_sistema1'),
@@ -156,7 +160,7 @@ class Root extends CI_Controller {
 				## elimino la foto
 				if ($this->input->post ('image')=='')  {
 					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
-			$data['logo'] = "";
+					$data['logo'] = "";
 				}
 				
 				

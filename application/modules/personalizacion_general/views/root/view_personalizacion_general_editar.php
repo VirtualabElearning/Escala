@@ -42,6 +42,11 @@
                       <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                       <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
                       <?php echo input_text ("Nombre del sistema","nombre_sistema","nombre_sistema","Ingrese el nombre del sistema",$detalle->nombre_sistema); ?>
+                      <?php echo input_text ("Nombre contacto","nombre_contacto","nombre_contacto","Ingrese el nombre de contacto",$detalle->nombre_contacto); ?>
+                      <?php echo input_text ("Correo contacto","correo_contacto","correo_contacto","Ingrese el correo de contacto",$detalle->correo_contacto); ?>
+
+
+
                       <?php echo form_error('nombre_sistema', '<div class="mensaje_error">', '</div>'); ?>
                       <?php echo textarea ("Descripci&oacute;n del sistema","descripcion_sistema","descripcion_sistema","Ingrese la descripci&oacute;n del sistema",$detalle->descripcion_sistema); ?>
                       <?php echo form_error('descripcion_sistema', '<div class="mensaje_error">', '</div>'); ?>
@@ -244,9 +249,9 @@
 
  <style>
 
-.fileupload-preview.fileupload-exists.thumbnail > img {
+  .fileupload-preview.fileupload-exists.thumbnail > img {
     width: 80px;
-}
+  }
 
 
   .colorpicker {

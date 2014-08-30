@@ -177,6 +177,7 @@ public function validar($mensaje_error=null){
 }
 
 
+
 public function username_check(){
 	$this->load->model('model_login');
 	/* Evaluo en la funcion si existe, si la contrasena es correcta. */
