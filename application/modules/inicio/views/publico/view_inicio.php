@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -27,9 +28,11 @@
        <?php foreach ( json_decode(json_decode($inicio->cajas)->titulos) as $key => $value): ?>
         <div class="atributo <?php if ($key<2)  {   ?> mobile-hider <?php } else { ?>atributo_third<?php } ?>">
             <div class="atributo_wrap">
-                <img src="uploads/pagina_inicio/<?php echo json_decode(json_decode($inicio->cajas)->atributo_fotos)[$key]->{"atributo_foto".($key+1)}; ?>" alt="contenidos de calidad">
+                <?php $_atributos_fotos=json_decode(json_decode($inicio->cajas)->atributo_fotos); ?>
+                <img src="uploads/pagina_inicio/<?php echo $_atributos_fotos[$key]->{"atributo_foto".($key+1)}; ?>" alt="contenidos de calidad">
                 <h2><?php echo $value->{"atributo_titulo".($key+1)}; ?></h2>
-                <p><?php echo json_decode(json_decode($inicio->cajas)->contenidos)[$key]->{"atributo_contenido".($key+1)}; ?></p>
+                <?php $_contenido=json_decode(json_decode($inicio->cajas)->contenidos); ?>
+                <p><?php echo $_contenido[$key]->{"atributo_contenido".($key+1)}; ?></p>
             </div>
         </div>
     <?php endforeach ?>
@@ -65,31 +68,35 @@
     <div class="registrate_wrap clear">
 
 
-<?php foreach ($tipo_planes as $key => $value): ?>
-    
-       <div class="plan<?php if ($key==1)  {  echo "2"; } ?> <?php if ($key>0)  {  echo " no_margin "; } ?>">
-           <div class="plan_wrap">
-               <h2><?php echo $value->nombre; ?></h2>
-               <h3>Gratis</h3>
-               <ul>
-                   <li class="grey"><?php if ( @json_decode(json_decode($inicio->planes)->lineas1)[$key]!='') {  echo  @json_decode(json_decode($inicio->planes)->lineas1)[$key];  } else { echo "&nbsp;"; } ?></li>
-                   <li class="white"><?php if ( @json_decode(json_decode($inicio->planes)->lineas2)[$key]!='') {  echo  @json_decode(json_decode($inicio->planes)->lineas1)[$key];  } else { echo "&nbsp;"; } ?></li>
-                   <li class="grey"><?php if ( @json_decode(json_decode($inicio->planes)->lineas3)[$key]!='') {  echo  @json_decode(json_decode($inicio->planes)->lineas1)[$key];  } else { echo "&nbsp;"; } ?></li>
-                   <li class="white"><?php if ( @json_decode(json_decode($inicio->planes)->lineas4)[$key]!='') {  echo  @json_decode(json_decode($inicio->planes)->lineas1)[$key];  } else { echo "&nbsp;"; } ?></li>
-               </ul>
+        <?php foreach ($tipo_planes as $key => $value): ?>
 
-               <?php if ($key==0): ?>
-                 <a href="<?php echo @json_decode(json_decode($inicio->planes)->urls)[$key]; ?>"><div class="premium_btn">Empezar</div></a>
-                   <?php else: ?>
-                    <a href="<?php echo @json_decode(json_decode($inicio->planes)->urls)[$key]; ?>"><div class="basic_btn">Empezar</div></a>
-               <?php endif ?>
+           <div class="plan<?php if ($key==1)  {  echo "2"; } ?> <?php if ($key>0)  {  echo " no_margin "; } ?>">
+               <div class="plan_wrap">
+                   <h2><?php echo $value->nombre; ?></h2>
+                   <h3>Gratis</h3>
+                   <ul>
+                       <?php $_linea1=@json_decode(json_decode($inicio->planes)->lineas1); ?>
+                       <li class="grey"><?php if ( $_linea1[$key]!='') {  echo  $_linea1[$key];  } else { echo "&nbsp;"; } ?></li>
+                       <?php $_linea2=@json_decode(json_decode($inicio->planes)->lineas2); ?>
+                       <li class="white"><?php if ( $_linea2[$key]!='') {  echo  $_linea2[$key];  } else { echo "&nbsp;"; } ?></li>
+                       <?php $_linea3=@json_decode(json_decode($inicio->planes)->lineas3); ?>
+                       <li class="grey"><?php if ( $_linea3[$key]!='') {  echo  $_linea3[$key];  } else { echo "&nbsp;"; } ?></li>
+                       <?php $_linea4=@json_decode(json_decode($inicio->planes)->lineas4); ?>
+                       <li class="white"><?php if ( $_linea4[$key]!='') {  echo  $_linea4[$key];  } else { echo "&nbsp;"; } ?></li>
+                   </ul>
+                   <?php $_urls=@json_decode(json_decode($inicio->planes)->urls); ?>
+                   <?php if ($key==0): ?>
+                     <a href="<?php echo $_urls[$key]; ?>"><div class="premium_btn">Empezar</div></a>
+                 <?php else: ?>
+                    <a href="<?php echo $_urls[$key]; ?>"><div class="basic_btn">Empezar</div></a>
+                <?php endif ?>
 
-           </div>
-       </div>
+            </div>
+        </div>
 
-<?php endforeach ?>
+    <?php endforeach ?>
 
-   </div>
+</div>
 </section>
 
 
@@ -106,8 +113,8 @@
                     <div class="test_edge">                              
                     </div>
                     <div class="testi_block_wrap clear">
-                        <p>
-                            “<?php echo json_decode(json_decode($inicio->testimonios)->texto_testimonio)[$key]->{"txt_testimonio".($key+1)}; ?>”
+                        <p> <?php $_texto_testimonio=json_decode(json_decode($inicio->testimonios)->texto_testimonio); ?>
+                            “<?php echo $_texto_testimonio[$key]->{"txt_testimonio".($key+1)}; ?>”
                         </p>
                     </div>
                     <div class="testi_pep clear">
@@ -115,12 +122,15 @@
                             <div class="pep_pic">
 
 
-
-                                <img src="uploads/pagina_inicio/<?php echo json_decode(json_decode($inicio->testimonios)->testi_fotos)[$key]->{"testi_foto".($key+1)}; ?>" alt="<?php echo json_decode(json_decode($inicio->testimonios)->nombres_completos)[$key]->{"testi_nombres_completos".($key+1)}; ?>">
+                                <?php $_testi_fotos=json_decode(json_decode($inicio->testimonios)->testi_fotos); ?>
+                                <?php $_nombres_completos=json_decode(json_decode($inicio->testimonios)->nombres_completos); ?>
+                                <img src="uploads/pagina_inicio/<?php echo $_testi_fotos[$key]->{"testi_foto".($key+1)}; ?>" alt="<?php echo $_nombres_completos[$key]->{"testi_nombres_completos".($key+1)}; ?>">
                             </div>
                             <div class="pepName">
-                                <h5><?php echo json_decode(json_decode($inicio->testimonios)->nombres_completos)[$key]->{"testi_nombres_completos".($key+1)}; ?></h5>
-                                <p><?php echo json_decode(json_decode($inicio->testimonios)->profesion)[$key]->{"testi_profesion".($key+1)}; ?></p>
+                                <?php $_nombres_completos=json_decode(json_decode($inicio->testimonios)->nombres_completos); ?>
+                                <h5><?php echo $_nombres_completos[$key]->{"testi_nombres_completos".($key+1)}; ?></h5>
+                                <?php $_profesion=json_decode(json_decode($inicio->testimonios)->profesion); ?>
+                                <p><?php echo $_profesion[$key]->{"testi_profesion".($key+1)}; ?></p>
                             </div>
                         </div>
                     </div>

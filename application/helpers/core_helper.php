@@ -151,6 +151,22 @@ if (!function_exists('envio_correo')) {
 
 
 
+function save_image($inPath,$outPath)
+{ 
+    $in=    fopen($inPath, "rb");
+    $out=   fopen($outPath, "wb");
+    while ($chunk = fread($in,8192))
+    {
+        fwrite($out, $chunk, 8192);
+    }
+    fclose($in);
+    fclose($out);
+}
+
+
+
+
+
 }
 
 

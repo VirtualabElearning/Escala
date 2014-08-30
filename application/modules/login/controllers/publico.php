@@ -100,8 +100,14 @@ $data['custom_sistema']=$this->model_generico->detalle('personalizacion_general'
 
 
 						$foto_nombre=md5($datos_perfil->identifier.date('Y-m-d H:m:s')).".jpg";
-						$content = file_get_contents($datos_perfil->photoURL);
-						file_put_contents('uploads/aprendices/'.$foto_nombre, $content);
+						
+						#$content = file_get_contents($datos_perfil->photoURL);
+
+						save_image($datos_perfil->photoURL,'uploads/aprendices/'.$foto_nombre);
+
+
+
+						#file_put_contents('uploads/aprendices/'.$foto_nombre, $content);
 
 
 						$data = array(

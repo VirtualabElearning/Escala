@@ -42,6 +42,7 @@ $route['default_controller'] = "inicio/publico";
 $route['404_override'] = '';
 
 $route['login/admin'] = "login/root";
+$route['admin'] = "login/root";
 
 $route['inicio'] = "inicio/publico";
 $route['cursos'] = "cursos/publico";
@@ -52,6 +53,9 @@ $route['cursos/buscar_curso'] = "cursos/publico/buscar_curso";
 
 
 $route['ingresar'] = "login/publico/ingresar";
+
+$route['login'] = "login/publico/ingresar";
+
 $route['registro'] = "login/publico/registro";
 $route['cursos/mis_cursos'] = "cursos/publico/mis_cursos";
 $route['ingresar/validar'] = "login/publico/validar";
