@@ -9,14 +9,19 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/color.css">
 
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="js/jquery.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
+        <script>
+            window.addEventListener("load", function(){
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
+            });
+        </script>
         <script type="text/javascript">
   
             $(document).ready(function(){
@@ -24,13 +29,13 @@
                 });
 
         </script>
-        
-    </head>
     <body>
+        <div id="load_screen"><div id="loading">Cargando Plataforma</div></div>
         <!--HEADER-->
         <header>
             <div class="header_wrap">
-                <section class="logo">                    
+                <section class="logo"> 
+                    <img src="img/logo.jpg" alt="logo">                   
                 </section>
                 <!--NAVEGACIÓN-->
                 <nav class="mobile-hider desktop_nav">
@@ -65,6 +70,44 @@
             <h3>¡Una experiencia de aprendizaje online que potencializará tus capacidades para el éxito integral!
             </h3>
             <div class="atributos_wrap clear">
+
+                
+                
+                <div id="atr_slider clear mobile-visible">
+                    <div class="atr_slider_wrap">
+
+                        <div class="atr_mobile_blocks clear">
+                            <div class="atr_mobile_block">
+                                <div class="atr_mobile_block_wrap">
+                                    <img src="img/icono_1.png" alt="atributo_1">
+                                    <h2>Contenidos de alta calidad</h2>
+                                </div>
+                            </div>
+                            <div class="atr_mobile_block">
+                                <div class="atr_mobile_block_wrap">
+                                    <img src="img/icono_2.png" alt="atributo_1">
+                                    <h2>Aprende a tu ritmo</h2>
+                                </div>
+                            </div>
+                            <div class="atr_mobile_block">
+                                <div class="atr_mobile_block_wrap">
+                                    <img src="img/icono_3.png" alt="atributo_1">
+                                    <h2>Certificamos tus habilidades</h2>
+                                </div>
+                            </div>
+                            <div class="atr_mobile_block">
+                                <div class="atr_mobile_block_wrap">
+                                    <img src="img/icono_1.png" alt="atributo_1">
+                                    <h2>Contenidos de alta calidad</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
                 <div class="atributo mobile-hider">
                     <div class="atributo_wrap">
                         <img src="img/icono_1.png" alt="contenidos de calidad">
@@ -79,7 +122,7 @@
                         <p class="mobile-hider">Accede a tus cursos en cualquier momento del día, desde tu computador, tableta, Smartphone o cualquier otro dispositivo que tengas con acceso a internet.</p>
                     </div>
                 </div>
-                <div class="atributo atributo_third">
+                <div class="atributo atributo_third mobile-hider">
                     <div class="atributo_wrap">
                         <img src="img/icono_3.png" alt="contenidos de calidad">
                         <h2>Certificamos tus habilidades</h2>
@@ -100,6 +143,9 @@
             <h4>Cursos destacados</h4>
             <h5>¡Puedes disfrutar instantáneamente de estos y mas cursos que tenemos para ti!</h5>
             <div class="cursos_destacados_wrap clear">
+                
+                <section class="cursos_destacados">
+            <div class="cursos_destacados_wrap clear">
                 <div class="curso">
                     <div class="curso_wrap">
                         <div class="curso_pic">
@@ -109,9 +155,11 @@
                             <h2>Liderazgo</h2>
                             <p>similique sunt in culpa qui officia </p>
                         </div>
-                        <div class="curso_btn">
-                            Gratis
-                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
                         
                     </div>
                 </div>
@@ -125,14 +173,15 @@
                             <h2>Liderazgo</h2>
                             <p>similique sunt in culpa qui officia </p>
                         </div>
-                        <div class="curso_btn color2">
-                            Estándar
-                        </div>
-                        
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn color2">
+                                Estándar
+                            </div>
+                        </a>
                     </div>
                 </div>
 
-                <div class="curso tercero">
+                <div class="curso">
                     <div class="curso_wrap">
                         <div class="curso_pic">
                             <img src="img/curso1.jpg" alt="">
@@ -141,12 +190,70 @@
                             <h2>Liderazgo</h2>
                             <p>similique sunt in culpa qui officia </p>
                         </div>
-                        <div class="curso_btn">
-                            Gratis
-                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
                         
                     </div>
                 </div>
+                <div class="curso">
+                    <div class="curso_wrap">
+                        <div class="curso_pic">
+                            <img src="img/curso1.jpg" alt="">
+                        </div>
+                        <div class="curso_des">
+                            <h2>Liderazgo</h2>
+                            <p>similique sunt in culpa qui officia </p>
+                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                <div class="curso">
+                    <div class="curso_wrap">
+                        <div class="curso_pic">
+                            <img src="img/curso1.jpg" alt="">
+                        </div>
+                        <div class="curso_des">
+                            <h2>Liderazgo</h2>
+                            <p>similique sunt in culpa qui officia </p>
+                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                <div class="curso">
+                    <div class="curso_wrap">
+                        <div class="curso_pic">
+                            <img src="img/curso1.jpg" alt="">
+                        </div>
+                        <div class="curso_des">
+                            <h2>Liderazgo</h2>
+                            <p>similique sunt in culpa qui officia </p>
+                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
             </div>
         </section>
         <section class="registrate">
@@ -264,23 +371,25 @@
             </div>
 
         </section>
-        <footer>
+        <footer class="special_footer">
             <div class="footer_wrap">
                 <div class="social">  
                 <img src="img/face_icon.png" alt="facebook">
                 <img src="img/tweet_icon.png" alt="twitter"> 
                 </div>
                 <p>
-                    Nosotros | Soporte | Contáctenos<br/>
+                    <a href="nosotros.html">Nosotros</a> | <a href="#">Soporte</a> | <a href="contactenos.html">Contáctenos</a><br/>
                     Terminos y condiciones<br/>
                     desarrollado por © Virtualab
                 </p>
             </div>
         </footer>
-        <!--
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-        <script src="js/main.js"></script>
-        -->
+        <script>
+        var myInterval = setInterval(function(){
+            console.log(new Date());
+        }, 2000);
+
+
+        </script>
     </body>
 </html>

@@ -25,10 +25,11 @@
     <div class="login_wrap">
 
 
-      <a href="facebook_login"> <div class="facebook_btn">Ingresar con Facebook</div></a>
+      <a href="facebook_login/<?php echo $this->uri->segment(2); ?>"> <div class="facebook_btn">Ingresar con Facebook</div></a>
       <?php $attributos=array('class'=>'form-horizontal','name'=>'form_generator','id'=>'form_generator'); ?>
       <?=form_open(base_url().'ingresar/validar',$attributos)?>
-      <div class="name"><input type="email" id="correo" name="correo" value="<?php echo $this->input->post('correo') ?>"  autocomplete="off" placeholder="* Correo"><img src="img/name_icon.png" alt=""></div>
+      <input type="hidden" name="redirecter" value="<?php echo $this->uri->segment(2); ?>">
+      <div class="name"><input type="email" id="correo" name="correo" value="<?php echo $this->input->post('correo') ?>" placeholder="* Correo"><img src="img/name_icon.png" alt=""></div>
       <div class="pass">
         <input type="password" autocomplete="off" name="contrasena" value="" id="contrasena" placeholder="* Contrase&ntilde;a">
         <img src="img/pass_icon.png" alt="">

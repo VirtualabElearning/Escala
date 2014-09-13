@@ -43,7 +43,7 @@
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
                     <?php echo input_text ("Nombre","nombre_modulo","nombre_modulo","Ingrese el nombre",$detalle->nombre_modulo,form_error('nombre_modulo', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo textarea ("Introducción","introduccion_modulo","introduccion_modulo","Ingrese la introducción",$detalle->introduccion_modulo,form_error('introduccion_modulo', '<div class="mensaje_error">', '</div>')); ?>
-                    <?php echo editor ("Contenido","contenido_modulo","contenido_modulo",$detalle->contenido_modulo,form_error('contenido_modulo', '<div class="mensaje_error">', '</div>')) ?>
+                    <?php #echo editor ("Contenido","contenido_modulo","contenido_modulo",$detalle->contenido_modulo,form_error('contenido_modulo', '<div class="mensaje_error">', '</div>')) ?>
                     <?php 
                     foreach ($tipo_planes as $key => $value_tipo_planes) {
                      $opciones[$value_tipo_planes->id_tipo_planes]=$value_tipo_planes->nombre;

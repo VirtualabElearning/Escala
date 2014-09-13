@@ -46,7 +46,7 @@
     <h5><?php echo $inicio->descripcion_destacados; ?></h5>
     <div class="cursos_destacados_wrap clear">
         <?php foreach ($cursos_destacados as $key => $value): ?>
-            <div class="curso <?php if ($key==2)  {  echo "tercero";  } ?>">
+            <div class="curso">
                 <div class="curso_wrap">
                     <div class="curso_pic">
 

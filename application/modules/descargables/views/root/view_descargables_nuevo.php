@@ -50,7 +50,7 @@
 											<label class="col-lg-2 control-label">Archivo</label>
 											<div class="col-lg-5">
 												<input type="hidden" name="image">
-												<div class="fileupload   fileupload-exists " data-provides="fileupload">
+												<div class="fileupload fileupload-new" data-provides="fileupload">
 													<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 														<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
 													</div>

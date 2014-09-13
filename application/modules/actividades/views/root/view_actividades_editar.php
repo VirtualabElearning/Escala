@@ -4,7 +4,7 @@
   <base href="<?=base_url()?>" />   
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <!-- Title and other stuffs -->
+
   <title>Modulo <?php echo $titulo; ?> (Editar registro) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
@@ -14,7 +14,6 @@
 
   <?php $this->load->view('view_root_header'); ?> 
 
-  <!-- Main content starts -->
   <div class="content">
 
     <?php $this->load->view('view_root_menu'); ?> 
@@ -51,8 +50,6 @@
 
                     <br />
 
-                    <?php #krumo ($detalle); ?>
-
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form','id'=>'form_editar_actividad'); ?>
                     <?=form_open_multipart(base_url().$carpeta.'/root/guardar',$attributos)?>
                     <?php echo input_text ("Nombre ".asignar_frase_diccionario ($diccionario,'{actividades}','Actividad',1),"nombre_actividad","nombre_actividad","Ingrese el nombre",$detalle->datos_actividad->nombre_actividad,form_error('nombre_actividad', '<div class="mensaje_error">', '</div>')); ?>
@@ -73,10 +70,6 @@
                     echo select ("Plan","id_tipo_planes","id_tipo_planes",$opciones,$detalle->datos_actividad->id_tipo_planes); 
                     ?>
                     
-                    <?php #krumo ($tipo_actividades_lista); ?>
-
-                    <?php #krumo ($detalle); ?>
-
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Opciones personalizadas</label>
                       <div class="col-lg-10">
@@ -89,9 +82,7 @@
                             <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
 
                               <li <?php if ($detalle->id_tipo_actividades==$actividades_value->id_tipo_actividades): ?>  class="active" <?php endif; ?>><a class="tipo_actividades" id="<?php echo $actividades_value->id_tipo_actividades; ?>" href="#<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>" data-toggle="tab"><?php echo ($actividades_value->nombre_tipo_actividades); ?></a></li>
-
                             <?php endif ?>
-
 
                           <?php else: ?>
                             <li <?php if ($detalle->id_tipo_actividades==$actividades_value->id_tipo_actividades): ?>  class="active" <?php endif; ?>><a class="tipo_actividades" id="<?php echo $actividades_value->id_tipo_actividades; ?>" href="#<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>" data-toggle="tab"><?php echo ($actividades_value->nombre_tipo_actividades); ?></a></li>
@@ -109,12 +100,8 @@
                           <?php endif ?>
 
                         <?php else: ?>
-
                           <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,$detalle->id_actividades,$detalle->tabla_actividad,$detalle->datos_actividad,$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6)); ?>
-
-
                         <?php endif ?>
-
 
                       </div>
                     <?php endforeach ?>
@@ -153,7 +140,6 @@
                 <?=form_hidden('id_modulos',$detalle->id_modulos)?>
               <?php endif; ?>
 
-
               <?php if ($this->uri->segment(4)): ?>
                <?=form_hidden('id',$this->uri->segment(6))?>
                <?=form_hidden('id_modulos',$this->uri->segment(5))?>
@@ -164,32 +150,23 @@
                <?=form_hidden('id_modulos',$detalle->id_modulos)?>
              <?php endif ?>
 
-
              <?=form_close()?>
 
            </div>
          </div>
          <div class="widget-foot">
-          <!-- Footer goes here -->
-        </div>
-      </div>
-    </div>  
+         </div>
+       </div>
+     </div>  
 
-  </div>
+   </div>
+ </div>
 </div>
 </div>
-</div>
 
-<!-- Matter ends -->
-
-
-
-<!-- Mainbar ends -->        
 <div class="clearfix"></div>
 
 </div>
-<!-- Content ends -->
-
 
 <?php $this->load->view('view_admin_footer'); ?>
 <script> 
@@ -206,33 +183,23 @@
     $( "input[name='id_tipo_actividades']" ).val( $(this).attr('id') );
   });
 
-
-
-    //alert ($('div.active #tipo_pregunta option:selected').val());
-
-//$( "input[value='Hot Fuzz']" )
-
-$( "select[name='tipo_pregunta']" ).parent().attr('class','col-lg-4');
-$( "select[name='tipo_pregunta']" ).parent().after('<div class="col-lg-2"> <a id="add_respuestas" data-toggle="modal" href="#modal_respuestas"><button class="btn btn-sm btn-info" type="button">Agregar respuestas</button></a></div>');
-
-
+  $( "select[name='tipo_pregunta']" ).parent().attr('class','col-lg-4');
+  $( "select[name='tipo_pregunta']" ).parent().after('<div class="col-lg-2"> <a id="add_respuestas" data-toggle="modal" href="#modal_respuestas"><button class="btn btn-sm btn-info" type="button">Agregar respuestas</button></a></div>');
 
 // si es campo de texto
 if ($('div.active #tipo_pregunta option:selected').val()==4)  {
  $('#add_respuestas').hide();
 }
 
-
 $( "select[name='tipo_pregunta']" ).change(function(event) {
  event.preventDefault();
 
-    // $("input[name='id_tipo_actividades']").val($(this).val());
-    if ($(this).val()==4)  {
-     $(this).parent().next().children('#add_respuestas').hide();
-   }
-   else {
-    $(this).parent().next().children('#add_respuestas').show();
-  }
+ if ($(this).val()==4)  {
+   $(this).parent().next().children('#add_respuestas').hide();
+ }
+ else {
+  $(this).parent().next().children('#add_respuestas').show();
+}
 });
 
 
@@ -241,11 +208,8 @@ $('#add_preguntas').click(function(event) {
 /// si no son iguales, borro la que esta y meto una nueva con otro tipo de actividad (Fix para preguntas multiples)
 if ($( "input[name='id_tipo_actividades']").val()!=$( "input[name='id_tipo_actividades_antes']").val() )  {
 
-
-
   var r = confirm("Esta seguro de crear preguntas?, esto cambiará de forma inmediata el tipo de pregunta sin vuelta atrás.");
   if (r == true) {
-
 
     if ( $('#nombre_actividad').val()=='' ) {
      $("#add_preguntas_click").unbind('click');
@@ -262,27 +226,16 @@ if ($( "input[name='id_tipo_actividades']").val()!=$( "input[name='id_tipo_activ
    $('form').append('<input type="hidden" name="redirecter_pretty_editar" value="ok" />');
    $('.btnguardar').click();
 
-
  } else {
    return false;
  }
 
-
-
-
-
-
 }
 
 else {
-
   $("#add_preguntas_click").bind('click');
   $("#add_preguntas_click").click();
-
 }
-
-
-
 
 });
 
@@ -308,9 +261,7 @@ if ( $('#id_tipo_actividades_var').val()==1)  {
   $('#url_video_var').val($('#url_video').val());
 }
 
-
 if ( $('#tipo_pregunta').val()==2 )  {
-
   $('.opciones_correctas').each(function(index, el) {
     $(this).attr('type','radio');
 
@@ -320,7 +271,6 @@ if ( $('#tipo_pregunta').val()==2 )  {
 
 
 if ( $('#tipo_pregunta').val()==1 )  {
-
   $('.opciones_correctas').each(function(index, el) {
     $(this).attr('type','checkbox');
   });
@@ -346,9 +296,7 @@ if ($('#id_tipo_actividades_antes_var').val()==$( "input[name='id_tipo_actividad
     },
     success:function(result){       
       console.log ("success\n");
-         // alert (result);
-         var json = $.parseJSON(result);
-
+      var json = $.parseJSON(result);
 
 // ciclo primero para crear elementos
 $.each(json, function(i,item){
@@ -368,16 +316,9 @@ else {
   $(".rta_lista > div").last().show();
   $(".rta_lista > div").last().addClass('respuestas_lista');
 
-
   $(".respuestas_lista").last().attr("id","rta"+id_actual);
-
-  //$("#rta"+id_actual).append(' <div class="col-lg-1 "><a class="btn btn-xs btn-default deleter" href="#"><i class="fa fa-times"></i></a></div>');
-  
   $('#rta'+id_actual+' > div >input').val(item.posible_respuesta);
-  
   $('#rta'+id_actual+' > div >input').attr('placeholder','Opcion '+Number(id_actual));
-
-
   $('#rta'+id_actual+' > div').next().children().val(item.retroalimentacion);
   $('#rta'+id_actual+' > div').next().children().attr('placeholder','Retroalimentacion '+Number(id_actual));
 
@@ -388,22 +329,18 @@ else {
 console.log(json);
 // ciclo para asignar valores a los elementos creados
 $.each(json, function(i,item){
-
   var id_actual=Number(i+1);
-
 // si existe el elemento, ingreso valores
 if ( $('#rta'+parseInt(Number(i+1))).length>0 )  {
  $('#rta'+id_actual+' >div >input').val(item.posible_respuesta);
  $('#rta'+id_actual+' >div').next().children().val(item.retroalimentacion);
  if (item.correcta==1)  { 
- //alert (id_actual); 
  // si es radiobutton
  if ($('#tipo_pregunta_opc').val()==2)   {    
    $('#rta'+id_actual+' > div').next().children().children('.opciones_correctas').click();
  }
 
  $('#rta'+id_actual+' > div').next().children().children('.opciones_correctas').attr("checked", true);
-  //$('#rta'+id_actual+' > div').next().children().children('.opciones_correctas').click();
 } 
 
 else {
@@ -428,8 +365,6 @@ ajaxStop:function(result){
 
 });
 
-
-
 }
 
 });
@@ -437,17 +372,13 @@ ajaxStop:function(result){
 
 
 $('.btnguardar').click(function(event) {
-
  event.preventDefault();
-
  $('.tab-pane').each(function(index, el) {
   if ( $(this).hasClass('active') )  { }
     else { $(this).remove(); }
 });
 
-
  $('#form_editar_actividad').submit();
-
 
 });
 
@@ -466,7 +397,6 @@ $('.clone').click(function(event) {
 
  $(".rta_lista > div").last().show();
  $(".rta_lista > div").last().addClass('respuestas_lista');
-
 
  $('#rta'+id_actual_num+' > div >input').attr('placeholder','Opcion '+Number(id_actual_num));
  $('#rta'+id_actual_num+' > div').next().children().attr('placeholder','Retroalimentacion '+Number(id_actual_num));
@@ -531,19 +461,10 @@ $('.guardar_respuestas').click(function(event) {
 });
 
 
-
-
 });
-
-
 
 });
 </script>
-
-
-
-
-
 
 
 <div id="modal_respuestas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -555,14 +476,9 @@ $('.guardar_respuestas').click(function(event) {
       </div>
       <div class="modal-body">
 
-
-
-
         <form id="forma_modal_resp" role="form" class="form-horizontal">
 
           <div class="form-group rta_lista">
-
-
 
             <div id="rta1" class="respuestas_lista col-lg-11">
               <div class="col-lg-5">
@@ -580,13 +496,7 @@ $('.guardar_respuestas').click(function(event) {
               </div>  
             </div>
 
-
-
-
           </div>
-
-
-
 
           <input type="hidden" id="id_actual" value="1">
           <input type="hidden" id="nombre_pregunta" name="nombre_pregunta">
@@ -603,17 +513,12 @@ $('.guardar_respuestas').click(function(event) {
           <input type="hidden" id="url_video_var" name="url_video_var">
         </form>
 
-
-
         <div class="col-lg-1 clonx">     
           <div class="btn-group">
            <a href="#" class="clone">  <button class="btn btn-xs btn-default"><i class="fa fa-copy"></i> </button> </a>
 
          </div>
        </div>
-
-
-
 
 
      </div>
@@ -624,10 +529,6 @@ $('.guardar_respuestas').click(function(event) {
   </div>
 </div>
 </div>
-
-
-
-
 
 
 <div id="rta0" class=" col-lg-11" style="display:none;">
@@ -647,10 +548,7 @@ $('.guardar_respuestas').click(function(event) {
 
   <div class="col-lg-1 "><a class="btn btn-xs btn-default deleter" href="#"><i class="fa fa-times"></i></a></div>
 
-
 </div>
-
-
 
 </body>
 </html>

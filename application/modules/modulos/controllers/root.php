@@ -44,7 +44,7 @@ class Root extends CI_Controller {
 		/* Llamo ala funcion generica para traer el listado de informacion del modulo */
 		$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],array('id_cursos',$id_cursos),array('orden','asc'));
 		/* Envio header de la tabla de los campos que necesito mostrar */
-		$data['titulos']=array("Orden","ID","Nombre","Descripcion","Tipo de plan","Estado","Opciones");
+		$data['titulos']=array("Orden","ID","Nombre","Introducción","Tipo de plan","Estado","Opciones");
 		/* Cargo vista de listado de informacion */
 
 

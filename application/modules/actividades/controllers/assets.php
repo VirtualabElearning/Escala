@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+## funcion para traer los css,js,imagenes o cualquier tipo de formato al modulo especifico
 class Assets extends CI_Controller {
 
 	function __construct() {
@@ -45,15 +45,7 @@ class Assets extends CI_Controller {
 			show_404();
 		}
 		exit;
-
-
-
-
-
 	}
-
-
-
 }
 
 /* End of file assets.php */

@@ -45,7 +45,7 @@
                  
                   <?php echo input_text ("Título","titulo","titulo","Ingrese el titulo de la pagina de inicio",@$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
 
-                 <?php echo textarea ("Descrición","descripcion","descripcion","Ingrese la descrición de la pagina de inicio",@$detalle->descripcion,form_error("descripcion", '<div class="mensaje_error">', '</div>')) ?>
+                 <?php echo textarea ("Descripción","descripcion","descripcion","Ingrese la descripción de la pagina de inicio",@$detalle->descripcion,form_error("descripcion", '<div class="mensaje_error">', '</div>')) ?>
 
                  <?php echo textarea ("Keywords","keywords","keywords","Ingrese los keywords de la pagina de inicio",@$detalle->keywords,form_error("keywords", '<div class="mensaje_error">', '</div>')) ?>
 

@@ -98,11 +98,16 @@
 											</div>
 										</div>
 
+
+    <?php echo input_text ("Url video trailer youtube","video","video","Escriba la url del trailer (si este campo está vacío, se pondrá en su lugar la foto)",$this->input->post('video'),form_error('video', '<div class="mensaje_error">', '</div>')); ?>
+
+
+
 										<?php echo editor ("Objetivos de parendizaje","objetivos_aprendizaje","objetivos_aprendizaje",$this->input->post('objetivos_aprendizaje'),form_error('objetivos_aprendizaje', '<div class="mensaje_error">', '</div>')) ?>
 
 										<?php echo editor ("Prerrequisitos","prerrequisitos","prerrequisitos",$this->input->post('prerrequisitos'),form_error('prerrequisitos', '<div class="mensaje_error">', '</div>')) ?>
 
-										<?php echo editor ("Contenidos del curso","contenido","contenido",$this->input->post('contenido'),form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
+										<?php echo editor ("Descripción corta","contenido","contenido",$this->input->post('contenido'),form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
 
 
 
@@ -130,6 +135,9 @@
 										?>
 										<?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
 										?>
+
+                    <?php echo input_text ("Máximo estudiantes","maximo_estudiantes","maximo_estudiantes","Ingrese el máximo de estudiantes en el curso",$this->input->post('maximo_estudiantes'),form_error('maximo_estudiantes', '<div class="mensaje_error">', '</div>')); ?>
+
 
 										<?php 
 										$opciones=array("1"=>"Activo","0"=>"Inactivo");

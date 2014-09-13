@@ -1,0 +1,44 @@
+a {
+	cursor: pointer;
+}
+
+.hiderx {
+	display: none;
+
+}
+
+.disc_block_A_col2  {
+	font-family: century;
+	font-size: 11px;
+}
+
+
+.disc_block_A_col2 h3 {
+	font-family: century_b;
+	font-size: 15px;
+}
+
+
+.discusion {
+
+	display: block !important;
+	left: 0px;
+}
+
+
+.mensaje_exito{
+	 background: none repeat scroll 0 0 #c5fcc0;
+    border: 1px solid #96ffbf;
+    margin: 8px;
+    padding: 10px;
+}
+
+
+.error a {
+	color: #0C4A6E;
+	font-weight: bold;
+}	
+
+.error {
+	margin-top: 30px;
+}

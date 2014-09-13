@@ -36,6 +36,35 @@ class Root extends CI_Controller {
 		$this->lista();
 	}
 
+
+	/*  Funcion para exportar todos los estudiantes  */
+	public function exportar()
+	{
+		/* Llamo a la funcion lista */
+
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$this->load->helper('csv');
+
+
+		$lista_tmp=$this->{$variables['modelo']}->listado('usuarios',array('usuarios.id_roles',2),array('orden','asc'));
+#encabezado del array
+		$lista[0]=array('Nombres completos','Identificacion','Profesion','Correo','Estado');	
+
+## preparo el array para exportar
+
+		foreach ($lista_tmp as $key => $value) {
+			$lista[$key+1]=array($value->nombres." ".$value->apellidos,$value->identificacion,$value->profesion,$value->correo,$value->estado_nombre);
+		}
+
+		header('Content-Type: application/csv');
+		header('Content-Disposition: attachement; filename="' . asignar_frase_diccionario ($data['diccionario'],"{docente}",$variables['modulo'],2)."_".date('d-M-Y').'.csv' . '"');
+		echo array_to_csv($lista);
+		exit;
+
+	}
+
+
+
 	/* Funcion listado */
 	public function lista()
 	{

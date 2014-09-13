@@ -36,9 +36,9 @@
     <div class="encabezado_wrap">
       <h6>OFERTA DE CURSOS</h6>
       <p>¡Una experiencia de aprendizaje online que te dejará sin palabras y potencializará tus capacidades para el éxito integral!</p>
-      <div class="circle">
+      <div class="circle" <?php if (!$this->session->userdata('id_estatus') ): ?> style="background:none;" <?php endif ?>>
         <div class="circle_wrap">
-          <img src="html/site/img/icono_4.png" alt="">
+            <img src="html/site/img/<?php echo $this->encrypt->decode( $this->session->userdata('id_estatus') ); ?>.png" alt="">
         </div>
         <div class="filtro autocomplete">
          <?php $attributos=array("method"=>"get","id"=>"formbuscar","name"=>"formbuscar"); ?>
@@ -61,7 +61,7 @@
 
 
 
-    <div class="curso <?php if ($contador==3): ?>tercero<?php $contador=0; endif; ?>">
+    <div class="curso">
       <div class="curso_wrap">
         <div class="curso_pic">
          <img src="escalar.php?src=<?php echo base_url(); ?>uploads/cursos/<?php echo $value->foto; ?>&amp;w=306&amp;h=218&amp;zc=1" alt="><?php echo $value->titulo; ?>">
@@ -70,7 +70,10 @@
         <h2><?php echo $value->categoria_cursos; ?></h2>
         <p><?php echo $value->titulo; ?></p>
       </div>
+
+
       <a href="cursos/detalle/<?php echo $value->id_cursos; ?>/<?php echo amigable($value->titulo); ?>.html"> <div class="curso_btn <?php if ($value->id_tipo_planes!=1) { echo " color2"; } ?>"> <?php echo $value->tipo_plan; ?></div> </a>
+    
     </div>
   </div>
   <?php $contador++; ?>

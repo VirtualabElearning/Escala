@@ -1,36 +1,88 @@
-.wrapper{
-    height: 410px;
+@font-face {
+	font-family: 'MTCORSVA';
+	src: url('./fonts/MTCORSVA.eot');
+	src: local('fonts/MTCORSVA'), url('./fonts/MTCORSVA.woff') format('woff'), url('./fonts/MTCORSVA.ttf') format('truetype');
+}
+
+body {
+   color: #3d3d3d;
+    font-family: arial;
+    font-size: 14px;	
+}
+
+
+
+.wrapper {
+
+ background-image: url("../../../html/pdf/certificados/img/completa_html.png");
+    height: 396px;
+    width: 612px;
+margin:auto;
+
+}
+
+.divnombres {
+
+margin-top: 120px;
+}
+
+.centered {
+    left: 21%;
+    position: relative;
+    top: 30%;
+}
+
+
+.nombres{
+   border-bottom: 2px solid #3d3d3d;
+    font-family: 'Norasi' !important;
+    font-size: 40px;
+    margin: auto;
+    text-align: center;
+    width: 500px;	
+padding-top: 110px;  
+
+}
+
+.cedula{
+ font-size: 20px;
     margin: auto;
     position: relative;
-    width: 613px;
-	}
-
-	.top {
-
-	}
-
-	.left {
-	 left: 0;
-    position: absolute;
-    top: 0;
-	}
-
-	.content {
-position: relative;
-left: 34px;
-	}
+    top: 32%;
+    width: 184px;
+    padding-top: 7px;  
+    padding-bottom: 15px;
+}
 
 
+.text{
+
+margin: auto;
+    position: relative;
+    top: 35%;
+    width: 540px;
+}
+
+.text2{
+ margin: auto;
+    position: relative;
+    top: 39%;
+    width: 280px;
+    padding-top: 10px;
+}
 
 
-	.right {
-		position: absolute;
-		right: 0px;
-		top: 0px;
-	}
+.estudiante{
+ font-weight: bold;
+    margin: auto;
+    margin-top: 55px;
+    width: 190px;
+}
 
-	.down {
- bottom: 10px;
-    left: 1px;
-    position: absolute;
-	}
+.profesion{
+  font-size: 13px;
+    margin: auto;
+    position: relative;
+    top: 53%;
+    width: 112px;
+}

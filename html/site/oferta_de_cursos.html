@@ -9,14 +9,19 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/color.css">
 
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="js/jquery.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
+        <script>
+            window.addEventListener("load", function(){
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
+            });
+        </script>
         <script type="text/javascript">
   
             $(document).ready(function(){
@@ -24,15 +29,16 @@
                 });
 
         </script>
-        
-    </head>
     <body>
+        <div id="load_screen"><div id="loading">Cargando Plataforma</div></div>
         <!--HEADER-->
         <header>
             <div class="header_wrap">
-                <section class="logo">
-                    <a href="index.html"><img src="img/logo.jpg" alt="Nombre de cliente"></a>                   
-                </section>
+                <a href="index.html">
+                    <section class="logo"> 
+                        <img src="img/logo.jpg" alt="logo">
+                    </section>
+                </a>
                 <!--NAVEGACIÓN-->
                 <nav class="mobile-hider desktop_nav">
                     <ul class="clear">
@@ -61,6 +67,12 @@
         </header>
         <div class="fixed_header">            
         </div>
+        
+        <a href="editar_perfil.html"><section class="actualiza_tus_datos">
+            <div class="actualiza_tus_datos_wrap">
+                <p>Maria Por favor actualiza tus datos, haciendo clic aquí</p>
+            </div>
+        </section></a>
 
         <section class="encabezado">
             <div class="encabezado_wrap">
@@ -77,7 +89,7 @@
                 </div>
             </div>            
         </section>
-
+        <div class="grilla_spacer"></div>
         <section class="cursos_destacados">
             <div class="cursos_destacados_wrap clear">
                 <div class="curso">
@@ -115,7 +127,60 @@
                     </div>
                 </div>
 
-                <div class="curso tercero">
+                <div class="curso">
+                    <div class="curso_wrap">
+                        <div class="curso_pic">
+                            <img src="img/curso1.jpg" alt="">
+                        </div>
+                        <div class="curso_des">
+                            <h2>Liderazgo</h2>
+                            <p>similique sunt in culpa qui officia </p>
+                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+                <div class="curso">
+                    <div class="curso_wrap">
+                        <div class="curso_pic">
+                            <img src="img/curso1.jpg" alt="">
+                        </div>
+                        <div class="curso_des">
+                            <h2>Liderazgo</h2>
+                            <p>similique sunt in culpa qui officia </p>
+                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                <div class="curso">
+                    <div class="curso_wrap">
+                        <div class="curso_pic">
+                            <img src="img/curso1.jpg" alt="">
+                        </div>
+                        <div class="curso_des">
+                            <h2>Liderazgo</h2>
+                            <p>similique sunt in culpa qui officia </p>
+                        </div>
+                        <a href="descripcion_de_curso.html">
+                            <div class="curso_btn">
+                                Gratis
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                <div class="curso">
                     <div class="curso_wrap">
                         <div class="curso_pic">
                             <img src="img/curso1.jpg" alt="">
@@ -134,8 +199,29 @@
                 </div>
             </div>
         </section>
+        <section class="paginador">
+            <div class="paginador_wrap clear">
+                <div class="paginador_col1">
+                    <a href=""><div class="paginador_btn" id="Prev"><<</div></a>
+                </div>
+                <div class="paginador_col2">
+                    <ul class="clear">
+                        <li class="current">1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                    </ul>
+                </div>
+                <div class="paginador_col3">
+                    <a href=""><div class="paginador_btn" id="Prev">>></div></a>
+                </div>
 
-        <footer>
+            </div>
+        </section>
+        <footer class="special_footer">
             <div class="footer_wrap">
                 <div class="social">  
                 <img src="img/face_icon.png" alt="facebook">

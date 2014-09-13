@@ -59,7 +59,7 @@
                 <div class="form-group">
                   <label class="control-label col-lg-3" for="inputEmail">Correo</label>
                   <div class="col-lg-9">
-                    <input type="email" name="correo" autocomplete="off" class="form-control" id="inputEmail" placeholder="Email">
+                    <input type="email" name="correo" class="form-control" id="inputEmail" placeholder="Email">
                     <?php echo form_error('correo', '<div class="mensaje_error">', '</div>'); ?>
                   </div>
                 </div>
@@ -88,10 +88,10 @@
                   <button type="reset" class="btn btn-default btn-sm">Reset</button>
                 </div>
                 <br />
-<?php  ?>
+<?php /* ?>
 <a href="<?php echo base_url().'login/root/iniciar_sesion/'.$this->uri->segment(4).'/' ?>Facebook">Entrar con Facebook</a><br />
 <a href="<?php echo base_url().'login/root/iniciar_sesion/'.$this->uri->segment(4).'/' ?>Twitter">Entrar con Twitter</a><br />
-
+<?php */ ?>
                 <?=form_hidden('redirect',$redirect)?>
                 <?=form_hidden('token',$token)?>
                 <?=form_close()?>

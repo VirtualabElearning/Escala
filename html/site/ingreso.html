@@ -17,6 +17,12 @@
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
+        <script>
+            window.addEventListener("load", function(){
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
+            });
+        </script>
         <script type="text/javascript">
   
             $(document).ready(function(){
@@ -27,6 +33,7 @@
         
     </head>
     <body>
+        <div id="load_screen"><div id="loading">Cargando Plataforma</div></div>
         <!--HEADER-->
         <header>
             <div class="header_wrap">
@@ -65,7 +72,7 @@
             Hello
         </div>
         <section class="login">
-            <div class="login_wrap">
+            <div class="login_wrap">    
                 <div class="facebook_btn">
                             Ingresar con Facebook
                 </div>
@@ -74,23 +81,26 @@
                         <img src="img/name_icon.png" alt="">
                 </div>
                 <div class="pass">
-                        <input type="text" placeholder="* Contraseña">
+                        <input type="password" placeholder="* Contraseña">
                         <img src="img/pass_icon.png" alt="">
                 </div>
                 <div class="login_btn">
                             Entrar
                 </div>
+                <div class="forgot_pass">
+                    <a href="contraseña.html"><p>¿Olvidaste tu contraseña?</p></a>
+                </div>
             </div>
         </section>
 
-        <footer>
+        <footer class="special_footer">
             <div class="footer_wrap">
                 <div class="social">  
                 <img src="img/face_icon.png" alt="facebook">
                 <img src="img/tweet_icon.png" alt="twitter"> 
                 </div>
                 <p>
-                    Nosotros | Soporte | Contáctenos<br/>
+                    <a href="nosotros.html">Nosotros</a> | <a href="#">Soporte</a> | <a href="contactenos.html">Contáctenos</a><br/>
                     Terminos y condiciones<br/>
                     desarrollado por © Virtualab
                 </p>

@@ -122,7 +122,7 @@ if (!function_exists('set_icon_archivo')) {
 		return $icon;
 	}
 
-
+}
 if (!function_exists('envio_correo')) {
 
 	function envio_correo ($array_claves,$from_mail,$from_name,$to_mail,$asunto,$to_name,$plantilla_correo,$thiz) {
@@ -131,6 +131,9 @@ if (!function_exists('envio_correo')) {
 		foreach ($array_claves as $key => $value) {
 			$content = str_replace($key, $value, $content);
 		}
+
+
+
 
 		$config['mailtype'] = 'html';
 		$thiz->load->library("email");
@@ -146,27 +149,116 @@ if (!function_exists('envio_correo')) {
 
 	}
 
+}
+
+
+## guarda la imagen en la carpeta indicada (origen,destino)
+if (!function_exists('save_image')) {
+	function save_image($inPath,$outPath)
+	{ 
+		$content = file_get_contents($inPath);
+		file_put_contents($outPath, $content);
+	}}
+
+## compruebo si realmente estoy inscrito a ese curso, de lo contrario, redirecciono
+	if (!function_exists('if_mi_curso')) {
+		function if_mi_curso($id_cursos,$mis_cursos_asignados,$url=null)
+		{ 
+			if (!in_array($id_cursos, $mis_cursos_asignados)) {	
+				if ($url) { redirect($url); }
+				else{ redirect('/'); }
+			}
+		}
+	}
+
+
+#funcion que comprueba si estoy o no inscrito
+	if (!function_exists('if_inscrito')) {
+		function if_inscrito($id_cursos,$mis_cursos_asignados)
+		{
+
+
+			if (!@in_array($id_cursos, $mis_cursos_asignados)) {	
+				return 0;
+			}
+
+			else {
+				return 1;
+			}
+
+
+
+		}
+
+	}
+
+	
+
+
+
+	if (!function_exists('crea_zip')) {
+		function crea_zip($archivos = array(),$destino = '',$remplazar = false) {
+
+			if(file_exists($destino) && !$remplazar) { return false; }
+
+			#$archivos_validos = array();
+
+			if(is_array($archivos)) {
+
+				foreach($archivos as $archivo) {
+
+					if(file_exists($archivo)) {
+						$archivos_validos[] = $archivo;
+					}
+				}
+			}
+
+
+
+
+
+			if(count($archivos_validos)) {
+
+				$zip = new ZipArchive();
+				if($zip->open($destino,$remplazar ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
+					return false;
+				}
+
+				foreach($archivos_validos as $archivo1) {
+
+					#$partes=explode ("/",$archivo1);
+					$archivo1_n=str_replace("tmp/", "", $archivo1);
+					#$zip->addFile($archivo1,$partes[count($partes)-1]);
+					$zip->addFile($archivo1,$archivo1_n);
+				}
+
+
+				$zip->close();
+
+
+				return file_exists($destino);
+			}
+			else
+			{
+				return false;
+			}
+
+
+
+
+
+
+		}
+
 	}
 
 
 
+	if (!function_exists('borrar_carpeta')) {
+		function borrar_carpeta($path) {
+			return is_file($path) ?
+			@unlink($path) :
+			array_map(__FUNCTION__, glob($path.'/*')) == @rmdir($path);
+		}
 
-function save_image($inPath,$outPath)
-{ 
-    $in=    fopen($inPath, "rb");
-    $out=   fopen($outPath, "wb");
-    while ($chunk = fread($in,8192))
-    {
-        fwrite($out, $chunk, 8192);
-    }
-    fclose($in);
-    fclose($out);
-}
-
-
-
-
-
-}
-
-
+	}

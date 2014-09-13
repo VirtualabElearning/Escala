@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/color.css">
+
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/functions.js"></script>
+        <script>
+            window.addEventListener("load", function(){
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
+            });
+        </script>
+        <script type="text/javascript">
+  
+            $(document).ready(function(){
+              setMenuActive(3);
+                });
+
+        </script>
+        
+    </head>
+    <body> 
+        <div id="load_screen"><div id="loading">Cargando Plataforma</div></div>
+         <!--HEADER-->
+        <header>
+            <div class="header_wrap">
+                <a href="index.html">
+                  <section class="logo mobile-hider" id="logo"> 
+                    <img src="img/logo.jpg" alt="logo">                   
+                  </section>
+                </a>
+                <!--NAVEGACIÓN-->
+                <nav class="desktop_nav clear">
+                    <ul class="clear">
+                        <li class="mobile-hider">
+                            <a href="mis_cursos.html" class="menu-entry">Mis Cursos</a>
+                        </li>
+                           <li><a href="#" class="menu-entry">
+                                    <div class="inbox_btn">
+                                        <img src="img/inbox_icon.png" alt="inbox">                                        
+                                    </div>
+                              </a>
+                          </li>
+                          <li><a href="#" class="menu-entry" id="btn2">
+                                    <div class="noti_btn">
+                                        <img src="img/noti_icon.png" alt="notificaciones">
+                                        <div class="noti_numero">7</div>
+                                    </div>
+                              </a>
+                          </li>
+                          <li class="avatar_btn">
+                            <a href="#" class="menu-entry" id="btn">
+                                <div class="perfil_btn clear">
+                                    <div class="perfil_col1">
+                                        <img src="img/per4.jpg" alt="Estudiante">                                        
+                                    </div>
+                                    <div class="perfil_col2" id="btn">
+                                        <h6 class="hider">Maria26</h6>
+                                        <h3 class="puntos">175</h3>
+                                    </div>
+                                    
+                                </div>
+                            </a>
+                          </li>
+                    </ul>  
+                </nav>
+                
+                <div class="header-nav mobile-visible">
+                  <div class="content-full clear">
+                    <div class="navigation">
+                      <div id="primary-menu">
+                        <div class="menu-icon" id="pull"><a href="#"></a></div>
+                        <ul>
+                          <li><a href="oferta_de_cursos.html" class="menu-entry" id="menu1">Cursos</a></li>
+                          <li><a href="mis_cursos.html" class="menu-entry" id="menu2">Mis cursos</a></li>                       
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+        </header>
+
+        <div class="fixed_header">            
+        </div>
+        <section class="profile">
+            <div class="profile_wrap">
+                <div class="profile_dark">  
+                    <p>Cerrar</p>                  
+                </div>  
+                <div class="profile_avatar">
+                    <div class="profile_avatar_wrap clear">
+                        <div class="prof_av_col1">
+                            <img src="img/per4.jpg" alt="">
+                        </div>
+                        <div class="prof_av_col2">
+                            <h6>Maria26</h6>
+                            <p>Maria Uribe</p>
+                        </div>
+                    </div>
+                    <div class="avatar_infoblock clear">
+                        <div class="avatar_infoblock_col1">
+                            <h3>Estatus</h3>
+                        </div>
+                        <div class="avatar_infoblock_col2">
+                            <p>Campeon</p>
+                        </div>
+                    </div>
+                    <div class="avatar_infoblock clear">
+                        <div class="avatar_infoblock_col1">
+                            <h3>Puntaje</h3>
+                        </div>
+                        <div class="avatar_infoblock_col2">
+                            <p>173</p>
+                        </div>
+                    </div>
+                    <div class="avatar_infoblock clear">
+                        <div class="avatar_infoblock_col1">
+                            <h3>Logros</h3>
+                        </div>
+                        <div class="avatar_infoblock_col2">
+                            <p>9</p>
+                        </div>
+                    </div>
+                    <div class="medal_container clear">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                    </div>
+                </div>
+                <div class="profile_btns">
+                    <ul class="clear">
+                        <a href="editar_perfil.html"><li>Editar Perfil</li></a>
+                        <a href="certificados.html"><li>Certificados</li></a>
+                        <a href="suscripcion.html"><li class="profile_third_btn">Suscripción</li></a>
+                    </ul>
+                </div>
+                <div class="profile_dark">  
+                    <h2>Cerrar Sesion</h2>                  
+                </div>              
+            </div>
+        </section>
+
+        <section class="notificaciones">
+            <div class="notificaciones_wrap">
+                <h4>Notificaciones</h4>
+                <ul>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+
+       
+
+         <section class="encabezado2 clear">
+            <div class="encabezado2_wrap">
+                <h6>Notificaciones</h6>
+                <p>Liberando tu maximo potencial para legar al exito</p>
+                <div class="circle">
+                    <div class="circle_wrap">
+                        <img src="img/status_1.png" alt="">
+                    </div>
+                   
+                </div>
+            </div>            
+        </section>     
+
+        <section class="not_page">
+            <div class="not_page_wrap">
+
+                <div class="not_block">
+                    <div class="not_block_wrap clear">
+                        <div class="not_block_col1">
+                            <h4>Septiembre 03</h4>
+                            <span>6:45am</span>
+                        </div>
+                        <div class="not_block_col2">                            
+                        </div>
+                        <div class="not_block_col3">
+                            <p><b>Lorem ipsum</b> dolor sit amet, consectetur adipisicing elit. Alias repellat, excepturi debitis quidem dolores voluptates vel molestiae voluptatibus repudiandae rem temporibus nesciunt facere libero dignissimos ullam nemo, magni. Aspernatur, quaerat?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="not_block">
+                    <div class="not_block_wrap clear">
+                        <div class="not_block_col1">
+                            <h4>Septiembre 03</h4>
+                            <span>6:45am</span>
+                        </div>
+                        <div class="not_block_col2">                            
+                        </div>
+                        <div class="not_block_col3">
+                            <p><b>Lorem ipsum</b> dolor sit amet, consectetur adipisicing elit. Alias repellat, excepturi debitis quidem dolores voluptates vel molestiae voluptatibus repudiandae rem temporibus nesciunt facere libero dignissimos ullam nemo, magni. Aspernatur, quaerat?</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>  
+
+        <footer class="special_footer">
+            <div class="footer_wrap">
+                <div class="social">  
+                <img src="img/face_icon.png" alt="facebook">
+                <img src="img/tweet_icon.png" alt="twitter"> 
+                </div>
+                <p>
+                    <a href="nosotros.html">Nosotros</a> | <a href="#">Soporte</a> | <a href="contactenos.html">Contáctenos</a><br/>
+                    Terminos y condiciones<br/>
+                    desarrollado por © Virtualab
+                </p>
+            </div>
+        </footer>
+        <!--
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+        <script src="js/main.js"></script>
+        -->
+
+    </body>
+</html>

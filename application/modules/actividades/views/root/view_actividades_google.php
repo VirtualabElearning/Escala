@@ -57,11 +57,6 @@
 
                            <?php endif ?>
 
-
-
-
-
-
                            <label class="col-lg-2 control-label">Tipo de pregunta</label>
                            <div class="col-lg-3">
                              <select id="tipo_pregunta[]" name="tipo_pregunta[]" class="form-control selects">
@@ -79,8 +74,6 @@
                             <label class="col-lg-2 control-label">Titulo de la pregunta</label><div class="col-lg-7 pregunta_titlex"><input type="text" name="pregunta[]" id="pregunta[]" class="form-control" value="<?php echo $value->pregunta; ?>" placeholder="Pregunta sin titulo"></div>
                           </div>
 
-
-
                           <div class="col-lg-9 competencia_class">
                             <label class="col-lg-2 control-label">Competencia!</label><div class="col-lg-7 pregunta_titlex">
                             <select id="id_competencias[]" name="id_competencias[]" class="form-control competencias_select">
@@ -91,8 +84,6 @@
                             </select>
                           </div>
                         </div>
-
-
 
 
                         <div class="custom_field col-lg-10">
@@ -132,16 +123,8 @@
                               <input type="text" name="gostop" id="gostop" class="form-control ghost-input" placeholder="Clic para crear otra opción"> 
                             </div>
 
-
-
-                            
-
-
                             <?php                           
-
                             break;
-
-
                             case '2':  // Elegir de una lista
                             ?>
 
@@ -155,24 +138,20 @@
                                   <input type="text" placeholder="Opcion <?php echo $variables_respuestas_contador; ?>" value="<?php echo $variables_respuestas_value->opcion; ?>" class="form-control lista" id="lista[]"  name="lista<?php echo $contador_pregunta; ?>[]">   
                                   <input type="text" class="form-control retrolista" value="<?php echo $variables_respuestas_value->retroalimentacion; ?>" name="retrolista<?php echo $contador_pregunta; ?>[]" class="form-control texter" placeholder="Retroalimentacion <?php echo $variables_respuestas_contador; ?>">
                                   
-
                                   <?php if ($variables_respuestas_key>0): ?>
                                     <a href="#" class="btn btn-xs btn-default google-opt deleter_google"><i class="fa fa-times"></i></a>
                                   <?php endif ?>
 
-                                  
                                 </div>
                                 <?php $variables_respuestas_contador++; ?>
                               <?php endforeach ?>
                             <?php endif ?>
-
 
                             <div class="col-lg-7">
                               <input type="text" placeholder="Clic para crear otra opción" class="form-control" id="lista-gost"  name="lista-gost[]">
                             </div>
                             <?php
                             break;
-
 
                             case '3':  // tipo test
                             ?>
@@ -209,7 +188,6 @@
                            <?php
                            break;
 
-
                             case '4':  // Campo de texto
                             ?>
                             <?php $variables_respuestas_contador=1; ?>
@@ -227,18 +205,12 @@
                             <?php
                             break;
 
-
-
                             default:
 
                             break;
                           }
                           ?>                      
-
                         </div>
-
-
-
 
                       </div>   
 
@@ -247,7 +219,6 @@
                     <?php $contador_pregunta++; ?>
 
                   <?php endforeach ?>
-
 
                   <?php ## si no hay preguntas realizadas, cargo como si nada ?>
                 <?php else: ?>
@@ -288,43 +259,23 @@
                   </div>
 
                   <div class="custom_field col-lg-10"></div>
-
                 </div>   
 
               </li>
 
-
             <?php endif ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
           </ul>
 
-
           <div class="form-group">
             <div class="col-lg-offset-2 col-lg-6">
-
-
 
              <a class="clone_pregunta" href="#"> <button class="btn btn-sm btn-success"> Crear nueva pregunta</button> </a>
              <button class="btn btn-sm btn-primary btnguardar" type="submit">Guardar</button>
              <a onclick="window.parent.$.prettyPhoto.close();"><button class="btn btn-sm btn-warning btncancelar" type="button">Volver</button></a>
            </div>
          </div>
-
 
          <input type="hidden" name="id_cursos" id="id_cursos" value="<?php echo $this->uri->segment(4); ?>">
          <input type="hidden" name="id_modulos" id="id_modulos" value="<?php echo $this->uri->segment(5); ?>">
@@ -342,40 +293,18 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
 </div>
 </div>
 </div>
-
-
-
-
-
-
-
-
 
 
 <div id="plantilla_pregunta" style="display:none;">
 
   <div class="form-group dragt">
 
-
    <h3 class="pregunta_number">Pregunta <span>  </span> <input type="hidden" name="num_pregunta[]"> </h3>
 
-
    <label class="col-lg-3 control-label">Tipo de pregunta</label>
-
 
    <div class="col-lg-2">
     <select class="form-control selects" name="tipo_pregunta[]" id="tipo_pregunta[]">
@@ -392,7 +321,6 @@
   <div class="col-lg-9 prepregunta">
     <label class="col-lg-2 control-label">Titulo de la pregunta</label><div class="col-lg-7 pregunta_titlex"><input type="text" placeholder="Pregunta sin titulo" class="form-control" id="pregunta[]" name="pregunta[]"></div>
   </div>
-
 
   <div class="col-lg-9 competencia_class">
     <label class="col-lg-2 control-label">Competencia</label><div class="col-lg-7 pregunta_titlex">

@@ -9,27 +9,56 @@
 //	HybridAuth Config file: http://hybridauth.sourceforge.net/userguide/Configuration.html
 // ----------------------------------------------------------------------------------------
 
+
+$pos = strpos(base_url(), "virtualab.sem");
+
+## si es version produccion
+if ($pos === false) {
+  
 $config =
 	array(
-		// set on "base_url" the relative url that point to HybridAuth Endpoint
 		'base_url' => '/hauth/endpoint',
-
 		"providers" => array (
 			"Facebook" => array (
 				"enabled" => true,
 				"keys"    => array ( "id" => "541420399295679", "secret" => "3e9b3024a6cc59994dae3c3e97bdbbfb" ),
 			),
-			"Twitter" => array (
-				"enabled" => true,
-				"keys"    => array ( "key" => "rcvoN3tw1T1qu8LmkOnAo41TS", "secret" => "HjRdbUcVa7kvvtZU4CipMXOvwTiihQ9lb0QcbMGbAGytUEvwtH" )
-			),
 		),
-
-		// if you want to enable logging, set 'debug_mode' to true  then provide a writable file by the web server on "debug_file"
 		"debug_mode" => (ENVIRONMENT == 'production'),
-
 		"debug_file" => APPPATH.'/logs/hybridauth.log',
 	);
+
+
+
+
+} else {
+ ## si es version local
+$config =
+	array(
+		'base_url' => '/hauth/endpoint',
+		"providers" => array (
+			"Facebook" => array (
+				"enabled" => true,
+				"keys"    => array ( "id" => "708560965890572", "secret" => "abde714d7432f31f39d2afa6ca45f48e" ),
+			),
+		),
+		"debug_mode" => (ENVIRONMENT == 'production'),
+		"debug_file" => APPPATH.'/logs/hybridauth.log',
+	);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 /* End of file hybridauthlib.php */

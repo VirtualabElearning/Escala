@@ -30,7 +30,7 @@
           <div class="col-md-12">
       
            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
- 
+     <a target="_blank" href="<?php echo $this->uri->segment(1); ?>/root/exportar" class="btn btn-primary btn-xs"><i class="fa"></i> Exportar</a>
            <div class="widget">
             <div class="widget-head">
               <div class="pull-left"><?php echo $titulo; ?></div>

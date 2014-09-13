@@ -1,3 +1,4 @@
+<?php #krumo($this->session->all_userdata()); ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -20,26 +21,30 @@
   <?php $this->load->view('view_site_header'); ?>
 
 
-
-
-
-
   <section class="encabezado">
     <div class="encabezado_wrap">
-      <h6>OFERTA DE CURSOS</h6>
+      <h6>MIS DE CURSOS</h6>
       <p>¡Una experiencia de aprendizaje online que te dejará sin palabras y potencializará tus capacidades para el éxito integral!</p>
+    
+
+<?php if ($this->session->userdata('id_estatus')): ?>
+  
+
       <div class="circle">
         <div class="circle_wrap">
-          <img src="html/site/img/icono_4.png" alt="">
+            <img src="html/site/img/<?php echo $this->encrypt->decode( $this->session->userdata('id_estatus') ); ?>.png" alt="">
         </div>
         <div class="filtro">
          <?php $attributos=array("method"=>"get","id"=>"formbuscar","name"=>"formbuscar"); ?>
-         <?=form_open(base_url().$this->uri->segment(1).'/buscar',$attributos)?>
+         <?=form_open(base_url().$this->uri->segment(1).'/buscar_mis_cursos',$attributos)?>
          <input type="text" name="buscar" id="buscar"  autocomplete="off" value="<?php echo $this->input->get('buscar'); ?>" placeholder="* Buscar cursos">
          <img src="html/site/img/search_icon.png" alt="">
          <?=form_close()?>
        </div>
      </div>
+<?php endif ?>
+
+
    </div>            
  </section>
 
@@ -48,12 +53,15 @@
 
  <section class="cursos_destacados">
   <div class="cursos_destacados_wrap clear">
-   <?php $contador=1; ?>               
+   <?php $contador=1; ?>   
+   <?php if (@$cursos_lista): ?>
+                 
+                       
    <?php foreach ($cursos_lista as $key => $value): ?>
 
 
 
-    <div class="curso <?php if ($contador==3): ?>tercero<?php $contador=0; endif; ?>">
+    <div class="curso">
       <div class="curso_wrap">
         <div class="curso_pic">
          <img src="escalar.php?src=<?php echo base_url(); ?>uploads/cursos/<?php echo $value->foto; ?>&amp;w=306&amp;h=218&amp;zc=1" alt="><?php echo $value->titulo; ?>">
@@ -68,7 +76,12 @@
   <?php $contador++; ?>
 <?php endforeach ?>
 
+<?php else: ?>
 
+
+<div class="error">No existe ningún curso inscrito, entra al <a href="cursos">listado de cursos</a> disponibles para empezar.</div>
+
+   <?php endif ?> 
 
 
 </div>

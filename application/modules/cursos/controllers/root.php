@@ -77,7 +77,7 @@
 
 
 
-			$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Tipo plan","Destacado?","Estado","Opciones");
+			$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Tipo plan","Maximo estudiantes","Destacado?","Estado","Opciones");
 			$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 		}
 
@@ -162,6 +162,7 @@
 				'destacar' => $this->input->post ('destacar'),
 				'id_tipo_planes' => $this->input->post ('id_tipo_planes'),
 				'id_estados' => $this->input->post ('id_estados'),
+				'video' => $this->input->post ('video'),
 				'instructores_asignados'=> $instructores_asignados,
 				);
 

@@ -14,7 +14,6 @@
 
   <?php $this->load->view('view_root_header'); ?> 
 
-  <!-- Main content starts -->
   <div class="content">
 
     <?php $this->load->view('view_root_menu'); ?> 
@@ -48,13 +47,7 @@
                 </div>
                 <div class="widget-content">
                   <div class="padd">
-
                     <br />
-
-
-
-
-
 
 
 
@@ -74,17 +67,12 @@
                     echo select ("Logro","id_logros","id_logros",$opciones,$this->input->post('id_logros')); 
                     ?>
 
-
-
                     <?php  $opciones=array();
                     foreach ($planes_lista as $key => $value) {
                       $opciones[$value->id_tipo_planes]=$value->nombre;
                     }
                     echo select ("Plan","id_tipo_planes","id_tipo_planes",$opciones,$this->input->post('id_tipo_planes')); 
                     ?>
-
-                    <?php #krumo ($tipo_actividades_lista); ?>
-                    <?php #krumo ($detalle); ?>
 
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Valores personalizados</label>
@@ -116,36 +104,25 @@
                       <?php endforeach ?>
                     </div>
 
-
                   </div>
 
                 </div>
-
-
-
-
 
                 <?php 
                 $opciones=array("1"=>"Activo","0"=>"Inactivo");
                 echo select ("Estado","id_estados","id_estados",$opciones,''); 
                 ?>
-
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
                     <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
-
 
                     <?php if ($this->uri->segment(4)): ?>
                       <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
                     <?php endif ?>
 
-
-
                     <?php if ($this->input->post('id_modulos')): ?>
                       <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->input->post('id_cursos'); ?>/<?php echo $this->input->post('id_modulos'); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
                     <?php endif ?>
-
-
                   </div>
                 </div>
 
@@ -160,33 +137,22 @@
                   <?=form_hidden('id_modulos',$this->input->post('id_modulos'))?>
                   <?=form_hidden('id_cursos',$this->input->post('id_cursos'))?>
                 <?php endif ?>
-
                 <?=form_hidden('id_tipo_actividades',2)?> 
                 <?=form_close()?>
-
               </div>
             </div>
             <div class="widget-foot">
-
             </div>
           </div>
         </div>  
-
       </div>
     </div>
   </div>
 </div>
 
-
-
-
-
-<!-- Mainbar ends -->        
 <div class="clearfix"></div>
 
 </div>
-<!-- Content ends -->
-
 
 <?php $this->load->view('view_admin_footer'); ?>
 <script> 
@@ -208,16 +174,8 @@
      }
 
 
-
-
-
      $('form').append('<input type="hidden" name="redirecter_pretty" value="ok" />');
-
      $('.btnguardar').click();
-
-
-
-
    });
 
 
@@ -232,7 +190,6 @@
     $('#tipo_pregunta').change(function(event) {
      event.preventDefault();
 
-     //$("input[name='id_tipo_actividades']").val($(this).val());
      if ($(this).val()==4)  {
       $('#add_respuestas').hide();
     }
@@ -240,8 +197,6 @@
      $('#add_respuestas').show();
    }
  });
-
-
 
     $('#add_respuestas').click(function(event) {
      event.preventDefault();
@@ -341,7 +296,6 @@ ajaxStop:function(result){
 });
 
 
-
 }
 
 
@@ -352,15 +306,12 @@ if ( $('#tipo_pregunta').val()==2 )  {
 
 }
 
-
 if ( $('#tipo_pregunta').val()==1 )  {
   $('.opciones_correctas').each(function(index, el) {
     $(this).attr('type','checkbox');
   });
 
 }
-
-
 
 
 });
@@ -378,13 +329,10 @@ $('.clone').click(function(event) {
  $(".rta_lista > div").last().show();
  $(".rta_lista > div").last().addClass('respuestas_lista');
 
-
-
  $('#rta'+id_actual_num+' > div >input').attr('placeholder','Opcion '+Number(id_actual_num));
  $('#rta'+id_actual_num+' > div').next().children().attr('placeholder','Retroalimentacion '+Number(id_actual_num));
 
 });
-
 
 $(document).on('click', '.deleter', function(event) {
  event.preventDefault();
@@ -401,7 +349,6 @@ $('.guardar_respuestas').click(function(event) {
    if (this.checked) { if_chekeado=1;  $(this).val(index);  }
 
  });
-
 
  if (if_chekeado==0 && ($('#tipo_pregunta_opc').val()==1 || $('#tipo_pregunta_opc').val()==2|| $('#tipo_pregunta_opc').val()==3) )  {  alert ("Debe indicar al menos una que sea correcta!"); return false;  }
 
@@ -425,11 +372,9 @@ $('.guardar_respuestas').click(function(event) {
   complete:function(result){        
     console.log ("complete\n");
 
-
   },
   beforeSend:function(result){        
     console.log ("beforeSend\n");
-
 
 
   },
@@ -440,18 +385,10 @@ $('.guardar_respuestas').click(function(event) {
 
 });
 
-
-
-
 });
-
-
 
 });
 </script>
-
-
-
 <div id="modal_respuestas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal_resps">
     <div class="modal-content">
@@ -460,12 +397,8 @@ $('.guardar_respuestas').click(function(event) {
         <h4 class="modal-title">Lista de respuestas</h4>
       </div>
       <div class="modal-body">
-
-
         <form id="forma_modal_resp" role="form" class="form-horizontal">
-
           <div class="form-group rta_lista">
-
             <div class="respuestas_lista" id="rta1" class="col-lg-11">
               <div class="col-lg-5">
                 <input type="text" placeholder="Opcion 1" name="respuesta[]" class="form-control">
@@ -499,15 +432,12 @@ $('.guardar_respuestas').click(function(event) {
           <input type="hidden" id="url_video_var" name="url_video_var">
         </form>
 
-
         <div class="col-lg-1 clonx">     
           <div class="btn-group">
            <a href="#" class="clone">  <button class="btn btn-xs btn-default"><i class="fa fa-copy"></i> </button> </a>
 
          </div>
        </div>
-
-
 
      </div>
      <div class="modal-footer">
@@ -519,11 +449,6 @@ $('.guardar_respuestas').click(function(event) {
 </div>
 
 
-
-
-
-
-
 <div id="rta0" class="" style="display:none;">
   <div class="col-lg-5">
     <input type="text" placeholder="Opcion " name="respuesta[]" class="form-control respuestaclass">
@@ -533,14 +458,11 @@ $('.guardar_respuestas').click(function(event) {
   </div>
   <div class="col-lg-1 correctc">
     <label class="checkbox-inline">
-      <input type="checkbox" class="opciones_correctas" name="correcta[]" id="inlineCheckbox1"> Correcta?
+      <input type="checkbox" class="opciones_correctas" name="correcta[]" id="inlineCheckbox1"> ¿Correcta?
     </label>
   </div>  
   <div class="col-lg-1 "><a class="btn btn-xs btn-default deleter" href="#"><i class="fa fa-times"></i></a></div>
 </div>
-
-
-
 
 </body>
 </html>

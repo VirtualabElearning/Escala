@@ -53,7 +53,17 @@
                     <?php echo select ('Categoria cursos','id_categoria_cursos','id_categoria_cursos',$opciones,$detalle->id_categoria_cursos);
                     ?>
                     <?php echo input_text ("Titulo","titulo","titulo","Ingrese el titulo del curso",$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
+                    
+
+
                     <?php echo textarea ("Resumen del curso","descripcion","descripcion","Ingrese el resumen del curso",$detalle->descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
+                    
+
+
+                  <?php echo editor ("Descripción corta","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
+
+
+
                     <div id="contador"></div>
 
                     <div class="form-group">
@@ -83,9 +93,13 @@
                       </div>
                     </div>
                   </div>
+
+    <?php echo input_text ("Url video trailer youtube","video","video","Escriba la url del trailer (si este campo está vacío, se pondrá en su lugar la foto)",$detalle->video,form_error('video', '<div class="mensaje_error">', '</div>')); ?>
+
+
+
                   <?php echo editor ("Objetivos de parendizaje","objetivos_aprendizaje","objetivos_aprendizaje",$detalle->objetivos_aprendizaje,form_error('objetivos_aprendizaje', '<div class="mensaje_error">', '</div>')) ?>
                   <?php echo editor ("Prerrequisitos","prerrequisitos","prerrequisitos",$detalle->prerrequisitos,form_error('prerrequisitos', '<div class="mensaje_error">', '</div>')) ?>
-                  <?php echo editor ("Contenidos del curso","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
 
                   <?php $array_opc=array(); ?>
                   <?php $cursos_checked=json_decode($detalle->instructores_asignados); $checkeado=""; ?>
@@ -113,6 +127,7 @@
                     <?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
                     ?>
 
+                    <?php echo input_text ("Máximo estudiantes","maximo_estudiantes","maximo_estudiantes","Ingrese el máximo de estudiantes en el curso",$detalle->maximo_estudiantes,form_error('maximo_estudiantes', '<div class="mensaje_error">', '</div>')); ?>
 
 
                   <?php 

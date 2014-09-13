@@ -3,3 +3,5 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set("display_errors", 1);
 
 /*  Configuracion del sistema a nivel de programacion  */
+
+$config['url_base']	= 'http://campusescala.com';

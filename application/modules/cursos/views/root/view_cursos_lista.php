@@ -110,6 +110,7 @@
                          <td><?php echo $value->Descripcion; ?></td>
                          <td><?php echo $value->instructores_asignados_nombre; ?></td>
                          <td><?php echo $value->tipo_plan; ?></td>
+                          <td><?php echo $value->maximo_estudiantes; ?></td>
                          <td><?php if ($value->destacar==1)  { echo "Si"; } else { echo "No"; } ?></td>
                          <td><?php echo $value->estado_nombre; ?></td>
                          <td>  

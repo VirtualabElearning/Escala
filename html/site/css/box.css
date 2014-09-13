@@ -1,0 +1,207 @@
+/*--------------------------------------------------
+  // RESET
+---------------------------------------------------*/
+.clear:after {
+	clear: both;
+	content: "";
+	display: block;
+}
+.last {
+	margin-right: 0px !important;
+}
+.last-bottom {
+	margin-bottom: 0px !important;
+}
+img, a, div, input, textarea, select {
+	outline:none;
+	border:none;
+}
+textarea {
+	resize:none
+}
+.hider {
+	display:none;
+}
+.cont-visible {
+	display:block !important;
+}
+.mobile-visible {I
+	display: none;
+}
+.mobile-hider {
+	display: block;
+}
+.table-hider {
+	display: block;
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin:0px;
+	padding:0px;
+	border:0px;
+	border-collapse:separate;
+	border-spacing:0px;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	text-decoration:none;
+}
+/*--------------------------------------------------
+  // FONT
+---------------------------------------------------*/
+@font-face {
+ font-family: bebas;
+ src: url("fonts/BebasNeue-webfont.eot?#iefix"); /* For IE browsers */
+}
+@font-face {
+ font-family: bebas;
+ src: url("fonts/BebasNeue-webfont.eot"); /* For IE browsers */
+}
+@font-face {
+ font-family: bebas;
+ src: url("fonts/BebasNeue-webfont.ttf"); /* For most other browsers */
+}
+@font-face {
+ font-family: bebas;
+ src: url("fonts/BebasNeue-webfont.woff"); /* For most other browsers */
+}
+body {
+	background-color: #FFF;
+	margin:0px 0px;
+}
+.container{
+	width:960px;
+	height:500px;
+
+	overflow:hidden;
+}
+.container_wrap{
+	width:100%;
+	height:100%;
+	
+}
+.header{
+	width:100%;
+	}
+.header_wrap{
+	background-color: #9ea562;
+	height: 70px;
+	width: 100%;
+	text-align:center;
+	
+	
+	
+}
+h5{
+	padding-top:20px;
+	font-family: bebas, Helvetica, sans-serif;
+	font-size: 40px;
+	color: #FFF;
+	line-height:20px;
+	text-transform:uppercase;
+	}
+h4{
+	font-family: bebas, Helvetica, sans-serif;
+	font-size: 20px;
+	color: #7ac142;
+	line-height:20px;
+	text-transform:uppercase;
+	
+	}
+h2{
+	}
+.space{
+	background-color: #474747;
+	height: 20px;
+	width: 100%;
+	
+	}
+.col1{
+	width:45%;
+	float:left;
+	}
+.col1_wrap{
+	width:100%;
+	height:500px;
+	padding:40px;
+	
+	}
+.col3{
+	width:100%;
+	float:none;
+	padding-top:20px;
+	
+	}
+.col3_wrap{
+	width:100%;
+	height:500px;
+	padding:50px;
+	text-align:left;
+	padding-top:20px;
+	}
+.col3_wrap h1{
+	width:45%;
+	font-size:24px;
+	font-family:bebas;
+	line-height: 1.1em;
+	margin: 10px 0 30px 0;
+	color: #9ea56;
+	
+	}
+h3.pre-title {
+	margin: 0 0 5px 0;
+	padding-top: 10px;
+	color: #7bc143;
+	text-transform: uppercase;
+	font-size: 1.2em;
+	font-weight: normal;
+}	
+h1 {
+	font-size: 2.2em;
+	line-height: 1.1em;
+	margin: 10px 0 30px 0;
+	color: #000;
+}
+p.deck {
+	font-size: 13px;
+	line-height: 15px;
+	margin-bottom: 40px;
+	color: #333;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}	
+
+h3 {
+color: #444;
+font-size: 20px;
+line-height: 1.2em;
+margin: 24px 0 12px 0;
+}
+
+.col2{
+	width:40%;
+	float:right;
+	}
+.col2_wrap{
+	width:100%;
+	padding-left:30px;
+	padding-right:30px;
+	position:relative;
+	right:60px;
+	top:20px;
+	}
+.col2_wrap img{
+	border: 2pt #999 solid;
+	}
+.aplicar_btn img{
+	position:absolute;
+	left:250px;
+	top:290px;
+	text-decoration:none;
+	border-color:none;
+	width:  auto;
+	background: none;
+	border: none;
+	padding: none;
+	}	
+.logo_box{position:absolute;
+left:400px;
+top:5px;}

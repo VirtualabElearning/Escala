@@ -19,8 +19,8 @@ class Root extends CI_Controller {
 		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
 		$config['allowed_types'] =   "gif|jpg|jpeg|png|zip|rar|doc|docx|ppt|pptx|xls|xlsx|txt|rtf|doc|pps|ppsx|pdf";
 		$config['max_size']      =   "10000";
-		$config['max_width']     =   "2000";
-		$config['max_height']    =   "2000";
+		$config['max_width']     =   "20000";
+		$config['max_height']    =   "20000";
 		$config['remove_spaces']  = TRUE;
 		$config['encrypt_name']  = TRUE;
 		$this->load->library('upload',$config);
@@ -80,20 +80,25 @@ class Root extends CI_Controller {
 // funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
 	public function check_archivo()
 	{
+
+
 		if ($_FILES['userfile']['tmp_name'])  {
+
 			if ($this->upload->do_upload('userfile'))
-			{
+			{ 
 				$upload_data    = $this->upload->data();
 				$_POST['userfile'] = $upload_data['file_name'];
+				
 				return true;
 			}
 			else
 			{
+				#echo $this->upload->display_errors(); exit;
 				$this->form_validation->set_message('check_archivo', $this->upload->display_errors());
 				return false;
 			}
 
-		}
+		} 
 
 	}
 

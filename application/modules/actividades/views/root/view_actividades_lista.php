@@ -4,20 +4,13 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <!-- Title and other stuffs -->
   <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
-
 <body>
 
-
-
   <?php $this->load->view('view_root_header'); ?> 
-
-  <!-- Main content starts -->
-
   <div class="content">
 
    <?php $this->load->view('view_root_menu'); ?> 
@@ -26,11 +19,8 @@
 
     <div class="page-head">
       <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo $titulo; ?></h2>
-
-      <!-- Breadcrumb -->
       <div class="bread-crumb pull-right">
         <a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i> Inicio</a> 
-        <!-- Divider -->
         <span class="divider">/</span> 
         <a href="cursos/root/lista/<?php echo $this->uri->segment(3); ?>" class="bread-current">Cursos</a>
         <span class="divider">/</span> 
@@ -41,14 +31,11 @@
 
     </div>
 
-
     <div class="matter">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-
            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
-
            <div class="widget">
             <div class="widget-head">
               <div class="pull-left"><?php echo $titulo; ?></div>
@@ -60,21 +47,9 @@
             </div>
             <div class="widget-content">
               <div class="padd">
-
-                <!-- Table Page -->
                 <div class="page-tables">
-                  <!-- Table -->
                   <div class="table-responsive">
-
-
-
-
-
-
-
                     <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
-
-
                       <thead>
                         <tr>
                           <?php foreach ($titulos as $key => $value): ?>
@@ -82,18 +57,13 @@
                           <?php endforeach ?>
                         </tr>
                       </thead>
-
                       <tbody> 
-
-                        <?php #krumo ($lista); ?>
 
                         <?php foreach ($lista as $key => $value): ?>
 
                          <?php ## solo si es video y si es master o admin puede crear pregunta rapida y video, si es un instructor no! ?>
                          <?php if ($value->id_tipo_actividades==1 ): ?> 
                            <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
-
-                          
 
                             <tr id="<?php echo $value->id_actividades_barra; ?>">
                              <td><?php echo $value->orden; ?></td>
@@ -110,10 +80,8 @@
                               <a href="#" id="<?php echo $value->id_actividades_barra; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                             </tr>
 
-
                           <?php endif; ?>
                         <?php else: ?>
-
 
                             <tr id="<?php echo $value->id_actividades_barra; ?>">
                              <td><?php echo $value->orden; ?></td>
@@ -145,16 +113,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
                   <div class="clearfix"></div>
                 </div>
               </div>
@@ -163,7 +121,6 @@
 
           </div>
           <div class="widget-foot">
-            <!-- Footer goes here -->
           </div>
         </div>
       </div>  
@@ -173,16 +130,14 @@
 </div>
 </div>
 
-<!-- Matter ends -->
+
 
 </div>
 
-<!-- Mainbar ends -->        
+        
 <div class="clearfix"></div>
 
 </div>
-<!-- Content ends -->
-
 
 <form id="borrar_form" action ="<?php echo $this->uri->segment(1); ?>/root/borrar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>" method="POST">
   <input type="hidden" name="id" id="id">
@@ -202,17 +157,12 @@
       <div class="modal-footer">
        <button type="button" class="btn btn-primary" id="borrar">Confirmar</button>
        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-
      </div>
    </div>
  </div>
 </div>
 
-
-
 <?php $this->load->view('view_admin_footer'); ?>
-
-
 
 <script>
   var fixHelper = function(e, ui) {
@@ -250,9 +200,6 @@
     });
   });
 
-
 </script>
-
 </body>
-
 </html>

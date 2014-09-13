@@ -205,8 +205,8 @@
         <tr>
           <th><center>#</center></th>
           <th>Titulo</th>
-          <th>Descripcion</th>
-          <th>Estado</th>
+          <th>Descripci&oacute;n</th>
+          <th>Estado</th> 
 
       </tr>
       <tr>

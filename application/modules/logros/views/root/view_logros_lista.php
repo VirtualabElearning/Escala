@@ -82,7 +82,7 @@
                              <td><?php echo $value->orden; ?></td>
                              <td><?php echo $value->id_logros; ?></td>
                              <td><?php echo $value->nombre; ?></td>
-                             <td><img class="foto_img" src="<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>" alt="img"/></td>
+                             <td><img class="foto_img" src="escalar.php?src=<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>&w=126&h=126&zc=1" alt="img"/></td>
                              <td><?php echo $value->Descripcion; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>
                              <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_logros; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_logros; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>

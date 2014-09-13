@@ -15,80 +15,54 @@
 
     </head>
     <body>
-        <!--HEADER-->
-        <header>
-            <div class="header_wrap">
-                <section class="logo">                    
-                </section>
-                <!--NAVEGACIÓN-->
-                <nav class="mobile-hider desktop_nav">
-                    <ul class="clear">
-                        <a href="oferta_de_cursos.html"><li>Cursos</li></a>
-                        <a href="ingreso.html"><li>Ingresar</li></a>
-                        <a href="registro.html"><li class="light_blue">Registrarse</li></a>
-                    </ul>  
-                </nav>
-                
-                <div class="header-nav mobile-visible">
-                  <div class="content-full clear">
-                    <div class="navigation">
-                      <div id="primary-menu">
-                        <div class="menu-icon" id="pull"><a href="#"></a></div>
-                        <ul>
-                          <li><a href="oferta_de_cursos.html" class="menu-entry" id="menu1">Cursos</a></li>
-                          <li><a href="ingreso.html" class="menu-entry" id="menu2">Ingresar</a></li>
-                          <li><a href="registro.html" class="menu-entry" id="menu3">Registrarse</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-            </div>
-        </header>
-        <div class="fixed_header">            
-        </div>
+         <?php $this->load->view('view_site_header'); ?>
        
-        <section class="registrate">
-            <h4>Regístrate</h4>
-            <div class="registrate_wrap clear">
-               <div class="plan">
-                   <div class="plan_wrap">
-                       <h2>ESTÁNDAR</h2>
-                       <h3>$20/mes</h3>
-                       <ul>
-                           <li class="grey">Clases en vivo con facilitadores</li>
-                           <li class="white">Respuesta a todas tus preguntas</li>
-                           <li class="grey">Acceso a contenido  exclusivo</li>
-                           <li class="white">Certificado de competencias </li>
-                       </ul>
-                        <a href="estandar.html">
-                           <div class="premium_btn">
-                               Empezar
-                           </div>
-                        </a>
-                   </div>
-               </div>
+ 
+<section class="registrate">
+  <h4>Regístrate</h4>
+  <div class="registrate_wrap clear">
 
-               <div class="plan2 no_margin">
-                   <div class="plan_wrap">
-                       <h2>BASICO</h2>
-                       <h3>Gratis</h3>
-                       <ul>
-                           <li class="grey">Contenidos de alta calidad</li>
-                           <li class="white">videos con expertos</li>
-                           <li class="grey"> &nbsp;</li>
-                           <li class="white"> &nbsp;</li>
-                       </ul>
-                       <a href="basico.html">
-                           <div class="basic_btn">
-                               Empezar
-                           </div>
-                        </a>
-                   </div>
-               </div>
-            </div>
-        </section>
+
+
+
+    <?php foreach ($tipo_planes as $key => $value): ?>
+
+     <div class="plan<?php if ($key==1)  {  echo "2"; } ?> <?php if ($key>0)  {  echo " no_margin "; } ?>">
+       <div class="plan_wrap">
+                  <?php $_planes_valores=@json_decode(json_decode($inicio->planes)->planes_valores); ?>
+         <h2><?php echo $tipo_planes[$key]->nombre; ?></h2>
+
+         <h3><?php echo @$_planes_valores[$key]; ?></h3>
+         <ul>
+           <?php $_linea1=@json_decode(json_decode($inicio->planes)->lineas1); ?>
+           <li class="grey"><?php if ( $_linea1[$key]!='') {  echo  $_linea1[$key];  } else { echo "&nbsp;"; } ?></li>
+           <?php $_linea2=@json_decode(json_decode($inicio->planes)->lineas2); ?>
+           <li class="white"><?php if ( $_linea2[$key]!='') {  echo  $_linea2[$key];  } else { echo "&nbsp;"; } ?></li>
+           <?php $_linea3=@json_decode(json_decode($inicio->planes)->lineas3); ?>
+           <li class="grey"><?php if ( $_linea3[$key]!='') {  echo  $_linea3[$key];  } else { echo "&nbsp;"; } ?></li>
+           <?php $_linea4=@json_decode(json_decode($inicio->planes)->lineas4); ?>
+           <li class="white"><?php if ( $_linea4[$key]!='') {  echo  $_linea4[$key];  } else { echo "&nbsp;"; } ?></li>
+         </ul>
+         <?php $_urls=@json_decode(json_decode($inicio->planes)->urls); ?>
+         <?php if ($key==0): ?>
+           <a href="<?php echo $_urls[$key]; ?>"><div class="premium_btn">Empezar</div></a>
+         <?php else: ?>
+          <a href="<?php echo $_urls[$key]; ?>"><div class="basic_btn">Empezar</div></a>
+        <?php endif ?>
+
+      </div>
+    </div>
+
+  <?php endforeach ?>
+
+</div>
+</section>
+
+
+
+
+
+
 
        <section class="testimonial"  id="div3">
                 <div class="testimonial_wrap clear">
@@ -164,19 +138,7 @@
             </div>
 
         </section>
-        <footer>
-            <div class="footer_wrap">
-                <div class="social">  
-                <img src="img/face_icon.png" alt="facebook">
-                <img src="img/tweet_icon.png" alt="twitter"> 
-                </div>
-                <p>
-                    Nosotros | Soporte | Contáctenos<br/>
-                    Terminos y condiciones<br/>
-                    desarrollado por © Virtualab
-                </p>
-            </div>
-        </footer>
+      <?php $this->load->view('view_site_footer'); ?>
         <!--
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
