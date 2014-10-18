@@ -38,6 +38,17 @@ public function detalle($tabla,$where=null){
 }
 
 
+public function get_contenidos_footer($tabla,$where=null){
+
+	if ($where) { $this->db->where($where); }
+	$this->db->where('habilitar_en_footer',1); 
+	$query = $this->db->get($tabla);
+	#echo  $this->db->last_query()."<br>";
+	return $query->result();
+}
+
+
+
 
 /**
 Funcion guardar con parametros de :  Nombre tabla, datos a guardar, nombre del id, el id si es en caso de actualizar.
@@ -64,10 +75,35 @@ public function guardar ($tabla,$data,$idname=null,$where=null) {
 	return  $id_retorno;
 }
 
+public function guardar_sin_orden ($tabla,$data,$idname=null,$where=null) {
+
+	$id_retorno='';
+	if (@$where[1]) {
+		$this->db->where($where[0],$where[1]);
+		$this->db->update($tabla, $data);
+
+#echo  $this->db->last_query()."<br>";
+
+		$id_retorno=$where[1];
+
+	}
+	else {
+		$this->db->insert($tabla, $data);
+		$id_retorno=$this->db->insert_id();
+		#$this->db->where(array($idname=>$id_retorno));
+		#$this->db->update($tabla, array('orden'=>$id_retorno));
+
+	}
+	return  $id_retorno;
+}
+
+
+
 
 /** Funcion de borrar un elemento de la base de datos **/
 public function borrar($tabla,$where) {
 	$this->db->delete($tabla, $where);
+		#echo  $this->db->last_query()."<br>";
 	return 'ok';
 }
 
@@ -120,6 +156,19 @@ public function menus_root_categorias () {
 
 }
 
+##funcion que trae las ciudades
+public function get_ciudades ($nombre=null) {
+
+	#$this->db->where( "permisos.id_roles",$id_roles );
+	#$this->db->where( "modulos_app.carpeta",$carpeta );
+	#$this->db->join('modulos_app', 'modulos_app.id_modulos_app = permisos.id_modulos_app');
+	$this->db->select('nombre');
+	$this->db->like('nombre', $nombre); 
+	$query = $this->db->get("ciudades");
+	return $query->result();
+
+}
+
 
 
 public function menus_root ($id_categorias_modulos_app,$id_roles) {
@@ -133,6 +182,34 @@ public function menus_root ($id_categorias_modulos_app,$id_roles) {
 	$this->db->join('permisos', 'permisos.id_modulos_app=modulos_app.id_modulos_app');
 	$query = $this->db->get("categorias_modulos_app");
 	return $query->result();
+
+}
+
+
+
+
+##funcion que trae las notificaciones
+public function get_notificaciones ($id_usuarios,$id_estados=null,$limit=null) {
+	if ($limit) { $this->db->limit($limit); }
+	if ($id_estados) { $this->db->where( "notificaciones.id_estados",$id_estados ); }
+	$this->db->order_by("notificaciones.fecha_creado", "desc"); 
+	$this->db->where( "notificaciones.id_usuarios",$id_usuarios ); 
+	$query = $this->db->get("notificaciones");
+	return $query->result();
+
+}
+
+
+##funcion que trae las notificaciones
+public function get_notificaciones_count ($id_usuarios,$id_estados=null,$limit=null) {
+	if ($limit) { $this->db->limit($limit); }
+	if ($id_estados) { $this->db->where( "notificaciones.id_estados",$id_estados ); }
+	$this->db->where( "notificaciones.id_usuarios",$id_usuarios ); 
+	
+	$this->db->order_by("notificaciones.fecha_creado", "desc"); 
+	$this->db->from('notificaciones');
+	$con=$this->db->count_all_results();
+	return $con;
 
 }
 

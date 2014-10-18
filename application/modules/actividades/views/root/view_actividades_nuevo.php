@@ -95,7 +95,7 @@
                          <div class="tab-pane fade in <?php if ($key==0): ?> active <?php endif; ?> " id="<?php echo amigable($actividades_value->nombre_tipo_actividades); ?>">
                            <?php if ($actividades_value->id_tipo_actividades==1 ): ?> 
                              <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
-                              <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,@$detalle->id_actividades,@$detalle->tabla_actividad,@$detalle->datos_actividad,@$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6)); ?>
+                              <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,@$detalle->id_actividades,@$detalle->tabla_actividad,@$detalle->datos_actividad,@$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6),$this->input->post('num_oportunidades')); ?>
                             <?php endif ?>
                           <?php else: ?>
                             <?php echo  generar_campos_actividad($actividades_value->id_tipo_actividades,@$detalle->id_actividades,@$detalle->tabla_actividad,@$detalle->datos_actividad,@$detalle->id_modulos,$this->uri->segment(4),$this->uri->segment(5),$this->uri->segment(6)); ?>
@@ -185,16 +185,17 @@
 
 
     $('#tipo_pregunta').parent().attr('class','col-lg-4');
-    $('#tipo_pregunta').parent().after('<div class="col-lg-2"> <a id="add_respuestas" data-toggle="modal" href="#modal_respuestas"><button class="btn btn-sm btn-info" type="button">Agregar respuestas</button></a></div>');
+    $('#tipo_pregunta').parent().after('<div class="col-lg-2"> <a style="display: none;" id="add_respuestas" data-toggle="modal" href="#modal_respuestas"><button class="btn btn-sm btn-info" type="button">Agregar respuestas</button></a></div>');
 
     $('#tipo_pregunta').change(function(event) {
      event.preventDefault();
 
-     if ($(this).val()==4)  {
+     if ($(this).val()==4 || $(this).val()==0)  {
       $('#add_respuestas').hide();
     }
     else {
-     $('#add_respuestas').show();
+    $(this).parent().next().children('#add_respuestas').show();
+
    }
  });
 

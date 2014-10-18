@@ -12,7 +12,7 @@ class Publico extends CI_Controller {
 	}
 
 	/* Cargo la pantalla de inicio */
-	public function index()
+	public function index($msg=null)
 	{
 
 		$variables = $this->variables; 
@@ -32,6 +32,14 @@ class Publico extends CI_Controller {
 		## consulto los tipos de planes existentes en el sistema para traerlos con sus respectivos contenidos
 		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+		##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+
+		if ($msg!='') { $data['mensaje_inicio']=$msg; }
+
+
 		$this->load->view('publico/view_inicio',$data);
 
 	}

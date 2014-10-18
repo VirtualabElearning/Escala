@@ -73,7 +73,8 @@
                          <td><?php echo $value->orden; ?></td>
                          <td><?php echo $value->id_contenidos; ?></td>
                          <td><?php echo $value->titulo; ?></td>
-                         <td><?php echo $value->Descripcion; ?></td>
+                         <td><?php echo $value->descripcion; ?></td>
+                          <td><?php if ($value->habilitar_e_footer==1) { echo "Si"; } else {echo "No"; } ?></td>
                          <td><?php echo $value->estado_nombre; ?></td>
                          <td>  
                            <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_contenidos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 

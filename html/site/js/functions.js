@@ -84,39 +84,85 @@ $(document).click(function (e)
     }
 });
 
-
 $(document).ready(function(){
-  $("#act_btn_1").click(function(){
-        var numero = 33;
-        $("#video").css("display","none");
-        $("#video").animate({left:'-600px'});
-        $("#evaluacion").css("display","block");
-        $("#evaluacion").animate({left:'8px'});
-        $("#progressBar").html(numero);
-        $("#status").html("Phase 2 of 3");
-  });
-  $("#act_btn_2").click(function(){
-        var numero = 33;
-        $("#evaluacion").css("display","none");
-        $("#evaluacion").animate({left:'-600px'});
-        $("#video").css("display","block");
-        $("#video").animate({left:'8px'});
-        $("#progressBar").html(numero);
-        $("#status").html("Phase 3 of 3");
-  });
-  $("#act_btn_3").click(function(){
-        var numero = 33;
-        $("#video").css("display","none");
-        $("#evaluacion").css("display","none");
-        $(".activities").css("height","0px");
-        $("#video").animate({left:'-600px'});
-        $(".discusion").css("display","block");
-        $(".discusion").animate({left:'8px'});
-        $("#progressBar").html(numero);
-        $("#status").html("Phase 3 of 3");
-  });
+        var btn1 = $("#act_btn_1");
+        var btn2 = $("#act_btn_2");
+        var btn3 = $("#act_btn_3");
+        var btn6 = $("#act_btn_6");
+        var btn7 = $("#act_btn_7");
+        var video = $("#video");
+        var eval = $("#evaluacion");
+        var disc = $("#discusion");
+        var g_disc = $("#generar_discusion");
+        var answ = $("#respuesta");
+        var see = "block";
+        var hide = "none";
+        var getin = {left:'8px'};
+        var getout = {left:'-600px'};
+        btn1.click(function(){
+        eval.css({display:hide});
+        eval.animate(getout);
+        answ.css({display:hide});
+        answ.animate(getout);
+        disc.css({display:hide});
+        disc.animate(getout);
+        g_disc.css({display:hide});
+        g_disc.animate(getout);
+        video.css({display:see});
+        video.animate(getin);       
+        });
+        btn2.click(function(){
+        eval.css({display:see});
+        eval.animate(getin);
+        answ.css({display:hide});
+        answ.animate(getout);
+        disc.css({display:hide});
+        disc.animate(getout);
+        g_disc.css({display:hide});
+        g_disc.animate(getout);
+        video.css({display:hide});
+        video.animate(getout);       
+        });
+        btn3.click(function(){
+        eval.css({display:hide});
+        eval.animate(getout);
+        answ.css({display:hide});
+        answ.animate(getout);
+        disc.css({display:see});
+        disc.animate(getin);
+        g_disc.css({display:hide});
+        g_disc.animate(getout);
+        video.css({display:hide});
+        video.animate(getout);       
+        }); 
+        btn6.click(function(){
+        eval.css({display:hide});
+        eval.animate(getout);
+        answ.css({display:see});
+        answ.animate(getin);
+        disc.css({display:hide});
+        disc.animate(getout);
+        g_disc.css({display:hide});
+        g_disc.animate(getout);
+        video.css({display:hide});
+        video.animate(getout);       
+        }); 
+        btn7.click(function(){
+        eval.css({display:hide});
+        eval.animate(getout);
+        answ.css({display:hide});
+        answ.animate(getout);
+        disc.css({display:hide});
+        disc.animate(getout);
+        g_disc.css({display:see});
+        g_disc.animate(getin);
+        video.css({display:hide});
+        video.animate(getout);       
+        });
+ 
 
 });
+
 
 
 $(document).ready(function(){
@@ -186,6 +232,91 @@ $(document).ready(function(){
                 }
             });
         },pause);
+
+    });
+
+   
+    $(document).ready(function(){
+        var activity_btn = $("#act_btn_1");
+        activity_btn.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+        var activity_btn2 = $("#act_btn_2");
+        activity_btn2.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+        var activity_btn3 = $("#act_btn_3");
+        activity_btn3.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+         var activity_btn4 = $("#act_btn_4");
+        activity_btn4.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+         var activity_btn5 = $("#act_btn_5");
+        activity_btn5.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+        var activity_btn6 = $("#act_btn_6");
+        activity_btn6.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+        var activity_btn7 = $("#act_btn_7");
+        activity_btn7.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+         var activity_btn8 = $("#act_btn_8");
+        activity_btn8.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+         var activity_btn9 = $("#act_btn_9");
+        activity_btn9.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+        var activity_btn10 = $("#act_btn_10");
+        activity_btn10.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+        var activity_btn11 = $("#act_btn_11");
+        activity_btn11.on('mouseenter', function(){
+                $(".tool_tip_wrap").html($(this).data("actividad"));
+        }).on('mouseleave',function(){
+                $(".tool_tip_wrap").html(" ");
+        });
+
+
+        $(".module_on").css("background", "url(../img/aprov_icon.png)");
+
 
     });
 

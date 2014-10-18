@@ -52,7 +52,7 @@ class Root extends CI_Controller {
 		/* Consulto el listado de la tabla asignada del modulo */
 		$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
 		/* Muestro los campos necesarios para el listado */
-		$data['titulos']=array("Orden","ID","Titulo","Descripcion","Estado","Opciones");
+		$data['titulos']=array("Orden","ID","Titulo","Descripcion","Habilitar en footer","Estado","Opciones");
 		/* Muestro al vista dinamica del listado */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
@@ -84,13 +84,12 @@ class Root extends CI_Controller {
 				return true;
 			}
 			else
-			{
+			{    #echo $this->upload->display_errors(); exit;
 				$this->form_validation->set_message('check_foto', $this->upload->display_errors());
 				return false;
 			}
 
-		}
-
+		} 
 	}
 
 
@@ -103,14 +102,19 @@ class Root extends CI_Controller {
 		$id=$this->input->post ('id');
 		/* Reglas de validacion basicas de los campos del formulario */
 		$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
-		$this->form_validation->set_rules('Descripcion', 'Descripcion', 'required|xss_clean');
+		$this->form_validation->set_rules('descripcion', 'descripcion', 'required|xss_clean');
 		$this->form_validation->set_rules('contenido', 'Contenido', 'required');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
-		$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
+		$this->form_validation->set_rules('userfile', 'Foto', 'callback_check_foto');
 
 		/* si existe alguna validacion que no pasa, las muestra en pantalla */
 		if($this->form_validation->run() == FALSE)
-		{ 
+		{  
+			
+
+			#echo validation_errors(); exit;
+			
+
 			if ($id)  { $this->editar($id); } else { $this->nuevo();  }
 
 		}
@@ -119,9 +123,10 @@ class Root extends CI_Controller {
 			/* Guardo en un array los valores de los campos a guardar */
 			$data = array(
 				'titulo' => $this->input->post ('titulo'),
-				'Descripcion' => $this->input->post ('Descripcion'),
+				'descripcion' => $this->input->post ('descripcion'),
 				'contenido' => $this->input->post ('contenido'),
 				'id_estados' => $this->input->post ('id_estados'),
+				'habilitar_en_footer' => $this->input->post ('habilitar_en_footer'),
 				);
 
 
@@ -130,32 +135,32 @@ class Root extends CI_Controller {
 
 			
 
+
 			if ($_FILES['userfile']['tmp_name'])  {
-
-				{
-					/* subo la foto */
-					$finfo=$this->upload->data();
-
-					/* Si existe la foto antes, la borra y sube la nueva */
-					if ($this->input->post ('foto_antes'))  {
-						@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
-					}
-
-					/* obtengo nombre de la foto y la extension */
-					$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
-					$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
-					$data['foto'] = $finfo['file_name'];
+				#echo "1"; exit;
+				$finfo=$this->upload->data();
+				if ($this->input->post ('foto_antes'))  {
+					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
 				}
 
+				$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
+				$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+				$data['foto'] = $finfo['file_name'];
+
 			}
-			else {
+
+			else { #echo "2"; print_r($_FILES['userfile']); exit;
 				## elimino la foto
-				if ($this->input->post ('foto_antes'))  {
-						@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
-					}
+				if ($this->input->post ('foto_antes')  && $this->input->post ('image')=='' )  {
+					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+					$data['foto'] = "";
+				}
 				## campo vacio de la foto
-				$data['foto'] = "";
+				
 			}
+
+
+
 
 			/* Guardo todos los registros a la base de datos */
 			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));

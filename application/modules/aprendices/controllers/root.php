@@ -152,7 +152,7 @@ class Root extends CI_Controller {
 	{
 		/* Cargo variables globales de configuracion del modulo */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-
+		$this->load->model('model_aprendices');
 		/* Asigno variable id */
 		$id=$this->input->post ('id');
 		/* Reglas basicas de los campos recibidos del formulario */
@@ -196,7 +196,7 @@ class Root extends CI_Controller {
 				'id_tipo_planes' => $this->input->post ('id_tipo_planes'),
 				'id_estados' => $this->input->post ('id_estados'),
 				'id_estatus' => $this->input->post ('id_estatus'),
-				'id_cursos_asignados' => json_encode($this->input->post ('id_cursos_asignados')),
+				#'id_cursos_asignados' => json_encode($this->input->post ('id_cursos_asignados')),
 				);
 
 			if ($this->input->post ('contrasena')) {
@@ -246,6 +246,70 @@ class Root extends CI_Controller {
 			/* Guardo la informacion a la base de datos retornando el id y redireccionando a la vista. */
 			$id=$this->model_generico->guardar('usuarios',$data,'id_usuarios',array('id_usuarios',$id));
 
+
+
+
+			#krumo ($this->input->post ('id_cursos_asignados')); exit;
+
+			#BORRO LOS CURSOS NO ASIGNADOS DEL ESTUDIANTE
+			$listtmp=$this->model_aprendices->get_cursos_estudiante_lista($id);
+
+			foreach ($listtmp as $key => $value) {
+				$list[]=$value->id_cursos."|".$value->id_cursos_asignados;
+			}
+
+
+
+#krumo ($this->input->post ('id_cursos_asignados'));
+#exit;
+
+##funcion para borrar los cursos no seleccionados
+			foreach ($list as $key => $value) {
+				$tmpxx=explode ("|",$value);
+
+				if ( !in_array($tmpxx[0], $this->input->post ('id_cursos_asignados')) ) {
+					$this->model_generico->borrar('cursos_asignados',array('id_cursos_asignados'=>$tmpxx[1]));
+					echo "Borado: ".$tmpxx[1];
+				} 
+				else {
+					$list2[]=$tmpxx[0];
+				}
+
+			}
+
+			#krumo ($list2);
+			#exit;
+#exit;
+			foreach ($this->input->post ('id_cursos_asignados') as $postkey => $postvalue) {
+				##si no está entre la lista de los cursos asignados del estudiante...
+				if ( !in_array($postvalue, $list2) ) {
+
+				## guardo los cursos asignados al estudiante
+					/* asigno valores a un array para enviarlos al modelo */
+					$data = array(
+						'id_usuarios' => $id_usuarios_x=$id,
+						'id_cursos' =>$postvalue,
+						'id_estatus' => 5,
+						'id_estados' => 1,
+						'id_tipo_planes' => $this->input->post ('id_tipo_planes'),
+						);
+
+					$tmp=$this->model_aprendices->get_cursos_estudiante($id_cursos,$id_usuarios);
+
+					if ($tmp->id_cursos_asignados) { $data['id_cursos_asignados']=$tmp->id_cursos_asignados; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
+					$id_cursos_asignadosx=$this->model_generico->guardar('cursos_asignados',$data,'id_cursos_asignados',array('id_cursos_asignados',$tmp->id_cursos_asignados));
+
+
+				}
+
+
+			}
+
+
+
+
+
+
 			/* Si tiene un redireccionamiento de donde venia */
 			if ( $this->input->post('redirect')  )  {
 				redirect(base64_decode($this->input->post('redirect')));
@@ -275,8 +339,22 @@ class Root extends CI_Controller {
 		$detalle=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$id));
 		@unlink('uploads/'.$variables['modulo'].'/'.$detalle->foto);
 
+		## borro los cursos asignados al estudiante
+
+		$listtmp=$this->model_aprendices->get_cursos_estudiante_lista($this->input->post ('id'));
+		foreach ($listtmp as $keyx => $valuex) {
+			$this->model_generico->borrar('cursos_asignados',array('id_cursos_asignados'=>$valuex->id_cursos_asignados));
+		}
+
+
 		/* borro el dato de la tabla asignada */
 		$this->model_generico->borrar('usuarios',array('id_usuarios'=>$this->input->post ('id')));
+
+
+
+
+
+
 		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/borrado_ok';
 		/* Redirecciono al listado */
 		redirect($accion_url);
@@ -288,6 +366,7 @@ class Root extends CI_Controller {
 	public function editar($id,$error_extra=null,$redirect=null)
 	{
 
+		$this->load->model('model_aprendices');
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],"{estudiante}",$variables['modulo'],1);
 		$data['carpeta']=$variables['carpeta'];
@@ -310,14 +389,17 @@ class Root extends CI_Controller {
 		foreach ($data['cursos'] as $key => $value) {
 			$tmp=$this->model_generico->detalle('categoria_cursos',array('id_categoria_cursos'=>$value->id_categoria_cursos));
 			$data['cursos'][$key]->categoria_curso=$tmp->nombre;
-
-
-
 		}
 
 
 
+##listo los cursos asignados al estudiante:
 
+		$list=$this->model_aprendices->get_cursos_estudiante_lista($id);
+		foreach ($list as $key => $value) {
+			$cursos_asignados_tmp[]=$value->id_cursos;
+		}
+		$data['cursos_asignadoss']=json_encode($cursos_asignados_tmp);
 
 		/* si existe un mensaje de error extra, lo lleva guardado para mostrarlo despues */
 		$data['error_extra']=$error_extra;

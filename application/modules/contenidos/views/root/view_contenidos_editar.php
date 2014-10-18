@@ -42,12 +42,12 @@
                     <br />
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-                    <?php echo input_text ("Titulo","titulo","titulo","Ingrese el titulo del contenido",$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
-                    <?php echo textarea ("Descripción","Descripcion","Descripcion","Ingrese la descripción del contenido",$detalle->Descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo input_text ("Nombre men&uacute;","titulo","titulo","Ingrese el Nombre del men&uacute;",$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo textarea ("Descripci&oacute;n","descripcion","descripcion","Ingrese la descripci&oacute;n del contenido",$detalle->descripcion,form_error('descripcion', '<div class="mensaje_error">', '</div>')); ?>
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">
-                        <input type="hidden" name="image" id="image">
+                        <input type="hidden" name="image" id="image" value="<?php echo $detalle->foto; ?>">
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                             <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
@@ -61,9 +61,9 @@
                               <span class="fileupload-new">Seleccione imagen</span>         
                               <input type="file" value="uploads/resumen_de_perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
                             </span>
-                            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
+                            <a href="#" class="btn fileupload-exists delete_photoxx" data-dismiss="fileupload">Borrar</a>
                             
-                            <?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
+                            <?php echo  form_error('userfile', '<div class="mensaje_error">', '</div>'); ?>
                           </div>
                         </div>
                       </div>
@@ -73,6 +73,11 @@
                     $opciones=array("1"=>"Activo","0"=>"Inactivo");
                     echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
                     ?>
+                     <?php 
+                    $opciones=array("1"=>"Si","0"=>"No");
+                    echo select ("Habilitar en footer","habilitar_en_footer","habilitar_en_footer",$opciones,$detalle->habilitar_en_footer); 
+                    ?>
+
                     <div class="form-group">
                       <div class="col-lg-offset-2 col-lg-6">
                         <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>

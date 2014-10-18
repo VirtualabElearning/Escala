@@ -16,7 +16,7 @@ if (!function_exists('generar_campos_actividad')) {
 				echo input_text_actividades ("Url del video","url_video","url_video","Ingrese la url del video (Url youtube completa)",@$datos_actividad->url_video );
 				echo input_text_actividades ("Pregunta","pregunta","pregunta","Ingrese la pregunta",@$datos_actividad->pregunta );
 				echo hidden_actividades('id_actividades_videos','id_actividades_videos',@$datos_actividad->id_actividades_videos);
-				$opciones=array('1'=>'Tipo test','2'=>'Elegir de una lista','4'=>'Campo de texto');
+				$opciones=array('0'=>'Ninguno','1'=>'Tipo test','2'=>'Elegir de una lista','4'=>'Campo de texto');
 				echo select_actividades ("Tipo pregunta","tipo_pregunta","tipo_pregunta",$opciones,@$datos_actividad->tipo_pregunta );
 				break;
 
@@ -36,24 +36,11 @@ if (!function_exists('generar_campos_actividad')) {
 				break;
 
 				case '3':  # evaluacion
-/*
-echo $id_tipo_actividades;
-echo "<br>";
-echo $id_actividad;
-echo "<br>";
-echo $tabla_actividad;
-echo "<br>";
-echo "<br>";
-echo $id_cursos."<br>";
-echo $id_modulos."<br>";
-echo $id_actividades_barra."<br>";
-*/
+
+				echo gen_preguntas($id_cursos,$id_modulos,$id_actividades_barra,@$datos_actividad->num_oportunidades);
 
 
-echo gen_preguntas($id_cursos,$id_modulos,$id_actividades_barra);
-
-
-break;
+				break;
 
 
 				case '4':  # clases en vivo
@@ -161,6 +148,9 @@ break;
 				//$data['url_video']=$post['url_video'];
 				$data['id_actividades_evaluacion']=@$post['id_actividades_evaluacion'];
 				$data['id_modulos']=@$post['id_modulos'];
+				$data['num_oportunidades']=@$post['num_oportunidades'];
+
+				
 				#$data['pregunta']=@$post['pregunta'];
 				#$data['tipo_pregunta']=@$post['tipo_pregunta'];
 				#if ($data['tipo_pregunta']==3)  { $data['variables_pregunta']=''; }
@@ -213,7 +203,9 @@ break;
 				case '3':  # evaluacion
 				unset($data['id_actividades_evaluacion']);
 				unset($data['tipo_pregunta']);
-				unset($data['pregunta']);			
+				unset($data['pregunta']);	
+				unset($data['num_oportunidades']);	
+				
 
 				break;
 

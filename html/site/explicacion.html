@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/color.css">
+
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script>
+
+        </script>
+        <script type="text/javascript" src="js/functions.js"></script>
+
+
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script>
+
+            window.addEventListener("load", function(){
+                var load_screen = document.getElementById("load_screen");
+                document.body.removeChild(load_screen);
+            });
+        </script>
+        <script type="text/javascript">
+  
+            $(document).ready(function(){
+              setMenuActive(3);
+                });
+
+        </script>
+                
+    </head>
+    <body> 
+        <div id="load_screen">
+            <div id="loading">                
+                <img src="img/loading.GIF" alt="loading">
+                <p>Cargando Plataforma</p>
+            </div>
+        </div>
+         <!--HEADER-->         
+        <div class="backdrop"></div>
+        <div class="box">
+            <div class="close">x</div>
+            <h3>¡FELICITACIONES!</h3>
+            <div class="premio_img">
+                <img src="img/premio.png" alt=""id="surprise_result">
+                <img src="img/sorpresa.gif" alt="" id="surprise_box">
+            </div>
+            <p>Ganaste 10 puntos por matricularte a tu primer curso
+Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.</p>
+            <div class="share_block">
+                <h4>Compartir</h4>
+                <ul class="share_icons clear">
+                    <li><img src="img/face_icon_s.png" alt=""></li>
+                    <li><img src="img/tweet_icon_s.png" alt=""></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <section class="actividad_aprobada"></section>
+            <div class="actividad_aprobada_wrap">
+                <h3>+5</h3>
+                <h4>Buen trabajo</h4>
+            </div>
+        
+
+        <header>
+            <div class="header_wrap">
+                <a href="index.html">
+                  <section class="logo mobile-hider" id="logo"> 
+                    <img src="img/logo.jpg" alt="logo">                   
+                  </section>
+                </a>
+                <!--NAVEGACIÓN-->
+                <nav class="desktop_nav clear">
+                    <ul class="clear">
+                        <li class="mobile-hider">
+                            <a href="mis_cursos.html" class="menu-entry">Mis Cursos</a>
+                        </li>
+                           <li><a href="#" class="menu-entry">
+                                    <div class="inbox_btn">
+                                        <img src="img/inbox_icon.png" alt="inbox">                                        
+                                    </div>
+                              </a>
+                          </li>
+                          <li><a href="#" class="menu-entry" id="btn2">
+                                    <div class="noti_btn">
+                                        <img src="img/noti_icon.png" alt="notificaciones">
+                                        <div class="noti_numero">7</div>
+                                    </div>
+                              </a>
+                          </li>
+                          <li class="avatar_btn">
+                            <a href="#" class="menu-entry" id="btn">
+                                <div class="perfil_btn clear">
+                                    <div class="perfil_col1">
+                                        <img src="img/per4.jpg" alt="Estudiante">                                        
+                                    </div>
+                                    <div class="perfil_col2" id="btn">
+                                        <h6 class="hider">Maria26</h6>
+                                        <h3 class="puntos">175</h3>
+                                    </div>
+                                    
+                                </div>
+                            </a>
+                          </li>
+                    </ul>  
+                </nav>
+                
+                <div class="header-nav mobile-visible">
+                  <div class="content-full clear">
+                    <div class="navigation">
+                      <div id="primary-menu">
+                        <div class="menu-icon" id="pull"><a href="#"></a></div>
+                        <ul>
+                          <li><a href="oferta_de_cursos.html" class="menu-entry" id="menu1">Cursos</a></li>
+                          <li><a href="mis_cursos.html" class="menu-entry" id="menu2">Mis cursos</a></li>                       
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+        </header>
+
+        <div class="fixed_header">            
+        </div>
+        <section class="profile">
+            <div class="profile_wrap">
+                <div class="profile_dark" id="cerrar">  
+                    <p>Cerrar</p>                  
+                </div> 
+                <div class="profile_avatar">
+                    <div class="profile_avatar_wrap clear">
+                        <div class="prof_av_col1">
+                            <img src="img/per4.jpg" alt="">
+                        </div>
+                        <div class="prof_av_col2">
+                            <h6>Maria26</h6>
+                            <p>Maria Uribe</p>
+                        </div>
+                    </div>
+                    <div class="avatar_infoblock clear">
+                        <div class="avatar_infoblock_col1">
+                            <h3>Estatus</h3>
+                        </div>
+                        <div class="avatar_infoblock_col2">
+                            <p>Campeon</p>
+                        </div>
+                    </div>
+                    <div class="avatar_infoblock clear">
+                        <div class="avatar_infoblock_col1">
+                            <h3>Puntaje</h3>
+                        </div>
+                        <div class="avatar_infoblock_col2">
+                            <p>173</p>
+                        </div>
+                    </div>
+                    <div class="avatar_infoblock clear">
+                        <div class="avatar_infoblock_col1">
+                            <h3>Logros</h3>
+                        </div>
+                        <div class="avatar_infoblock_col2">
+                            <p>9</p>
+                        </div>
+                    </div>
+                    <div class="medal_container clear">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+                            <img src="img/medal.png" alt="medal">
+
+                    </div>
+                </div>
+                <div class="profile_btns">
+                    <ul class="clear">
+                        <a href="editar_perfil.html"><li>Editar Perfil</li></a>
+                        <a href="certificados.html"><li>Certificados</li></a>
+                        <a href="suscripcion.html"><li class="profile_third_btn">Suscripción</li></a>
+                    </ul>
+                </div>
+                <div class="profile_dark">  
+                    <h2>Cerrar Sesion</h2>                  
+                </div>              
+            </div>
+        </section>
+        
+
+
+
+        <a href="" id="btn3">
+            <div class="question_btn">
+                <div class="question_btn_wrap">
+                    <img src="img/question_icon.png" alt="Pregunta">
+                    <h6>Pregunta</h6>
+                </div>
+            </div>
+        </a>
+
+        <section class="question">
+            <div class="question_wrap">
+                <h5>Pregunta al facilitador</h5>
+                <h6 class="hider">Tu pregunta ha sido enviada con éxito, recibirás la notificación de respuesta en tus mensajes de entrada <img src="img/inbox_icon.png" alt=""></h6>
+                <textarea name="" id="" cols="30" rows="10" placeholder="Escribe tu pregunta"></textarea>
+                <div class="send_question">
+                    Enviar
+                </div>
+            </div>
+        </section>
+
+        
+        <div class="notificaciones_container">
+            
+            <section class="notificaciones">
+            <div class="notificaciones_wrap">
+                <h4>Notificaciones</h4>
+                <ul>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                    <li class="clear">
+                        <div class="not_col1">
+                            
+                        </div>
+                        <div class="not_col2">
+                            <h5>Dolor sit amet, consectetur adipisicing...</h5>
+                            <h6>Agosto 04, 10 am</h6>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        </div>
+
+
+         <section class="encabezado2 clear">
+            <div class="encabezado2_wrap">
+                <h6>Liderazgo Integral</h6>
+                <p>Liberando tu maximo potencial para legar al exito</p>
+                <div class="circle">
+                    <div class="circle_wrap">
+                        <img src="img/status_1.png" alt="">
+                    </div>
+                   
+                </div>
+            </div>            
+        </section>
+
+       <section class="explicacion">
+            <div class="explicacion_wrap">
+                <h2>Sistema de puntajes Escala Virtual</h2>
+                <div class="expl_txt">
+                    <img src="img/icono_16.png" alt="">
+                    <h3>Puntaje:</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus et deserunt a obcaecati consequatur nemo molestiae harum doloribus, sequi nobis distinctio omnis cum commodi est dolorem nisi itaque maxime ad!
+                    </p>
+                </div>
+                <div class="expl_txt">
+                    <h3>Puntaje:</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus et deserunt a obcaecati consequatur nemo molestiae harum doloribus, sequi nobis distinctio omnis cum commodi est dolorem nisi itaque maxime ad!
+                    </p>
+                </div>
+                <ul class="expl_tab expl_title clear">
+                    <li class="expl_col1">Tarea</li>
+                    <li class="expl_col2">Pts</li>
+                    <li class="expl_col3">Comentarios</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1">Primer curso matriculado</li>
+                    <li class="expl_col2">+10</li>
+                    <li class="expl_col3">Solo sucede una vez</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_gray">
+                    <li class="expl_col1">Primera actividad finalizada</li>
+                    <li class="expl_col2">+10</li>
+                    <li class="expl_col3">Solo sucede una vez</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1">Actividades finalizadas</li>
+                    <li class="expl_col2">+1</li>
+                    <li class="expl_col3">Cada actividad otorga este puntaje</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_gray">
+                    <li class="expl_col1">Compartir módulo finalizado en red social</li>
+                    <li class="expl_col2">+2</li>
+                    <li class="expl_col3">Por Facebook +2 y por Twitter +2</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1">Valoración</li>
+                    <li class="expl_col2">Max. +10</li>
+                    <li class="expl_col3">Dependiendo el resultado obtenido, máximo +10</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_gray">
+                    <li class="expl_col1">Top 1 Post mas votado de la semana</li>
+                    <li class="expl_col2">+10</li>
+                    <li class="expl_col3"></li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1">Top 2 Post mas votado de la semana</li>
+                    <li class="expl_col2">+5</li>
+                    <li class="expl_col3"></li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_gray">
+                    <li class="expl_col1">Top 3 Post mas votado de la semana</li>
+                    <li class="expl_col2">+3</li>
+                    <li class="expl_col3"></li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1">Curso finalizado con certificado</li>
+                    <li class="expl_col2">+20</li>
+                    <li class="expl_col3"></li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_gray">
+                    <li class="expl_col1">5 días sin ingresar a la plataforma</li>
+                    <li class="expl_col2">-2* día</li>
+                    <li class="expl_col3">Esto sucede durante el curso, es decir mientras esta vigente la cohorte.
+                    </li>
+                </ul>
+                 <div class="expl_txt">
+                    <h3>Recompensas</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus et deserunt a obcaecati consequatur nemo molestiae harum doloribus, sequi nobis distinctio omnis cum commodi est dolorem nisi itaque maxime ad!
+                    </p>
+                </div>
+                <ul class="expl_tab expl_title clear">
+                    <li class="expl_col1">Recompensa</li>
+                    <li class="expl_col2">Pts</li>
+                    <li class="expl_col3">Privilegios</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1"><img src="img/icono_17.png" alt=""><p>Sorpresa</p></li>
+                    <li class="expl_col2">0</li>
+                    <li class="expl_col3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus et deserunt a obcaecati consequatur nemo molestiae harum doloribus,</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_gray">
+                    <li class="expl_col1"><img src="img/icono_8.png" alt=""><p>Bono</p></li>
+                    <li class="expl_col2">0</li>
+                    <li class="expl_col3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus et deserunt a obcaecati consequatur nemo molestiae harum doloribus,</li>
+                </ul>
+                <div class="expl_txt">
+                    <h3>Status</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus et deserunt a obcaecati consequatur nemo molestiae harum doloribus, sequi nobis distinctio omnis cum commodi est dolorem nisi itaque maxime ad!
+                    </p>
+                </div>
+                <ul class="expl_tab expl_title clear">
+                    <li class="expl_col1">Status</li>
+                    <li class="expl_col2">Pts</li>
+                    <li class="expl_col3">Privilegios</li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1"><img src="img/status_1.png" alt=""><p>Nuevo</p></li>
+                    <li class="expl_col2">0</li>
+                    <li class="expl_col3"></li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_gray">
+                    <li class="expl_col1"><img src="img/status_2.png" alt=""><p>Experto</p></li>
+                    <li class="expl_col2">50</li>
+                    <li class="expl_col3"></li>
+                </ul>
+                <ul class="expl_tab clear" id="expl_white">
+                    <li class="expl_col1"><img src="img/status_3.png" alt=""><p>Campeón</p></li>
+                    <li class="expl_col2">100</li>
+                    <li class="expl_col3">Acceder a contenido premium, Crear discusiones, Descuento 20% en otro curso
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+       
+        <audio id="sound-1a">
+<source src="sound/LoopSorpresaFinal.mp3"></source>
+Your browser isn't invited for super fun audio time.
+</audio>
+ <audio id="sound-1b">
+<source src="sound/crowd.mp3"></source>
+Your browser isn't invited for super fun audio time.
+</audio>
+       
+
+        <footer>
+            <div class="footer_wrap">
+                <div class="social">  
+                <img src="img/face_icon.png" alt="facebook">
+                <img src="img/tweet_icon.png" alt="twitter"> 
+                </div>
+                <p>
+                    <a href="nosotros.html">Nosotros</a> | <a href="#">Soporte</a> | <a href="contactenos.html">Contáctenos</a><br/>
+                    Terminos y condiciones<br/>
+                    desarrollado por © Virtualab
+                </p>
+            </div>
+        </footer>
+        
+        <script>
+            var $j = jQuery.noConflict();
+            $j(document).ready(function(){ 
+                $j('.lightbox').click(function(){
+                    $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+                    $j('.box').animate({'opacity':'1.00'}, 300, 'linear');
+                    $j('.box').animate({'top':'20%'}, 1500, 'easeOutElastic');
+                    $j('.backdrop, .box').css('display', 'block');
+                    $j('#sound-1a').get(0).play();
+                    setTimeout(function(){
+                         $j('#surprise_box').hide();
+                         $j('#surprise_result').css("display","block");
+                     }, 2700);
+
+                }); 
+                $j('.close').click(function(){
+                    close_box();
+                }); 
+                $j('.backdrop').click(function(){
+                    close_box();
+                }); 
+
+                $j('.actividad_ok').click(function(){
+                    $j('.actividad_aprobada').animate({'opacity':'.90'}, 300, 'linear');
+                    $j('.actividad_aprobada_wrap').animate({'opacity':'1.00'}, 300, 'linear');
+                    $j('.actividad_aprobada_wrap').animate({'top':'30%'}, 2000, 'easeOutElastic');
+                    $j('.actividad_aprobada').css('display', 'block');
+                    $j('#sound-1b').get(0).play();
+                    
+                }); 
+                $j('.actividad_aprobada').click(function(){
+                    close_box2();
+                });
+
+
+
+            }); 
+            function close_box()
+            {   $j('.box').animate({'top':'-100%'}, 200, 'linear');
+                $j('#sound-1a').get(0).pause();
+                $j('#sound-1a').currentTime = 0; // Reset time
+                $j('.backdrop, .box').animate({'opacity':'0'}, 300, 'linear', function(){
+                    $j('.backdrop, .box').css('display', 'none');
+                    $j('#surprise_box').show();
+                    $j('#surprise_result').css("display","none");
+            });  
+            }
+            function close_box2()
+            {   $j('.actividad_aprobada_wrap').animate({'top':'-100%'}, 200, 'linear');
+                $j('#sound-1b').get(0).pause();
+                $j('#sound-1b').currentTime = 0; // Reset time
+                $j('.actividad_aprobada').animate({'opacity':'0'}, 300, 'linear', function(){
+                    $j('.actividad_aprobada').css('display', 'none');
+                    
+            });  
+            }
+            
+
+        </script>
+      
+    </body>
+</html>

@@ -1,4 +1,3 @@
-       <?php #krumo($this->session->all_userdata()); ?>
        <div id="load_screen">
         <div id="loading">                
           <img src="html/site/img/loading.GIF" alt="loading">
@@ -10,15 +9,13 @@
         <div class="header_wrap">
           <a title="<?php echo $custom_sistema->nombre_sistema; ?>" href="<?php echo base_url(); ?>"> 
            <section class="logo mobile-hider"> 
-             <img src="html/site/img/logo.jpg" alt="logo">                   
+             <img src="escalar.php?src=<?php echo base_url(); ?>uploads/personalizacion_general/<?php echo $custom_sistema->logo; ?>&amp;h=110&amp;zc=1" alt="logo">                   
            </section>
          </a>
 
          <!--NAVEGACIÓN-->
 
-
          <?php if ($this->session->userdata('logeado')!=1): ?>
-
           <nav class="mobile-hider">
             <ul class="clear">
              <a href="cursos"> <li>Cursos</li></a>
@@ -44,10 +41,7 @@
 
       <?php endif; ?>
 
-
-
       <?php if ($this->session->userdata('logeado')==1): ?>
-
 
         <nav class="desktop_nav">
           <ul class="clear">
@@ -57,7 +51,7 @@
            <li><a id="btn2" class="menu-entry">
             <div class="noti_btn">
               <img alt="notificaciones" src="html/site/img/noti_icon.png">
-              <div class="noti_numero">7</div>
+              <div class="noti_numero"><?php echo $notificaciones_count; ?></div>
             </div>
           </a>
         </li>
@@ -65,20 +59,28 @@
           <a id="btn" class="menu-entry" href="#">
             <div class="perfil_btn clear">
               <div class="perfil_col1">
-                <img alt="<?php echo $this->encrypt->decode($this->session->userdata('nombres')); ?> <?php echo $this->encrypt->decode($this->session->userdata('apellidos')); ?>" src="uploads/aprendices/<?php echo $this->encrypt->decode( $this->session->userdata('foto') ); ?>">                                        
+
+                <?php ## evaluo si no tiene foto de perfil
+                $foto_perfil="uploads/aprendices/".$this->encrypt->decode($this->session->userdata('foto'));
+                if (  !file_exists($foto_perfil) || strlen($this->encrypt->decode($this->session->userdata('foto')))==0  )  {
+                  $foto_perfil="html/site/img/sin_foto.png";
+                } 
+                ?>
+                <img alt="<?php echo $this->encrypt->decode($this->session->userdata('nombres')); ?> <?php echo $this->encrypt->decode($this->session->userdata('apellidos')); ?>" src="<?php echo $foto_perfil; ?>">                                        
               </div>
               <div id="btn" class="perfil_col2">
-                <h3 class="puntos">175</h3>
-              </div>
+                <h3 class="puntos mis_puntos">0</h3>
+                <?php #$data_estatus_proximo=explode("|", $datos_proximo_estatus); 
 
+                ?>
+                <input type="hidden" id="proxsts" value="<?php echo ($datos_proximo_estatus); ?>">  
+                <input type="hidden" id="proxsts2">  
+              </div>
             </div>
           </a>
         </li>
       </ul>  
     </nav>
-
-
-
 
 
     <div class="header-nav mobile-visible">
@@ -102,8 +104,6 @@
 <div class="fixed_header"> </div>
 
 
-
-
 <?php if ($this->session->userdata('logeado')==1 && $this->session->userdata('if_update')==1): ?>
   <a href="login/editar_perfil/fb">
     <section class="actualiza_tus_datos">
@@ -114,118 +114,116 @@
   </a>
 <?php endif; ?>
 
+<?php if ($this->session->userdata('logeado')==1): ?>
 
-
-<section class="profile">
-  <div class="profile_wrap">
-    <div class="profile_dark">  
-      <p>Cerrar</p>                  
-    </div>  
-    <div class="profile_avatar">
-      <div class="profile_avatar_wrap clear">
-        <div class="prof_av_col1">
-          <img alt="<?php echo $this->session->userdata('nombres'); ?> <?php echo $this->encrypt->decode($this->session->userdata('apellidos')); ?>" src="uploads/aprendices/<?php echo $this->encrypt->decode($this->session->userdata('foto')); ?>">
+  <section class="profile">
+    <div class="profile_wrap">
+      <div class="profile_dark">  
+        <p>Cerrar</p>                  
+      </div>  
+      <div class="profile_avatar">
+        <div class="profile_avatar_wrap clear">
+          <div class="prof_av_col1">
+          <?php ## evaluo si no tiene foto de perfil
+                $foto_perfil="uploads/aprendices/".$this->encrypt->decode($this->session->userdata('foto'));
+                if (  !file_exists($foto_perfil) || strlen($this->encrypt->decode($this->session->userdata('foto')))==0  )  {
+                  $foto_perfil="html/site/img/sin_foto.png";
+                } 
+                ?>
+          <img alt="<?php echo $this->session->userdata('nombres'); ?> <?php echo $this->encrypt->decode($this->session->userdata('apellidos')); ?>" src="<?php echo $foto_perfil; ?>">
         </div>
         <div class="prof_av_col2">
           <h6><?php echo $this->encrypt->decode($this->session->userdata('correo')); ?></h6>
           <p><?php echo $this->encrypt->decode($this->session->userdata('nombres')); ?> <?php echo $this->encrypt->decode($this->session->userdata('apellidos')); ?></p>
         </div>
       </div>
-      <div class="avatar_infoblock clear">
-        <div class="avatar_infoblock_col1">
-          <h3>Estatus</h3>
-        </div>
-        <div class="avatar_infoblock_col2">
-          <p><?php echo $this->encrypt->decode( $this->session->userdata('nombre_estatus') ); ?></p>
-        </div>
+
+
+      <div class="status_bar hider solocurso clear">
+       {barra}
+     </div>
+     <div class="status_txt hider solocurso clear">
+      <p class="mis_puntos">0</p>
+      <span class="puntos_proximo">{0}</span>
+    </div>
+
+    <div class="avatar_infoblock clear hider solocurso">
+      <div class="avatar_infoblock_col1">
+        <h3>Estatus</h3>
       </div>
-      <div class="avatar_infoblock clear">
-        <div class="avatar_infoblock_col1">
-          <h3>Puntaje</h3>
-        </div>
-        <div class="avatar_infoblock_col2">
-          <p>173</p>
-        </div>
-      </div>
-      <div class="avatar_infoblock clear">
-        <div class="avatar_infoblock_col1">
-          <h3>Logros</h3>
-        </div>
-        <div class="avatar_infoblock_col2">
-          <p>9</p>
-        </div>
-      </div>
-      <div class="medal_container clear">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
-        <img alt="medal" src="html/site/img/medal.png">
+      <div class="avatar_infoblock_col2 ">
+        <p class="mistatus"><?php echo @$detalle_curso->miestatusnombre; ?></p>
       </div>
     </div>
-    <div class="profile_btns">
-      <ul class="clear">
-        <a href="login/editar_perfil"><li>Editar Perfil</li></a>
-        <a href="cursos/mis_certificados"><li>Certificados</li></a>
-        <a href="login/suscripcion"><li class="profile_third_btn">Suscripción</li></a>
-      </ul>
+    <div class="avatar_infoblock clear hider solocurso">
+      <div class="avatar_infoblock_col1">
+        <h3>Puntaje</h3>
+      </div>
+      <div class="avatar_infoblock_col2">
+        <p class="mis_puntos">0</p>
+      </div>
     </div>
-    <div class="profile_dark">  
-      <a href="salir_sistema">  <h2>Cerrar Sesion</h2>    </a>            
-    </div>              
-  </div>
+    <div class="avatar_infoblock clear hider solocurso">
+      <div class="avatar_infoblock_col1">
+        <h3>Logros</h3>
+      </div>
+      <div class="avatar_infoblock_col2">
+        <p class="count_logros">0</p>
+      </div>
+    </div>
+
+    <div class="medal_container clear mi_listado_logros hider solocurso">
+
+     <?php echo $mis_logros_curso; ?>
+
+   </div>
+
+
+ </div>
+ <div class="profile_btns">
+  <ul class="clear">
+    <a href="login/editar_perfil"><li>Editar Perfil</li></a>
+    <a href="cursos/mis_certificados"><li>Certificados</li></a>
+    <a href="login/suscripcion"><li class="profile_third_btn">Suscripción</li></a>
+  </ul>
+</div>
+<div class="profile_dark">  
+  <a href="salir_sistema">  <h2>Cerrar Sesion</h2>    </a>            
+</div>              
+</div>
 </section>
 
 
+<div class="notificaciones_container">
 
+  <section class="notificaciones" style="display: block;">
+    <div class="notificaciones_wrap">
+      <h4>Notificaciones</h4>
+      <ul>
 
-<section class="notificaciones" style="display: block;">
-  <div class="notificaciones_wrap">
-    <h4>Notificaciones</h4>
-    <ul>
-      <li class="clear">
-        <div class="not_col1">
+        <?php $meses=array("0"=>"","1"=>"Enero","2"=>"Febrero","3"=>"Marzo","4"=>"Abril","5"=>"Mayo","6"=>"Junio","7"=>"Julio","8"=>"Agosto","9"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre") ?>
+        <?php foreach ($notificaciones as $noti_key => $noti_value): ?>
+          <?php  
+          $datetime=explode (" ",$noti_value->fecha_creado);
+          $fecha=explode ("-",$datetime[0]);
+          ?>
 
-        </div>
-        <div class="not_col2">
-          <h5>Dolor sit amet, consectetur adipisicing...</h5>
-          <h6>Agosto 04, 10 am</h6>
-        </div>
-      </li>
-      <li class="clear">
-        <div class="not_col1">
+          <li class="clear">
+            <div class="not_col1">
+            </div>
+            <div class="not_col2">
+             <a href="<?php echo base_url(); ?>notificaciones/<?php echo $noti_value->id_notificaciones; ?>">
+               <h5><?php echo  substr($noti_value->mensaje, 0, 35)."..."; ?></h5>
+               <h6> <?php echo $meses[$fecha[1]] ?> <?php echo $fecha[2]; ?>, <?php echo $datetime[1]; ?></h6>
+             </a>
+           </div>
+         </li>
 
-        </div>
-        <div class="not_col2">
-          <h5>Dolor sit amet, consectetur adipisicing...</h5>
-          <h6>Agosto 04, 10 am</h6>
-        </div>
-      </li>
-      <li class="clear">
-        <div class="not_col1">
+       <?php endforeach ?>
 
-        </div>
-        <div class="not_col2">
-          <h5>Dolor sit amet, consectetur adipisicing...</h5>
-          <h6>Agosto 04, 10 am</h6>
-        </div>
-      </li>
-      <li class="clear">
-        <div class="not_col1">
+     </ul>
+   </div>
+ </section>
+</div>
 
-        </div>
-        <div class="not_col2">
-          <h5>Dolor sit amet, consectetur adipisicing...</h5>
-          <h6>Agosto 04, 10 am</h6>
-        </div>
-      </li>
-    </ul>
-  </div>
-</section>
-
-
+<?php endif; ?>

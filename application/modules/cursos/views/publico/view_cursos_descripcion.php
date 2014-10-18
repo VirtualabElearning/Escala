@@ -28,7 +28,7 @@
 
     <div class="circle">
       <div class="circle_wrap">
-        <img src="html/site/img/<?php echo $this->encrypt->decode( $this->session->userdata('id_estatus') ); ?>.png" alt="">
+        <img src="html/site/img/icono_6.png" alt="">
       </div>
 
     </div>
@@ -57,20 +57,32 @@
         <p><?php echo $detalle_curso->contenido; ?> </p>
         <?php echo $detalle_curso->objetivos_aprendizaje ; ?>
 
+
+
+
+
+
+
         <?php if ($if_inscrito==1): ?>
           <?php  ?>
           <a href="cursos/empezar/<?php echo $detalle_curso->id_cursos; ?>/<?php echo $primer_mod_activ->id_modulos; ?>/<?php echo $primer_mod_activ->id_actividades_barra; ?>/<?php echo amigable($detalle_curso->titulo); ?>.html">  <div class="empezar_btn">Empezar </div></a>
 
         <?php else: ?>
           <?php if ($detalle_curso->id_tipo_planes==1): ?>
-            <a href="cursos/registrarme_al_curso/<?php echo $detalle_curso->id_cursos; ?>/<?php echo $this->uri->segment(4); ?>">  <div class="empezar_btn">Registrarme al curso</div></a>
+            <a link="cursos/registrarme_al_curso/<?php echo $detalle_curso->id_cursos; ?>/<?php echo $this->uri->segment(4); ?>" id="clicto">  <div class="empezar_btn">Registrarme al curso</div></a>
 
 
-   <?php else: ?>
-          <a >  <div class="empezar_btn">Comprar</div></a>
+          <?php else: ?>
+            <a >  <div class="empezar_btn">Comprar</div></a>
 
-       <?php endif ?>
+          <?php endif ?>
+
         <?php endif ?>
+
+
+
+
+
 
       </div>
     </div>
@@ -142,36 +154,56 @@
 
      <div class="plan<?php if ($key==1)  {  echo "2"; } ?> <?php if ($key>0)  {  echo " no_margin "; } ?>">
        <div class="plan_wrap">
-                  <?php $_planes_valores=@json_decode(json_decode($inicio->planes)->planes_valores); ?>
-         <h2><?php echo $tipo_planes[$key]->nombre; ?></h2>
+        <?php $_planes_valores=@json_decode(json_decode($inicio->planes)->planes_valores); ?>
+        <h2><?php echo $tipo_planes[$key]->nombre; ?></h2>
 
-         <h3><?php echo @$_planes_valores[$key]; ?></h3>
-         <ul>
-           <?php $_linea1=@json_decode(json_decode($inicio->planes)->lineas1); ?>
-           <li class="grey"><?php if ( $_linea1[$key]!='') {  echo  $_linea1[$key];  } else { echo "&nbsp;"; } ?></li>
-           <?php $_linea2=@json_decode(json_decode($inicio->planes)->lineas2); ?>
-           <li class="white"><?php if ( $_linea2[$key]!='') {  echo  $_linea2[$key];  } else { echo "&nbsp;"; } ?></li>
-           <?php $_linea3=@json_decode(json_decode($inicio->planes)->lineas3); ?>
-           <li class="grey"><?php if ( $_linea3[$key]!='') {  echo  $_linea3[$key];  } else { echo "&nbsp;"; } ?></li>
-           <?php $_linea4=@json_decode(json_decode($inicio->planes)->lineas4); ?>
-           <li class="white"><?php if ( $_linea4[$key]!='') {  echo  $_linea4[$key];  } else { echo "&nbsp;"; } ?></li>
-         </ul>
-         <?php $_urls=@json_decode(json_decode($inicio->planes)->urls); ?>
-         <?php if ($key==0): ?>
-           <a href="<?php echo $_urls[$key]; ?>"><div class="premium_btn">Empezar</div></a>
-         <?php else: ?>
-          <a href="<?php echo $_urls[$key]; ?>"><div class="basic_btn">Empezar</div></a>
-        <?php endif ?>
+        <h3><?php echo @$_planes_valores[$key]; ?></h3>
+        <ul>
+         <?php $_linea1=@json_decode(json_decode($inicio->planes)->lineas1); ?>
+         <li class="grey"><?php if ( $_linea1[$key]!='') {  echo  $_linea1[$key];  } else { echo "&nbsp;"; } ?></li>
+         <?php $_linea2=@json_decode(json_decode($inicio->planes)->lineas2); ?>
+         <li class="white"><?php if ( $_linea2[$key]!='') {  echo  $_linea2[$key];  } else { echo "&nbsp;"; } ?></li>
+         <?php $_linea3=@json_decode(json_decode($inicio->planes)->lineas3); ?>
+         <li class="grey"><?php if ( $_linea3[$key]!='') {  echo  $_linea3[$key];  } else { echo "&nbsp;"; } ?></li>
+         <?php $_linea4=@json_decode(json_decode($inicio->planes)->lineas4); ?>
+         <li class="white"><?php if ( $_linea4[$key]!='') {  echo  $_linea4[$key];  } else { echo "&nbsp;"; } ?></li>
+       </ul>
+       <?php $_urls=@json_decode(json_decode($inicio->planes)->urls); ?>
+       <?php if ($key==0): ?>
+         <a href="<?php echo $_urls[$key]; ?>"><div class="premium_btn">Empezar</div></a>
+       <?php else: ?>
+        <a href="<?php echo $_urls[$key]; ?>"><div class="basic_btn">Empezar</div></a>
+      <?php endif ?>
 
-      </div>
     </div>
+  </div>
 
-  <?php endforeach ?>
+<?php endforeach ?>
 
 </div>
 </section>
 
 <?php $this->load->view('view_site_footer'); ?>
+
+
+<script>
+
+  $('#clicto').click(function(event) {
+    event.preventDefault();
+
+ $('.plan_wrap a').eq(0).attr('href', $(this).attr('link').replace('registrarme_al_curso','registrarme_al_curso_premium') );
+
+    $('.plan_wrap a').eq(1).attr('href', $(this).attr('link') );
+    var body = $("html, body");
+    body.animate({scrollTop:$(".registrate").offset().top-100 }, '500', 'swing', function() { });
+
+  });
+
+
+
+
+</script>
+
         <!--
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>

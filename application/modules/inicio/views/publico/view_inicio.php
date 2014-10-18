@@ -44,7 +44,7 @@
 <section class="cursos_destacados">
     <h4><?php echo $inicio->titulo_destacados; ?></h4>
     <h5><?php echo $inicio->descripcion_destacados; ?></h5>
-    <div class="cursos_destacados_wrap clear">
+    <div class="cursos_destacados_wrap clear" <?php if (count($cursos_destacados)==1): ?> style="width:320px;"  <?php elseif (count($cursos_destacados)==2): ?>   style="width:640px;" <?php endif ?>>
         <?php foreach ($cursos_destacados as $key => $value): ?>
             <div class="curso">
                 <div class="curso_wrap">

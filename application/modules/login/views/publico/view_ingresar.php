@@ -14,6 +14,9 @@
   <?php $this->load->view('view_site_css_js'); ?>
   <link rel="stylesheet" href="login/assets/css/login.css"> 
   <script type="text/javascript" src="login/assets/js/login.js"></script>
+
+
+
 </head>
 <body>
   <?php $this->load->view('view_site_header'); ?>
@@ -28,15 +31,22 @@
       <a href="facebook_login/<?php echo $this->uri->segment(2); ?>"> <div class="facebook_btn">Ingresar con Facebook</div></a>
       <?php $attributos=array('class'=>'form-horizontal','name'=>'form_generator','id'=>'form_generator'); ?>
       <?=form_open(base_url().'ingresar/validar',$attributos)?>
+      
       <input type="hidden" name="redirecter" value="<?php echo $this->uri->segment(2); ?>">
-      <div class="name"><input type="email" id="correo" name="correo" value="<?php echo $this->input->post('correo') ?>" placeholder="* Correo"><img src="img/name_icon.png" alt=""></div>
+      <div class="name"><input type="email" id="correo" name="correo" value="<?php echo $this->input->post('correo') ?>" placeholder="* Correo"><img src="html/site/img/name_icon.png" alt=""></div>
       <div class="pass">
         <input type="password" autocomplete="off" name="contrasena" value="" id="contrasena" placeholder="* Contrase&ntilde;a">
-        <img src="img/pass_icon.png" alt="">
+        <img src="html/site/img/pass_icon.png" alt="">
         <?php echo form_error('contrasena', '<div class="mensaje_error">', '</div>'); ?>
       </div>
 
       <a href="#" id="entrar"><div class="login_btn">Entrar</div></a>
+
+
+      <div class="forgot_pass">
+      <a href="<?php echo base_url(); ?>olvide_contrasena"><p>¿Olvidaste tu contraseña?</p></a>
+      </div>
+
 
     </div>
   </section>

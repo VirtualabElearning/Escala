@@ -1,4 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+ini_set("display_errors", 1);
 
 class Publico extends CI_Controller {
 
@@ -22,12 +24,23 @@ class Publico extends CI_Controller {
 		$this->load->view('view_login');
 	}
 
+##vista de suscripcion y saber que plan tengo
+	public function suscripcion()  {
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+		$data['inicio']=$this->model_generico->detalle('pagina_inicio',array('id_pagina_inicio'=>1));
+		$this->load->view('publico/view_suscripcion',$data);
+	}
+
+
 
 
 ## vista de elegir plan para registro
 	public function registro()  {
 		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 		$data['inicio']=$this->model_generico->detalle('pagina_inicio',array('id_pagina_inicio'=>1));
 		$this->load->view('publico/view_registro',$data);
 	}
@@ -39,25 +52,39 @@ class Publico extends CI_Controller {
 		if ($msg!='')  {
 			$data['mensaje']=$msg;
 		}
+
+
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+		$data['inicio']=$this->model_generico->detalle('pagina_inicio',array('id_pagina_inicio'=>1));
+		
 		$this->load->view('publico/view_registro_usuario',$data);
 	}
+
+##funcion que lista las ciudades de Colombia
+	public function ciudades() {
+		$nombre=$this->input->get('term');
+
+		$tmpciudades=$this->model_generico->get_ciudades($nombre);
+		$arr_ciudades=array();
+		foreach ($tmpciudades as $key => $value) {
+			$arr_ciudades[]=$value->nombre;
+		}
+
+		echo json_encode($arr_ciudades);
+
+	}
+
 
 
 ## valida el sistema de registro de usuario
 	public function registro_usuario_validar () {
 
-
-#		
-
-
-
-
-
-		if ($this->input->post ('userfile')) { $this->session->set_userdata('foto_subida', $this->input->post ('userfile')); }
-
-
+		#if ($this->input->post ('userfile')) { $this->session->set_userdata('foto_subida', $this->input->post ('userfile')); }
 
 		/*configuracion basica para subir una foto*/
+/*
 		$config['upload_path']   =   "uploads/aprendices/";
 		$config['allowed_types'] =   "gif|jpg|jpeg|png";
 		$config['max_size']      =   "5000";
@@ -66,22 +93,22 @@ class Publico extends CI_Controller {
 		$config['remove_spaces']  = TRUE;
 		$config['file_name']  = md5($this->input->post ('correo')."~".date('Y-m-d'));
 		$this->load->library('upload',$config);
-
+*/
 		$this->form_validation->set_rules('nombres', 'Nombres', 'required|xss_clean');
 		$this->form_validation->set_rules('apellidos', 'Apellidos', 'required|xss_clean');
-		$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean|callback_check_identificacion');
+	#	$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean|callback_check_identificacion');
 		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean|callback_check_email');
-		$this->form_validation->set_rules('ciudad', 'Ciudad', 'required|xss_clean');
+	#	$this->form_validation->set_rules('ciudad', 'Ciudad', 'required|xss_clean');
 		$this->form_validation->set_rules('contrasena1', 'Contraseña', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('contrasena2', 'Confirmar contraseña', 'trim|required|xss_clean|callback_check_pass_iguales['.$this->input->post('contrasena1').']');
-		$this->form_validation->set_rules('userfile', 'Foto', 'callback_check_foto');
+	#	$this->form_validation->set_rules('userfile', 'Foto', 'callback_check_foto');
 
 		$data = array(
 			'nombres' => $this->input->post ('nombres'),
 			'apellidos' => $this->input->post ('apellidos'),
 			'correo' => $this->input->post ('correo'),
-			'identificacion' => $this->input->post ('identificacion'),
-			'ciudad' => $this->input->post ('ciudad'),
+			/*	'identificacion' => $this->input->post ('identificacion'),  */
+			/*	'ciudad' => $this->input->post ('ciudad'), */
 			'id_tipo_planes' => 1,  /* plan gratis */
 			'id_roles' => 3,    /* rol estudiante */
 			'contrasena' => sha1($this->input->post ('contrasena1')),    
@@ -96,7 +123,7 @@ class Publico extends CI_Controller {
 		{ 
 
 ## valido si cuando sale error valido la foto y borra la duplicada
-			if ($this->input->post ('foto_subida')!=$this->input->post ('userfile'))  {
+/*			if ($this->input->post ('foto_subida')!=$this->input->post ('userfile'))  {
 				if ($this->input->post ('foto_subida')!=''  && $this->input->post ('userfile')=='' )  {
 					$data['foto'] = $foto_subida;
 				} else {
@@ -105,7 +132,7 @@ class Publico extends CI_Controller {
 				}
 
 			}
-
+*/
 
 
 
@@ -177,13 +204,11 @@ class Publico extends CI_Controller {
 # si ya esta logeado, redirecciono el sistema
 		if ($this->session->userdata('logeado')==1)  { redirect( 'cursos/mis_cursos' );  }
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
-
-
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 		$this->load->view('publico/view_ingresar',$data);
 	}
 
 	public function facebook($redirect=null)  {
-
 
 		if ($redirect)  {  $redirect=base64_decode($redirect);  }
 		$this->load->model('model_login');
@@ -200,17 +225,9 @@ class Publico extends CI_Controller {
 				{
 					$datos_perfil = $service->getUserProfile();
 
-
-
-
-
-
 					$arr=array('user_social_key',md5($datos_perfil->firstName.'~'.$datos_perfil->lastName.'~'.$datos_perfil->email));
-					
+
 					$info_usuario = $this->model_login->get_info_usuario_estudiante('usuarios', $arr );
-
-
-
 
 					/* Si se ha realizado bn el login, debe cargar los datos en sesion y redireccionar a la parte de inicio, consultando la bd partiendo del correo. */
 
@@ -237,14 +254,6 @@ class Publico extends CI_Controller {
 							'if_update' 	=> $if_update,
 							);
 
-
-
-
-
-
-
-
-
 /* Guardo los datos en la variable sesion */
 $this->session->set_userdata($data);
 
@@ -257,8 +266,6 @@ else {
 
 	$foto_nombre=md5($datos_perfil->firstName.'~'.$datos_perfil->lastName.'~'.$datos_perfil->email).".jpg";
 	
-
-
 	save_image($datos_perfil->photoURL,'uploads/aprendices/'.$foto_nombre);
 
 
@@ -524,11 +531,21 @@ public function estudiante_check(){
 
 
 	public function editar_perfil($msg=null)  {
+
 		$data['mi_perfil']=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$this->encrypt->decode($this->session->userdata('id_usuario'))));
 		
 		if ($msg) {
 			$data['mensaje']=$msg;
 		}
+
+
+######################################### lineas de programacion debe estar en todas ####################################
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+######################################### lineas de programacion debe estar en todas ####################################
+
 
 		$this->load->view('publico/view_editar_perfil',$data);
 	}
@@ -582,8 +599,6 @@ public function estudiante_check(){
 			break;
 		}
 
-
-
 	}
 
 
@@ -619,7 +634,7 @@ public function estudiante_check(){
 
 	public function  actualizar_perfil($if_fb=null){
 
-
+		$this->load->model('model_login');
 		/*configuracion basica para subir una foto*/
 		$config['upload_path']   =   "uploads/aprendices/";
 		$config['allowed_types'] =   "gif|jpg|jpeg|png";
@@ -629,37 +644,29 @@ public function estudiante_check(){
 		$config['remove_spaces']  = TRUE;
 		$config['encrypt_name']  = TRUE;
 		$this->load->library('upload',$config);
-
-
-
+    
 		$this->form_validation->set_rules('nombres', 'Nombres', 'required|xss_clean');
 		$this->form_validation->set_rules('apellidos', 'Apellidos', 'required|xss_clean');
 
 		if ($if_fb) {
-			$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean|callback_check_identificacion');
+			$this->form_validation->set_rules('identificacion', 'Identificación', 'required|xss_clean|callback_check_identificacion');
 		}
 
 		else {
-			$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean');
+			$this->form_validation->set_rules('identificacion', 'Identificación', 'required|xss_clean');
 		}
 
 		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean');
-
 		$this->form_validation->set_rules('ciudad', 'Ciudad', 'required|xss_clean');
 		$this->form_validation->set_rules('userfile', 'Foto', 'callback_check_foto');
 
-
 		if($this->form_validation->run() == FALSE)
 		{ 
-
 			$this->editar_perfil($if_fb);
-
 		} 
 
 
 		else {
-
-
 			$data = array(
 				'nombres' => $this->input->post ('nombres'),
 				'apellidos' => $this->input->post ('apellidos'),
@@ -667,7 +674,6 @@ public function estudiante_check(){
 				'identificacion' => $this->input->post ('identificacion'),
 				'ciudad' => $this->input->post ('ciudad'),
 				);
-
 
 			if ($this->input->post ('foto_antes')!=$this->input->post ('userfile'))  {
 				if ($this->input->post ('foto_antes')!=''  && $this->input->post ('userfile')=='' )  {
@@ -681,10 +687,35 @@ public function estudiante_check(){
 
 			else {    }
 
-
-
-
 				$id=$this->model_generico->guardar('usuarios',$data,'id_usuarios',array('id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario'))   ));
+			
+			##despues de actualizar, actualizo los datos de session actual del usuario
+			$arr=array('id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario')));
+			
+			/* cargo datos iniciales de usuario para guardarlos en variables de sesion */
+			$info_usuario = $this->model_login->get_info_usuario_estudiante('usuarios', $arr );
+
+			$data = array(
+				'id_usuario'=> $this->encrypt->encode($info_usuario->id_usuarios),
+				'logeado' 	=>  1,
+				'nombres' => $this->encrypt->encode($info_usuario->nombres),
+				'apellidos' => $this->encrypt->encode($info_usuario->apellidos),
+				'foto' => $this->encrypt->encode($info_usuario->foto),
+				'identificacion' => $this->encrypt->encode($info_usuario->identificacion),
+				'id_tipo_planes' => $this->encrypt->encode($info_usuario->id_tipo_planes),
+				'correo' 	=> $this->encrypt->encode($info_usuario->correo),
+				'id_roles' 	=> $this->encrypt->encode($info_usuario->id_roles),
+				'id_estados' 	=> $this->encrypt->encode($info_usuario->id_estados),
+				'nombre_rol' 	=> $this->encrypt->encode($info_usuario->nombre),
+				'id_estatus' 	=> $this->encrypt->encode($info_usuario->id_estatus),
+				'nombre_estatus' 	=> $this->encrypt->encode($info_usuario->nombre_estatus),
+				'cursos_asignados' 	=> $this->encrypt->encode($info_usuario->id_cursos_asignados),
+				'if_update' 	=> $if_update,
+				);
+
+			/* Guardo los datos en la variable sesion */
+			$this->session->set_userdata($data);
+
 			$this->editar_perfil("Actualizado correctamente!");
 
 			
@@ -699,18 +730,168 @@ public function estudiante_check(){
 	}
 
 
+
+
+
+## checkeo si el correo ya existe.
+	public function check_email_if_existe () {
+		$this->load->model('model_login');
+		/* Evaluo en la funcion si existe, si la contrasena es correcta. */
+		$result = $this->model_login->check_email_estudiante( $this->input->post ('correo') );
+		switch($result){
+			case 'existe':
+			/* 
+			Retorno verdadero
+			 */
+			return true;
+			break;
+			/*
+			Retorno aceptable si no existe (re-utilizacion de funcion)
+			*/
+
+			case 'aceptable':
+			$this->form_validation->set_message('check_email_if_existe', 'El correo '.$this->input->post('correo').' no existe en el sistema, intente con otro.');
+			return false;
+			break;
+		}
+	}
+
+
+	public function olvide_contrasena ($msg=null) {
+		$data=array();
+		if ($msg) {  $data['mensaje']=$msg;  }
+		
+		######################################### lineas de programacion debe estar en todas ####################################
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+######################################### lineas de programacion debe estar en todas ####################################
+
+		$this->load->view('publico/view_olvide_contrasena',$data);
+	}
+
+
+	public function validar_olvide_contrasena () {
+
+## valido el correo que exista en el sistema
+		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean|callback_check_email_if_existe');
+
+		if($this->form_validation->run() == FALSE)
+		{ 
+			$this->olvide_contrasena();
+
+		}
+
+		else {
+		### envio mensaje de correo para reestablecer la contraseña , la url está encriptada	
+			$configuracion=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+			$datos_perfil_estudiante=$this->model_generico->detalle('usuarios',array('correo'=>$this->input->post('correo')));
+			$array_claves=array('{nombres}'=>$datos_perfil_estudiante->nombres,'{apellidos}'=>$datos_perfil_estudiante->apellidos,'{empresa}'=>$configuracion->nombre_sistema,'{correo}'=>$datos_perfil_estudiante->correo,'{base_url}'=>$configuracion->base_url,'{foto}'=>'uploads/aprendices/'.$foto_nombre,'{correo_confirmar}'=>base64_encode($datos_perfil_estudiante->correo."|recover"));
+		#envio mensaje al usuario de que debe cambiar la clave de acceso de su cuenta
+			envio_correo($array_claves,$configuracion->correo_contacto,$configuracion->nombre_contacto ,$datos_perfil_estudiante->correo,"Cambiar contraseña de acceso en ".$configuracion->nombre_sistema,$datos_perfil_estudiante->nombres.' '.$datos_perfil_estudiante->apellidos,site_url()."email_templates/recuperar_contrasena.html",$this);
+		######################################################################################################################
+			$msg="enviado";
+			$this->olvide_contrasena($msg);
+		}
+
+	}
+
+
+
+	##pagina para recuperar clave
+	public function recuperar_contrasena($trama) {
+		if ($trama) {
+			$trama=base64_decode($trama);
+
+			$data_trama=explode("|", $trama);
+
+			## si es recupaerar clave
+			if ($data_trama[1]=='recover') {
+######################################### lineas de programacion debe estar en todas ####################################
+				$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+				$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+				$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+				$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+######################################### lineas de programacion debe estar en todas ####################################
+				$data['correo']=$data_trama[0];
+				$this->load->view('publico/view_cambiar_clave_recover',$data);
+			}
+## si no.. es un error
+			else {
+				$this->olvide_contrasena();
+			}
+		}
+
+		else {
+			$this->olvide_contrasena();
+		}
+	}
+
+##funcion para cambiar la clave de acceso del usuario estudiante
+	public function validar_recuperar_contrasena () {
+
+##valido claves
+		$this->form_validation->set_rules('contrasena1', 'Contraseña', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('contrasena2', 'Confirmar contraseña', 'trim|required|xss_clean|callback_check_pass_iguales['.$this->input->post('contrasena1').']');
+
+
+		if($this->form_validation->run() == FALSE)
+		{ 
+			$this->recuperar_contrasena($this->input->post('trama'));
+		}
+
+		else {
+			
+			## realizo el proceso de cambiar la clave de acceso del usuario
+			$data['contrasena']=sha1($this->input->post ('contrasena1'));
+			$correo_est=$this->encrypt->decode( $this->input->post('pid') );
+			#$correo_est="gauriel@msn.com";
+
+
+			$datos_perfil_estudiante=$this->model_generico->detalle('usuarios',array('correo'=>$correo_est));
+
+
+
+
+			$id=$this->model_generico->guardar('usuarios',$data,'id_usuarios',array('id_usuarios',$datos_perfil_estudiante->id_usuarios));
+			#$this->olvide_contrasena("Actualizado correctamente!");
+			redirect( '/' );
+
+
+		}
+
+
+	}
+
+
 	public function cambiar_clave ($msg=null) {
 		$data=array();
 		if ($msg) {  $data['mensaje']=$msg;  }
+		
+		######################################### lineas de programacion debe estar en todas ####################################
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+######################################### lineas de programacion debe estar en todas ####################################
+
 		$this->load->view('publico/view_cambiar_clave',$data);
 	}
 
 
 	function check_pass_iguales($contrasena2,$contrasena1)
 	{
-		if ($contrasena2 <> $contrasena1)
+
+		if ($contrasena2=='' || $contrasena1 =='')  {
+			$this->form_validation->set_message('check_pass_iguales', 'Los campos no deben estar vacíos');
+			return false;   
+		}
+
+		else if ($contrasena2 <> $contrasena1)
 		{
 			$this->form_validation->set_message('check_pass_iguales', 'Las dos contraseñas no son iguales');
+
 			return false;       
 		}
 		else
@@ -723,20 +904,18 @@ public function estudiante_check(){
 
 	function check_pass_bd($contrasena1)
 	{
+		##consulto en la base de datos la clave que tiene actualmente para compararla con la que ingresó
+		$data_estudiante=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$this->encrypt->decode($this->session->userdata('id_usuario'))));
 
-		if ($contrasena2 <> $contrasena1)
+		if ($data_estudiante->contrasena <> sha1($contrasena1))
 		{
-			$this->form_validation->set_message('check_pass_bd', 'La contraseña anterior es incorrecta');
+			$this->form_validation->set_message('check_pass_bd', 'La contraseña anterior es incorrecta.');
 			return false;       
 		}
 		else
 		{
 			return true;
 		}
-
-
-
-
 
 	}
 
@@ -757,80 +936,156 @@ public function estudiante_check(){
 		$data['id_estados']=1;
 
 
-if($this->form_validation->run() == FALSE)
-{ 
+		if($this->form_validation->run() == FALSE)
+		{ 
 			# echo validation_errors();
-	$this->cambiar_clave();
-} 
+			$this->cambiar_clave();
+		} 
 
 
-else {
-	$this->session->set_userdata('if_update', 0);
-	$id=$this->model_generico->guardar('usuarios',$data,'id_usuarios',array('id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario'))   ));
-	$this->cambiar_clave("Actualizado correctamente!");
-}
-
-
-}
-
-
-
-public function confirmar ($mail) {
-
-	$this->load->model('model_login');
-
-	$data=explode ("|",base64_decode($mail));
-
-
-# si es facebook o por formulario
-	if ($data[1]=='fr' || $data[1]=='fb')  {
-	#cambio de estado al usuario
-		$info_usuario=$this->model_login->confirmar_email($data[0]);
-#crk32
-## en actualiza perfil agregar actualizado correctamente y aqui agregar mensaje de confirmado correctamente
-
-		$if_update=0;
-		if ($info_usuario->contrasena=='')  {  $if_update=1; }
-		$data_ses = array(
-			'id_usuario'=> $this->encrypt->encode($info_usuario->id_usuarios),
-			'logeado' 	=>  1,
-			'nombres' => $this->encrypt->encode($info_usuario->nombres),
-			'apellidos' => $this->encrypt->encode($info_usuario->apellidos),
-			'foto' => $this->encrypt->encode($info_usuario->foto),
-			'identificacion' => $this->encrypt->encode($info_usuario->identificacion),
-			'id_tipo_planes' => $this->encrypt->encode($info_usuario->id_tipo_planes),
-			'correo' 	=> $this->encrypt->encode($info_usuario->correo),
-			'id_roles' 	=> $this->encrypt->encode($info_usuario->id_roles),
-			'id_estados' 	=> $this->encrypt->encode($info_usuario->id_estados),
-			'nombre_rol' 	=> $this->encrypt->encode($info_usuario->nombre),
-			'id_estatus' 	=> $this->encrypt->encode($info_usuario->id_estatus),
-			'nombre_estatus' 	=> $this->encrypt->encode($info_usuario->nombre_estatus),
-			'cursos_asignados' 	=> $this->encrypt->encode($info_usuario->id_cursos_asignados),
-			'if_update' 	=> $if_update,
-			);
-
-
-
-
-
-
-
-		/* Guardo los datos en la variable sesion */
-		$this->session->set_userdata($data_ses);
-
-
-
-
-		$this->editar_perfil("confirmado correctamente!");
+		else {
+			$this->session->set_userdata('if_update', 0);
+			$id=$this->model_generico->guardar('usuarios',$data,'id_usuarios',array('id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario'))   ));
+			$this->cambiar_clave("Actualizado correctamente!");
+		}
 
 
 	}
-}
+
+
+
+	public function confirmar ($mail) {
+
+		$this->load->model('model_login');
+
+		$data=explode ("|",base64_decode($mail));
+
+
+# si es facebook o por formulario
+		if ($data[1]=='fr' || $data[1]=='fb')  {
+	#cambio de estado al usuario
+			$info_usuario=$this->model_login->confirmar_email($data[0]);
+
+## en actualiza perfil agregar actualizado correctamente y aqui agregar mensaje de confirmado correctamente
+
+			$if_update=0;
+			if ($info_usuario->contrasena=='')  {  $if_update=1; }
+			$data_ses = array(
+				'id_usuario'=> $this->encrypt->encode($info_usuario->id_usuarios),
+				'logeado' 	=>  1,
+				'nombres' => $this->encrypt->encode($info_usuario->nombres),
+				'apellidos' => $this->encrypt->encode($info_usuario->apellidos),
+				'foto' => $this->encrypt->encode($info_usuario->foto),
+				'identificacion' => $this->encrypt->encode($info_usuario->identificacion),
+				'id_tipo_planes' => $this->encrypt->encode($info_usuario->id_tipo_planes),
+				'correo' 	=> $this->encrypt->encode($info_usuario->correo),
+				'id_roles' 	=> $this->encrypt->encode($info_usuario->id_roles),
+				'id_estados' 	=> $this->encrypt->encode($info_usuario->id_estados),
+				'nombre_rol' 	=> $this->encrypt->encode($info_usuario->nombre),
+				'id_estatus' 	=> $this->encrypt->encode($info_usuario->id_estatus),
+				'nombre_estatus' 	=> $this->encrypt->encode($info_usuario->nombre_estatus),
+				'cursos_asignados' 	=> $this->encrypt->encode($info_usuario->id_cursos_asignados),
+				'if_update' 	=> $if_update,
+				);
+
+
+			/* Guardo los datos en la variable sesion */
+			$this->session->set_userdata($data_ses);
+
+
+
+
+			$this->editar_perfil("confirmado correctamente!");
+
+
+		}
+	}
+
+
+#vista de notificaciones
+	public function notificaciones () {
+		
+		if ($this->session->userdata('logeado')!=1)  { redirect( '/' );  }
+
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		$data['notificaciones_todas']=$this->model_generico->get_notificaciones ($id_usuarios);
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+		$data['inicio']=$this->model_generico->detalle('pagina_inicio',array('id_pagina_inicio'=>1));
+		$this->load->view('publico/view_notificaciones',$data);
+
+	}
+
+##opciones de funcion de las notificaciones
+	public function op_notificaciones($id_notificaciones,$opcion) {
+		$this->load->model('model_login');
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+
+##marcarla como leida la notificacion
+		if ($opcion==1) {
+			$this->model_login->update_notificacion_leida($id_notificaciones);
+		}
+
+		##marcarla como no leida la notificacion
+		if ($opcion==2) {
+			$this->model_login->update_notificacion_no_leida($id_notificaciones);
+		}
+
+##eliminar la notificacion
+		if ($opcion==3) {
+			$this->model_login->delete_notificacion($id_notificaciones);
+		}
+
+			#consulto la cantidad de notificaciones
+		$notificaciones_count=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		echo $notificaciones_count;
+
+
+	}
+
+
+##funcion para obtener el listado de notificaciones con ajax
+	public function get_notificaciones_ajax_list () {
+
+
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$notificaciones=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$notificaciones_count=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+
+		$html='';
+		$meses=array("0"=>"","1"=>"Enero","2"=>"Febrero","3"=>"Marzo","4"=>"Abril","5"=>"Mayo","6"=>"Junio","7"=>"Julio","8"=>"Agosto","9"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre"); 
+		foreach ($notificaciones as $noti_key => $noti_value): 
+
+			$datetime=explode (" ",$noti_value->fecha_creado);
+		$fecha=explode ("-",$datetime[0]);
+
+		$html.='<li class="clear">';
+		$html.='<div class="not_col1">';
+		$html.='</div>';
+		$html.='<div class="not_col2">';
+		$html.='<a target="_blank" href="'.base_url().'notificaciones/'.$noti_value->id_notificaciones.'">';
+		$html.='<h5>'.substr($noti_value->mensaje, 0, 35)."...".'</h5>';
+		$html.='<h6> '.$meses[$fecha[1]].' '.$fecha[2].', '.$datetime[1].'</h6>';
+		$html.='</a>';
+		$html.='</div>';
+		$html.='</li>';
+
+		endforeach; 
+
+
+		echo $html."|".$notificaciones_count;
+
+
+
+	}
 
 
 
 
 }
-
 /* End of file welcome.php */
 /* Location: ./application/controllers/welcome.php */

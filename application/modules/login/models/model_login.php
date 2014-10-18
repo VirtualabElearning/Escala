@@ -34,17 +34,11 @@ class Model_login extends CI_Model{
 ## checkeo si el correo existe
 	public function check_email( $email ){
 
-	$extra=array('correo' => $email);
-
-		
+		$extra=array('correo' => $email);
 		$query = $this->db->get_where('usuarios', $extra );
-
-
-
 		if( $query->num_rows() > 0 ){
 				# si existe no permite actualizar con la misma cedula
-				return 'existe';
-			
+			return 'existe';
 		} else {
 			#si no existe la identificacion
 			return 'aceptable';
@@ -52,10 +46,23 @@ class Model_login extends CI_Model{
 	}
 
 
+## checkeo si el correo existe (solo estudiantes)
+	public function check_email_estudiante( $email ){
+
+		$extra=array('correo' => $email,'id_roles'=>3 );
+		$query = $this->db->get_where('usuarios', $extra );
+		if( $query->num_rows() > 0 ){
+				# si existe no permite actualizar con la misma cedula
+			return 'existe';
+		} else {
+			#si no existe la identificacion
+			return 'aceptable';
+		}
+	}
 
 
 	#funcion para detectar si existe o no la identificacion
-		public function check_user_identificacion( $identificacion ){
+	public function check_user_identificacion( $identificacion ){
 
 		$extra=array('identificacion' => $identificacion);
 
@@ -66,7 +73,7 @@ class Model_login extends CI_Model{
 
 		if( $query->num_rows() > 0 ){
 				# si existe no permite actualizar con la misma cedula
-				return 'existe';
+			return 'existe';
 			
 		} else {
 			#si no existe la identificacion
@@ -146,6 +153,37 @@ class Model_login extends CI_Model{
 	}
 
 
+
+
+	##Actalizo el estado de la notificacion como leída
+	public function update_notificacion_leida($id_notificaciones){
+		$data=array("notificaciones.id_estados"=>$this->config->item('estado_leido'));
+		$this->db->where('notificaciones.id_notificaciones', $id_notificaciones);
+		$this->db->where('notificaciones.id_estados', $this->config->item('estado_no_leido'));
+		$this->db->update('notificaciones', $data); 
+		return true;
+
+	}
+
+
+	##Actalizo el estado de la notificacion como no leída
+	public function update_notificacion_no_leida($id_notificaciones){
+		$data=array("notificaciones.id_estados"=>$this->config->item('estado_no_leido'));
+		$this->db->where('notificaciones.id_notificaciones', $id_notificaciones);
+		$this->db->where('notificaciones.id_estados', $this->config->item('estado_leido'));
+		$this->db->update('notificaciones', $data); 
+		return true;
+
+	}
+
+
+	##funcion para borrar la notificacion seleccionada
+	public function delete_notificacion ($id_notificaciones) {
+		$this->db->delete('notificaciones', array('notificaciones.id_notificaciones' => $id_notificaciones)); 
+		return true;
+	}
+
+
+
+
 }
-
-

@@ -113,7 +113,8 @@
 
 
                   <?php 
-                  echo checkbox ('Instructores asignados',$array_opc,1,''); ?>
+                  echo checkbox ('Instructores asignados',$array_opc,1,'');   echo form_error('instructores_asignados', '<div class="mensaje_error">', '</div>'); ?>
+
                   <?php 
                   $opciones=array("1"=>"Si","0"=>"No");
                   echo select ("Destacar?","destacar","destacar",$opciones,$detalle->destacar); 
@@ -127,7 +128,7 @@
                     <?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
                     ?>
 
-                    <?php echo input_text ("Máximo estudiantes","maximo_estudiantes","maximo_estudiantes","Ingrese el máximo de estudiantes en el curso",$detalle->maximo_estudiantes,form_error('maximo_estudiantes', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php #echo input_text ("Máximo estudiantes","maximo_estudiantes","maximo_estudiantes","Ingrese el máximo de estudiantes en el curso",$detalle->maximo_estudiantes,form_error('maximo_estudiantes', '<div class="mensaje_error">', '</div>')); ?>
 
 
                   <?php 

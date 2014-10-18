@@ -29,7 +29,9 @@
         <div class="row">
           <div class="col-md-12">
 
+<?php if ($this->session->userdata('id_roles')==1): ?>
             <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+<?php endif ?>
 
             <div class="widget">
               <div class="widget-head">
@@ -77,7 +79,7 @@
                               <td><?php echo $value->nombre_modulo; ?></td>
                                <td><?php echo $value->roles_permitidos; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>
-                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_permisos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_permisos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                             <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_permisos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <?php if ($this->session->userdata('id_roles')==1): ?><a href="#" id="<?php echo $value->id_permisos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> <?php endif; ?> </td>
                            </tr>
 
                          <?php endforeach ?>         

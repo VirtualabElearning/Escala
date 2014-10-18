@@ -35,7 +35,10 @@ class Root extends CI_Controller {
 		/* Cargo variables globales */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 
-		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],2);
+	//	$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],2);
+		$data['titulo']=$variables['modulo'];
+
+
 		$data['menus']=$this->model_generico->menus_root_categorias();
 		foreach ($data['menus'] as $key => $value) {
 			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
@@ -62,7 +65,7 @@ class Root extends CI_Controller {
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 
 		/* Titulo = nombre del modulo */
-		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],1);
+		$data['titulo']=$variables['modulo'];
 		$data['menus']=$this->model_generico->menus_root_categorias();
 		foreach ($data['menus'] as $key => $value) {
 			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
@@ -203,7 +206,7 @@ class Root extends CI_Controller {
 	{
 		/*Cargo variables globales*/
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-		$data['titulo']=asignar_frase_diccionario ($data['diccionario'],$variables['llave'],$variables['modulo'],1);
+		$data['titulo']=$variables['modulo'];
 		$data['menus']=$this->model_generico->menus_root_categorias();
 		foreach ($data['menus'] as $key => $value) {
 			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));

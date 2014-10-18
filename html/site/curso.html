@@ -49,23 +49,29 @@
         </div>
          <!--HEADER-->         
         <div class="backdrop"></div>
-        <div class="box">
-            <div class="close">x</div>
-            <h3>¡FELICITACIONES!</h3>
-            <div class="premio_img">
-                <img src="img/premio.png" alt=""id="surprise_result">
-                <img src="img/sorpresa.png" alt="" id="surprise_box">
-            </div>
-            <p>Ganaste 10 puntos por matricularte a tu primer curso
-Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.</p>
-            <div class="share_block">
-                <h4>Compartir</h4>
-                <ul class="share_icons clear">
-                    <li><img src="img/face_icon_s.png" alt=""></li>
-                    <li><img src="img/tweet_icon_s.png" alt=""></li>
-                </ul>
-            </div>
+        <div class="box_container">
+            <div class="box">
+                <div class="close">x</div>
+                <h3>¡FELICITACIONES!</h3>
+                <div class="premio_img">
+                    <div id="surprise_result">
+                        <img src="img/premio.png" alt="">
+                        <span>+10</span>
+                    </div>                
+                    <div id="surprise_box"><img src="img/sorpresa.gif" alt=""></div>
+                    
+                </div>
+                <p>Ganaste 10 puntos por matricularte a tu primer curso
+    Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.</p>
+                <div class="share_block">
+                    <h4>Compartir</h4>
+                    <ul class="share_icons clear">
+                        <li><img src="img/face_icon_s.png" alt=""></li>
+                        <li><img src="img/tweet_icon_s.png" alt=""></li>
+                    </ul>
+                </div>
 
+            </div>
         </div>
 
         <section class="actividad_aprobada"></section>
@@ -94,12 +100,12 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                                     </div>
                               </a>
                           </li>
-                          <li><a href="#" class="menu-entry" id="btn2">
+                          <li id="btn2">
                                     <div class="noti_btn">
                                         <img src="img/noti_icon.png" alt="notificaciones">
                                         <div class="noti_numero">7</div>
                                     </div>
-                              </a>
+                              
                           </li>
                           <li class="avatar_btn">
                             <a href="#" class="menu-entry" id="btn">
@@ -152,6 +158,24 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                             <p>Maria Uribe</p>
                         </div>
                     </div>
+                    <div class="status_bar clear">
+                        <img src="img/status_1.png" alt="">
+                            <ul>
+                                <li class="s_on"></li>
+                                <li class="s_on"></li>
+                                <li class="s_on"></li>
+                                <li class="s_on"></li>
+                                <li class="s_off"></li>
+                                <li class="s_off"></li>
+                                <li class="s_off"></li>
+                                <li class="s_off"></li>                           
+                            </ul>
+                        <img src="img/status_2_off.png" alt="">
+                    </div>
+                    <div class="status_txt clear">
+                        <p>150</p>
+                        <span>600</span>
+                    </div>
                     <div class="avatar_infoblock clear">
                         <div class="avatar_infoblock_col1">
                             <h3>Estatus</h3>
@@ -177,16 +201,16 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                         </div>
                     </div>
                     <div class="medal_container clear">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
-                            <img src="img/medal.png" alt="medal">
+                            <img src="img/icono_5.png" alt="medal">
+                            <img src="img/icono_6.png" alt="medal">
+                            <img src="img/icono_7.png" alt="medal">
+                            <img src="img/icono_8.png" alt="medal">
+                            <img src="img/icono_9.png" alt="medal">
+                            <img src="img/icono_10.png" alt="medal">
+                            <img src="img/icono_11.png" alt="medal">
+                            <img src="img/icono_12.png" alt="medal">
+                            <img src="img/icono_13.png" alt="medal">
+                            <img src="img/icono_14.png" alt="medal">
 
                     </div>
                 </div>
@@ -218,7 +242,7 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
         <section class="question">
             <div class="question_wrap">
                 <h5>Pregunta al facilitador</h5>
-                <h6 class="hider">Tu pregunta ha sido enviada con éxito, recibirás la notificación de respuesta en tus mensajes de entrada</h6>
+                <h6 class="hider">Tu pregunta ha sido enviada con éxito, recibirás la notificación de respuesta en tus mensajes de entrada <img src="img/inbox_icon.png" alt=""></h6>
                 <textarea name="" id="" cols="30" rows="10" placeholder="Escribe tu pregunta"></textarea>
                 <div class="send_question">
                     Enviar
@@ -296,6 +320,7 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                          <h3>Actividad 5, Nombre de la actividad</h3>
                     </div>
                     <div class="activities">
+
                         <div class="video" id="video">
                             <div class="video_wrap"><!-- Copy & Pasted from YouTube -->
                                  <iframe width="462" height="260" src="http://www.youtube.com/embed/n_dZNLr2cME?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>
@@ -323,16 +348,61 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                                         <input type="radio" name="sex" value="male"><span>Respuesta 4</span>
                                     </form>                                
                                 </div>
+                                <div class="evaluacion_preg">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum vero placeat quos reiciendis laborum, repellat perferendis libero?</p>
+                                    <form action="">
+                                         <select>
+                                              <option value="uno">Respuesta Numero uno</option>
+                                              <option value="dos">Respuesta Numero dos</option>
+                                              <option value="tres">Respuesta Numero tres</option>
+                                              <option value="cuatro">Respuesta Numero cuatro</option>
+                                           
+                                        </select>
+                                    </form>                                
+                                </div>
+                                <div class="evaluacion_preg">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum vero placeat quos reiciendis laborum, repellat perferendis libero?</p>
+                                    <form action="">
+                                         <textarea name="" id="" cols="30" rows="10" placeholder="Escribe tu respuesta"></textarea>
+                                    </form>                                
+                                </div>
                                 <div class="evaluacion_btn">
                                         Responder
                                  </div>
 
                             </div>
                         </div>
-                    </div> 
 
 
-                    <div class="discusion">
+                        <div class="evaluacion" id="respuesta">
+                            <div class="evaluacion_wrap">
+                                <h2>+25 puntos</h2>
+                                <ul class="clear">
+                                    <li><p id="eva_50">Compe 1</p></li>
+                                    <li><p id="eva_1">Compe 2</p></li>
+                                    <li><p id="eva_25">Compe 3</p></li>
+                                    <li><p id="eva_100">Compe 4</p></li>
+                                    <li><p id="eva_75">Compe 5</p></li>                                    
+                                </ul>
+                                <p class="bien">Pregunta numero uno:Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                                <p class="mal">Pregunta numero dos:Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                                <p class="bien">Pregunta numero tres:Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                                <p class="bien">Pregunta numero cuatro:Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                                <p class="bien">Pregunta numero cinco:Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                                <div class="retro">
+                                <span>Retroalimentacion Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores ullam pariatur tenetur sequi nesciunt placeat voluptas optio rerum, accusantium nihil ipsum.</span>
+                                </div>
+                                <div class="volver">
+                                        Volver a intentar
+                                 </div>
+                                 <div class="evaluacion_btn">
+                                        Continuar
+                                 </div>
+                            </div>
+                        </div>
+
+
+                        <div class="discusion" id="discusion">
                         <div class="discusion_wrap">
                             <div class="disc_block_A">
                                 <div class="disc_block_A_wrap clear">
@@ -352,12 +422,46 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                             </div>
                             <div class="disc_block_B">
                                 <div class="disc_block_B_wrap clear">
-                                    <div class="disc_block_B_col1">
+                                    <div class="disc_block_B_col1 clear">
                                         <img src="img/per3.png" alt="">
+                                        <div id="disc_status"><img src="img/status_1.png"></div>
                                         <h4>Claritasky</h4>
-                                        <h5>Campeona</h5>
                                         <div class="kudos">
                                             <p>9</p>
+                                        </div>
+                                    </div>
+                                    <div class="disc_block_B_col2">
+                                        
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, esse! Magni iure, nemo maiores temporibus quisquam in rerum blanditiis, tenetur ex inventore, consequatur placeat ipsam nihil. Debitis itaque esse in! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere tempore, adipisci tempora quibusdam optio vitae odit recusandae est, provident harum, atque impedit et magnam labore commodi consequuntur hic assumenda ex.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="disc_block_B">
+                                <div class="disc_block_B_wrap clear">
+                                    <div class="disc_block_B_col1 clear">
+                                        <img src="img/per2.png" alt="">
+                                        <div id="disc_status"><img src="img/status_2.png"></div>
+                                        <h4>Claritasky</h4>
+                                        <div class="kudos_off">
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                    <div class="disc_block_B_col2">
+                                        
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, esse! Magni iure, nemo maiores temporibus quisquam in rerum blanditiis, tenetur ex inventore, consequatur placeat ipsam nihil. Debitis itaque esse in! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere tempore, adipisci tempora quibusdam optio vitae odit recusandae est, provident harum, atque impedit et magnam labore commodi consequuntur hic assumenda ex.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="disc_block_B">
+                                <div class="disc_block_B_wrap clear">
+                                    <div class="disc_block_B_col1 clear">
+                                        <img src="img/per4.jpg" alt="">
+                                        <div id="disc_status"><img src="img/status_3.png"></div>
+                                        <h4>Pepito</h4>
+                                        <div class="kudos">
+                                            <p>50</p>
                                         </div>
                                     </div>
                                     <div class="disc_block_B_col2">
@@ -370,31 +474,72 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                             <div class="discusion_respuesta">
                                 <div class="discusion_respuesta_wrap">
                                     <textarea name="" id="" cols="30" rows="10" placeholder="Escribe tu respuesta"></textarea>
+                                    
                                     <h6>Tu mensaje ha sido enviado con éxito. Ahora indica las participaciones que te encantan.</h6>
+                                    <img src="img/kudos_icon.png" alt="">
                                     <div class="discusion_btn"><p>Participar</p></div>
                                 </div>
                             </div>
 
                         </div>
-                    </div>
+                        </div>
+
+                        <div class="discusion" id="generar_discusion">
+                        <div class="discusion_wrap">
+                            <div class="disc_block_A">
+                                <div class="disc_block_A_wrap clear">
+                                    <div class="disc_block_A_col1">
+                                        <img src="img/per1.png" alt="">
+                                        <h4>Pablo Diaz</h4>
+                                        <h5>Facilitador</h5>
+                                        
+                                    </div>
+                                    <div class="disc_block_A_col2">
+                                        <span>Genera tu discusion instrucciones</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, esse! Magni iure, nemo maiores temporibus quisquam in rerum blanditiis, tenetur ex inventore, consequatur placeat ipsam nihil.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="discusion_respuesta">
+                                <div class="discusion_respuesta_wrap">
+                                    <textarea name="" id="" cols="30" rows="10" placeholder="Empieza tu discusion"></textarea>
+                                    
+                                    <h6>Tu discusion ha sido creada con éxito. Ahora tus imigos les encantara .</h6>
+                                    <img src="img/kudos_icon.png" alt="">
+                                    <div class="discusion_btn"><p>Crear</p></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        </div>
+
+
+                    </div> 
+
+                    
 
 
                     <section class="activity_bar">
                         <div class="activity_bar_wrap clear">
                             <a href=""><div class="prev_btn"><img src="img/prev.png" alt="prev"></div></a>
-                            <div class="act_block on" id="act_btn_1"></div>
-                            <div class="act_block on" id="act_btn_2"></div>
-                            <div class="act_block on" id="act_btn_3"></div>
-                            <div class="act_block on lightbox"></div>
-                            <div class="act_block off act_actual actividad_ok"></div>
-                            <div class="act_block off"></div>
-                            <div class="act_block off"></div>
-                            <div class="act_block off"></div>
-                            <div class="act_block off"></div>
-                            <div class="act_block off"></div>
-                            <div class="act_block off"></div>
-                            <div class="next_btn"><img src="img/next.png" alt="next"></div></a>
-                        </div>         
+                            <div class="act_block on" id="act_btn_1" data-actividad="Primera actividad"></div>
+                            <div class="act_block on" id="act_btn_2" data-actividad="Segunda actividad"></div>
+                            <div class="act_block on" id="act_btn_3" data-actividad="Tercera actividad"></div>
+                            <div class="act_block on lightbox" id="act_btn_4" data-actividad="Cuarta actividad"></div>
+                            <div class="act_block off act_actual actividad_ok" id="act_btn_5" data-actividad="Quinta actividad"></div>
+                            <div class="act_block off" id="act_btn_6" data-actividad="Sexta actividad"></div>
+                            <div class="act_block off" id="act_btn_7" data-actividad="Septima actividad"></div>
+                            <div class="act_block off" id="act_btn_8" data-actividad="Octava actividad"></div>
+                            <div class="act_block off" id="act_btn_9" data-actividad="Novena actividad"></div>
+                            <div class="act_block off" id="act_btn_10" data-actividad="Decima actividad"></div>
+                            <div class="act_block off" id="act_btn_11" data-actividad="Decimo-primera actividad"></div>
+                            <div class="next_btn"><img src="img/next.png" alt="next"></div>                  
+                        </div>  
+                        <div class="tool_tip">
+                            <div class="tool_tip_wrap">
+                                
+                            </div>
+                        </div>       
                      </section>
 
 
@@ -404,27 +549,32 @@ Te faltan 40 puntos para subir de estatus a: Experto y gozar de mas beneficios.<
                     <div class="col2_wrap">
                        <div class="modules_wrap">
                           <ul class="clear">
-                            <a href=""><li class="module_on">Modulo 1</li></a>
-                            <a href=""><li class="module_on">Modulo 2</li></a>
-                            <a href=""><li class="module_actual">Modulo 3</li></a>
-                            <a href=""><li class="module_off">Modulo 4</li></a>
-                            <a href=""><li class="module_off">Modulo 5</li></a>
-                            <a href=""><li class="module_off">Modulo 6</li></a>
-                            <a href=""><li class="module_off">Modulo 7</li></a>
-                            <a href=""><li class="module_off">Modulo 8</li></a>
-                            <a href=""><li class="module_off">Modulo 9</li></a>
-                            <a href=""><li class="module_off">Modulo 10</li></a>
+                            <a href=""><li class="modulo_on">Modulo 1</li></a>
+                            <a href=""><li class="modulo_premium_on">Modulo 2</li></a>
+                            <a href=""><li class="modulo_actual">Modulo 3</li></a>
+                            <a href=""><li class="modulo_off">Modulo 4</li></a>
+                            <a href=""><li class="modulo_off">Modulo 5</li></a>
+                            <a href=""><li class="modulo_off">Modulo 6</li></a>
+                            <a href=""><li class="modulo_premium">Modulo 7</li></a>
+                            <a href=""><li class="modulo_off">Modulo 8</li></a>
+                            <a href=""><li class="modulo_off">Modulo 9</li></a>
+                            <a href=""><li class="modulo_off">Modulo 10</li></a>
                           </ul>
                        </div>
                        <div class="decor_line"></div>
                         <div class="aula_btns clear">
                           <div class="download_btn">
-                            <h5>Contenido Adicional</h5>
-                            <p>Tamaño 2.5 MB.zip</p>
+                            <div>                              
+                            </div>
+                            <p>Contenido Adicional</p>
+                          </div>
+                          <div class="crear_discusion_btn">
+                            <div class="discusion_on">                              
+                            </div>
+                            <p>Crear Discusion</p>
                           </div>
                           <div class="envivo_btn">
-                            <div class="envivo_on">
-                              
+                            <div class="envivo_on">                              
                             </div>
                             <p>Clase en vivo</p>
                           </div>
@@ -484,7 +634,7 @@ Your browser isn't invited for super fun audio time.
                 $j('.actividad_ok').click(function(){
                     $j('.actividad_aprobada').animate({'opacity':'.90'}, 300, 'linear');
                     $j('.actividad_aprobada_wrap').animate({'opacity':'1.00'}, 300, 'linear');
-                    $j('.actividad_aprobada_wrap').animate({'top':'30%'}, 1500, 'easeOutElastic');
+                    $j('.actividad_aprobada_wrap').animate({'top':'30%'}, 2000, 'easeOutElastic');
                     $j('.actividad_aprobada').css('display', 'block');
                     $j('#sound-1b').get(0).play();
                     
@@ -515,6 +665,8 @@ Your browser isn't invited for super fun audio time.
                     
             });  
             }
+            
+
         </script>
       
     </body>

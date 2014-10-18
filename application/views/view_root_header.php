@@ -1,3 +1,4 @@
+        <?php #krumo($this->session->all_userdata()); ?>
  <div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
 
     <div class="conjtainer">

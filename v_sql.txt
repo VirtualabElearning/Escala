@@ -1,0 +1,737 @@
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('2', '8', '1') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('5', '1', '8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3', '7') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3', '7') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3', '7') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+
+SELECT *
+FROM (`recompensas_aleatorias`)
+WHERE `recompensas_aleatorias`.`id_estados` =  '1'
+AND `recompensas_aleatorias`.`id_recompensas_aleatorias` NOT IN ('8', '2', '3') 
+ORDER BY  RAND()
+LIMIT 1
+
+
+--------------------------------------------------------
+

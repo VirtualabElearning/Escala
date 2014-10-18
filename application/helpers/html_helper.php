@@ -129,21 +129,57 @@ if (!function_exists('input_text')) {
 
 
 								if (!function_exists('gen_preguntas')) {
-									function gen_preguntas ($id_cursos,$id_modulos,$id_actividades_barra)  {
-										$html = '<div class="col-lg-2"> 
-										<a href="#" id="add_preguntas">
-											<button type="button" class="btn btn-sm btn-info">Agregar preguntas</button>
-										</a>
+									function gen_preguntas ($id_cursos,$id_modulos,$id_actividades_barra,$valor_if_eval)  {
 
-										<a style="display:none;" class="prettyFrame" href="actividades/root/gen_preguntas/'.$id_cursos.'/'.$id_modulos.'/'.$id_actividades_barra.'?iframe=true&width=100%&height=100%" data-target="#modal" data-toggle="modal" id="add_preguntas_click">
-											<button type="button" class="btn btn-sm btn-info">Agregar preguntas</button>
-										</a>
+										$html='<div class="form-group num_oportunidades">
+										<label class="col-lg-2 control-label">Numero de oportunidades</label>
+										<div class="col-lg-5">
+
+											<select class="form-control" name="num_oportunidades" id="num_oportunidades">
+												<option ';
+
+												if (trim($valor_if_eval)=='ilimitatu') {
+													$html.=' selected ';	
+												}
+
+												$html.=' value="ilimitatu">Sin limite</option>';
+
+												for ($i=1; $i <11 ; $i++) { 
+													$html.='<option';
+
+													if ($valor_if_eval==$i) {
+														$html.=' selected ';	
+													}
+
+													$html.=' value="'.$i.'">'.$i.'</option>';
+												}
 
 
 
-									</div>
-									';
-									return $html;
-								}
 
-							}
+
+												$html.='</select>
+
+
+											</div></div>';
+											$html.= '
+
+
+
+											<div class="col-lg-2"> 
+												<a href="#" id="add_preguntas">
+													<button type="button" class="btn btn-sm btn-info">Agregar preguntas</button>
+												</a>
+
+												<a style="display:none;" class="prettyFrame" href="actividades/root/gen_preguntas/'.$id_cursos.'/'.$id_modulos.'/'.$id_actividades_barra.'?iframe=true&width=100%&height=100%" data-target="#modal" data-toggle="modal" id="add_preguntas_click">
+													<button type="button" class="btn btn-sm btn-info">Agregar preguntas</button>
+												</a>
+
+
+
+											</div>
+											';
+											return $html;
+										}
+
+									}

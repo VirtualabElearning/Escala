@@ -13,6 +13,14 @@
   <?php $this->load->view('view_site_css_js'); ?>
   <link rel="stylesheet" href="login/assets/css/login.css"> 
 
+  <script>
+    $(function() {
+$( "#ciudad" ).autocomplete({
+  source: "<?php echo base_url().'ciudades'; ?>",
+  minLength: 2,
+});
+});
+</script>
 </head>
 <body> 
  <?php $this->load->view('view_site_header'); ?>
@@ -23,7 +31,7 @@
     <p>Liberando tu maximo potencial para legar al exito</p>
     <div class="circle">
       <div class="circle_wrap">
-       <img src="html/site/img/<?php echo $this->encrypt->decode( $this->session->userdata('id_estatus') ); ?>.png" alt="">
+       <img src="html/site/img/edit_icon.png" alt="">
      </div>
 
    </div>

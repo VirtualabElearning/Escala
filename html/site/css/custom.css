@@ -1,8 +1,12 @@
-a {
+body,html {
+  font-family: century!important;  
+}
+
+a,.avatar_infoblock_col1 > h3,.status_bar >img,.status_bar.solocurso.clear img ,.circle_wrap > img,.tut_btn,.prev_btn,.prev_btn img,.crear_discusion_btn,.next_btn,.next_btn img,.evaluacion_btn,.evaluacion_btn,.volver,.not_block_col2,.not_col1,.closex,.login_btn  {
 	cursor: pointer;
 }
 
-.hiderx {
+.hiderx,#crearmiforo {
 	display: none;
 
 }
@@ -19,18 +23,16 @@ a {
 }
 
 
-.discusion {
-
-	display: block !important;
-	left: 0px;
+.error{
+  font-family: century_b;  
 }
 
 
 .mensaje_exito{
-	 background: none repeat scroll 0 0 #c5fcc0;
-    border: 1px solid #96ffbf;
-    margin: 8px;
-    padding: 10px;
+  background: none repeat scroll 0 0 #c5fcc0;
+  border: 1px solid #96ffbf;
+  margin: 8px;
+  padding: 10px;
 }
 
 
@@ -41,4 +43,308 @@ a {
 
 .error {
 	margin-top: 30px;
+}
+
+
+
+
+.kudos {
+  background: url("../img/kudos_icon0.png") no-repeat;
+  height: 26px;
+  margin: 5px auto 0;
+  width: 30px;
+}
+
+
+
+.kudos_off {
+  background: url("../img/kudos_icon.png") no-repeat;
+  height: 26px;
+  margin: 5px auto 0;
+  width: 30px;
+}
+
+.nosotros_col1 h2 font {
+  font-family: century_b;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.nosotros_col1 h3 font {
+  color: #fff;
+  font-family: century_b;
+  font-size: 18px;
+}
+
+.mensaje_error {
+  background: none repeat scroll 0 0 #ffdcdc;
+  border: 1px solid #ff9696;
+  margin: 8px;
+  padding: 10px;
+}
+
+
+
+form h6 {
+  font-family: century_b;
+  text-align: center;
+  font-size: 18px;
+  display: none;
+}
+
+.video_wrap img {
+  width: 430px;
+
+}
+
+.pregunta_rapida {
+  display: none;
+}
+
+
+
+
+
+
+
+.box2,.box3,.box4 {
+  background: none repeat scroll 0 0 #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #444444;
+  display: none;
+  height: 280px;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  top: -100%;
+  width: 500px;
+  z-index: 61;
+}
+
+
+.close2,.close3,.close4 {
+  cursor: pointer;
+  float: right;
+  margin-right: 6px;
+}
+
+.box2 h4,.box3 h4,.box4 h4 {
+  font-family: century_b;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+
+.box2 h3,.box3 h3,.box4 h3  {
+  font-family: century_b;
+  font-size: 24px;
+  margin: 20px 0;
+  width: 100%;
+}
+
+
+
+
+.conti{
+  display: none;
+}
+
+
+#eva_50 {
+  border-top: 0pt solid #5fcf80;
+}
+
+
+.box2 p,.box3 p,.box4 p {
+  font-family: century;
+  font-size: 14px;
+}
+
+
+.discusion {
+ left: 0; 
+}
+
+
+.evaluacion_preg form span.error_eval {
+  color: #f86363 !important;
+}
+
+.error_eval_s {
+ border: 1px solid #f86363!important;
+}
+
+
+.actividad_aprobada2 {
+  background: none repeat scroll 0 0 #fff;
+  display: none;
+  height: 100%;
+  opacity: 0.7;
+  position: fixed;
+  width: 100%;
+  z-index: 65;
+}
+
+
+.vvideo {
+  display: block;
+  left: 8px;
+  position: relative;
+}
+
+
+.evaluacion {
+  display: block;
+  left: 8px;
+  position: relative;
+}
+
+
+
+
+
+
+
+.button {
+  display: inline-block;
+  padding: 0.5em 1.0em;
+  background: #EEE;
+  border: none;
+  border-radius: 7px;
+  background-image: linear-gradient( to bottom, hsla(0, 0%, 0%, 0), hsla(0, 0%, 0%, 0.2) );
+  color: #222;
+  font-family: sans-serif;
+  font-size: 16px;
+  text-shadow: 0 1px white;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #8CF;
+  text-shadow: 0 1px hsla(0, 0%, 100%, 0.5);
+  color: #222;
+}
+
+.button:active,
+.button.is-checked {
+  background-color: #28F;
+}
+
+.button.is-checked {
+  color: white;
+  text-shadow: 0 -1px hsla(0, 0%, 0%, 0.8);
+}
+
+.button:active {
+  box-shadow: inset 0 1px 10px hsla(0, 0%, 0%, 0.8);
+}
+
+/* ---- button-group ---- */
+
+.button-group:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.button-group .button {
+  float: left;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 1px;
+}
+
+.button-group .button:first-child { border-radius: 0.5em 0 0 0.5em; }
+.button-group .button:last-child { border-radius: 0 0.5em 0.5em 0; }
+
+
+/* ---- isotope ---- */
+
+.isotope {
+  background: #DDD;
+  max-width: 1200px;
+}
+
+/* clear fix */
+.isotope:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* ---- vertical table-like ---- */
+
+.table-like {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.table-like > li {
+  width: 100%;
+  clear: both;
+  border-top: 1px solid;
+}
+
+/* clearfix */
+.table-like > li:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+.table-like > li > * {
+  float: left;
+  padding: 4px 4px;
+}
+
+.table-like .name { width: 30%; }
+.table-like .symbol { width: 10%; }
+.table-like .weight { width: 15%; }
+.table-like .number { width: 10%; }
+.table-like .category { width: 20%; }
+
+
+.not_off {
+  background: url("../img/not_icon_off.png") no-repeat;
+}
+
+
+.counter_foro {
+ font-family: century;
+ font-size: 11px;
+}
+
+.motivo_medalla a {
+  color: #0f8dcd;
+}
+
+.medal_container img {
+  border-radius: 55px;
+  height: 45px;
+  margin: 6px 4px 0;
+  overflow: hidden;
+  width: 45px;
+}
+
+/*
+• El footer sigue quedando en blanco en la parte inferior, por ejemplo
+en la pantalla de registro, si desea puede hacer acceso remoto con Edwin
+para mostrarle pues es un tema que se viene diciendo hace varias
+observaciones AJUSTE HECHO  EL CONTENEDOR DEL CENTRO DEBE TENER EL
+SIGUIENTE ALTO min-height:500px;
+*/
+
+section#tutorial {
+
+  min-height:500px;    
+
+}
+
+
+.discusion_off {
+   background: url("../img/discusion_off.png") no-repeat scroll 19px 3px rgba(0, 0, 0, 0);
+    height: 31px;
+    width: 100%;
 }

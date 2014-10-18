@@ -42,18 +42,18 @@
 										<br />
 										<?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
 										<?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-										<?php echo input_text ("Titulo","titulo","titulo","Ingrese el titulo del contenido",$this->input->post('titulo'),form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
-										<?php echo textarea ("Descripción","Descripcion","Descripcion","Ingrese la descripción del contenido",$this->input->post('Descripcion'),form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo input_text ("Nombre men&uacute;","titulo","titulo","Ingrese el Nombre del men&uacute;",$this->input->post('titulo'),form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo textarea ("Descripci&oacute;n","descripcion","descripcion","Ingrese la descripci&oacute;n del contenido",$this->input->post('descripcion'),form_error('descripcion', '<div class="mensaje_error">', '</div>')); ?>
 										<div class="form-group">
 											<label class="col-lg-2 control-label">Foto</label>
 											<div class="col-lg-5">
-											<input type="hidden" name="image">
-												<div class="fileupload   fileupload-exists " data-provides="fileupload">
+												<input type="hidden" name="image">
+												<div class="fileupload   fileupload-new " data-provides="fileupload">
 													<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 														<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
 													</div>
 													<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">						
-														<img src="uploads/resumen_de_perfil/2524e95f51cd37a6cef307ddffa86fcc_thumb.jpg" alt="img"/>
+														<img src="" alt=""/>
 													</div>
 													<div>
 														<span class="btn btn-file">
@@ -62,7 +62,7 @@
 															<input type="file" value="uploads/resumen_de_perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="userfile" id="userfile"/>
 														</span>
 														<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
-															<?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
+														<?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
 													</div>
 												</div>
 											</div>
@@ -70,7 +70,11 @@
 										<?php echo editor ("Contenido","contenido","contenido",$this->input->post('contenido'),form_error('contenido', '<div class="mensaje_error">', '</div>')); ?>
 										<?php 
 										$opciones=array("1"=>"Activo","0"=>"Inactivo");
-										echo select ("Estado","id_estados","id_estados",$opciones); 
+										echo select ("Estado","id_estados","id_estados",$opciones,$this->input->post('id_estados')); 
+										?>
+										<?php 
+										$opciones=array("1"=>"Si","0"=>"No");
+										echo select ("Habilitar en footer","habilitar_en_footer","habilitar_en_footer",$opciones,$this->input->post('habilitar_en_footer')); 
 										?>
 										<div class="form-group">
 											<div class="col-lg-offset-2 col-lg-6">

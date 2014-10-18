@@ -35,13 +35,23 @@ class Root extends CI_Controller {
 		if (!$id_cursos)  { redirect( 'cursos/root'); }
 		if (!$id_modulos)  { redirect( 'modulos/root/lista/'.$id_cursos); }
 
+$this->load->model('model_actividades');
+
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		# cargo titulo
 		$data['titulo']="Generador de preguntas";
 		#cargo carpeta por defecto
 		$data['carpeta']=$variables['carpeta'];
+
+
+
 		# traigo el listado de competencias
-		$tmp=$this->model_generico->listado('competencias',array('competencias.id_estados',1),array('competencias.orden','asc'));
+		
+
+		$tmp=$this->model_actividades->listado_compe($id_cursos);
+
+
+
 		$tmparr=array();
 		#organizo las competencias remplazando la llave del array por el id de la competencia
 		foreach ($tmp as $key => $value) {

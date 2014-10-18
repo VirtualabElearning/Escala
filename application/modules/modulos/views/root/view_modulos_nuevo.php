@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<title>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro) - Administrador</title>
+	<title>Modulo <?php echo str_replace("_", " ", asignar_frase_diccionario ($diccionario,"{modulo}",$titulo,1)); ?> (Nuevo registro) - Administrador</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -15,7 +15,7 @@
 		<?php $this->load->view('view_root_menu'); ?> 
 		<div class="mainbar">
 			<div class="page-head">
-				<h2 class="pull-left"><i class="fa fa-table"></i>  <?php echo str_replace("_", " ", $titulo); ?> (Nuevo registro) </h2>
+				<h2 class="pull-left"><i class="fa fa-table"></i>  <?php echo str_replace("_", " ", asignar_frase_diccionario ($diccionario,"{modulo}",$titulo,1)); ?> (Nuevo registro) </h2>
 				<div class="bread-crumb pull-right">
 					<a href="inicio/root"><i class="fa fa-home"></i> Inicio</a>  
 					<span class="divider">/</span> 
@@ -29,7 +29,7 @@
 						<div class="col-md-12">
 							<div class="widget">
 								<div class="widget-head">
-									<div class="pull-left"><?php echo str_replace("_", " ", $titulo); ?></div>
+									<div class="pull-left"><?php echo str_replace("_", " ", asignar_frase_diccionario ($diccionario,"{modulo}",$titulo,1)); ?></div>
 									<div class="widget-icons pull-right">
 										<a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
 										<a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -51,7 +51,7 @@
 										echo select ("Tipo de plan","id_tipo_planes","id_tipo_planes",$opciones,$this->input->post('id_tipo_planes')); 
 										?>
 										<?php 
-										$opciones=array("1"=>"Activo","0"=>"Inactivo");
+								     	 $opciones=array("1"=>"Activo","0"=>"Inactivo","11"=>"Para premios");
 										echo select ("Estado","id_estados","id_estados",$opciones,$this->input->post('id_estados')); 
 										?>
 										<div class="form-group">

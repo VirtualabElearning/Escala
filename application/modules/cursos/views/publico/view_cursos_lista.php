@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -38,7 +38,7 @@
       <p>¡Una experiencia de aprendizaje online que te dejará sin palabras y potencializará tus capacidades para el éxito integral!</p>
       <div class="circle" <?php if (!$this->session->userdata('id_estatus') ): ?> style="background:none;" <?php endif ?>>
         <div class="circle_wrap">
-            <img src="html/site/img/<?php echo $this->encrypt->decode( $this->session->userdata('id_estatus') ); ?>.png" alt="">
+            <img src="html/site/img/icono_6.png" alt="">
         </div>
         <div class="filtro autocomplete">
          <?php $attributos=array("method"=>"get","id"=>"formbuscar","name"=>"formbuscar"); ?>
@@ -72,7 +72,7 @@
       </div>
 
 
-      <a href="cursos/detalle/<?php echo $value->id_cursos; ?>/<?php echo amigable($value->titulo); ?>.html"> <div class="curso_btn <?php if ($value->id_tipo_planes!=1) { echo " color2"; } ?>"> <?php echo $value->tipo_plan; ?></div> </a>
+      <a href="cursos/detalle/<?php echo $value->id_cursos; ?>/<?php echo amigable($value->titulo); ?>.html"> <div class="curso_btn <?php if ($value->id_tipo_planes!=1) { echo ""; } ?>"> Entrar <?php if ($value->id_tipo_planes!=1) { echo "!"; } ?></div> </a>
     
     </div>
   </div>

@@ -32,7 +32,7 @@
 
       <div class="circle">
         <div class="circle_wrap">
-            <img src="html/site/img/<?php echo $this->encrypt->decode( $this->session->userdata('id_estatus') ); ?>.png" alt="">
+            <img src="html/site/img/icono_6.png" alt="">
         </div>
         <div class="filtro">
          <?php $attributos=array("method"=>"get","id"=>"formbuscar","name"=>"formbuscar"); ?>
@@ -70,7 +70,7 @@
         <h2><?php echo $value->categoria_cursos; ?></h2>
         <p><?php echo $value->titulo; ?></p>
       </div>
-      <a href="cursos/detalle/<?php echo $value->id_cursos; ?>/<?php echo amigable($value->titulo); ?>.html"> <div class="curso_btn <?php if ($value->id_tipo_planes!=1) { echo " color2"; } ?>"> <?php echo $value->tipo_plan; ?></div> </a>
+      <a href="cursos/detalle/<?php echo $value->id_cursos; ?>/<?php echo amigable($value->titulo); ?>.html"> <div class="curso_btn <?php if ($value->id_tipo_planes!=1) { echo " color2"; } ?>"> Entrar </div> </a>
     </div>
   </div>
   <?php $contador++; ?>

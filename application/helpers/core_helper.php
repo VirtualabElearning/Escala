@@ -164,10 +164,23 @@ if (!function_exists('save_image')) {
 	if (!function_exists('if_mi_curso')) {
 		function if_mi_curso($id_cursos,$mis_cursos_asignados,$url=null)
 		{ 
-			if (!in_array($id_cursos, $mis_cursos_asignados)) {	
+
+			foreach ($mis_cursos_asignados as $key => $value) {
+				$var=0;
+				
+				if ($value==$id_cursos)
+				{
+					$var="1";
+					break;
+				}
+			}
+
+
+			if ($var!=1) {	
 				if ($url) { redirect($url); }
 				else{ redirect('/'); }
 			}
+
 		}
 	}
 
@@ -177,8 +190,25 @@ if (!function_exists('save_image')) {
 		function if_inscrito($id_cursos,$mis_cursos_asignados)
 		{
 
+			if ($mis_cursos_asignados) {
 
-			if (!@in_array($id_cursos, $mis_cursos_asignados)) {	
+
+				foreach ($mis_cursos_asignados as $key => $value) {
+					$var=0;
+
+
+					if ($value==$id_cursos)
+					{
+						$var="1";
+						break;
+					}
+
+
+				}
+			}
+
+
+			if ($var!=1) {	
 				return 0;
 			}
 
@@ -261,4 +291,113 @@ if (!function_exists('save_image')) {
 			array_map(__FUNCTION__, glob($path.'/*')) == @rmdir($path);
 		}
 
+	}
+
+
+
+
+	if (!function_exists('generar_estatus')) {
+		function generar_estatus($id_cursos) {
+
+			$ci =& get_instance();
+			$ci->load->model('model_cursos');
+	####consulto puntos actuales con los puntos requeridos a cada nivel
+			$mis_puntos_actuales_curso_actual=$ci->model_cursos->get_puntos_totales_en_curso ($ci->encrypt->decode($ci->session->userdata('id_usuario')),$id_cursos);
+
+			$tmp=$mis_puntos_actuales_curso_actual[0];
+			$mis_puntos_actuales_curso_actual=$tmp->puntaje;
+			$tmp='';
+			$niveldios=0; #3 para saber si ya superlo los puntos de campeon
+			## nivel experto
+
+			$mistatus=$ci->model_cursos->get_status($ci->config->item('Nuevo'));
+
+			## actualizo mi estatus en el curso!
+			if ($mis_puntos_actuales_curso_actual>=$ci->config->item('requerido_experto')) {
+				$ci->model_cursos->update_estatus($id_cursos,$ci->encrypt->decode($ci->session->userdata('id_usuario')),$ci->config->item('Experto'));
+				$mistatus=$ci->model_cursos->get_status($ci->config->item('Experto'));
+
+			}
+
+			if ($mis_puntos_actuales_curso_actual>=$ci->config->item('requerido_campeon')) {
+				$ci->model_cursos->update_estatus($id_cursos,$ci->encrypt->decode($ci->session->userdata('id_usuario')),$ci->config->item('Campeon'));
+				$mistatus=$ci->model_cursos->get_status($ci->config->item('Campeon'));
+
+			}
+
+
+
+			if ($mis_puntos_actuales_curso_actual < $ci->config->item('requerido_experto'))     { 
+				$estatus_proximo=$ci->model_cursos->get_status ($ci->config->item('Experto'));
+				$requeridos=$ci->config->item('requerido_experto');
+				$minimo_faltante_a_otro_nivel=$estatus_proximo->minimo_puntos-$mis_puntos_actuales_curso_actual;
+				$icono_actual="html/site/img/5.png";
+				$icono_futuro="html/site/img/6.png";
+			}
+			else {
+			## nivel campeon
+				if ($mis_puntos_actuales_curso_actual < $ci->config->item('requerido_campeon')) {
+					$estatus_proximo=$ci->model_cursos->get_status ($ci->config->item('Campeon'));
+					$requeridos=$ci->config->item('requerido_campeon');
+					$minimo_faltante_a_otro_nivel=$estatus_proximo->minimo_puntos-$mis_puntos_actuales_curso_actual;
+					$icono_actual="html/site/img/6.png";
+					$icono_futuro="html/site/img/7.png";
+				}
+## ya subio a lo más alto
+				else {
+					$niveldios=1;
+					$icono_actual="html/site/img/7.png";
+					$icono_futuro="html/site/img/7.png";
+					$requeridos=$ci->config->item('requerido_campeon');
+				}
+
+			}
+			$puntos_grafica=8;
+			$xxpunto=$requeridos/$puntos_grafica;
+			
+
+
+
+			if ($xxpunto!=0) {
+				$cuantospuntos_on= round ($mis_puntos_actuales_curso_actual / $xxpunto);
+			}
+			#echo $cuantospuntos_on;
+			$html_statusbar.='<img alt="" src="'.$icono_actual.'">';
+			$html_statusbar.='<ul>';
+
+			for ($i=1; $i <=$puntos_grafica; $i++) { 
+				if ($i<=$cuantospuntos_on)  {
+					$html_statusbar.='<li class="s_on"></li>';
+				}
+				else {
+					if ($niveldios==1) { $html_statusbar.='<li class="s_on"></li>'; } else {
+						$html_statusbar.='<li class="s_off"></li>';
+					}
+				}
+
+			}
+
+			$html_statusbar.='<img alt="" src="'.$icono_futuro.'">';
+
+			return $html_statusbar."|".$requeridos."|".$mistatus->nombre;
+
+			
+
+		}
+
+
+
+	}
+
+
+	if (!function_exists('crear_log_txt')) {
+		function crear_log_txt($archivo,$mensaje) {
+			$ar=fopen($archivo,"a") or
+			die("Problemas en la creacion");
+			fputs($ar,$mensaje);
+			fputs($ar,"\n");
+			fputs($ar,"--------------------------------------------------------");
+			fputs($ar,"\n\n");
+			fclose($ar);
+		}	
 	}

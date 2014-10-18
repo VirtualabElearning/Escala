@@ -48,6 +48,34 @@ class Model_Aprendices extends CI_Model{
 
 
 
+##Consulto la cantidad de estudiantes inscritos al curso y al modulo visto
+	public function get_cursos_estudiante($id_cursos,$id_usuarios){
+		$this->db->where('cursos_asignados.id_cursos',$id_cursos);
+		$this->db->where('cursos_asignados.id_usuarios',$id_usuarios);
+		$this->db->where('cursos_asignados.id_estados',1);
+		$query = $this->db->get('cursos_asignados');
+		return $query->row();
+
+
+	}
+
+
+
+
+##Consulto la cantidad de estudiantes inscritos al curso y al modulo visto
+	public function get_cursos_estudiante_lista($id_usuarios){
+		$this->db->where('cursos_asignados.id_usuarios',$id_usuarios);
+		$this->db->where('cursos_asignados.id_estados',1);
+		$query = $this->db->get('cursos_asignados');
+		return $query->result();
+
+
+	}
+
+
+
+
+
 
 
 }

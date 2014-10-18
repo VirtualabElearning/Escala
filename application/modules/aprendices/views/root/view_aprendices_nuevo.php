@@ -84,24 +84,25 @@
                   foreach ($tipo_planes as $key => $value) {
                    $opciones[$value->id_tipo_planes]=$value->nombre ;
                  }
-                 echo select ("Tipo de plan","id_tipo_planes","id_tipo_planes",$opciones,$this->input->post('id_tipo_planes')); 
+                 #echo select ("Tipo de plan","id_tipo_planes","id_tipo_planes",$opciones,$this->input->post('id_tipo_planes')); 
                  ?>
-
+                 <input type="hidden" name="id_tipo_planes" id="id_tipo_planes" value="1">
                  <?php $opciones=array ();
                  foreach ($estatus as $key => $value) {
                   if ($value->id_estatus!=1) {
                     $opciones[$value->id_estatus]=$value->nombre ;
                   }
                 }
-                echo select ("Estatus","id_estatus","id_estatus",$opciones,$this->input->post('id_estatus')); 
+                #echo select ("Estatus","id_estatus","id_estatus",$opciones,$this->input->post('id_estatus')); 
                 ?>
+                <input type="hidden" name="id_estatus" id="id_estatus" value="5">
 
                 <?php $array_opc=array(); ?>
                 <?php $cursos_checked=json_decode($detalle->id_cursos_asignados); $checkeado=""; ?>
                 <?php foreach ($cursos as $key => $value_cursos): ?>
                   <?php $checkeado=""; ?>
                   <?php if ( @in_array($value_cursos->id_cursos,$cursos_checked)) { $checkeado="checked"; }  ?>
-                  <?php $array_opc['id_cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$value_cursos->id_cursos.'|'.$checkeado]="[$value_cursos->categoria_curso] ".$value_cursos->titulo; ?>
+                  <?php $array_opc['id_cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$value_cursos->id_cursos.''.$checkeado]="[$value_cursos->categoria_curso] ".$value_cursos->titulo; ?>
                 <?php endforeach  ?>
                 <?php 
                 echo checkbox ('Cursos asignados',$array_opc,1,'');

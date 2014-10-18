@@ -136,8 +136,7 @@
 										<?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
 										?>
 
-                    <?php echo input_text ("Máximo estudiantes","maximo_estudiantes","maximo_estudiantes","Ingrese el máximo de estudiantes en el curso",$this->input->post('maximo_estudiantes'),form_error('maximo_estudiantes', '<div class="mensaje_error">', '</div>')); ?>
-
+                   
 
 										<?php 
 										$opciones=array("1"=>"Activo","0"=>"Inactivo");

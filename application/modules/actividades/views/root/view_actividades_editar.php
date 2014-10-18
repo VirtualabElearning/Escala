@@ -187,14 +187,14 @@
   $( "select[name='tipo_pregunta']" ).parent().after('<div class="col-lg-2"> <a id="add_respuestas" data-toggle="modal" href="#modal_respuestas"><button class="btn btn-sm btn-info" type="button">Agregar respuestas</button></a></div>');
 
 // si es campo de texto
-if ($('div.active #tipo_pregunta option:selected').val()==4)  {
+if ($('div.active #tipo_pregunta option:selected').val()==4 || $(this).val()==0)  {
  $('#add_respuestas').hide();
 }
 
 $( "select[name='tipo_pregunta']" ).change(function(event) {
  event.preventDefault();
 
- if ($(this).val()==4)  {
+ if ($(this).val()==4 || $(this).val()==0)  {
    $(this).parent().next().children('#add_respuestas').hide();
  }
  else {

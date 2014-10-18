@@ -18,6 +18,22 @@ class Model_Actividades extends CI_Model{
 		return $query->result();
 	}
 
+
+##funcion listado para traer la lista de competencias segun curso
+	public function listado_compe($id_cursos){
+
+		$this->db->where('competencias.id_cursos',$id_cursos);
+		$this->db->where('competencias.id_estados',1);
+		$this->db->select('estados.nombre as estado_nombre,competencias.*');
+		$this->db->join('estados','competencias.id_estados = estados.id_estados');
+		$this->db->order_by('competencias.orden', 'asc');
+		$query = $this->db->get('competencias');
+		return $query->result();
+	}
+
+
+
+
 ##traigo el detalle del modulo para editarlo
 	public function detalle_editar($id){
 		$this->db->select('actividades_barra.id_estados,actividades_barra.orden,actividades_barra.id_actividades_barra,actividades_barra.id_actividades,actividades_barra.id_tipo_actividades,actividades_barra.id_modulos,nombre_tipo_actividades,tabla_actividad');

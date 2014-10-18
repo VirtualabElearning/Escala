@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Listado de <?php echo str_replace("_", " ", $titulo); ?> - Administrador</title>
+  <title>Listado de <?php echo str_replace("_", " ", asignar_frase_diccionario ($diccionario,"{modulo}",$titulo,2)); ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -15,7 +15,7 @@
    <?php $this->load->view('view_root_menu'); ?> 
    <div class="mainbar">
     <div class="page-head">
-      <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo str_replace("_", " ", $titulo); ?></h2>
+      <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo str_replace("_", " ", asignar_frase_diccionario ($diccionario,"{modulo}",$titulo,2)); ?></h2>
       <div class="bread-crumb pull-right">
        <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
        <span class="divider">/</span> 

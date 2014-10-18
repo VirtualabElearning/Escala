@@ -77,7 +77,7 @@
 
 
 
-			$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Tipo plan","Maximo estudiantes","Destacado?","Estado","Opciones");
+			$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Tipo plan","Destacado?","Estado","Opciones");
 			$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 		}
 
@@ -145,8 +145,8 @@
 
 			if($this->form_validation->run() == FALSE)
 			{ 
-
-			if ($id)  { $this->editar($id); } else { $this->nuevo();    /*echo validation_errors();*/   }
+ #echo validation_errors();
+			if ($id)  { $this->editar($id); } else { $this->nuevo();     }
 
 		}
 
