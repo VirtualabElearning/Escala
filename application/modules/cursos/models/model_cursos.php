@@ -1123,7 +1123,40 @@ class Model_Cursos extends CI_Model{
 
 
 
+    ## funcion que consulta unicamente los modulos del curso (sin el modulo de premios)
+    public function get_certificado ($id_usuarios,$id_cursos) {
+    	$this->db->where('certificados.id_estados',$this->config->item('estado_activo'));
+    	$this->db->where('certificados.id_cursos',$id_cursos);
+    	$this->db->where('certificados.id_usuarios',$id_usuarios);
+    	$query = $this->db->get('certificados');
+    	$resultados=$query->row();
+    	return $resultados;
+    }
 
+
+
+
+ ## funcion que consulta unicamente los modulos del curso (sin el modulo de premios)
+    public function get_certificados ($id_usuarios) {
+    	$this->db->where('certificados.id_estados',$this->config->item('estado_activo'));
+    	$this->db->join('cursos', 'cursos.id_cursos = certificados.id_cursos');
+    	$this->db->where('certificados.id_usuarios',$id_usuarios);
+    	$query = $this->db->get('certificados');
+    	$resultados=$query->result();
+    	return $resultados;
+    }
+
+
+
+ ## funcion que consulta unicamente los modulos del curso (sin el modulo de premios)
+    public function getif_eval ($id_cursos,$id_usuarios,$id_actividades_barra) {
+    	$this->db->where('actividades_respuestas_usuario.id_cursos',$id_cursos);
+    	$this->db->where('actividades_respuestas_usuario.id_usuarios',$id_usuarios);
+    	$this->db->where('actividades_respuestas_usuario.id_actividades_barra',$id_actividades_barra);
+    	$query = $this->db->get('actividades_respuestas_usuario');
+    	$resultados=$query->row();
+    	return $resultados;
+    }
 
 
 

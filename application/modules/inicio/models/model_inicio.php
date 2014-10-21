@@ -37,7 +37,15 @@ class Model_inicio extends CI_Model{
 		return $query->result();
 	}
 
-
+## funcion para mostrar los mensajes del docente
+	public function get_mensajes_docente($id_usuarios){
+		$this->db->where('mensajes.id_usuarios',$id_usuarios);
+		$this->db->join('usuarios', 'usuarios.id_usuarios = mensajes.id_usuario_creado');
+		$this->db->join('cursos', 'cursos.id_cursos = mensajes.id_cursos');
+		$this->db->where('mensajes.id_estados',$this->config->item('estado_no_leido'));
+		$query = $this->db->get('mensajes');
+		return $query->result();
+	}
 
 
 

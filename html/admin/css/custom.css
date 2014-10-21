@@ -169,3 +169,131 @@ overflow: hidden;
 margin-bottom: 10px;
 margin-left: 32px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.botons_app .nav.nav-pills > li > a{
+    color: #666;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    *background-color: #e6e6e6;
+    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    border: 1px solid #ccc;
+    *border: 0;
+    border-bottom-color: #c2c2c2;
+    border-radius: 5px;
+    *margin-left: .3em;
+    margin-right: 5px;
+    padding:7px 14px;
+}
+
+.botons_app .nav.nav-pills > li > a:hover, .botons_app .nav.nav-pills > li > a:focus{
+    color: #444;
+    background-color: #e6e6e6;
+    *background-color: #d9d9d9;
+    text-decoration: none;
+    border:1px solid #aaa;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;  
+}
+
+.botons_app .nav.nav-pills > li > a span{
+    border-radius:40px;
+    padding:4px 6px;
+    font-size:11px;
+    display:inline-block;
+    text-shadow:none !important;
+}
+
+.botons_app .nav-pills .open .dropdown-toggle{
+    color: #444;
+    background-color: #e6e6e6;
+    *background-color: #d9d9d9;
+    text-decoration: none;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear; 
+}
+
+
+
+.botons_app .header-data .hdata i {
+    border-radius: 50px;
+    box-shadow: 0 0 1px #777 inset;
+    color: #fff;
+    display: inline-block;
+    font-size: 17px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+}
+
+
+
+.botons_app .header-data .hdata {
+    display: inline-block;
+    margin-right: 15px;
+    width: 85px;
+}
+
+
+
+.botons_app .header-data .hdata p, .botons_app .header-data .hdata a, .botons_app .header-data .hdata a:hover {
+    color: #666;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 16px;
+    margin-top: 3px;
+    text-align: center;
+}
+
+
+.botons_app .header-data .hdata em {
+    display: block;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.botssxx{
+   margin-right: 25px;
+    float: left;
+}
+
+.botssxx2{
+    
+}

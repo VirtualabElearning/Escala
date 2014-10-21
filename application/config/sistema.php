@@ -84,8 +84,8 @@ $config['estado_por_calificar']	= '5';
 $config['estado_finalizado']	= '6';
 $config['estado_utilizado']	= '7';
 $config['estado_no_utilizado']	= '10';
-$config['estado_leido']	= '8';
-$config['estado_no_leido']	= '9';
+$config['estado_leido']	= '9';
+$config['estado_no_leido']	= '8';
 $config['estado_premio']	= '11';
 
 ############################  PUNTOS REQUERIDOS PARA CADA NIVEL (NUEVO,EXPERTO Y CAMPEON) #######################
@@ -96,3 +96,36 @@ $config['requerido_campeon'] = '100';
 
 ## variable para restar los dias, si pasado de 5 dias nada que ingresa al curso, se resta puntos por dia que vaya pasando
 $config['dias_restar']	= '5';
+
+
+################################VARIABLES PARA REALIZACION DE PAGOS EN LINEA####################################################
+
+#=======================DATOS DE PAGO DE PRUEBA =========================
+#Numero de tarjeta: 4111111111111111
+#Codigo seguridad:  123
+#Fecha expiracion:  01/2017
+#=======================DATOS DE PAGO DE PRUEBA =========================
+
+
+$config['url_confirmacion']	= $this->base_url().'cursos/payu_respuesta';
+$config['url_respuesta']	= $this->base_url().'cursos/payu_respuesta';
+$config['lng']="es";
+$config['iva']=0;
+$config['basevalor']=0;
+$config['moneda']="COP";
+
+$config['prueba']=1;
+
+
+###################### datos reales#######################################
+$config['llave_encripcion']='1dobqfi0tneccuscdb2nu33quq';
+$config['merchantId']= "514697";
+
+
+###################### datos de prueba#######################################
+$config['llave_encripcion']='6u39nqhq8ftd0hlvnjfs66eh8c';
+$config['merchantId']= "500238";
+
+
+
+################################VARIABLES PARA REALIZACION DE PAGOS EN LINEA####################################################

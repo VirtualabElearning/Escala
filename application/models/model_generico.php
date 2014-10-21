@@ -75,6 +75,11 @@ public function guardar ($tabla,$data,$idname=null,$where=null) {
 	return  $id_retorno;
 }
 
+
+
+
+
+
 public function guardar_sin_orden ($tabla,$data,$idname=null,$where=null) {
 
 	$id_retorno='';

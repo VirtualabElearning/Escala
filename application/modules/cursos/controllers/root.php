@@ -1,150 +1,159 @@
-	<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-	class Root extends CI_Controller {
+class Root extends CI_Controller {
 
-		/* Controlador de la aplicacion  */
-
-
-		var $variables = array();
+	/* Controlador de la aplicacion  */
 
 
-		public function __construct()
-		{
-			parent::__construct();
-			if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
-			
-			/* Configuracion generica del modulo */
-			$this->variables=array('modulo'=>'cursos','id'=>'id_cursos','modelo'=>'model_cursos');
-			$this->load->model($this->variables['modelo']);
-
-			$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
-			$config['allowed_types'] =   "gif|jpg|jpeg|png";
-			$config['max_size']      =   "5000";
-			$config['max_width']     =   "2000";
-			$config['max_height']    =   "2000";
-			$config['remove_spaces']  = TRUE;
-			$config['encrypt_name']  = TRUE;
-			$this->load->library('upload',$config);
-
-			$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
-			$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
-
-		}
+	var $variables = array();
 
 
-		public function index()
-		{
-			$this->lista();
-		}
+	public function __construct()
+	{
+		parent::__construct();
+		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
+
+		/* Configuracion generica del modulo */
+		$this->variables=array('modulo'=>'cursos','id'=>'id_cursos','modelo'=>'model_cursos');
+		$this->load->model($this->variables['modelo']);
+
+		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
+		$config['allowed_types'] =   "gif|jpg|jpeg|png";
+		$config['max_size']      =   "5000";
+		$config['max_width']     =   "2000";
+		$config['max_height']    =   "2000";
+		$config['remove_spaces']  = TRUE;
+		$config['encrypt_name']  = TRUE;
+		$this->load->library('upload',$config);
+
+		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
+
+	}
 
 
-		public function lista()
-		{
-			$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-			$data['titulo']=$variables['modulo'];
-			
-			$data['mispermisos']=$variables['mispermisos'];
-			$trmp=$this->model_generico->mispermisos($this->session->userdata('id_roles'),'descargables');	
-			
+	public function index()
+	{
+		$this->lista();
+	}
 
-			$trmp=$this->model_generico->mispermisos($this->session->userdata('id_roles'),'modulos');	
-			$data['if_modulos']=json_decode($trmp->id_roles);
 
-			$trmp=$this->model_generico->mispermisos($this->session->userdata('id_competencias'),'competencias');	
-			$data['if_competencias']=json_decode($trmp->id_roles);
+	public function lista()
+	{
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['titulo']=$variables['modulo'];
+
+		$data['mispermisos']=$variables['mispermisos'];
+		$trmp=$this->model_generico->mispermisos($this->session->userdata('id_roles'),'descargables');	
+
+
+		$trmp=$this->model_generico->mispermisos($this->session->userdata('id_roles'),'modulos');	
+		$data['if_modulos']=json_decode($trmp->id_roles);
+
+		$trmp=$this->model_generico->mispermisos($this->session->userdata('id_competencias'),'competencias');	
+		$data['if_competencias']=json_decode($trmp->id_roles);
 
 			 ## si soy un instructor, traigo solo los cursos que me pertenece
-			if ($this->session->userdata('id_roles')==2)  {
-				$data['lista']=$this->{$variables['modelo']}->listado_mios($variables['modulo'],'',array('orden','asc'));
-			}
-			else{
-				$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],'',array('orden','asc'));
-			}
-			
-
-			$data['menus']=$this->model_generico->menus_root_categorias();
-			foreach ($data['menus'] as $key => $value) {
-				$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
-
-			}
-
-			foreach ($data['lista'] as $key => $value) {
-				unset($data['lista'][$key]->instructores_asignados_nombre);
-				$data['lista'][$key]->instructores_asignados_nombre=$this->{$variables['modelo']}->instructores_lista(json_decode($value->instructores_asignados));
-			}
+		if ($this->session->userdata('id_roles')==2)  {
+			$data['lista']=$this->{$variables['modelo']}->listado_mios($variables['modulo'],'',array('orden','asc'));
+		}
+		else{
+			$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],'',array('orden','asc'));
+		}
 
 
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
 
+		}
 
-
-			$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Tipo plan","Destacado?","Estado","Opciones");
-			$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
+		foreach ($data['lista'] as $key => $value) {
+			unset($data['lista'][$key]->instructores_asignados_nombre);
+			$data['lista'][$key]->instructores_asignados_nombre=$this->{$variables['modelo']}->instructores_lista(json_decode($value->instructores_asignados));
 		}
 
 
 
-		public function nuevo()
-		{
-			$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-			$data['titulo']=$variables['modulo'];
-			$data['menus']=$this->model_generico->menus_root_categorias();
-			foreach ($data['menus'] as $key => $value) {
-				$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
 
-			}
-			$data['lista']=$this->model_generico->listado($variables['modulo']);
-			$data['categoria_cursos']=$this->model_generico->listado('categoria_cursos','',array('orden','asc'));
-			$data['instructores_lista']=$this->{$variables['modelo']}->listado_instructores('usuarios',array('usuarios.id_estados',1),array('orden','asc'));
-			$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
 
-			$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
+		$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Destacado?","Estado","Opciones");
+		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
+	}
+
+
+
+	public function nuevo()
+	{
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
 		}
+		$data['lista']=$this->model_generico->listado($variables['modulo']);
+		$data['categoria_cursos']=$this->model_generico->listado('categoria_cursos','',array('orden','asc'));
+		$data['instructores_lista']=$this->{$variables['modelo']}->listado_instructores('usuarios',array('usuarios.id_estados',1),array('orden','asc'));
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
+
+		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
+	}
 
 
 
 // funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
-		public function check_foto()
-		{
-			if ($_FILES['userfile']['tmp_name'])  {
-				if ($this->upload->do_upload('userfile'))
-				{
-					$upload_data    = $this->upload->data();
-					$_POST['userfile'] = $upload_data['file_name'];
-					return true;
-				}
-				else
-				{
-					$this->form_validation->set_message('check_foto', $this->upload->display_errors());
-					return false;
-				}
-
+	public function check_foto()
+	{
+		if ($_FILES['userfile']['tmp_name'])  {
+			if ($this->upload->do_upload('userfile'))
+			{
+				$upload_data    = $this->upload->data();
+				$_POST['userfile'] = $upload_data['file_name'];
+				return true;
+			}
+			else
+			{
+				$this->form_validation->set_message('check_foto', $this->upload->display_errors());
+				return false;
 			}
 
 		}
 
-
-		public function guardar()
-		{
-			$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-			$id=$this->input->post ('id');
-			$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
-			$this->form_validation->set_rules('descripcion', 'Resumen del curso', 'required|xss_clean');
-			$this->form_validation->set_rules('contenido', 'Contenido', 'required');
-			$this->form_validation->set_rules('prerrequisitos', 'Prerrequisitos', 'required');
-			$this->form_validation->set_rules('objetivos_aprendizaje', 'Objetivos de aprendizaje', 'required');
-			$this->form_validation->set_rules('destacar', 'Destacar', 'required|xss_clean');
-			$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
-			$this->form_validation->set_rules('id_categoria_cursos', 'Categoria cursos', 'required|xss_clean');
-			$this->form_validation->set_rules('id_tipo_planes', 'Tipo plan', 'required|xss_clean');
-
-			
+	}
 
 
-			$this->form_validation->set_rules('instructores_asignados', 'Instructores asignados', 'required|xss_clean');
-			$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
+	public function guardar()
+	{
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 
-			if($this->form_validation->run() == FALSE)
-			{ 
+		$valor=str_replace(".", "",$this->input->post('valor'));
+
+		for ($i=0; $i <10 ; $i++) { 
+			$valor=str_replace(".", "",$valor);
+		}
+
+
+		$id=$this->input->post ('id');
+		$this->form_validation->set_rules('titulo', 'Titulo', 'required|xss_clean');
+		$this->form_validation->set_rules('descripcion', 'Resumen del curso', 'required|xss_clean');
+		$this->form_validation->set_rules('contenido', 'Contenido', 'required');
+		$this->form_validation->set_rules('prerrequisitos', 'Prerrequisitos', 'required');
+		$this->form_validation->set_rules('objetivos_aprendizaje', 'Objetivos de aprendizaje', 'required');
+		$this->form_validation->set_rules('destacar', 'Destacar', 'required|xss_clean');
+		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
+		$this->form_validation->set_rules('id_categoria_cursos', 'Categoria cursos', 'required|xss_clean');
+		$this->form_validation->set_rules('id_tipo_planes', 'Tipo plan', 'required|xss_clean');
+			#$this->form_validation->set_rules('valor', 'Valor', 'numeric|xss_clean');
+
+
+
+
+		$this->form_validation->set_rules('instructores_asignados', 'Instructores asignados', 'required|xss_clean');
+		$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
+
+		if($this->form_validation->run() == FALSE)
+		{ 
  #echo validation_errors();
 			if ($id)  { $this->editar($id); } else { $this->nuevo();     }
 
@@ -161,6 +170,7 @@
 				'id_categoria_cursos' => $this->input->post ('id_categoria_cursos'),
 				'destacar' => $this->input->post ('destacar'),
 				'id_tipo_planes' => $this->input->post ('id_tipo_planes'),
+				'valor' => $valor,
 				'id_estados' => $this->input->post ('id_estados'),
 				'video' => $this->input->post ('video'),
 				'instructores_asignados'=> $instructores_asignados,

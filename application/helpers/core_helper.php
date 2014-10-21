@@ -143,6 +143,8 @@ if (!function_exists('envio_correo')) {
 		$thiz->email->to($to_mail,$to_name);
 		$thiz->email->subject($asunto);
 		$thiz->email->message( $content );
+
+		#echo $content; exit;
 		$thiz->email->send();
 
 		return true;
@@ -400,4 +402,37 @@ if (!function_exists('save_image')) {
 			fputs($ar,"\n\n");
 			fclose($ar);
 		}	
+	}
+
+
+	## funcion para saber si ya habia respondido el examen
+	if (!function_exists('getif_respuesta_eval')) {
+		function getif_respuesta_eval($id_cursos,$id_actividades_barra) {
+			$ci =& get_instance();
+			$ci->load->model('model_cursos');
+			$id_usuarios=$ci->encrypt->decode($ci->session->userdata('id_usuario'));
+			$resultado=$ci->model_cursos->getif_eval ($id_cursos,$id_usuarios,$id_actividades_barra);
+			if ($resultado->id_actividades_barra) {
+				return $resultado->id_actividades_barra;
+			}	
+			else {
+
+				return -1;
+			}
+			
+
+		}
+	}
+
+
+
+	if (!function_exists('truncate')) {
+		function truncate($text, $chars = 100) {
+			$text = $text." ";
+			$text = substr($text,0,$chars);
+			$text = substr($text,0,strrpos($text,' '));
+			$text = $text."...";
+			return $text;
+		}
+
 	}

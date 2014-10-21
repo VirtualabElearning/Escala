@@ -789,7 +789,11 @@ public function estudiante_check(){
 			$datos_perfil_estudiante=$this->model_generico->detalle('usuarios',array('correo'=>$this->input->post('correo')));
 			$array_claves=array('{nombres}'=>$datos_perfil_estudiante->nombres,'{apellidos}'=>$datos_perfil_estudiante->apellidos,'{empresa}'=>$configuracion->nombre_sistema,'{correo}'=>$datos_perfil_estudiante->correo,'{base_url}'=>$configuracion->base_url,'{foto}'=>'uploads/aprendices/'.$foto_nombre,'{correo_confirmar}'=>base64_encode($datos_perfil_estudiante->correo."|recover"));
 		#envio mensaje al usuario de que debe cambiar la clave de acceso de su cuenta
+			
 			envio_correo($array_claves,$configuracion->correo_contacto,$configuracion->nombre_contacto ,$datos_perfil_estudiante->correo,"Cambiar contraseña de acceso en ".$configuracion->nombre_sistema,$datos_perfil_estudiante->nombres.' '.$datos_perfil_estudiante->apellidos,site_url()."email_templates/recuperar_contrasena.html",$this);
+		
+			
+
 		######################################################################################################################
 			$msg="enviado";
 			$this->olvide_contrasena($msg);

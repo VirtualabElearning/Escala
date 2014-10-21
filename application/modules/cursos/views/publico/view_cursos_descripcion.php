@@ -188,6 +188,18 @@
 
 <script>
 
+
+$(document).ready(function() {
+  
+if ($('#clicto').length>0) {
+ $('.plan_wrap a').eq(0).attr('href', $('#clicto').attr('link').replace('registrarme_al_curso','registrarme_al_curso_premium') );
+    $('.plan_wrap a').eq(1).attr('href', $('#clicto').attr('link') );
+}
+
+
+});
+
+
   $('#clicto').click(function(event) {
     event.preventDefault();
 

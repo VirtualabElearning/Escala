@@ -5,7 +5,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
+<head> 
   <base href="<?=base_url()?>" /> 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -723,7 +723,7 @@
 
 
 
-
+<?php #krumo ($detalle_curso->actividades); ?>
 
 
 
@@ -773,15 +773,16 @@
     }
   </style>
 
+
   <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
    <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
-    <div <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?>  <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
+    <div type="video" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?>  <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
   <?php endif ?>
   <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Evaluacion')): ?>
-    <div <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
+    <div type="eval" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
   <?php endif ?>
   <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Foro')): ?>
-    <div <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
+    <div type="foro" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
   <?php endif ?>
   <?php $contador++; ?>
 <?php endforeach ?>
@@ -988,77 +989,134 @@
       <script>
         $(document).ready(function(){
 
-
-
-
-         $('#crearforito').click(function(event) {
-           event.preventDefault();
-           var thizz=$(this);
-
-           if (thizz.find('div').hasClass('discusion_off')  ) {
-            return false;
-          }
-
-          
-          $('.activities > div').each(function(index, el) {
-            $(this).css({display:hide});
-            $(this).animate(getout);
-          });
-
-
-          $('#crearmiforo').css({display:see});
-          $('#crearmiforo').animate(getin);
-
-
-
-
-        });
-
-
-
-         <?php ### boton anterior para ir a la anterior actividad ?>
-         $('.prev_btn').click(function(event) {
-
-          if ( $('.act_actual').prev('.act_block').length>0  )  {
-            $('.act_actual').prev().click();  
-          }
-
-          else {
-            if ($('.modulo_actual').parent().prev('a').children('.modulo_on').length>0 ) {
-             $('.modulo_actual').parent().prev('a').children('.modulo_on').click();  
-           }
-
-
-
-         }
-
-       });
-
-
-         $('.next_btn').click(function(event) {
-
-
-          if ( $('.act_actual').next('.act_block').length>0  )  {
-           $('.act_actual').next().click();  
-         }
-
-         else {
-
-          <?php ### valido es el ultimo modulo (modulo premio) para no hacer el efecto de la caja sorpresa ?>
-          if ($('.modulo_actual').hasClass('modulo_premium')) { return false; }
-
-          <?php ## muestro la caja sorpresa porque ya terminé con mi modulo, consulto de forma aleatoria el premio ?>
-
-          var id_actividades_barra=Number($(this).prev().attr('id').replace('act_btn_',''));
-
+          var valorr_status= $('#proxsts').val();
+          strstatus=$('#proxsts').val();
+          var opstatus = strstatus.split("|");
+          data="";
           jQuery.ajax({
-            url:'<?php echo base_url(); ?>cursos/caja_sorpresa/<?php echo $this->uri->segment(3) ?>/<?php echo $this->uri->segment(4) ?>/'+id_actividades_barra,
+            url:'<?php echo base_url(); ?>cursos/set_nuevostatus/<?php echo $this->uri->segment(3); ?>/'+opstatus[2]+'/'+opstatus[1],
             type: "post",
+            data:({
+              data:data
+            }),
             ajaxSend:function(result){              
               console.log ("ajaxSend\n");
             },
-            success:function(result){  
-              alert (result);
+            success:function(result){               
+              console.log ("success\n");
+              if (result!='error') {
+               str=result;
+
+        // alert (result);
+
+        var op = str.split("|");
+        <?php ## muestro efecto si cambié de estatus ?>
+        $('.box4 > .premio_img > #surprise_result >img').attr('src',op[1]);
+        $('.box4').css({'height':'290px'});
+        $('.circle_wrap > img').attr('src',op[1]);
+        $('.box4 > .motivo_medalla').html(op[4]);
+        $('.box4 > .premio_img > #surprise_result > span').hide();
+        $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+        $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+        $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+        $j('.backdrop, .box4').css('display', 'block');
+        $j('#sound-1b').get(0).play();
+        $j('#surprise_result4').css("display","block");
+
+        <?php ## actualizo la variable actual que maneja el estatus del estudiante ?>
+        $('#proxsts').val(op[0]+'|'+op[4]+'|'+op[5]+'|'+op[6]);
+
+        <?php ##evaluo si soy campeon para habilitar el boton de crear foro ?>
+        if (op[7]==<?php echo $this->config->item('Campeon') ?>) {
+          $('#crearforito').show();
+        }
+
+
+      }
+    },
+    complete:function(result){              
+      console.log ("complete\n");
+
+    },
+    beforeSend:function(result){                
+      console.log ("beforeSend\n");
+    },
+    ajaxStop:function(result){              
+      console.log ("ajaxStop\n");
+    }
+
+  });
+
+
+
+$('#crearforito').click(function(event) {
+ event.preventDefault();
+ var thizz=$(this);
+
+ if (thizz.find('div').hasClass('discusion_off')  ) {
+  return false;
+}
+
+
+$('.activities > div').each(function(index, el) {
+  $(this).css({display:hide});
+  $(this).animate(getout);
+});
+
+
+$('#crearmiforo').css({display:see});
+$('#crearmiforo').animate(getin);
+
+
+
+
+});
+
+
+
+<?php ### boton anterior para ir a la anterior actividad ?>
+$('.prev_btn').click(function(event) {
+
+  if ( $('.act_actual').prev('.act_block').length>0  )  {
+    $('.act_actual').prev().click();  
+  }
+
+  else {
+    if ($('.modulo_actual').parent().prev('a').children('.modulo_on').length>0 ) {
+     $('.modulo_actual').parent().prev('a').children('.modulo_on').click();  
+   }
+
+
+
+ }
+
+});
+
+
+$('.next_btn').click(function(event) {
+
+
+  if ( $('.act_actual').next('.act_block').length>0  )  {
+   $('.act_actual').next().click();  
+ }
+
+ else {
+
+  <?php ### valido es el ultimo modulo (modulo premio) para no hacer el efecto de la caja sorpresa ?>
+  if ($('.modulo_actual').hasClass('modulo_premium')) { return false; }
+
+  <?php ## muestro la caja sorpresa porque ya terminé con mi modulo, consulto de forma aleatoria el premio ?>
+
+  var id_actividades_barra=Number($(this).prev().attr('id').replace('act_btn_',''));
+
+  jQuery.ajax({
+    url:'<?php echo base_url(); ?>cursos/caja_sorpresa/<?php echo $this->uri->segment(3) ?>/<?php echo $this->uri->segment(4) ?>/'+id_actividades_barra,
+    type: "post",
+    ajaxSend:function(result){              
+      console.log ("ajaxSend\n");
+    },
+    success:function(result){  
+              //alert (result);
               console.log ("success\n");
               <?php #si no hubo error, hace el efecto en pantalla para mostrar el premio sorpresa ?>
               if (result!='error')  {
@@ -1178,8 +1236,36 @@
 
 
                          }
-                       },
-                       complete:function(result){              
+
+                         else {
+
+
+
+                          <?php ## si sale error es porque ya tengo los puntos y debo mostrar el mensaje otra vez ?>
+                          var titulo_certificado=$('.encabezado_wrap > p').html();
+                          var categoria_certificado=$('.encabezado_wrap > h6').html();
+                          <?php ### contruyo el popup para el certificado del usuario ?>
+                          $('.box4').css({'height':'325px'});
+                          $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
+                          $('.box4 > .motivo_medalla').html('Has finalizado y aprobado con éxito tu curso de  '+titulo_certificado+".");
+                          $('.box4 > .premio_img > #surprise_result > span').hide();
+                          $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+                          $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+                          $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+                          $j('.backdrop, .box4').css('display', 'block');
+                          $j('#sound-1d').get(0).play();
+                          $j('#surprise_result4').css("display","block");
+
+
+
+
+                        }
+
+
+
+
+                      },
+                      complete:function(result){              
                         console.log ("complete\n");
 
                       },
@@ -1209,6 +1295,7 @@
     },
     success:function(result){               
       console.log ("success\n");
+
       if (result!='error') {
                          //str=result;
                          //var op = str.split("|");
@@ -1271,7 +1358,13 @@ return false;
 
 else {
 
-  window.location="<?php echo base_url() ?>"+$('#modd<?php echo $this->uri->segment(4) ?>').next().attr('href');
+  if ($('#modd<?php echo $this->uri->segment(4) ?>').next().attr('href')!='')  {
+    window.location="<?php echo base_url() ?>"+$('#modd<?php echo $this->uri->segment(4) ?>').next().attr('id');
+  }
+
+  else {
+    window.location="<?php echo base_url() ?>"+$('#modd<?php echo $this->uri->segment(4) ?>').next().attr('href');
+  }
   
 }
 
@@ -1355,6 +1448,11 @@ var getout = {left:'-600px'};
 
   btn_video<?php echo $actividades_value->id_actividades_barra; ?>.click(function(){
 
+    if ($('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').prev().attr('type')=="foro") {
+      $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('next','ok');
+    }
+
+
     if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('next')=='ok' ) {
 
       $('.activity_title h3').html($(this).data("actividad"));
@@ -1426,33 +1524,43 @@ else {
 
   btn_eval<?php echo $actividades_value->id_actividades_barra; ?>.click(function(){
 
-   if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('next')=='ok' ) {
+    if ($('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').prev().attr('type')=="foro") {
+      $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('next','ok');
+    }
+    var if_respuestas=<?php echo getif_respuesta_eval($this->uri->segment(3), $actividades_value->id_actividades_barra); ?>;
 
-    $('.activity_title h3').html($(this).data("actividad"));
-
-    if (btn_eval<?php echo $actividades_value->id_actividades_barra; ?>.prev().hasClass('off')) {
-      return false;
+    if (if_respuestas!='-1') {
+      $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').next().attr('next','ok');
     }
 
 
-    $('.act_block').removeClass('act_actual');
+    if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('next')=='ok' ) {
 
-    $('.evaluacion').css({display:hide});
-    $('.evaluacion_r').css({display:hide});
-    $('.evaluacion').animate(getout);
+      $('.activity_title h3').html($(this).data("actividad"));
 
-    $('.vvideo').css({display:hide});
-    $('.vvideo').animate(getout);
-
-    $('.discusion').css({display:hide});
-    $('.discusion').animate(getout);
-
-    $('#crearmiforo').css({display:hide});
-    $('#crearmiforo').animate(getout);
+      if (btn_eval<?php echo $actividades_value->id_actividades_barra; ?>.prev().hasClass('off')) {
+        return false;
+      }
 
 
-    eval<?php echo $actividades_value->id_actividades_barra; ?>.css({display:see});
-    eval<?php echo $actividades_value->id_actividades_barra; ?>.animate(getin);
+      $('.act_block').removeClass('act_actual');
+
+      $('.evaluacion').css({display:hide});
+      $('.evaluacion_r').css({display:hide});
+      $('.evaluacion').animate(getout);
+
+      $('.vvideo').css({display:hide});
+      $('.vvideo').animate(getout);
+
+      $('.discusion').css({display:hide});
+      $('.discusion').animate(getout);
+
+      $('#crearmiforo').css({display:hide});
+      $('#crearmiforo').animate(getout);
+
+
+      eval<?php echo $actividades_value->id_actividades_barra; ?>.css({display:see});
+      eval<?php echo $actividades_value->id_actividades_barra; ?>.animate(getin);
 
 //// aqui evento en ajax enviar el comando para guardarlo como visto la actividad
 jQuery.ajax({
@@ -1491,7 +1599,10 @@ btn_eval<?php echo $actividades_value->id_actividades_barra; ?>.addClass('act_ac
   btn_disc<?php echo $actividades_value->id_actividades_barra; ?>.click(function(){
 
 
-    $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').next().attr('next','ok');
+    if ($('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').hasClass('on') ) {
+      $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').next().attr('next','ok');
+    }
+
 
     if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('next')=='ok' ) {
 
@@ -2175,7 +2286,8 @@ function continuar (id_actividades_barra) {
 $('#act_btn_'+id_actividades_barra).next().attr('next','ok');
 $('#act_btn_'+id_actividades_barra).next().click();
 $('#evaluacion'+id_actividades_barra).hide();
-$('#respuesta'+id_actividades_barra).hide();
+//$('#respuesta'+id_actividades_barra).hide();
+$('#respuesta'+id_actividades_barra+" > .evaluacion_wrap > .volver").hide();
 }
 <?php ########################################## caja de puntos ############################################### ?>
 
@@ -2189,48 +2301,51 @@ $( function() {
      var idbarra=$(this).prev().attr('id').replace('act_btn_','');
 
      <?php ##### miro si tiene un logro sorpresa asignado en el curso y se lo regalo al estudiante ?>
-     data = new Object;
-     data.idbarra=idbarra;
-     jQuery.ajax({
-      url:'<?php echo base_url(); ?>cursos/getif_logro/'+idbarra+'/<?php echo $this->uri->segment(3);?>/<?php echo $this->uri->segment(4);?>',
-      type: "post",
-      data:({
-        data:data
-      }),
-      ajaxSend:function(result){              
-        console.log ("ajaxSend\n");
+
+     if ( $(this).attr('next')=='ok' ) {
+
+       data = new Object;
+       data.idbarra=idbarra;
+       jQuery.ajax({
+        url:'<?php echo base_url(); ?>cursos/getif_logro/'+idbarra+'/<?php echo $this->uri->segment(3);?>/<?php echo $this->uri->segment(4);?>',
+        type: "post",
+        data:({
+          data:data
+        }),
+        ajaxSend:function(result){              
+          console.log ("ajaxSend\n");
+        },
+        success:function(result){               
+          console.log ("success\n");
+          if (result!='error') {
+           str=result;
+           var op = str.split("|");
+           <?php ## muestro efecto de la medalla si la tengo en ésta actividad ?>
+           $('.box4 > .premio_img > #surprise_result >img').attr('src',op[0]);
+           $('.box4 > .motivo_medalla').html(op[1]);
+           $('.box4 > .premio_img > #surprise_result > span').hide();
+           $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+           $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+           $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+           $j('.backdrop, .box4').css('display', 'block');
+           $j('#sound-1e').get(0).play();
+           $j('#surprise_result4').css("display","block");
+         }
+       },
+       complete:function(result){              
+        console.log ("complete\n");
       },
-      success:function(result){               
-        console.log ("success\n");
-        if (result!='error') {
-         str=result;
-         var op = str.split("|");
-         <?php ## muestro efecto de la medalla si la tengo en ésta actividad ?>
-         $('.box4 > .premio_img > #surprise_result >img').attr('src',op[0]);
-         $('.box4 > .motivo_medalla').html(op[1]);
-         $('.box4 > .premio_img > #surprise_result > span').hide();
-         $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
-         $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-         $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
-         $j('.backdrop, .box4').css('display', 'block');
-         $j('#sound-1e').get(0).play();
-         $j('#surprise_result4').css("display","block");
-       }
-     },
-     complete:function(result){              
-      console.log ("complete\n");
-    },
-    beforeSend:function(result){                
-      console.log ("beforeSend\n");
-    },
-    ajaxStop:function(result){              
-      console.log ("ajaxStop\n");
-    }
+      beforeSend:function(result){                
+        console.log ("beforeSend\n");
+      },
+      ajaxStop:function(result){              
+        console.log ("ajaxStop\n");
+      }
 
-  });
+    });
 
 
-
+}
 
 
 <?php ############################ pequeño ajax para saber si es hora de cambiar estatus ##############################################?>
@@ -2599,9 +2714,11 @@ function close_box()
 
               $('#enviar_pregunta').click(function(event) {
                 event.preventDefault();
-
+                var thiz=$(this);
                 data = new Object;
                 data.pregunta=$('#pregunta').val();
+                data.id_cursos=<?php echo $this->uri->segment(3); ?>;
+
 
                 jQuery.ajax({
                   url:'<?php echo base_url(); ?>cursos/enviar_pregunta',
@@ -2614,32 +2731,28 @@ function close_box()
                   },
                   success:function(result){               
                     console.log ("success\n");
-                    alert(result);
+                    if (result=='ok')  {
+                      thiz.prev().fadeOut(1000);  thiz.fadeOut(1000); <?php ##oculto el campo de texto ?>
+                      setTimeout(function(){ thiz.prev().prev().fadeIn(1000);}, 1000);  <?php ##muestro el mensaje de enviado! ?>
+                      <?php ##oculto el mensaje de enviado!, muestro el campo de texto y el contador ?>
+                      setTimeout(function(){ thiz.prev().prev().fadeOut(1000); thiz.fadeIn(1000);  thiz.prev().fadeIn(1000);   }, 5000);
+                      thiz.prev().val('');
+                    }
+                    else {
+                      alert (result);
+                    }
+                  },
+                  complete:function(result){              
+                    console.log ("complete\n");
+                  },
+                  beforeSend:function(result){                
+                    console.log ("beforeSend\n");
+                  },
+                  ajaxStop:function(result){              
+                    console.log ("ajaxStop\n");
+                  }
 
-/*
-  $('#pregunta,#enviar_pregunta').fadeOut(3000).promise().done(function(){
-        $(href).fadeIn(1000);
-      });
-      
-setInterval (function () {
-    $("#pregunta,#enviar_pregunta").fadeOut ("slow").next ("img").fadeIn ("slow");
-}, 3000);
-                */
-
-
-
-              },
-              complete:function(result){              
-                console.log ("complete\n");
-              },
-              beforeSend:function(result){                
-                console.log ("beforeSend\n");
-              },
-              ajaxStop:function(result){              
-                console.log ("ajaxStop\n");
-              }
-
-            });
+                });
 
 
 

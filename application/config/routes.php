@@ -115,6 +115,12 @@
 	$route['cursos/buscar'] = "cursos/publico/buscar";
 	$route['cursos/update-tutorial'] = "cursos/publico/update_tutorial";
 	$route['cursos/registrarme_al_curso/(:any)'] = "cursos/publico/registrarme_al_curso/$1";
+	$route['cursos/registrarme_al_curso_premium/(:any)'] = "cursos/publico/registrarme_al_curso_premium/$1";
+
+	$route['cursos/payu_respuesta'] = "cursos/publico/payu_respuesta";
+
+
+	
 	$route['cursos/buscar_curso'] = "cursos/publico/buscar_curso";
 	$route['cursos/descargar/(:any)/(:any)/(:any)/(:any)'] = "cursos/publico/descargar/$1/$2/$3/$4";
 	$route['cursos/mis_cursos'] = "cursos/publico/mis_cursos";

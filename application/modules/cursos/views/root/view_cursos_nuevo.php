@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php $this->load->view('view_admin_css_js'); ?>
 </head>
-
+ 
 <body>
 
 	<?php $this->load->view('view_root_header'); ?> 
@@ -128,6 +128,7 @@
 										$opciones=array("1"=>"Si","0"=>"No");
 										echo select ("Destacar?","destacar","destacar",$opciones,$this->input->post('destacar')); 
 										?>
+										<?php /* ?>
 										<?php $opciones=array();
 										foreach ($tipo_planes as $key => $value) {
 											$opciones[$value->id_tipo_planes]=$value->nombre;
@@ -135,8 +136,9 @@
 										?>
 										<?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
 										?>
+										<?php */ ?>
 
-                   
+                   	<input type="hidden" name="id_tipo_planes" id="id_tipo_planes" value="1">
 
 										<?php 
 										$opciones=array("1"=>"Activo","0"=>"Inactivo");

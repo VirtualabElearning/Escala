@@ -348,3 +348,10 @@ section#tutorial {
     height: 31px;
     width: 100%;
 }
+
+
+.pago_wrap {
+    margin: 0 auto;
+    padding: 20px 0 0;
+    width: 960px;
+}

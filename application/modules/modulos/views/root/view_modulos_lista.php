@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
-
+ 
 <body>
   <?php $this->load->view('view_root_header'); ?> 
   <div class="content">
@@ -166,7 +166,7 @@
       $(".ajax-loader").show();
       var orden = $(this).sortable('toArray').toString();
       $.ajax({
-        url: '<?php echo $this->uri->segment(1); ?>/root//ordenar',
+        url: '<?php echo $this->uri->segment(1); ?>/root/ordenar/<?php echo $this->uri->segment(4); ?>',
         data: {"data": orden},
         type: 'post'
       }).done(function(data) {

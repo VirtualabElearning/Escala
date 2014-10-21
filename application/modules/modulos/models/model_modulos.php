@@ -26,5 +26,14 @@ class Model_Modulos extends CI_Model{
 
 
 
+/** Funcion de ordenar **/
+public function ordenar ($tabla,$data,$where,$id_cursos) {
+	$this->db->where( $where[0],$where[1] );
+	$this->db->where( 'id_cursos',$id_cursos );
+	$this->db->update( $tabla, $data );
+	#echo  $this->db->last_query()."<br>";
+	return  true;
+}
+
 
 }

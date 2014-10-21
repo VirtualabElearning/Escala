@@ -109,7 +109,9 @@
                          <td><?php echo $value->titulo; ?></td>
                          <td><?php echo $value->Descripcion; ?></td>
                          <td><?php echo $value->instructores_asignados_nombre; ?></td>
+                         <?php /* ?>
                          <td><?php echo $value->tipo_plan; ?></td>
+                           <?php */ ?>
                         
                          <td><?php if ($value->destacar==1)  { echo "Si"; } else { echo "No"; } ?></td>
                          <td><?php echo $value->estado_nombre; ?></td>

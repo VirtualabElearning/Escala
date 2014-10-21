@@ -25,13 +25,52 @@ class Publico extends CI_Controller {
 	public function informacion($id_contenidos,$url,$msg=null)
 	{ /* Cargo variables globales */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-		
+
+
+	##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($this->encrypt->decode($this->session->userdata('id_usuario')),$this->config->item('estado_no_leido'),5);
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($this->encrypt->decode($this->session->userdata('id_usuario')),$this->config->item('estado_no_leido'));
+
 		$data['contenido']=$this->model_generico->detalle('landings',array('id_landings'=>$id_contenidos));
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
 		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 		if ($msg) {	 $data['msg']=$msg;   }
 		$this->load->view('publico/view_'.$variables['modulo'].'_informacion',$data);
 	}
+
+
+
+	public function sendajax() {
+
+		$data=$_POST['data'];
+		if ($data['nombres'] && $data['email'] && $data['mensaje']) {
+			$to = 'contacto@virtualab.co';
+			$subject = 'Nuevo contacto desde Landing Page de Virtualab.co';
+			$headers = "From: " . strip_tags($data['email']) . "\r\n";
+
+	//$headers = "From: " . strip_tags("no-reply@virtualab.co") . "\r\n";
+			$headers .= "Reply-To: ". strip_tags($data['email']) . "\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			$content = file_get_contents( "email_templates/plantilla_correo_landing.html" );
+			$content=str_replace("{nombres}", $data['nombres'], $content);
+			$content=str_replace("{email}", $data['email'], $content);
+			$content=str_replace("{mensaje}", $data['mensaje'], $content);
+			$content=str_replace("{acepta}", $data['acepta'], $content);
+
+
+			if (mail($to, $subject, $content, $headers)) { echo 'ok'; } 
+			else { echo 'Hubo un error al enviar el mensaje, intente nuevamente.'; }
+		}
+		else { 
+			#echo 'Por favor, no deje campos vacios.'; 
+			echo $data['mensaje'];
+		 }
+
+
+
+	}
+
 
 
 	public function check_email () {

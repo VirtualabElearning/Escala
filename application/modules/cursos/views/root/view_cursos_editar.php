@@ -60,7 +60,7 @@
                     
 
 
-                  <?php echo editor ("Descripción corta","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
+                    <?php echo editor ("Descripción corta","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
 
 
 
@@ -70,7 +70,7 @@
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">
 
-                      <input type="hidden" name="image" id="image" value="<?php echo $detalle->foto; ?>">
+                        <input type="hidden" name="image" id="image" value="<?php echo $detalle->foto; ?>">
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                             <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
@@ -94,7 +94,7 @@
                     </div>
                   </div>
 
-    <?php echo input_text ("Url video trailer youtube","video","video","Escriba la url del trailer (si este campo está vacío, se pondrá en su lugar la foto)",$detalle->video,form_error('video', '<div class="mensaje_error">', '</div>')); ?>
+                  <?php echo input_text ("Url video trailer youtube","video","video","Escriba la url del trailer (si este campo está vacío, se pondrá en su lugar la foto)",$detalle->video,form_error('video', '<div class="mensaje_error">', '</div>')); ?>
 
 
 
@@ -119,56 +119,91 @@
                   $opciones=array("1"=>"Si","0"=>"No");
                   echo select ("Destacar?","destacar","destacar",$opciones,$detalle->destacar); 
                   ?>
-
+                <?php /* ?>
                    <?php $opciones=array();
                     foreach ($tipo_planes as $key => $value) {
                       $opciones[$value->id_tipo_planes]=$value->nombre;
                     }
                     ?>
                     <?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
+                    */
                     ?>
-
+                <input type="hidden" name="id_tipo_planes" id="id_tipo_planes" value="1">
                     <?php #echo input_text ("Máximo estudiantes","maximo_estudiantes","maximo_estudiantes","Ingrese el máximo de estudiantes en el curso",$detalle->maximo_estudiantes,form_error('maximo_estudiantes', '<div class="mensaje_error">', '</div>')); ?>
 
+                    <?php echo input_text ("Valor","valor","valor","Ingrese el valor del curso (Solo si es premium)",$detalle->valor,form_error('valor', '<div class="mensaje_error">', '</div>')); ?>
 
-                  <?php 
-                  $opciones=array("1"=>"Activo","0"=>"Inactivo");
-                  echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
-                  ?>
-                  <div class="form-group">
-                    <div class="col-lg-offset-2 col-lg-6">
-                      <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
-                      <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
+
+                    <?php 
+                    $opciones=array("1"=>"Activo","0"=>"Inactivo");
+                    echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
+                    ?>
+                    <div class="form-group">
+                      <div class="col-lg-offset-2 col-lg-6">
+                        <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
+                        <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
+                      </div>
                     </div>
+
+                    <?php if ($this->input->post('id')): ?>
+                      <?=form_hidden('id',$this->input->post('id'))?>
+                      <?=form_hidden('foto_antes',$detalle->foto)?>
+                    <?php endif; ?>
+
+                    <?php if ($this->uri->segment(4)): ?>
+                      <?=form_hidden('id',$this->uri->segment(4))?>
+                      <?=form_hidden('foto_antes',$detalle->foto)?>
+                    <?php endif ?>
+                    <?=form_close()?>
                   </div>
-
-                  <?php if ($this->input->post('id')): ?>
-                    <?=form_hidden('id',$this->input->post('id'))?>
-                    <?=form_hidden('foto_antes',$detalle->foto)?>
-                  <?php endif; ?>
-
-                  <?php if ($this->uri->segment(4)): ?>
-                    <?=form_hidden('id',$this->uri->segment(4))?>
-                    <?=form_hidden('foto_antes',$detalle->foto)?>
-                  <?php endif ?>
-                  <?=form_close()?>
+                </div>
+                <div class="widget-foot">
                 </div>
               </div>
-              <div class="widget-foot">
-              </div>
-            </div>
-          </div>  
+            </div>  
 
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>    
-<div class="clearfix"></div>
+  </div>    
+  <div class="clearfix"></div>
 
 </div>
 
 <?php $this->load->view('view_admin_footer'); ?>
+
+<script>
+
+  $(document).ready(function() {
+
+ var num = $("#valor").val().replace(/\./g,"");
+    if(!isNaN(num)){
+      num = num.toString().split("").reverse().join("").replace(/(?=\d*\.?)(\d{3})/g,"$1.");
+      num = num.split("").reverse().join("").replace(/^[\.]/,"");
+      $("#valor").val(num);
+    }else{
+
+      $(this).val($("#valor").val().replace(/[^\d\.]*/g,""));
+    }
+
+  });
+  
+
+  $("#valor").keyup(function(){
+    var num = $(this).val().replace(/\./g,"");
+    if(!isNaN(num)){
+      num = num.toString().split("").reverse().join("").replace(/(?=\d*\.?)(\d{3})/g,"$1.");
+      num = num.split("").reverse().join("").replace(/^[\.]/,"");
+      $(this).val(num);
+    }else{
+
+      $(this).val($(this).val().replace(/[^\d\.]*/g,""));
+    }
+  });
+
+</script>
+
 
 </body>
 </html>

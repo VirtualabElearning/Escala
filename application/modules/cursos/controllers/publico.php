@@ -245,6 +245,83 @@ class Publico extends CI_Controller {
 
 
 
+## funcion para realizar el pago en caso que sea version premium
+	public function registrarme_al_curso_premium ($id_cursos,$nombre_curso) {
+
+		$this->load->model('model_cursos');
+
+		## cargo variables del curso para enviar el costo del curso y realizar el proceso de pago
+
+
+		$datos_curso=$this->model_cursos->get_curso ($id_cursos);
+		$correo_comprador=$this->encrypt->decode($this->session->userdata('correo'));
+		$descripcion = "Pago curso ".$datos_curso->titulo;
+		$refVenta = time();
+		$valor=$datos_curso->valor;
+		$llave_encripcion=$this->config->item('llave_encripcion');
+		$merchantId=$this->config->item('merchantId');
+		$moneda=$this->config->item('moneda');
+
+		$firma= "$llave_encripcion~$merchantId~$refVenta~$valor~$moneda";
+		$firma_codificada = md5($firma);
+
+
+
+		if ($this->config->item('prueba')==1)  { $url_gateway="https://stg.gateway.payulatam.com/ppp-web-gateway"; } 
+		else  { $url_gateway="https://gateway.payulatam.com/ppp-web-gateway"; }
+
+
+
+		$data['curso']=$datos_curso;
+		$data['descripcion']=$descripcion;
+		$data['correo_comprador']=$this->encrypt->decode($this->session->userdata('correo'));
+		$data['refVenta']=$refVenta;
+		$data['valor']=$valor;
+		$data['prueba']=$prueba;
+		$data['url_gateway']=$url_gateway;
+		$data['merchantId']=$this->config->item('merchantId');
+		$data['accountId']=$this->config->item('accountId');
+		$data['lng']=$this->config->item('lng');
+		$data['iva']=$this->config->item('iva');
+		$data['basevalor']=$this->config->item('basevalor');
+		$data['moneda']=$this->config->item('moneda');
+		$data['usuarioId']=$this->config->item('usuarioId');
+		$data['prueba']=$this->config->item('prueba');
+		$data['url_respuesta']=$this->config->item('url_respuesta');
+		$data['url_confirmacion']=$this->config->item('url_confirmacion');
+		$data['firma_codificada']=$firma_codificada;
+		$data['extra1']=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$data['extra2']=$datos_curso->id_cursos;
+		$data['extra3']=$this->encrypt->decode($this->session->userdata('correo'));
+
+
+
+		$this->load->view('publico/view_payu_index',$data);
+
+
+	}
+
+## pagina de respuesta para procesar el pago
+	public function payu_respuesta () {
+
+
+
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+			##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		
+
+		$this->load->view('publico/view_payu_respuesta',$data);
+	}
+
+
+
+
+
+
+
 
 ## descripcion del curso
 	public function detalle($id_cursos,$nombre_curso)
@@ -1674,12 +1751,27 @@ public function enviar_pregunta () {
 
 	$post=$this->input->post('data');
 
-	echo $post['pregunta'];
+	## consulto los instructores asignados al curso
+	$instructores_lista=$this->model_generico->detalle('cursos',array('id_cursos'=>$post['id_cursos']));
 
-#envio mensaje al docente
-#envio_correo($array_claves,$this->input->post ('correo'),$this->input->post ('nombres').' '.$this->input->post ('apellidos') ,$configuracion->correo_contacto,"Nuevo registro por formulario en ".$configuracion->nombre_sistema,$configuracion->nombre_contacto,site_url()."email_templates/notificacion_plantilla_bienvenido_estudiante_registro.html",$this);
+$instructores_asignados=json_decode($instructores_lista->instructores_asignados);
 
 
+
+	## envio mensaje a instructores asignados
+	foreach ($instructores_asignados as $key => $value) {
+		$data['id_usuarios']=$value;
+		$data['fecha_modificado']=date('Y-m-d H:i:s',time());  
+		$data['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
+		$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
+		$data['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
+		$data['id_cursos']=$post['id_cursos'];
+		$data['mensaje']=$post['pregunta'];
+		$data['id_estados']=$this->config->item('estado_no_leido');
+		$id_mensajes=$this->model_generico->guardar('mensajes',$data,'id_mensajes',array('id_mensajes',''));
+	}
+
+	echo "ok";
 
 }
 
@@ -2770,7 +2862,19 @@ public function validar_certificado ($id_cursos) {
 	if ($total_modulos==$total_modulos_realizados)  {
 	##retorno verdadero si es posible generar el certificado
 
+		#consulto el certificado si existe
+		$certificado=$this->model_cursos->get_certificado($id_usuarios,$id_cursos);
+
 		#### guardo en mi listado de certificados para que lo pueda descargar.
+		$data_certi['id_usuarios']=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$data_certi['id_cursos']=$id_cursos;
+		$data_certi['id_estados']=$this->config->item('estado_activo');
+		$data_certi['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$data_certi['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$data_certi['fecha_creado']=date('Y-m-d H:i:s',time()); 
+		$data_certi['fecha_modificado']=date('Y-m-d H:i:s',time());  
+
+		$id_certificados=$this->model_generico->guardar('certificados',$data_certi,'id_certificados',array('id_certificados',$certificado->id_certificados));
 
 
 		echo "true";
@@ -2859,10 +2963,19 @@ public function get_certificado ($id_cursos) {
 		######################## consulto los datos del curso para pasarlos al certificado #####################################
 		$mi_curso_actual=$this->model_generico->detalle('cursos',array('id_cursos'=>$id_cursos));
 
-		### variable que envia los datos para el certificado
-		$data='';
+		$certificado=$this->model_cursos->get_certificado($id_usuarios,$id_cursos);
 
-		$this->gen_certificado ("certificado_curso_".$mi_curso_actual->titulo,$data);
+		if ($certificado->id_certificados!='') {
+
+		### variable que envia los datos para el certificado
+			$data='';
+
+			$this->gen_certificado ("certificado_curso_".$mi_curso_actual->titulo,$data);
+
+
+		}
+
+
 
 	}
 
@@ -2920,6 +3033,9 @@ public function gen_certificado ($archivo,$data) {
 ## funcion para mostrar mis certificados que tengo actualmente
 public function mis_certificados () {
 	$this->load->model('model_cursos');
+	$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+	$data['mis_certificados']=$this->model_cursos->get_certificados($id_usuarios);
+
 	##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
 	$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
 	$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
