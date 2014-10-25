@@ -84,9 +84,15 @@ $config['estado_por_calificar']	= '5';
 $config['estado_finalizado']	= '6';
 $config['estado_utilizado']	= '7';
 $config['estado_no_utilizado']	= '10';
+
 $config['estado_leido']	= '9';
 $config['estado_no_leido']	= '8';
+
 $config['estado_premio']	= '11';
+$config['estado_calificado']	= '12';
+$config['estado_eliminado']	= '13';
+$config['estado_pagado']	= '14';
+
 
 ############################  PUNTOS REQUERIDOS PARA CADA NIVEL (NUEVO,EXPERTO Y CAMPEON) #######################
 $config['requerido_nuevo']	 = '0';
@@ -125,6 +131,8 @@ $config['merchantId']= "514697";
 ###################### datos de prueba#######################################
 $config['llave_encripcion']='6u39nqhq8ftd0hlvnjfs66eh8c';
 $config['merchantId']= "500238";
+$config['accountId']= "500538";
+
 
 
 

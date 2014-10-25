@@ -47,18 +47,32 @@
           <ul class="clear">
            <li class="mobile-hider"><a href="cursos" class="menu-entry" id="menu1">Cursos</a></li>
            <li class="mobile-hider"><a class="menu-entry" href="mis_cursos">Mis Cursos</a> </li>
-           <li><a class="menu-entry" href="#"><div class="inbox_btn"> <img alt="inbox" src="html/site/img/inbox_icon.png"></div></a></li>
-           <li><a id="btn2" class="menu-entry">
-            <div class="noti_btn">
-              <img alt="notificaciones" src="html/site/img/noti_icon.png">
-              <div class="noti_numero"><?php echo $notificaciones_count; ?></div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a id="btn" class="menu-entry" href="#">
-            <div class="perfil_btn clear">
-              <div class="perfil_col1">
+           
+           <li>
+             <a class="menu-entry" href="inbox"><div class="inbox_btn"> 
+               <img alt="inbox" src="html/site/img/inbox_icon.png"> 
+               <div class="inbox_numero" style="display: block;">
+                 <?php $contar_inbox=0;
+                 if (@$inbox) {
+             foreach ($inbox as $key => $value) { if ($value->id_estados==$this->config->item('estado_no_leido')) { $contar_inbox++; } }
+               echo ($contar_inbox);
+               }
+               ?></div>
+           </div>
+         </a>
+       </li>
+
+       <li><a id="btn2" class="menu-entry">
+        <div class="noti_btn">
+          <img alt="notificaciones" src="html/site/img/noti_icon.png">
+          <div class="noti_numero"><?php echo $notificaciones_count; ?></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a id="btn" class="menu-entry" href="#">
+        <div class="perfil_btn clear">
+          <div class="perfil_col1">
 
                 <?php ## evaluo si no tiene foto de perfil
                 $foto_perfil="uploads/aprendices/".$this->encrypt->decode($this->session->userdata('foto'));
@@ -125,11 +139,11 @@
         <div class="profile_avatar_wrap clear">
           <div class="prof_av_col1">
           <?php ## evaluo si no tiene foto de perfil
-                $foto_perfil="uploads/aprendices/".$this->encrypt->decode($this->session->userdata('foto'));
-                if (  !file_exists($foto_perfil) || strlen($this->encrypt->decode($this->session->userdata('foto')))==0  )  {
-                  $foto_perfil="html/site/img/sin_foto.png";
-                } 
-                ?>
+          $foto_perfil="uploads/aprendices/".$this->encrypt->decode($this->session->userdata('foto'));
+          if (  !file_exists($foto_perfil) || strlen($this->encrypt->decode($this->session->userdata('foto')))==0  )  {
+            $foto_perfil="html/site/img/sin_foto.png";
+          } 
+          ?>
           <img alt="<?php echo $this->session->userdata('nombres'); ?> <?php echo $this->encrypt->decode($this->session->userdata('apellidos')); ?>" src="<?php echo $foto_perfil; ?>">
         </div>
         <div class="prof_av_col2">

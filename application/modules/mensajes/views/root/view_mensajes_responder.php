@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Responder mensaje) - Administrador</title>
+  <title>Modulo Preguntas (Responder mensaje) - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php $this->load->view('view_admin_css_js'); ?>
 </head>
@@ -15,7 +15,7 @@
     <?php $this->load->view('view_root_menu'); ?> 
     <div class="mainbar">
       <div class="page-head">
-        <h2 class="pull-left"><i class="fa fa-table"></i>Modulo <?php echo str_replace("_", " ", $titulo); ?> (Responder mensaje)</h2>
+        <h2 class="pull-left"><i class="fa fa-table"></i>Modulo Preguntas (Responder mensaje)</h2>
         <div class="bread-crumb pull-right">
           <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
           <span class="divider">/</span> 
@@ -46,11 +46,15 @@
                         <div class="col-lg-5">
                           <input type="text" name="usuario" value="<?php echo $detalle->datos_usuario->nombres; ?> <?php echo $detalle->datos_usuario->apellidos; ?>" id="usuario" readonly="true" class="form-control " placeholder="">
                           <input type="hidden" name="id_usuarios" id="id_usuarios" value="<?php echo $detalle->datos_usuario->id_usuarios; ?>">
+                         <input type="hidden" name="id_cursos" id="id_cursos" value="<?php echo $detalle->id_cursos; ?>">
+                           <input type="hidden" name="id_modulos" id="id_modulos" value="<?php echo $detalle->id_modulos; ?>">
+                             <input type="hidden" name="id_actividades_barra" id="id_actividades_barra" value="<?php echo $detalle->id_actividades_barra; ?>">
+
                         </div>
                       </div>
 
                       <?php echo form_error('nombre', '<div class="mensaje_error">', '</div>'); ?>
-                      <?php echo textarea ("Mensaje","mensaje","mensaje","Ingresa tu mensaje",$detalle->mensaje); ?>
+                      <?php echo textarea ("Mensaje","mensaje","mensaje","Ingresa tu mensaje",''); ?>
                       <?php echo form_error('mensaje', '<div class="mensaje_error">', '</div>'); ?>
                       <?php 
                       $opciones=array("8"=>"No le&iacute;do","9"=>"Le&iacute;do");

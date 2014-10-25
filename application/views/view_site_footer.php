@@ -2,6 +2,11 @@
 
   $(document).ready(function() {
 
+    <?php ##funcion para ocultar el icono de notificaciones si no tiene ninguna ?>
+    if ($('.inbox_numero').html().trim()=='') {
+      $('.inbox_numero').hide();
+    }
+
     <?php ## esto es para los mensajes del foro limitarlos a 500 caracteres ?>
     var caracteres = 500;
     $(".counter_foro").html("Te quedan <strong>"+  caracteres+"</strong> caracteres.");
@@ -46,9 +51,6 @@
       }
 
     });
-
-
-
 
 
 
@@ -108,6 +110,22 @@
     }
 
 
+
+    $('.modulo_off').each(function(index, el) {
+      
+      if ($(this).attr('desactivarmod')==1 ) {
+        $(this).parent().attr( 'id',$(this).parent().attr('href') );
+        $(this).parent().removeAttr('href');
+      }
+
+
+    });
+
+
+
+
+
+
     $('.act_block').click(function(event) {
 
       if ( Number(Number($('div.on').length))  == $('.tool_tip').attr('total')) {
@@ -122,9 +140,9 @@
     });
 
 
-$( document ).on( "click", ".status_bar > img,.circle_wrap > img,.status_bar.solocurso.clear img,.avatar_infoblock_col1 > h3", function() {
-window.open("<?php echo base_url(); ?>explicacion"); 
-});
+    $( document ).on( "click", ".status_bar > img,.circle_wrap > img,.status_bar.solocurso.clear img,.avatar_infoblock_col1 > h3", function() {
+      window.open("<?php echo base_url(); ?>explicacion"); 
+    });
 
 
 

@@ -70,6 +70,8 @@
 
 
 
+
+
 	$route['cursos/caja_sorpresa/(:any)/(:any)/(:any)'] = "cursos/publico/caja_sorpresa/$1/$2/$3";
 	$route['obtener_estatus_barra/(:any)'] = "cursos/publico/gen_estatus/$1";
 	$route['cursos/getif_logro/(:any)/(:any)/(:any)'] = "cursos/publico/getif_logro/$1/$2/$3";
@@ -81,12 +83,15 @@
 	$route['cursos/set_puntos_curso/(:any)/(:any)'] = "cursos/publico/set_puntos_curso/$1/$2";
 
 
-
-
 	$route['explicacion'] = "generico/explicacion";
 
 	$route['notificaciones/(:any)'] = "login/publico/notificaciones/$1";
+	$route['inbox'] = "login/publico/inbox";
+
+
 	$route['op_notificaciones/(:any)/(:any)'] = "login/publico/op_notificaciones/$1/$2";
+	$route['op_inbox/(:any)/(:any)'] = "login/publico/op_inbox/$1/$2";
+
 	$route['get_notificaciones_ajax_list'] = "login/publico/get_notificaciones_ajax_list";
 	$route['login/recuperar_contrasena/(:any)'] = "login/publico/recuperar_contrasena/$1";
 

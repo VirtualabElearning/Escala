@@ -644,7 +644,7 @@ public function estudiante_check(){
 		$config['remove_spaces']  = TRUE;
 		$config['encrypt_name']  = TRUE;
 		$this->load->library('upload',$config);
-    
+
 		$this->form_validation->set_rules('nombres', 'Nombres', 'required|xss_clean');
 		$this->form_validation->set_rules('apellidos', 'Apellidos', 'required|xss_clean');
 
@@ -791,7 +791,7 @@ public function estudiante_check(){
 		#envio mensaje al usuario de que debe cambiar la clave de acceso de su cuenta
 			
 			envio_correo($array_claves,$configuracion->correo_contacto,$configuracion->nombre_contacto ,$datos_perfil_estudiante->correo,"Cambiar contraseña de acceso en ".$configuracion->nombre_sistema,$datos_perfil_estudiante->nombres.' '.$datos_perfil_estudiante->apellidos,site_url()."email_templates/recuperar_contrasena.html",$this);
-		
+
 			
 
 		######################################################################################################################
@@ -1077,15 +1077,109 @@ public function estudiante_check(){
 		$html.='</a>';
 		$html.='</div>';
 		$html.='</li>';
-
 		endforeach; 
-
-
 		echo $html."|".$notificaciones_count;
 
+	}
+
+
+## funcion que carga los mensajes de entrada del estudiante actual 
+	public function inbox () {
+
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		
+		## funcion para mostrar los mensajes del estudiante.
+		$data['inbox_list']=$this->model_generico->get_mensajes ($id_usuarios,'','');
+		
+
+
+foreach ($data['inbox_list'] as $key => $value) {
+	$data['inbox_list'][$key]->pregunta=$this->model_generico->get_pregunta_mensaje ($value->id_mensajes_parent);
+}
+
+
+
+		foreach ($data['inbox_list'] as $key => $value) {
+			$data['inbox_list'][$key]->docente=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$value->id_usuario_creado));
+		}
+
+
+		foreach ($data['inbox_list'] as $key => $value) {
+			$data['inbox_list'][$key]->curso=$this->model_generico->detalle('cursos',array('id_cursos'=>$value->id_cursos));
+		}
+
+
+		foreach ($data['inbox_list'] as $key => $value) {
+			if ($value->id_modulos!=0) {
+				$data['inbox_list'][$key]->modulo=$this->model_generico->detalle('modulos',array('id_modulos'=>$value->id_modulos));
+			}	
+		}
+
+
+		foreach ($data['inbox_list'] as $key => $value) {
+			if ($value->id_actividades_barra) {
+				$actividad_barra_tmp=$this->model_generico->detalle('actividades_barra',array('id_actividades_barra'=>$value->id_actividades_barra));
+				$tipo_actividad_tmp=$this->model_generico->detalle('tipo_actividades',array('id_tipo_actividades'=>$actividad_barra_tmp->id_tipo_actividades));
+				$data['inbox_list'][$key]->actividad=$this->model_generico->detalle($tipo_actividad_tmp->tabla_actividad,array('id_'.$tipo_actividad_tmp->tabla_actividad=>$actividad_barra_tmp->id_actividades));
+			}	
+
+		}
+
+
+
+
+
+
+
+		##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+		$data['inicio']=$this->model_generico->detalle('pagina_inicio',array('id_pagina_inicio'=>1));
+
+		$data['inbox']=$this->model_generico->listado('mensajes',array('mensajes.id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario'))),array('orden','asc'));
+
+
+		$this->load->view('publico/view_inbox',$data);
+	}
+
+
+
+
+##opciones de funcion de las notificaciones
+	public function op_inbox($id_notificaciones,$opcion) {
+		$this->load->model('model_login');
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+
+##marcarla como leida la notificacion
+		if ($opcion==1) {
+			$this->model_login->update_inbox_leida($id_notificaciones);
+		}
+
+		##marcarla como no leida la notificacion
+		if ($opcion==2) {
+			$this->model_login->update_inbox_no_leida($id_notificaciones);
+		}
+
+##eliminar la notificacion
+		if ($opcion==3) {
+			$this->model_login->delete_inbox($id_notificaciones);
+		}
+
+			#consulto la cantidad de notificaciones
+		$inbox_count=$this->model_generico->get_mensajes ($id_usuarios,$this->config->item('estado_no_leido'));
+		echo count($inbox_count);
 
 
 	}
+
+
+
+
+
+
 
 
 

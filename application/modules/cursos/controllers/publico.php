@@ -304,7 +304,9 @@ class Publico extends CI_Controller {
 ## pagina de respuesta para procesar el pago
 	public function payu_respuesta () {
 
-
+		$this->load->model('model_cursos');
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$id_cursos=$_REQUEST['extra2'];
 
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
 		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
@@ -312,6 +314,66 @@ class Publico extends CI_Controller {
 		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
 		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
 		
+
+		## variables para guardar el curso pagado con plan premium
+		$data_curso_asignar['id_usuarios']=$id_usuarios;
+		$data_curso_asignar['id_cursos']=$id_cursos;
+		$data_curso_asignar['id_estatus']=$this->config->item('Nuevo');
+		$data_curso_asignar['id_tipo_planes']=$this->config->item('Premium');
+		$data_curso_asignar['id_estados']=$this->config->item('estado_activo');
+		$data_curso_asignar['id_usuario_creado']=$id_usuarios;
+		$data_curso_asignar['id_usuario_modificado']=$id_usuarios;
+		$data_curso_asignar['fecha_creado']=date('Y-m-d H:i:s',time()); 
+		$data_curso_asignar['fecha_modificado']=date('Y-m-d H:i:s',time());  
+
+
+
+		## variables para guardar el curso pagado en la tabla de pagos realizados
+		$TX_VALUE=$_REQUEST['TX_VALUE'];
+		$valor=number_format($TX_VALUE, 1, '.','');
+		$data_pagos_realizados['id_usuarios']=$id_usuarios;
+		$data_pagos_realizados['id_cursos']=$id_cursos;
+		$data_pagos_realizados['valor']=$valor;
+		$data_pagos_realizados['id_estados']=$this->config->item('estado_pagado');
+		$data_pagos_realizados['id_usuario_creado']=$id_usuarios;
+		$data_pagos_realizados['id_usuario_modificado']=$id_usuarios;
+		$data_pagos_realizados['fecha_creado']=date('Y-m-d H:i:s',time()); 
+		$data_pagos_realizados['fecha_modificado']=date('Y-m-d H:i:s',time());  
+
+
+
+					##transaccion cuando es aprobado.
+		if($_REQUEST['transactionState'] == 4 && $_REQUEST['polResponseCode'] == 1)
+		{
+
+
+
+			## consulto primero si el curso de este usuario se encuentra en el sistema pagado
+			$tmp_if_pagos_realizados=$this->model_cursos->get_if_curso_pago ($id_cursos,$id_usuarios);
+
+
+
+				## inserto los datos en la tabla
+
+			if ($tmp_if_pagos_realizados->id_pagos_realizados) {
+						## si existe no hace nada..
+			}
+
+			else {
+						# si no existe , lo inserta.
+				$id_cursos_asignados=$this->model_generico->guardar('cursos_asignados',$data_curso_asignar,'id_cursos_asignados',array('id_cursos_asignados',''));
+				$id_cursos_asignados=$this->model_generico->guardar('pagos_realizados',$data_pagos_realizados,'id_pagos_realizados',array('id_pagos_realizados',''));
+			}
+
+
+			$data['curso_comprado']=$this->model_generico->detalle('cursos',array('id_cursos'=>$id_cursos));
+
+		}
+
+		else {
+			$data['curso_a_comprar']=$this->model_generico->detalle('cursos',array('id_cursos'=>$id_cursos));
+		}
+
 
 		$this->load->view('publico/view_payu_respuesta',$data);
 	}
@@ -643,6 +705,9 @@ class Publico extends CI_Controller {
 					#exit;
 
 
+					
+
+
 				}
 
 				###si es una evaluacion miro si tiene la opcion de varias oportunidades, si las tiene, busco las oportunidades del estudiante actual
@@ -928,6 +993,17 @@ class Publico extends CI_Controller {
 				$tmp_premio_mio_foro=$this->model_cursos->get_premio_sorpresa_mio($post['id_cursos'],$post['id_modulos'],$id_usuarios,$this->config->item('tipos_premio_foro'),$this->config->item('estado_no_utilizado'));
 				if ($tmp_premio_mio_foro->valor==1) {  $data['foro_ya_creado_campeon']='no'; } else {   }
 			}
+
+
+
+
+			### consulto mis mensajes de inbox en estado no leído para mostrar los mensajes del docente.
+			$data['inbox']=$this->model_generico->listado('mensajes',array('mensajes.id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario'))),array('orden','asc'));
+
+
+
+
+
 
 			$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 			$this->load->view('publico/view_cursos_empezar',$data);
@@ -1754,7 +1830,7 @@ public function enviar_pregunta () {
 	## consulto los instructores asignados al curso
 	$instructores_lista=$this->model_generico->detalle('cursos',array('id_cursos'=>$post['id_cursos']));
 
-$instructores_asignados=json_decode($instructores_lista->instructores_asignados);
+	$instructores_asignados=json_decode($instructores_lista->instructores_asignados);
 
 
 
@@ -1766,6 +1842,8 @@ $instructores_asignados=json_decode($instructores_lista->instructores_asignados)
 		$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
 		$data['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
 		$data['id_cursos']=$post['id_cursos'];
+		$data['id_modulos']=$post['id_modulos'];
+		$data['id_actividades_barra']=$post['id_actividades_barra'];
 		$data['mensaje']=$post['pregunta'];
 		$data['id_estados']=$this->config->item('estado_no_leido');
 		$id_mensajes=$this->model_generico->guardar('mensajes',$data,'id_mensajes',array('id_mensajes',''));
@@ -2968,7 +3046,19 @@ public function get_certificado ($id_cursos) {
 		if ($certificado->id_certificados!='') {
 
 		### variable que envia los datos para el certificado
-			$data='';
+			
+			
+			#consulto el info del curso
+			$info_curso=$this->model_generico->detalle('cursos',array('id_cursos'=>$id_cursos));
+			##consulto info del estudiante
+			$info_usuario=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$id_usuarios));
+
+			$data['fecha_creado']=fecha_pdf ($certificado->fecha_creado);
+			$data['titulo_curso']=$info_curso->titulo;
+			$data['nombres_completos']=$info_usuario->nombres."	".$info_usuario->apellidos;
+			$data['identificacion']=$info_usuario->identificacion;
+
+
 
 			$this->gen_certificado ("certificado_curso_".$mi_curso_actual->titulo,$data);
 
@@ -2993,14 +3083,10 @@ public function gen_certificado ($archivo,$data) {
 	$this->load->model('model_cursos');
 	$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
 
-
-
-
-
 	$pdfFilePath = FCPATH."/downloads/$archivo.pdf";
 
 	ini_set('memory_limit','32M');
-   $html=$this->load->view('prueba_certificado', $data,TRUE); // realizo un render con la información para mostrarla en pantalla
+   $html=$this->load->view('view_certificado', $data,TRUE); // realizo un render con la información para mostrarla en pantalla
 
 
    $this->load->library('pdf');
@@ -3013,13 +3099,12 @@ public function gen_certificado ($archivo,$data) {
    $pdf->WriteHTML($stylesheet,1);
    $pdf->WriteHTML($html); 
    $pdf->Output($pdfFilePath, 'F'); 
- #$pdf->Output(); 
-   
+   #$pdf->Output(); 
+
    if (file_exists($pdfFilePath)) {
    	header('Content-type: application/force-download');
    	header('Content-Disposition: attachment; filename='.$archivo.'.pdf');
    	readfile($pdfFilePath);
-
    }
 
 

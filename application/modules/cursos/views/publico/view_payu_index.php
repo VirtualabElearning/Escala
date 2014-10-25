@@ -31,11 +31,7 @@
   <?php  ?>
     <input type="hidden" name="prueba" value="<?php echo $prueba; ?>">
       <input name="merchantId" type="hidden" value="<?php echo $merchantId; ?>"/>
-
-      <?php /* ?>
      <input name="accountId" type="hidden" value="<?php echo $accountId; ?>"/>
-      <?php */ ?>
-      
     <input type="hidden" name="refVenta" value="<?php echo $refVenta ?>">
     <input type="hidden" name="valor" value="<?php echo $valor ?>">
     <input type="hidden" name="iva" value="<?php echo $iva; ?>">

@@ -1,29 +1,30 @@
-@font-face {
-	font-family: 'MTCORSVA';
-	src: url('./fonts/MTCORSVA.eot');
-	src: local('fonts/MTCORSVA'), url('./fonts/MTCORSVA.woff') format('woff'), url('./fonts/MTCORSVA.ttf') format('truetype');
-}
-
 body {
-   color: #3d3d3d;
-    font-family: arial;
-    font-size: 14px;	
+ color: #575756;
+ font-family: Arial;
+ text-align: center;
 }
-
-
 
 .wrapper {
+   color: #575756;
+   height: 300px;
+   margin: 0 auto;
+   padding: 10px 40px 40px;
+   text-align: center;
+   width: 950px;
+}
 
- background-image: url("../../../html/pdf/certificados/img/completa_html.png");
-    height: 396px;
-    width: 612px;
-margin:auto;
+.main {
+ border: 1pt solid #777777;  
+}
 
+
+.Escuela, .certifica, .duracion {
+    font-size: 124px;
+    margin-top: 5px;
 }
 
 .divnombres {
-
-margin-top: 120px;
+    margin-top: 120px;
 }
 
 .centered {
@@ -32,57 +33,83 @@ margin-top: 120px;
     top: 30%;
 }
 
+.logopdf{
+  position: relative;
+  width: 80px;
+  margin-left: 85%;
+}
 
-.nombres{
-   border-bottom: 2px solid #3d3d3d;
-    font-family: 'Norasi' !important;
-    font-size: 40px;
-    margin: auto;
-    text-align: center;
-    width: 500px;	
-padding-top: 110px;  
+.Escuela{
+    font-size: 18px;
+    margin-left: 1px;
+    margin-right: 6%;
+}
 
+.licencia{
+ font-size: 10px;
+ margin: 0 0 15px;
+ margin-right: 30px;
+}
+
+.certifica {
+    margin: 0 0 15px;
+}
+.Escuela, .certifica, .identificado, .duracion {
+    font-size: 19px;
+}
+
+.linea1{
+    border-bottom: 1pt solid #575756;
+    width: 82%;
+    margin-left: 10%;
+}
+
+.campo1 {
+    text-align: none;
+    margin-left: 10%;
+}
+
+.linea2 {
+    border-bottom: 1pt solid #575756;
+    width: 42%;
+    margin-left: 49%;
+    margin-top: 0%;
 }
 
 .cedula{
- font-size: 20px;
-    margin: auto;
-    position: relative;
-    top: 32%;
-    width: 184px;
-    padding-top: 7px;  
-    padding-bottom: 15px;
+   margin-top: -25px;
+   margin-left: 50%;
+   width: 140px;
+}
+
+.identificado{
+    text-align: none;
+    margin-top: 10px;
+    margin-left: 10%;
+}
+
+.cert_firma{
+    margin-top: 8%;
+    font-size: 11px;
+    margin-right: 51%;
+}
+
+.linea3{
+   border-bottom: 1pt solid #575756; 
+   margin-left: 21%;
+   width: 170px;
 }
 
 
-.text{
-
-margin: auto;
-    position: relative;
-    top: 35%;
-    width: 540px;
-}
-
-.text2{
- margin: auto;
-    position: relative;
-    top: 39%;
-    width: 280px;
-    padding-top: 10px;
+.footer_pdf {
+   background-image: url("../../../html/pdf/certificados/img/footer_pdf.png");
+   background-position: top 10px;
+   background-position: left 10px;
+   background-repeat: no-repeat;
+   height: 128px;
+   width: 900px;
+   margin-top: -54px;
+   border: none;
 }
 
 
-.estudiante{
- font-weight: bold;
-    margin: auto;
-    margin-top: 55px;
-    width: 190px;
-}
-
-.profesion{
-  font-size: 13px;
-    margin: auto;
-    position: relative;
-    top: 53%;
-    width: 112px;
-}

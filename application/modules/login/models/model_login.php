@@ -186,4 +186,44 @@ class Model_login extends CI_Model{
 
 
 
+
+
+
+
+
+
+
+	##Actalizo el estado de la notificacion como leída
+	public function update_inbox_leida($id_mensajes){
+		$data=array("mensajes.id_estados"=>$this->config->item('estado_leido'));
+		$this->db->where('mensajes.id_mensajes', $id_mensajes);
+		$this->db->where('mensajes.id_estados', $this->config->item('estado_no_leido'));
+		$this->db->update('mensajes', $data); 
+		return true;
+
+	}
+
+
+	##Actalizo el estado de la notificacion como no leída
+	public function update_inbox_no_leida($id_mensajes){
+		$data=array("mensajes.id_estados"=>$this->config->item('estado_no_leido'));
+		$this->db->where('mensajes.id_mensajes', $id_mensajes);
+		$this->db->where('mensajes.id_estados', $this->config->item('estado_leido'));
+		$this->db->update('mensajes', $data); 
+		return true;
+
+	}
+
+
+	##funcion para borrar la notificacion seleccionada
+	public function delete_inbox ($id_mensajes) {
+		$this->db->delete('mensajes', array('mensajes.id_mensajes' => $id_mensajes)); 
+		return true;
+	}
+
+
+
+
+
+
 }

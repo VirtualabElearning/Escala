@@ -15,7 +15,7 @@
      <?php $this->load->view('view_root_menu'); ?> 
      <div class="mainbar">
       <div class="page-head">
-        <h2 class="pull-left"><i class="fa fa-table"></i> Listado de <?php echo str_replace("_", " ", $titulo); ?></h2>
+        <h2 class="pull-left"><i class="fa fa-table"></i> Listado de Preguntas</h2>
         <div class="bread-crumb pull-right">
          <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
          <span class="divider">/</span> 
@@ -33,7 +33,7 @@
              </div>
            <?php endif ?>
            <div class="col-md-12">
-            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo mensaje</a>
             <div class="widget">
               <div class="widget-head">
                 <div class="pull-left"><?php echo str_replace("_", " ", $titulo); ?></div>
@@ -58,12 +58,13 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php krumo ($lista); ?>
+                          <?php #krumo ($lista); ?>
                           <?php foreach ($lista as $key => $value): ?>
 
                             <tr id="<?php echo $value->id_mensajes; ?>">
                              <td><?php echo $value->orden; ?></td>
                              <td><?php echo $value->id_mensajes; ?></td>
+                             <td><img src="escalar.php?src=<?php echo base_url().'uploads/aprendices/'.$value->foto_estudiante; ?>&w=126&h=126&zc=1" alt=""></td>
                              <td><?php echo $value->nombres; ?></td>
                              <td><?php echo $value->apellidos ; ?></td>
                              <td><?php echo $value->titulo; ?></td>

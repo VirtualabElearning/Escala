@@ -8,7 +8,7 @@ class Model_mensajes extends CI_Model{
 
 	public function listado($id_usuarios,$tabla,$where=null,$order_by=null){
 
-		$this->db->select($tabla.".*,estados.nombre as estado_nombre,usuarios.*,cursos.*,".$tabla.".id_estados as estado_mensaje");
+		$this->db->select($tabla.".*,estados.nombre as estado_nombre,usuarios.*,cursos.*,".$tabla.".id_estados as estado_mensaje, usuarios.foto as foto_estudiante");
 		if ($where) {
 			$this->db->where($where[0],$where[1]);
 		}
@@ -36,6 +36,33 @@ class Model_mensajes extends CI_Model{
 		$this->db->update('mensajes', $data); 
 		return true;
 	}
+
+	#funcion para obtener los cursos asignados del docente
+	public function cursos_list_doc($id_usuarios) {
+		$this->db->where('cursos.id_estados',$this->config->item('estado_activo'));
+		$this->db->like('cursos.instructores_asignados', '"'.$id_usuarios.'"'); 
+		$query = $this->db->get('cursos');
+		$resultados=$query->result();
+		#echo $this->db->last_query();
+		return $resultados;
+	}
+
+
+
+
+	#funcion para obtener los cursos asignados del docente
+	public function get_estudiantes_curso($id_cursos) {
+		$this->db->where('usuarios.id_estados',$this->config->item('estado_activo'));
+		$this->db->where('usuarios.id_roles',3);  ## solo estudiantes
+		$this->db->where('cursos_asignados.id_cursos',$id_cursos);
+		$this->db->join('cursos_asignados', 'cursos_asignados.id_usuarios = usuarios.id_usuarios');	
+		$query = $this->db->get('usuarios');
+		$resultados=$query->result();
+		#echo $this->db->last_query();
+		return $resultados;
+	}
+
+
 
 
 }

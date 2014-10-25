@@ -108,18 +108,20 @@ form h6 {
 
 
 .box2,.box3,.box4 {
-  background: none repeat scroll 0 0 #f5f5f5;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #444444;
-  display: none;
-  height: 280px;
-  padding: 20px;
-  position: relative;
-  text-align: center;
-  margin: 0 auto;
-  top: -100%;
-  width: 500px;
-  z-index: 61;
+   background: none repeat scroll 0 0 #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #444444;
+    display: none;
+    height: 280px;
+    margin: 0 auto;
+    padding: 20px;
+    pointer-events: auto;
+    position: relative;
+    text-align: center;
+    top: -100%;
+    width: 500px;
+    z-index: 61;
+
 }
 
 
@@ -354,4 +356,72 @@ section#tutorial {
     margin: 0 auto;
     padding: 20px 0 0;
     width: 960px;
+}
+
+
+.inbox_btn {
+    position: relative;
+    width: 100%;
+}
+
+
+.inbox_numero {
+    background-color: #f28d18;
+    border-radius: 15px;
+    color: #fff;
+    font-family: century_b;
+    font-size: 10px;
+    height: 20px;
+    left: 64px;
+    line-height: 20px;
+    position: absolute;
+    top: -16px;
+    width: 20px;
+}
+
+.delete_inbox{
+position: absolute;
+right: 0px;
+}
+
+.clicker_inbox{
+position: absolute;
+right: 0px;
+}
+
+.inbox_block_wrap{
+  position: relative;
+}
+
+
+.inbox_wrap,.pago_wrap {
+  min-height:600px;  
+}
+
+.notificaciones_wrap{
+
+}
+
+.actualiza_tus_datos_wrap{
+  
+}
+
+
+.off_est {
+    background-color: #eeeeee;
+}
+
+.on_est {
+    background-color: #5fcf80;
+}
+
+
+.act_actual {
+    background-color: #f28d18!important;
+}
+
+.cursiv {
+   color: #6f6f6f;
+    font-style: italic;
+    font-weight: bold;
 }

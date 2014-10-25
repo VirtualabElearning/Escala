@@ -436,3 +436,35 @@ if (!function_exists('save_image')) {
 		}
 
 	}
+
+
+	if (!function_exists('fecha_texto')) {
+		function fecha_texto($fecha) {
+
+			$data_f=explode (" ",$fecha);
+			$data_ffecha=explode ("-",$data_f[0]);	
+			$arr_meses=array("0"=>"","1"=>"Enero","2"=>"Febrero","3"=>"Marzo","4"=>"Abril","5"=>"Mayo","6"=>"Junio","7"=>"Julio","8"=>"Agosto","9"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre");
+
+			$fecha_nueva=$arr_meses[$data_ffecha[1]]." ".$data_ffecha[2];
+
+			return $fecha_nueva;
+		}
+
+	}
+
+
+
+
+	if (!function_exists('fecha_pdf')) {
+		function fecha_pdf($fecha) {
+
+			$data_f=explode (" ",$fecha);
+			$data_ffecha=explode ("-",$data_f[0]);	
+			$arr_meses=array("0"=>"","1"=>"Enero","2"=>"Febrero","3"=>"Marzo","4"=>"Abril","5"=>"Mayo","6"=>"Junio","7"=>"Julio","8"=>"Agosto","9"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre");
+
+			$fecha_nueva="<b>".$data_ffecha[2]."</b> de <b>".$arr_meses[$data_ffecha[1]]."</b> de ".$data_ffecha[0];
+
+			return $fecha_nueva;
+		}
+
+	}

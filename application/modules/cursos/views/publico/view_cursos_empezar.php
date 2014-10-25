@@ -122,6 +122,7 @@
         te faltan <?php echo $minimo_faltante_a_experto; ?> puntos para ser <?php echo $estatus_proximo->nombre; ?>.</p>
       </div>
     </div>
+
   <?php endif ?>
 
 
@@ -578,7 +579,7 @@
 
         </div>
         <div class="disc_block_A_col2">
-          <span><?php echo $actividades_value->info_extra->nombre_actividad; ?></span>
+          <span><?php  if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "Discusión de usuario campeón"; } else {  echo $actividades_value->info_extra->nombre_actividad;  } ?></span>
           <p><?php echo $actividades_value->info_extra->contenido_foro; ?></p>
         </div>
       </div>
@@ -782,14 +783,31 @@
     <div type="eval" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
   <?php endif ?>
   <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Foro')): ?>
-    <div type="foro" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
+
+
+
+    <div type="foro" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "on_est"; } else { echo "on"; }  } else { if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "off_est"; } else { echo "off"; } } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" userby="<?php echo $actividades_value->info_extra->creador_foro->id_roles; ?>" data-actividad="<?php if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "Discusi&oacute;n de usuario campe&oacute;n";  } else {  echo $actividades_value->info_extra->nombre_actividad; } ?>"></div>
   <?php endif ?>
   <?php $contador++; ?>
 <?php endforeach ?>
 
 <div class="next_btn"><img src="<?php echo base_url(); ?>html/site/img/next.png" alt="next"></div>                  
 </div>  
-<div class="tool_tip" total="<?php echo count((array)$detalle_curso->actividades); ?>">
+
+<?php 
+$cont_tpx=0;
+foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
+  if ( $valuetmp->id_tipo_actividades==$this->config->item('Foro')) {
+    if ($valuetmp->info_extra->creador_foro->id_roles<>3) {
+      $cont_tpx++;
+    }
+  }
+  else{
+    $cont_tpx++;
+  }
+}
+?>
+<div class="tool_tip" total="<?php echo $cont_tpx; ?>">
   <div class="tool_tip_wrap">
 
   </div>
@@ -819,7 +837,7 @@
 
 
          <a idmod="<?php echo $modulos_value->id_modulos; ?>" id="modd<?php echo $modulos_value->id_modulos; ?>" <?php if ($if_ver==1 && $modulos_key > $cont_if_ver) {   } else { ?>href="<?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/<?php echo $this->uri->segment(3); ?>/<?php echo $modulos_value->id_modulos; ?>/<?php echo $modulos_value->primera_actividad->id_actividades_barra; ?>/<?php echo $this->uri->segment(6); ?> "<?php } ?>>
-           <li class="<?php if ($modulos_value->id_modulos==$this->uri->segment(4))  { echo " modulo_actual "; } if ( in_array($modulos_value->id_modulos,$detalle_curso->modulos_vistos_arr) ) { echo "modulo_on";  } else { echo "modulo_off"; $if_ver=1; $cont_if_ver=$modulos_key; } ?>"><?php echo $modulos_value->nombre_modulo; ?></li>
+           <li class="<?php if ($modulos_value->id_modulos==$this->uri->segment(4))  { echo " modulo_actual "; } if ( in_array($modulos_value->id_modulos,$detalle_curso->modulos_vistos_arr) ) { echo "modulo_on";  } else { echo "modulo_off"; $if_ver=1; $cont_if_ver=$modulos_key; } ?>" desactivarmod="<?php echo $if_ver; ?>"><?php echo $modulos_value->nombre_modulo; ?> </li>
          </a>
 
        <?php endif ?>
@@ -1134,64 +1152,65 @@ $('.next_btn').click(function(event) {
                 <?php ##si el premio son puntos, actualizo los puntos que tengo de forma visual ?>
                 if (respuestas[0]==<?php echo $this->config->item('tipos_premio_puntos'); ?>) {
                   <?php ##Actualizo mis puntos de forma visual?>
-                  $('.mis_puntos').html(respuestas[8]);
+                //  $('.mis_puntos').html(respuestas[8]);
+                points('.mis_puntos',Number($('.mis_puntos').html()),respuestas[8]);
 
-                }
-
-
-                <?php ##si es un logro, actualizo el listado de logros del sistema ?>
-                if (respuestas[0]==<?php echo $this->config->item('tipos_premio_logro'); ?>) {
-                  <?php ##muestro todos mis logros obtenidos en el curso ?>
-                  $('.medal_container').html(respuestas[6]);
-                }
-
-                <?php ##si es una oportunidad de crear un foro, habilito el boton de crear foro para el usuario ?>
-                if (respuestas[0]==<?php echo $this->config->item('tipos_premio_foro'); ?>) {
-
-                  if (respuestas[6]=='mostrar_foro') {
-                    $('#crearforito').show();
-                    $('#crearforito > div').addClass('discusion_on').removeClass('discusion_off');
-                  }
-
-                }
-
-                <?php ##si es un video, habilito el modulo de premios y muestro mi premio! ?>
-                if (respuestas[0]==<?php echo $this->config->item('tipos_premio_video'); ?>) {
-                 if (respuestas[6]=='mostrar_video') {
-                  $('#mimodulopremio').show();
-                }
               }
 
-              $('.box > p > span').html(respuestas[3]);
 
-              $('.box > .premio_img > #surprise_result').attr('src',respuestas[2]);
+              <?php ##si es un logro, actualizo el listado de logros del sistema ?>
+              if (respuestas[0]==<?php echo $this->config->item('tipos_premio_logro'); ?>) {
+                <?php ##muestro todos mis logros obtenidos en el curso ?>
+                $('.medal_container').html(respuestas[6]);
+              }
 
-              $('.box > .share_block > .share_icons >li > a').eq(0).attr('href',respuestas[4]);
-              $('.box > .share_block > .share_icons >li > a').eq(1).attr('href',respuestas[5]);
+              <?php ##si es una oportunidad de crear un foro, habilito el boton de crear foro para el usuario ?>
+              if (respuestas[0]==<?php echo $this->config->item('tipos_premio_foro'); ?>) {
 
+                if (respuestas[6]=='mostrar_foro') {
+                  $('#crearforito').show();
+                  $('#crearforito > div').addClass('discusion_on').removeClass('discusion_off');
+                }
 
+              }
 
-              $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
-              $j('.box').animate({'opacity':'1.00'}, 300, 'linear');
-              $j('.box').animate({'top':'20%'}, 1500, 'easeOutElastic');
-              $j('.backdrop, .box').css('display', 'block');
-              $j('#sound-1a').get(0).play();
-              setTimeout(function(){
-               $j('#surprise_box').hide();
-               $j('#surprise_result').css("display","block");
-             }, 2700);
-
-
-              <?php ##Realizo el efecto para mostrar la caja sorpresa al usuario ?>
-
-
-
+              <?php ##si es un video, habilito el modulo de premios y muestro mi premio! ?>
+              if (respuestas[0]==<?php echo $this->config->item('tipos_premio_video'); ?>) {
+               if (respuestas[6]=='mostrar_video') {
+                $('#mimodulopremio').show();
+              }
             }
-            <?php #si hubo error es porque ya tiene el premio y solo continua con el siguiente modulo o curso ?> 
-            else {
+
+            $('.box > p > span').html(respuestas[3]);
+
+            $('.box > .premio_img > #surprise_result').attr('src',respuestas[2]);
+
+            $('.box > .share_block > .share_icons >li > a').eq(0).attr('href',respuestas[4]);
+            $('.box > .share_block > .share_icons >li > a').eq(1).attr('href',respuestas[5]);
 
 
-              if ( $('.modulo_actual').parent().next().attr('id')=='mimodulopremio' )  {
+
+            $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+            $j('.box').animate({'opacity':'1.00'}, 300, 'linear');
+            $j('.box').animate({'top':'20%'}, 1500, 'easeOutElastic');
+            $j('.backdrop, .box').css('display', 'block');
+            $j('#sound-1a').get(0).play();
+            setTimeout(function(){
+             $j('#surprise_box').hide();
+             $j('#surprise_result').css("display","block");
+           }, 2700);
+
+            $('.modulo_actual').parent().next().attr('href',$('.modulo_actual').parent().next().attr('id'));
+            <?php ##Realizo el efecto para mostrar la caja sorpresa al usuario ?>
+
+
+
+          }
+          <?php #si hubo error es porque ya tiene el premio y solo continua con el siguiente modulo o curso ?> 
+          else {
+
+
+            if ( $('.modulo_actual').parent().next().attr('id')=='mimodulopremio' )  {
               <?php ### consulto por ajax si ya tiene todos los modulos realizados (vistos) para ver la posibilidad de generar el certificado
                     ### de lo contrario, mostrará un alerta informando que no ha terminado en su totalidad de los modulos y actividades. ?>
 
@@ -1215,68 +1234,69 @@ $('.next_btn').click(function(event) {
                            str=result;
                            var mispuntos=Number($j('.mis_puntos').html());
                            mispuntos=Number(Number(mispuntos)+Number(str));
-                           $j('.mis_puntos').html(mispuntos);
+//                           $j('.mis_puntos').html(mispuntos);
+points('.mis_puntos',Number($('.mis_puntos').html()),mispuntos);
 
-                           <?php ## muestro efecto de ganar puntos cuando termino el certificado solo version estandar ?>
-                           var titulo_certificado=$('.encabezado_wrap > p').html();
-                           var categoria_certificado=$('.encabezado_wrap > h6').html();
-                           <?php ### contruyo el popup para el certificado del usuario ?>
-                           $('.box4').css({'height':'325px'});
-                           $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
-                           $('.box4 > .motivo_medalla').html('Has finalizado y aprobado con éxito tu curso de  '+titulo_certificado+",ganaste "+str+" puntos por tu esfuerzo y dedicación.");
-                           $('.box4 > .premio_img > #surprise_result > span').hide();
-                           $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
-                           $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-                           $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
-                           $j('.backdrop, .box4').css('display', 'block');
-                           $j('#sound-1d').get(0).play();
-                           $j('#surprise_result4').css("display","block");
-
-
-
-
-                         }
-
-                         else {
-
-
-
-                          <?php ## si sale error es porque ya tengo los puntos y debo mostrar el mensaje otra vez ?>
-                          var titulo_certificado=$('.encabezado_wrap > p').html();
-                          var categoria_certificado=$('.encabezado_wrap > h6').html();
-                          <?php ### contruyo el popup para el certificado del usuario ?>
-                          $('.box4').css({'height':'325px'});
-                          $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
-                          $('.box4 > .motivo_medalla').html('Has finalizado y aprobado con éxito tu curso de  '+titulo_certificado+".");
-                          $('.box4 > .premio_img > #surprise_result > span').hide();
-                          $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
-                          $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-                          $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
-                          $j('.backdrop, .box4').css('display', 'block');
-                          $j('#sound-1d').get(0).play();
-                          $j('#surprise_result4').css("display","block");
+<?php ## muestro efecto de ganar puntos cuando termino el certificado solo version estandar ?>
+var titulo_certificado=$('.encabezado_wrap > p').html();
+var categoria_certificado=$('.encabezado_wrap > h6').html();
+<?php ### contruyo el popup para el certificado del usuario ?>
+$('.box4').css({'height':'325px'});
+$('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
+$('.box4 > .motivo_medalla').html('Has finalizado y aprobado con éxito tu curso de  '+titulo_certificado+",ganaste "+str+" puntos por tu esfuerzo y dedicación.");
+$('.box4 > .premio_img > #surprise_result > span').hide();
+$j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+$j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+$j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+$j('.backdrop, .box4').css('display', 'block');
+$j('#sound-1d').get(0).play();
+$j('#surprise_result4').css("display","block");
 
 
 
 
-                        }
+}
+
+else {
+
+
+
+  <?php ## si sale error es porque ya tengo los puntos y debo mostrar el mensaje otra vez ?>
+  var titulo_certificado=$('.encabezado_wrap > p').html();
+  var categoria_certificado=$('.encabezado_wrap > h6').html();
+  <?php ### contruyo el popup para el certificado del usuario ?>
+  $('.box4').css({'height':'325px'});
+  $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
+  $('.box4 > .motivo_medalla').html('Has finalizado y aprobado con éxito tu curso de  '+titulo_certificado+".");
+  $('.box4 > .premio_img > #surprise_result > span').hide();
+  $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+  $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+  $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+  $j('.backdrop, .box4').css('display', 'block');
+  $j('#sound-1d').get(0).play();
+  $j('#surprise_result4').css("display","block");
 
 
 
 
-                      },
-                      complete:function(result){              
-                        console.log ("complete\n");
+}
 
-                      },
-                      beforeSend:function(result){                
-                        console.log ("beforeSend\n");
-                      },
-                      ajaxStop:function(result){              
-                        console.log ("ajaxStop\n");
-                      }
 
-                    });
+
+
+},
+complete:function(result){              
+  console.log ("complete\n");
+
+},
+beforeSend:function(result){                
+  console.log ("beforeSend\n");
+},
+ajaxStop:function(result){              
+  console.log ("ajaxStop\n");
+}
+
+});
 
 
 
@@ -1491,17 +1511,32 @@ jQuery.ajax({
   },
   success:function(result){               
     console.log ("success\n");
-    $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
-  },
-  complete:function(result){              
-    console.log ("complete\n");
-  },
-  beforeSend:function(result){                
-    console.log ("beforeSend\n");
-  },
-  ajaxStop:function(result){              
-    console.log ("ajaxStop\n");
+
+    if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('type')=='foro' ) {
+
+      if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('userby')=='3') {
+       $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on_est').removeClass('off').removeClass('off_est');
+     }
+     else {
+      $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
+    }
+
   }
+
+  else { 
+    $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
+  }
+
+},
+complete:function(result){              
+  console.log ("complete\n");
+},
+beforeSend:function(result){                
+  console.log ("beforeSend\n");
+},
+ajaxStop:function(result){              
+  console.log ("ajaxStop\n");
+}
 
 });
 
@@ -1571,17 +1606,35 @@ jQuery.ajax({
   },
   success:function(result){               
     console.log ("success\n");
-    $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
-  },
-  complete:function(result){              
-    console.log ("complete\n");
-  },
-  beforeSend:function(result){                
-    console.log ("beforeSend\n");
-  },
-  ajaxStop:function(result){              
-    console.log ("ajaxStop\n");
-  }
+
+
+    if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('type')=='foro' ) {
+
+      if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('userby')=='3') {
+       $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on_est').removeClass('off_est').removeClass('off');
+     }
+
+     else {
+       $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
+     }
+
+
+   }
+
+   else {
+     $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
+   }
+
+ },
+ complete:function(result){              
+  console.log ("complete\n");
+},
+beforeSend:function(result){                
+  console.log ("beforeSend\n");
+},
+ajaxStop:function(result){              
+  console.log ("ajaxStop\n");
+}
 
 });
 
@@ -1644,17 +1697,35 @@ jQuery.ajax({
   },
   success:function(result){               
     console.log ("success\n");
-    $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
-  },
-  complete:function(result){              
-    console.log ("complete\n");
-  },
-  beforeSend:function(result){                
-    console.log ("beforeSend\n");
-  },
-  ajaxStop:function(result){              
-    console.log ("ajaxStop\n");
-  }
+
+
+    if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('type')=='foro' ) {
+
+      if ( $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').attr('userby')=='3') {
+       $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on_est').removeClass('off_est');
+     }
+
+     else {
+       $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
+     }
+
+   }
+
+   else {
+     $('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').addClass('on').removeClass('off');
+   }
+
+
+ },
+ complete:function(result){              
+  console.log ("complete\n");
+},
+beforeSend:function(result){                
+  console.log ("beforeSend\n");
+},
+ajaxStop:function(result){              
+  console.log ("ajaxStop\n");
+}
 
 });
 
@@ -1965,7 +2036,9 @@ if (if_error==0) {
 
        var mis_puntosx=Number($('.mis_puntos').html());
        var puntos_sumar=datos[0].replace("+","").replace(" puntos","");  
-       $('.mis_puntos').html(datos[3]);
+       //$('.mis_puntos').html(datos[3]);
+       points('.mis_puntos',mis_puntosx,datos[3]);
+
        $j('.actividad_eval h3').html(datos[0].replace(" puntos",""));
 
 
@@ -2174,7 +2247,11 @@ jQuery.ajax({
 
       var puntito=Number(puntos);
 
-      $('.mis_puntos').html( Number( Number($('.mis_puntos').html())+Number(puntito)) );
+      //$('.mis_puntos').html( Number( Number($('.mis_puntos').html())+Number(puntito)) );
+
+      points('.mis_puntos',Number($('.mis_puntos').html()),Number( Number($('.mis_puntos').html())+Number(puntito)));
+
+
       <?php ##doy permiso para que pueda ver la siguiente actividad ?>
       $("#act_btn_"+actividad_barra).next().attr('next','ok');
 
@@ -2248,7 +2325,11 @@ function continuar (id_actividades_barra) {
        $('.sp3').html(op[2]);
        $('.sp4').html(op[3]);
        $('.sp5').html('+'+op[0]);
-       $('.mis_puntos').html(op[4]);
+       //$('.mis_puntos').html(op[4]);
+
+       points('.mis_puntos',Number($('.mis_puntos').html()),op[4]);
+
+
        $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
        $j('.box3').animate({'opacity':'1.00'}, 300, 'linear');
        $j('.box3').animate({'top':'20%'}, 1500, 'easeOutElastic');
@@ -2293,9 +2374,11 @@ $('#respuesta'+id_actividades_barra+" > .evaluacion_wrap > .volver").hide();
 
 
 $( function() {
-
+  <?php ##logritop ?>
   $('.act_block').click(function(event) {
    event.preventDefault();
+
+   if ( $('.act_actual').attr('type')=='foro') { $('.act_actual').next().attr('next','ok'); }
 
    if ($(this).prev().attr('id'))  {
      var idbarra=$(this).prev().attr('id').replace('act_btn_','');
@@ -2628,7 +2711,7 @@ $j('.actividad_aprobada').click(function(){
        $('.sp4').html(op[3]);
        $('.sp5').html('+'+op[0]);
 
-       $('.mis_puntos').html(op[4]);
+       points('.mis_puntos',Number($('.mis_puntos').html()),op[4]);
 
        $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
        $j('.box3').animate({'opacity':'1.00'}, 300, 'linear');
@@ -2718,6 +2801,8 @@ function close_box()
                 data = new Object;
                 data.pregunta=$('#pregunta').val();
                 data.id_cursos=<?php echo $this->uri->segment(3); ?>;
+                data.id_modulos=<?php echo $this->uri->segment(4); ?>;
+                data.id_actividades_barra=$('.act_actual').attr('id').replace('act_btn_','');
 
 
                 jQuery.ajax({
@@ -2864,24 +2949,26 @@ $('.meencantar').click(function(event) {
       <?php ## muestro que tengo una notificacion ?>
       if (rtas[1]==0)  {} else { $('.noti_numero').show().html(rtas[1]); }
       <?php ## muestro los puntos actuales que tengo en ese momento ?>
-      $('.mis_puntos').show().html(rtas[2]);
+     // $('.mis_puntos').show().html(rtas[2]);
+     $('.mis_puntos').show();
+     points('.mis_puntos',Number($('.mis_puntos').html()),rtas[2]);
 
-      $('#'+data.id_actividades_mensaje+'meencanta_estudiante').html(rtas[0]);
-      $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().parent().parent().parent().parent().attr('data-sid',rtas[0]);
-      $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().parent().parent().parent().parent().attr('id',rtas[0]);
+     $('#'+data.id_actividades_mensaje+'meencanta_estudiante').html(rtas[0]);
+     $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().parent().parent().parent().parent().attr('data-sid',rtas[0]);
+     $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().parent().parent().parent().parent().attr('id',rtas[0]);
 
-      if ($('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().hasClass('kudos'))  {
-        $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().addClass('kudos_off').removeClass('kudos');
-      }
+     if ($('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().hasClass('kudos'))  {
+      $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().addClass('kudos_off').removeClass('kudos');
+    }
 
-      else {
-        $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().addClass('kudos').removeClass('kudos_off');
-      }
+    else {
+      $('#'+data.id_actividades_mensaje+'meencanta_estudiante').parent().addClass('kudos').removeClass('kudos_off');
+    }
 
 
 
-      var $container = $j('.disc_estudiantes').isotope({
-        layoutMode: 'vertical',
+    var $container = $j('.disc_estudiantes').isotope({
+      layoutMode: 'vertical',
     //sortBy: 'mencantas_estudiantes_todos', sortAscending : false,
     getSortData: {
 
@@ -2891,7 +2978,7 @@ $('.meencantar').click(function(event) {
   });
 
 
-      $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
+    $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
 //   $container.isotope({ sortBy: 'mencantas_estudiantes_todos', sortAscending : false });
 
 
@@ -3125,6 +3212,10 @@ $('.sharerpoint').click(function(event) {
         $('.notificaciones_wrap > ul').html(respuestas[0]);
         $('.noti_numero').html(respuestas[1]).show();
         $('.mis_puntos').html(respuestas[2]);
+
+        points('.mis_puntos',Number($('.mis_puntos').html()),respuestas[2]);
+
+
       }
     },
     complete:function(result){              
@@ -3232,7 +3323,14 @@ $('#twlink').click(function(event) {
       }
 
 
-
+      function points(clase,inicio,final){
+        $j(clase).countTo({
+          from: inicio,to:final,speed: 1500,refreshInterval: 50,
+          onComplete: function(value) {
+            console.debug(this);
+          }
+        });
+      }
 
 
 

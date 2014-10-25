@@ -201,8 +201,8 @@ public function get_notificaciones ($id_usuarios,$id_estados=null,$limit=null) {
 	$this->db->where( "notificaciones.id_usuarios",$id_usuarios ); 
 	$query = $this->db->get("notificaciones");
 	return $query->result();
-
 }
+
 
 
 ##funcion que trae las notificaciones
@@ -217,6 +217,32 @@ public function get_notificaciones_count ($id_usuarios,$id_estados=null,$limit=n
 	return $con;
 
 }
+
+
+
+##funcion que trae los mensajes
+public function get_mensajes ($id_usuarios,$id_estados=null,$limit=null) {
+	if ($limit) { $this->db->limit($limit); }
+	if ($id_estados) { $this->db->where( "mensajes.id_estados",$id_estados ); }
+	$this->db->order_by("mensajes.fecha_creado", "desc"); 
+	$this->db->where( "mensajes.id_usuarios",$id_usuarios ); 
+	$query = $this->db->get("mensajes");
+	return $query->result();
+
+}
+
+
+
+
+## funcion para tener la pregunta del mensaje
+public function get_pregunta_mensaje ($id_mensajes) {
+	$this->db->where('mensajes.id_mensajes',$id_mensajes);
+	$query = $this->db->get('mensajes');
+	$resultados=$query->row();
+	return $resultados;
+}
+
+
 
 
 

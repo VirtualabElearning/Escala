@@ -328,7 +328,7 @@ class Model_Cursos extends CI_Model{
 ##obtengo el listado de actividades de un modulo
 	public function get_docente($id_usuarios) {
 		$this->db->where('usuarios.id_estados',$this->config->item('estado_activo'));
-		$this->db->select('usuarios.nombres,usuarios.apellidos,usuarios.foto,usuarios.correo,usuarios.identificacion,usuarios.resumen_de_perfil');
+		$this->db->select('usuarios.id_roles,usuarios.nombres,usuarios.apellidos,usuarios.foto,usuarios.correo,usuarios.identificacion,usuarios.resumen_de_perfil');
 		$this->db->where('usuarios.id_usuarios',$id_usuarios);
 		$query = $this->db->get('usuarios');
 		$resultados=$query->row();
@@ -1098,6 +1098,14 @@ class Model_Cursos extends CI_Model{
     }
 
 
+
+#$this->db->join('modulos', 'cursos.id_cursos = certificados.id_cursos');
+
+
+
+
+    
+
     ### funcion para obtener los modulos realizados del curso actual y del usuario actual
     public function get_modulos_curso_realizados ($id_usuarios,$id_modulos_lista) {
     	$this->db->where_in('modulos_vistos.id_modulos', $id_modulos_lista);
@@ -1157,6 +1165,22 @@ class Model_Cursos extends CI_Model{
     	$resultados=$query->row();
     	return $resultados;
     }
+
+
+
+
+ ## funcion que consulta si ya esta pago o no el curso
+    public function get_if_curso_pago ($id_cursos,$id_usuarios) {
+    	$this->db->where('pagos_realizados.id_cursos',$id_cursos);
+    	$this->db->where('pagos_realizados.id_usuarios',$id_usuarios);
+    	$this->db->where('pagos_realizados.id_estados',$this->config->item('estado_pagado'));
+    	$query = $this->db->get('pagos_realizados');
+    	$resultados=$query->row();
+    	#echo $this->db->last_query();
+    	return $resultados;
+    }
+
+
 
 
 

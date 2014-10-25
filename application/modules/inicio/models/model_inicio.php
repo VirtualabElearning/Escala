@@ -49,7 +49,16 @@ class Model_inicio extends CI_Model{
 
 
 
+	#funcion para obtener los cursos asignados del docente
+	public function cursos_list_doc($id_usuarios) {
+		$this->db->where('cursos.id_estados',$this->config->item('estado_activo'));
+		$this->db->like('cursos.instructores_asignados', '"'.$id_usuarios.'"'); 
+		$query = $this->db->get('cursos');
+		$resultados=$query->result();
+		#echo $this->db->last_query();
+		return $resultados;
+	}
+
+
 
 }
-
-

@@ -12,7 +12,7 @@ class Root extends CI_Controller {
 		if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/'.base64_encode(current_url()) );  }
 		
 		/* configuracion generica del modulo */
-		$this->variables=array('modulo'=>'mensajes','id'=>'id_mensajes','modelo'=>'model_mensajes');
+		$this->variables=array('modulo'=>'pagos_realizados','id'=>'id_pagos_realizados','modelo'=>'model_pagos_realizados');
 
 		$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
 		$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  if (!in_array($this->session->userdata('id_roles'), $this->variables['mispermisos'])) {  redirect( 'inicio/root'); }   	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
@@ -30,8 +30,7 @@ class Root extends CI_Controller {
 		/* Cargo variables globales */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data['mispermisos']=$variables['mispermisos'];
-		$this->load->model('model_mensajes');
-
+		
 		$data['titulo']=$variables['modulo'];
 		$data['menus']=$this->model_generico->menus_root_categorias();
 		foreach ($data['menus'] as $key => $value) {
@@ -39,9 +38,18 @@ class Root extends CI_Controller {
 
 		}
 		/* Llamo ala funcion generica para traer el listado de informacion del modulo */
-		$data['lista']=$this->model_mensajes->listado($this->session->userdata('id_usuario'),$variables['modulo'],'',array('mensajes.orden','asc'));
+		$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
+
+
+		
+
+
+
+
+
+		
 		/* Envio header de la tabla de los campos que necesito mostrar */
-		$data['titulos']=array("Orden","ID","Foto","Nombres","Apellidos","Curso","Mensaje","Estado","Opciones");
+		$data['titulos']=array("Orden","ID","Usuario","Curso","Valor","Estado","Opciones");
 		/* Cargo vista de listado de informacion */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
@@ -50,8 +58,6 @@ class Root extends CI_Controller {
 	public function nuevo()
 	{
 		/* Cargo variables globales del modulo*/
-		$this->load->model('model_mensajes');
-		$id_usuarios=$this->session->userdata('id_usuario');
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data['menus']=$this->model_generico->menus_root_categorias();
 		foreach ($data['menus'] as $key => $value) {
@@ -61,38 +67,9 @@ class Root extends CI_Controller {
 		/* Titulo = nombre del modulo */
 		$data['titulo']=$variables['modulo'];
 
-
-		## cargo los cursos asignados al docente.
-		$miscursos_doc=$this->model_mensajes->cursos_list_doc($id_usuarios);
-
-		#krumo ($miscursos_doc); exit;
-
-		$data['mis_cursos']=$miscursos_doc;
-
 		/* Cargo vista del modulo */
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 	}
-
-
-	## funcion para traer a todos los estudiantes de un curso determinado.
-	function get_estudiantes_curso ($id_cursos) {
-		$this->load->model('model_mensajes');
-		$estudiantes_lista=$this->model_mensajes->get_estudiantes_curso($id_cursos);
-		$html="";
-
-		foreach ($estudiantes_lista as $key => $value) {
-		#	$html.='<option value="'.$value->id_usuarios.'">'.$value->identificacion.'  | '.$value->nombres.' '.$value->apellidos.'</option>';
-			$html.='<option value="'.$value->id_usuarios.'">'.$value->nombres.' '.$value->apellidos.'</option>';
-
-
-		}
-
-
-		echo $html;
-
-	}
-
-
 
 	/* FUNCION GUARDAR INFORMACION */
 	public function guardar()
@@ -114,8 +91,6 @@ class Root extends CI_Controller {
 
 			if ($id)  { $this->editar($id); } else { $this->nuevo();  }
 			
-
-
 		}
 
 		else {
@@ -137,101 +112,6 @@ class Root extends CI_Controller {
 			redirect($accion_url);
 		}
 	}
-
-
-## funcion para responder el mensaje del estudiante que ha escrito a su docente
-	public function enviar()
-
-	{ /* Cargo variables globales */
-		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-
-		/* asigno variable id de lo que voy  aguardar (solo si es modo editar) */
-		$id=$this->input->post ('id');
-
-		/* Validaciones  basicas de lo que voy a enviar el mensaje */
-		$this->form_validation->set_rules('id_usuarios', 'id_usuarios', 'required|xss_clean');
-		$this->form_validation->set_rules('mensaje', 'Mensaje', 'required|xss_clean');
-		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
-
-
-
-
-
-		/* Si existe error en las validaciones, los muestra */
-		if($this->form_validation->run() == FALSE)
-		{ 
-
-
-echo validation_errors(); exit;
-
-
-			if ($id)  { $this->editar($id); echo validation_errors(); } else { $this->nuevo();  }
-			
-		}
-
-		else {
-			/* Asigno en array los valores de los campos llegados por el formulario */
-			$data = array(
-				'id_usuarios' => $this->input->post ('id_usuarios'),
-				'mensaje' => $this->input->post ('mensaje'),
-				'id_estados' => $this->config->item('estado_no_leido'),
-				'id_cursos' => $this->input->post ('id_cursos'),
-				'id_modulos' => $this->input->post ('id_modulos'),
-				'id_actividades_barra' => $this->input->post ('id_actividades_barra'),
-				'id_mensajes_parent' => $id,
-				);
-
-			/* Si tiene id, es porque es de editar y guarda la fecha de modificacion, de lo contrario, guarda fecha modificado y creado */
-			if ($id) { 
-				#$data[$variables['id']]=$id; 
-				$data['fecha_modificado']=date('Y-m-d H:i:s',time()); 
-				$data['id_usuario_modificado']=$this->session->userdata('id_usuario');  
-				$data['fecha_modificado']=date('Y-m-d H:i:s',time()); 
-				$data['id_usuario_modificado']=$this->session->userdata('id_usuario'); 
-				$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
-				$data['id_usuario_creado']=$this->session->userdata('id_usuario'); 
-			}  
-
-			## es porque es un mensaje directo
-			else {
-				$data['id_cursos'] = $this->input->post ('id_cursos');
-				$data['id_usuarios'] = $this->input->post ('id_usuarios');
-				$data['mensaje'] = $this->input->post ('mensaje');
-				$data['id_estados'] = $this->input->post ('id_estados');
-				$data['fecha_modificado']=date('Y-m-d H:i:s',time()); 
-				$data['id_usuario_modificado']=$this->session->userdata('id_usuario');  
-				$data['fecha_modificado']=date('Y-m-d H:i:s',time()); 
-				$data['id_usuario_modificado']=$this->session->userdata('id_usuario'); 
-				$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
-				$data['id_usuario_creado']=$this->session->userdata('id_usuario'); 
-
-			}
-
-			/* Guardo el mensaje al usuario como no leido */
-
-			#krumo ($data); exit;
-
-			$idx=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],""));
-			##actualizo el mensaje del estudiante según estado seleccionado por el docente
-
-			if ($id) {
-				$data2 = array('id_estados' => $this->input->post ('id_estados'));
-				$id=$this->model_generico->guardar($variables['modulo'],$data2,$variables['id'],array($variables['id'],$id));
-			}
-
-
-			/* Redirecciono al listado */
-			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';
-			redirect($accion_url);
-		}
-	}
-
-
-
-
-
-
-
 
 
 // funcion para validar datos en cascada
@@ -256,23 +136,6 @@ echo validation_errors(); exit;
 
 	}
 
-
-
-	public function leido ($id_mensajes,$id_estados) {
-		$this->load->model('model_mensajes');
-		$data=array();
-		if ($id_estados==$this->config->item('estado_no_leido')) {
-			$data['id_estados']=$this->config->item('estado_leido');
-		}
-		else {
-			$data['id_estados']=$this->config->item('estado_no_leido');
-		}
-
-		$this->model_mensajes->update_mensaje_estado($id_mensajes,$data);
-
-		redirect($this->uri->segment(1)."/".$this->uri->segment(2));
-
-	}
 
 
 
@@ -324,38 +187,6 @@ echo validation_errors(); exit;
 		$this->load->view('root/view_'.$variables['modulo'].'_editar',$data);
 
 	}
-
-
-
-	/*FUNCION RESPONDER */
-	public function responder($id,$error_extra=null)
-	{
-		/*Cargo variables globales*/
-		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-		$data['titulo']=$variables['modulo'];
-		$data['menus']=$this->model_generico->menus_root_categorias();
-		foreach ($data['menus'] as $key => $value) {
-			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
-
-		}
-		/*LLamo funcion para cargar informacion detalle para editarlo*/
-		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
-
-
-		$data['detalle']->datos_usuario=$this->model_generico->detalle('usuarios',array('id_usuarios'=>$data['detalle']->id_usuario_creado));
-
-
-
-
-
-		/*En caso de algun error extra, lo llevo a la vista para cargarlo*/
-		$data['error_extra']=$error_extra;
-		/*Llamo a la vista de edicion*/
-		$this->load->view('root/view_'.$variables['modulo'].'_responder',$data);
-
-	}
-
-
 
 	/*FUNCION ORDENAR PARA EL LISTADO (ordena con arrastrar y soltar filas de la tabla de listado)*/
 	public function ordenar()

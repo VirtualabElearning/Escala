@@ -31,12 +31,16 @@ class Root extends CI_Controller {
 
 		### docente
 		if ($this->session->userdata('id_roles')==2) {
-			
+			$id_usuarios=$this->session->userdata('id_usuario');	
  			## consulto los mensajes del docente
 			$mensajes_lista=$this->model_inicio->get_mensajes_docente($this->session->userdata('id_usuario'));
 			$data['mensajes_count']=count($mensajes_lista);
 			$data['mensajes']=$mensajes_lista;
 
+
+
+			$miscursos_doc=$this->model_inicio->cursos_list_doc($id_usuarios);
+			$data['mis_cursos']=$miscursos_doc;
 			$this->load->view('root/view_inicio_docente',$data);
 		}
 
