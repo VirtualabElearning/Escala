@@ -21,26 +21,25 @@
   
 
 
+  <section class="encabezado2 clear">
+    <div class="encabezado2_wrap">
+      <h6>Subscripción</h6>
+      <p>Respuesta de tu transacci&oacute;n</p>
+      <div class="circle">
+        <div class="circle_wrap">
+          <img alt="" src="html/site/img/icono_19.png">
+        </div>
+      </div>
+    </div>            
+  </section>
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  <section id="pago">
-    <div class="pago_wrap">
+  <section class="aula">
+    <div class="aula_wrap clear">
       <?php
       $ApiKey=$this->config->item('llave_encripcion');
 
@@ -83,6 +82,31 @@ else
   {$estadoTx=$_REQUEST['mensaje'];}
 if(strtoupper($firma)==strtoupper($firmacreada)){//comparacion de las firmas para comprobar que los datos si vienen de PayU.
   ?>
+  
+
+  <?php if($_REQUEST['transactionState'] == 4 && $_REQUEST['polResponseCode'] == 1) { ?>
+  <div  class="sus_col3">
+    <h2> <?php echo $estadoTx; ?> </h2>
+    <h3>Usuario Premium</h3>
+    <h4>Tu suscripción fué exitosa.</h4>
+  </div>
+
+  <?php  ?>
+  <?php ## mensaje fallido u otro mensaje negativo ?>
+  <?php } else { ?>
+
+  <div class="sus_col4">
+    <h2><?php echo $estadoTx; ?> </h2>
+    <h3>Usuario Premium</h3>
+    <h4>Revisar la información proporcionada o contacta al area de soporte para solucionar cualquier inquietud.</h4>
+  </div>
+
+  <?php } ?>
+
+
+
+<?php /* ?>
+
   <h2>Resumen Transacción</h2>
   <table style="width:40%; border-spacing:1;">
     <tr>
@@ -134,18 +158,20 @@ if(strtoupper($firma)==strtoupper($firmacreada)){//comparacion de las firmas par
           </tr>
 
         </table>
+        <?php */ ?>
 
 
+        <?php if($_REQUEST['transactionState'] == 4 && $_REQUEST['polResponseCode'] == 1) { ?>
+        <?php /* ?>
+        <div onclick="window.print();" class="imprimir_recibo">Imprimir recibo</div>
+        <?php */ ?>
+        <a href="cursos/detalle/<?php echo $curso_comprado->id_cursos; ?>/<?php echo amigable($curso_comprado->titulo); ?>.html"> <div class="ver_curso">Ver curso</div> </a>  
+        <?php  ?>
 
-<?php if($_REQUEST['transactionState'] == 4 && $_REQUEST['polResponseCode'] == 1) { ?>
-      <div class="boton1">  <a onclick="window.print();"> <div class="curso_btn "> Imprimir Recibo </div> </a> </div>
-       <div class="boton2"> <a href="cursos/detalle/<?php echo $curso_comprado->id_cursos; ?>/<?php echo amigable($curso_comprado->titulo); ?>.html"> <div class="curso_btn "> Ver mi curso </div> </a>  </div>
-   <?php } ?>
-<?php ## estados negativos de pago ?>
-<?php if(($_REQUEST['transactionState'] == 6 && $_REQUEST['polResponseCode'] == 4) || ($_REQUEST['transactionState'] == 6 && $_REQUEST['polResponseCode'] == 5) )
-  { ?>
- <a href="cursos/detalle/<?php echo $curso_a_comprar->id_cursos; ?>/<?php echo amigable($curso_comprado->titulo); ?>.html"> <div class="curso_btn "> Volver a intentar </div> </a>
-<?php } ?>
+        <?php ## estados negativos de pago ?>
+        <?php } else { ?>
+        <a href="cursos/detalle/<?php echo $curso_a_comprar->id_cursos; ?>/<?php echo amigable($curso_comprado->titulo); ?>.html"> <div class="imprimir_recibo"> Volver a intentar </div> </a>
+        <?php } ?>
 
 
 
@@ -167,33 +193,7 @@ if(strtoupper($firma)==strtoupper($firmacreada)){//comparacion de las firmas par
 
       </div>
 
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </section>
 
 
 

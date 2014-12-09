@@ -27,8 +27,10 @@ if (!function_exists('generar_campos_actividad')) {
 				case '2':  # foro
 				$error=form_error('image', '<div class="mensaje_error">', '</div>');
 				echo hidden_actividades('id_actividades_foro','id_actividades_videos',@$datos_actividad->id_actividades_foro);
-				echo editor_actividades ("Discusión","contenido_foro","contenido_foro","Ingrese el contenido del foro",@$datos_actividad->contenido_foro );
-				echo input_foto_actividades ('Foto','actividades_foro',@$datos_actividad->foto,$error);
+				#echo editor_actividades ("Discusión","contenido_foro","contenido_foro","Ingrese el contenido del foro",@$datos_actividad->contenido_foro );
+				echo textarea_actividades ("Discusión","contenido_foro","contenido_foro","Ingrese el contenido del foro",@$datos_actividad->contenido_foro );
+				
+				#echo input_foto_actividades ('Foto','actividades_foro',@$datos_actividad->foto,$error);
 				
 
 
@@ -287,6 +289,23 @@ if (!function_exists('generar_campos_actividad')) {
 			}
 
 		}
+
+
+
+			if (!function_exists('textarea_actividades')) {
+				function textarea_actividades ($texto,$id,$nombre,$placeholder,$valor=null)  {
+					$html = ' <div class="form-group">
+					<label class="col-lg-1 control-label">'.$texto.'</label>
+					<div class="col-lg-6">
+						<textarea style="width: 533px; height: 123px;" id="'.$id.'" name="'.$nombre.'" placeholder="'.$placeholder.'">'.$valor.'</textarea>
+					</div>
+				</div> ';
+				return $html;
+			}
+
+		}
+
+
 
 		if (!function_exists('input_foto_actividades')) {
 

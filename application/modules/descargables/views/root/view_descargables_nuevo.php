@@ -76,16 +76,18 @@
 										<div class="form-group">
 											<div class="col-lg-offset-2 col-lg-6">
 												<button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>
-												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
+												<a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
 											</div>
 										</div>
-										<?php if ($this->uri->segment(4)): ?>
-											<?=form_hidden('id_modulos',$this->uri->segment(4))?>
+										<?php if ($this->uri->segment(5)): ?>
+											<?=form_hidden('id_modulos',$this->uri->segment(5))?>
+											<?=form_hidden('id_cursos',$this->uri->segment(4))?>
 										<?php endif ?>
 										
 
 										<?php if ($this->input->post('id_modulos')): ?>
 											<?=form_hidden('id_modulos',$this->input->post('id_modulos'))?>
+											<?=form_hidden('id_cursos',$this->input->post('id_cursos'))?>
 										<?php endif ?>
 										
 

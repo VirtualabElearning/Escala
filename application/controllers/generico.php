@@ -42,6 +42,8 @@ class Generico extends CI_Controller {
    $this->db->empty_table('notificaciones'); 
    $this->db->empty_table('puntaje'); 
    $this->db->empty_table('recompensas_aleatorias_usuarios'); 
+   $this->db->empty_table('pagos_realizados'); 
+   $this->db->empty_table('mensajes'); 
 
    echo "Datos borrados!";
 

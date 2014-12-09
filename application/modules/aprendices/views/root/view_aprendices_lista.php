@@ -28,9 +28,9 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-      
+
            <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
-     <a target="_blank" href="<?php echo $this->uri->segment(1); ?>/root/exportar" class="btn btn-primary btn-xs"><i class="fa"></i> Exportar</a>
+           <a target="_blank" href="<?php echo $this->uri->segment(1); ?>/root/exportar" class="btn btn-primary btn-xs"><i class="fa"></i> Exportar</a>
            <div class="widget">
             <div class="widget-head">
               <div class="pull-left"><?php echo $titulo; ?></div>
@@ -59,6 +59,7 @@
                            <td><?php echo $value->orden; ?></td>
                            <td><?php echo $value->id_usuarios; ?></td>
                            <td><?php echo $value->nombre; ?></td>
+                           <?php if ($value->foto=='') { $value->foto='../../html/site/img/sin_foto.png'; } ?>
                            <td><img class="foto_img" src="escalar.php?src=<?php echo base_url().'uploads/'.$carpeta.'/'.$value->foto; ?>&w=126&h=126&zc=1" alt="img"/></td>
                            <td><?php echo $value->nombres; ?></td>
                            <td><?php echo $value->apellidos; ?></td>
@@ -116,10 +117,12 @@
       <div class="modal-footer">
        <button type="button" class="btn btn-primary" id="borrar">Confirmar</button>
        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-
-     </div>
-   </div>
- </div>
+       <label class="checkbox-inline">
+        <input type="checkbox" name="seguro" id="seguro" value="">Estoy seguro de borrar la información. 
+      </label>
+    </div>
+  </div>
+</div>
 </div>
 <?php $this->load->view('view_admin_footer'); ?>
 
@@ -154,7 +157,15 @@
     .modal({ backdrop: 'static', keyboard: false })
     .one('click', '#borrar', function (e) {
       $('#id').val( idvar );
-      $('#borrar_form').submit(); 
+
+      if ($('#seguro').prop('checked')) { 
+        $('#borrar_form').submit(); 
+      }
+      else {
+        $('#borrar').next().click();
+        return false;
+      }
+
     });
   });
 

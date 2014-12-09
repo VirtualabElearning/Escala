@@ -65,4 +65,26 @@ class Model_mensajes extends CI_Model{
 
 
 
+#funcion para obtener los cursos asignados del docente
+	public function get_modulo($id_cursos) {
+		$this->db->where('modulos.id_estados',$this->config->item('estado_activo'));
+		$this->db->where('modulos.id_cursos',$id_cursos);
+		$query = $this->db->get('modulos');
+		$resultados=$query->row();
+		return $resultados;
+	}
+
+
+
+#funcion para obtener los cursos asignados del docente
+	public function get_activ_barra($id_modulos) {
+		$this->db->where('actividades_barra.id_estados',$this->config->item('estado_activo'));
+		$this->db->where('actividades_barra.id_modulos',$id_modulos);
+		$query = $this->db->get('actividades_barra');
+		$resultados=$query->row();
+		return $resultados;
+	}
+
+
+
 }

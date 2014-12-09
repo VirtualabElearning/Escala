@@ -196,6 +196,7 @@
 
                               <?php foreach (@$variables_respuestas as $variables_respuestas_key => $variables_respuestas_value): ?>
                                 <div class="col-lg-7">
+                                <input type="hidden" value="<?php if (@$variables_respuestas_value->id_texto) { echo $variables_respuestas_value->id_texto; } else { echo base64_encode( microtime() . rand() );   } ?>" name="id_texto<?php echo $contador_pregunta; ?>[]" id="id_texto<?php echo $contador_pregunta; ?>[]">
                                   <input type="text" value="<?php echo $variables_respuestas_value->texto; ?>" placeholder="Campo sin titulo 1" class="form-control" id="campo_pregunta<?php echo $contador_pregunta; ?>[]"  name="campo_pregunta<?php echo $contador_pregunta; ?>[]">    
                                   <input type="text" value="<?php echo $variables_respuestas_value->retroalimentacion; ?>" class="form-control retrotexto" name="retrotexto<?php echo $contador_pregunta; ?>[]" class="form-control texter" placeholder="Retroalimentacion 1">        
                                 </div>

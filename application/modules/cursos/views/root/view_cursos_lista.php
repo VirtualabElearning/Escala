@@ -7,7 +7,12 @@
   <!-- Title and other stuffs -->
   <title>Listado de <?php echo $titulo; ?> - Administrador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <?php $this->load->view('view_admin_css_js'); ?>
+  <?php $this->load->view('view_admin_css_js'); ?>  
+  <style>
+    .label {
+      font-size: 90%;
+    }
+  </style>
 </head>
 
 <body>
@@ -103,30 +108,54 @@
                       <?php foreach ($lista as $key => $value): ?>
 
                         <tr id="<?php echo $value->id_cursos; ?>">
+                        <?php /* ?>
                          <td><?php echo $value->orden; ?></td>
                          <td><?php echo $value->id_cursos; ?></td>
+                         <?php */ ?>
                          <td><?php echo $value->nombre_categoria; ?></td>
                          <td><?php echo $value->titulo; ?></td>
-                         <td><?php echo $value->Descripcion; ?></td>
+                         <td><?php echo truncate ($value->Descripcion,50); ?></td>
                          <td><?php echo $value->instructores_asignados_nombre; ?></td>
                          <?php /* ?>
                          <td><?php echo $value->tipo_plan; ?></td>
-                           <?php */ ?>
-                        
+                         <?php */ ?>
+
                          <td><?php if ($value->destacar==1)  { echo "Si"; } else { echo "No"; } ?></td>
                          <td><?php echo $value->estado_nombre; ?></td>
                          <td>  
 
                           <?php if (in_array($this->session->userdata('id_roles'), $if_modulos)) {  ?>
                           <a href="modulos/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-primary btn-xs"><i class="fa"></i> <?php echo asignar_frase_diccionario ($diccionario,'{modulo}','Módulos',2) ?> </a> 
+
+
+                          <a href="calificaciones/root/lista_estudiantes/<?php echo $value->id_cursos; ?>" class="btn btn-success btn-xs"><i class="fa"></i> <?php echo asignar_frase_diccionario ($diccionario,'{estudiante}','Estudiante',2) ?> </a> 
+
+
+
+                          
+
+
+
                           <?php } ?>
 
+                          <?php ### si soy docente!!! ?> 
+                          <?php if ($this->session->userdata('id_roles')==2 ): ?>
+                            <?php $if_clase_vivo=if_class_vivo($this->session->userdata('id_usuario'),$value->id_cursos); ?>
+                            <a href="#claseEnVivo" <?php if ($if_clase_vivo!=0 ): ?> id_c="<?php echo $if_clase_vivo; ?>"  <?php endif; ?> id="<?php echo $value->id_cursos; ?>" curso="<?php echo $value->titulo; ?>" data-toggle="modal" class="progra_envio btn btn-warning btn-xs"><i class="fa"></i>Clase en vivo</a> 
+
+
+                            <?php ## aqui agrego etiqueta de que es necesario calificar al menos 1 de éste curso ?>
+                            <?php $if_calif=if_calificar3($value->id_cursos); ?>
+                            <?php if ($if_calif>0): ?>
+                              <span class="label label-danger">Por calificar (<?php echo $if_calif; ?>)</span>
+                            <?php endif ?>
+                          <?php endif; ?>
 
 
 
 
                           <?php if (in_array($this->session->userdata('id_roles'), $if_competencias)) {  ?>
-                          <a href="competencias/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-success btn-xs"><i class="fa"></i>Competencias</a> 
+                          <a href="competencias/root/lista/<?php echo $value->id_cursos; ?>" class="btn btn-warning btn-xs"><i class="fa"></i>Competencias</a> 
                           <?php } ?>
 
 
@@ -209,11 +238,108 @@
       <div class="modal-footer">
        <button type="button" class="btn btn-primary" id="borrar">Confirmar</button>
        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-
-     </div>
-   </div>
- </div>
+       <label class="checkbox-inline">
+        <input type="checkbox" name="seguro" id="seguro" value="">Estoy seguro de borrar la información. 
+      </label>
+    </div>
+  </div>
 </div>
+</div>
+
+
+
+<?php ###################################### MODAL PARA GENERAR CLASE EN VIVO ###################################### ?>
+
+<div id="claseEnVivo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Generar Clase en Vivo <span><b></b></span></h4>
+      </div>
+
+
+      <div class="modal-body">
+       <form enctype="multipart/form-data" role="form" class="form-horizontal" accept-charset="utf-8" method="post" action="#">               
+
+        <div class="explicacion_c">Programa tu clase en vivo, ten en cuenta que solo es permitido una a la vez, después de haber finalizado ésta podrás programar la siguiente.</div>
+
+         <div class="form-group">
+          <label class="col-lg-2 control-label">Clase con</label>
+          <div class="col-lg-9">
+            <select name="clase_con" id="clase_con">
+              <option value="">Seleccione...</option>
+              <option value="1">Hangout</option>
+              <option value="2">GoToWebinar</option>
+            </select>
+          </div>
+        </div>   
+
+
+
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Codigo/Url</label>
+          <div class="col-lg-9">
+
+            <div id="clas1" class="clases">
+             <textarea placeholder="Ingrese el codigo/iframe del Hangout" rows="5" class="form-control" id="codigo_clase" name="codigo_clase"></textarea>
+           </div>
+
+
+           <div id="clas2" class="clases">
+            <input type="text" placeholder="Ingrese la url de la clase en vivo" class="form-control " id="url_clase" value="" name="url_clase">
+          </div>
+        </div>
+      </div>   
+
+
+
+
+
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Temática de la clase</label>
+        <div class="col-lg-9">
+          <textarea placeholder="Ingrese la Temática de la clase" rows="5" class="form-control" id="mensaje" name="mensaje"></textarea>
+          <div class="counter_mensanje"></div>
+        </div>
+      </div>  
+
+
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Fecha de la clase en vivo</label>
+        <div class="col-lg-9">
+          <div id="datetimepicker1" class="input-append input-group dtpicker">
+            <input data-format="yyyy-MM-dd" type="text" name="fecha_envio" id="fecha_envio" class="form-control">
+            <span class="input-group-addon add-on">
+              <i data-time-icon="fa fa-times" data-date-icon="fa fa-calendar"></i>
+            </span>
+          </div>
+        </div>
+      </div>       
+
+      <div class="form-group">
+        <label class="col-lg-2 control-label">Hora de la clase en vivo</label>
+        <div class="col-lg-9">
+         <div id="datetimepicker2" class="input-append input-group dtpicker">
+          <input data-format="hh:mm:ss" name="hora_envio" id="hora_envio" class="form-control" type="text">
+          <span class="input-group-addon add-on">
+            <i data-time-icon="fa fa-clock-o" data-date-icon="fa fa-calendar"></i>
+          </span>
+        </div>
+      </div>
+    </div>   
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" id="cerrar_envio" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+  <button type="button" class="btn btn-primary sender_envio" id="<?php echo $value->id_cursos; ?>">Programar y enviar</button>
+</div>
+
+</div>
+</div>
+</div>
+<?php ###################################### MODAL PARA GENERAR CLASE EN VIVO ###################################### ?>
 
 
 
@@ -253,9 +379,197 @@
     .modal({ backdrop: 'static', keyboard: false })
     .one('click', '#borrar', function (e) {
       $('#id').val( idvar );
-      $('#borrar_form').submit(); 
+
+
+      if ($('#seguro').prop('checked')) { 
+        $('#borrar_form').submit(); 
+      }
+      else {
+        $('#borrar').next().click();
+        return false;
+      }
+
+
     });
   });
+
+
+
+
+
+  $('#clase_con').on('change', function (event) {
+
+    if ($(this).val()=='1')  {
+      $('#clas1').show();
+      $('#clas2').hide();
+    }
+
+    else {
+      $('#clas2').show();
+      $('#clas1').hide();
+    }
+
+
+  });
+
+
+
+  $('.progra_envio').on('click', function (event) {
+
+   event.preventDefault();
+   $('.sender_envio').attr('id',$(this).attr('id'));
+
+   $('#claseEnVivo .modal-title span b').html( '"'+$(this).attr('curso')+'"' );
+
+
+
+
+   data = new Object;
+
+   jQuery.ajax({
+    url:'<?php echo base_url(); ?>cursos/root/getEnvio_Ajax/'+$('.sender_envio').attr('id'),
+    type: "post",
+    data:({
+      data:data
+    }),
+    ajaxSend:function(result){              
+      console.log ("ajaxSend\n");
+    },
+    success:function(result){      
+      console.log ("success\n");
+      str=result;
+      var respuestas = str.split("|");
+
+      if (respuestas[0]!='0') {
+
+        if (respuestas[0]==1) {
+          $("#clas2").show();
+          $("#clas1").hide();
+          $('#url_clase').val(respuestas[1]);
+          $("#clase_con option[value='2']").attr('selected', 'selected');
+        }
+        else {
+         $("#clas2").hide();
+         $("#clas1").show(); 
+         $('#codigo_clase').val(respuestas[1]);
+         $("#clase_con option[value='1']").attr('selected', 'selected');
+       }
+
+       $('#mensaje').val(respuestas[6]);
+
+       $("#id_estados option").filter(function() {
+        return $(this).val() == respuestas[2]; 
+      }).prop('selected', true);
+
+       $('#fecha_envio').val(respuestas[3]);
+       $('#hora_envio').val(respuestas[4]);
+       $('.sender_envio').attr('id_c',respuestas[5]);
+
+     }
+
+
+
+
+   }
+
+
+
+ });
+
+
+
+
+});
+
+
+$('.sender_envio').on('click', function (event) {
+  event.preventDefault();
+  data = new Object;
+  
+  if($('#clas1').css('display') == 'block'){
+    $('#url_clase').val('');
+    data.codigo_clase=$('#codigo_clase').val();
+  }
+
+  else {
+    data.url_clase=$('#url_clase').val();
+    $('#codigo_clase').val('');
+
+
+  }
+
+
+  data.mensaje=$('#mensaje').val();
+  data.id_estados=$('#id_estados').val();
+  data.fecha_envio=$('#fecha_envio').val();
+  data.hora_envio=$('#hora_envio').val();
+  data.id_cursos=$(this).attr('id');
+
+  if ($(this).attr('id_c')>0) {
+    data.id=$(this).attr('id_c');
+  }
+
+  jQuery.ajax({
+    url:'<?php echo base_url(); ?>cursos/root/sendEnvio',
+    type: "post",
+    data:({
+      data:data
+    }),
+    ajaxSend:function(result){              
+      console.log ("ajaxSend\n");
+    },
+    success:function(result){      
+      console.log ("success\n");
+
+      if (result=='ok')  {
+       alert ("Enviado correctamente!");  
+       $('#cerrar_envio').click();
+          // $('#claseEnVivo').modal('hide');
+          $('#url_clase').val('');
+          $('#mensaje').val('');
+          $('#codigo_clase').val('');
+          $('#id_estados').val('');
+          $('#fecha_envio').val('');
+          $('#hora_envio').val('');
+        } else {
+          alert (result);
+          return false;
+        }
+      }
+
+    });
+
+});
+
+
+
+$(document).ready(function() {
+
+  var caracteres = 50;
+  $(".counter_mensanje").html("Te quedan <strong>"+  caracteres+"</strong> caracteres.");
+
+
+
+
+
+  $("#mensaje").keyup(function(){
+    if($(this).val().length > caracteres){
+      $(this).val($(this).val().substr(0, caracteres));
+    }
+    var quedan = caracteres -  $(this).val().length;
+    $(this).next().html("Te quedan <strong>"+  quedan+"</strong> caracteres.");
+    if(quedan <= 10)
+    {
+      $(this).next().css("color","red");
+    }
+    else
+    {
+      $(this).next().css("color","black");
+    }
+  });
+
+
+});
 
 
 </script>

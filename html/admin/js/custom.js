@@ -6,76 +6,42 @@
 $(document).ready(function(){
 
 
-
+/* Atributos pagina inicio */
  $('.delete_atrib_foto').click(function(event) {
-    $('#atributo_image'+$(this).attr('id')).val('');
-  });
+  $('#atributo_image'+$(this).attr('id')).val('');
+});
 
 
-
-
+/* Logo */
 
  $('.delete_photoxx').click(function(event) {
-    $('#image').val('');
-  });
+  $(this).parent().parent().prev().prev().val('');
+});
+
+/* Footer */
+ $('.delete_photoxx2').click(function(event) {
+  $('#image_footer').val('');
+});
+
+/* Testimonios */
+ $('.delete_testi_foto').click(function(event) {
+  $('#testi_image'+$(this).attr('id')).val('');
+});
 
 
-
-
-$('.delete_testi_foto').click(function(event) {
-    $('#testi_image'+$(this).attr('id')).val('');
-  });
-
-
-
-  $('.fileupload-exists').click(function(event) {
-    $('#image').val('');
-  });
-
-
+/*  ?  */
 /*
-  $('#cambis').bind('DOMNodeInserted', function() {
-
-    var filename=$(this).html();
-    var parts = filename.split('.');
-    var ext=(parts.length > 1) ? parts.pop() : '';
-
-
-    var extensionsimg = ["jpg", "jpeg", "png", "gif", "bmp", "jpe", "tif", "tiff", "dib"];
-    var a = extensionsimg.indexOf(ext); 
-    if (a==-1)  {
-
-      var icon='default.png';
-
-
-      alert (ext);
-
-      switch(ext) {
-        case 'doc':
-        icon='doc.png';
-        break;
-        case 'docx':
-        icon='doc.png';
-        break;
-        case 'pdf':
-        icon='pdf.png';
-        break;
-        default:
-        icon='default.png';
-      } 
-
-
-      $('#cambis').html('<img src="html/admin/img/archives/'+icon+'" alt="" />');
-
-    }
-  });
+ $('.fileupload-exists').click(function(event) {
+  $('#image').val('');
+});
 */
+
 
 $(document).keyup(function(e) {
 
   if ($('.pp_default').length==0) {
     if ( $('.modal').length>0 && $('.modal').css('display') == 'none'  )  {
-    
+
       if (e.keyCode == 13) { $('.btnguardar').click(); }    
       if (e.keyCode == 27) { $('.btncancelar').click(); } 
     }
@@ -87,15 +53,11 @@ $(document).keyup(function(e) {
 if ($("#resumen_de_perfil").length>0)  {
   var caracteres= 140;
   $("#contador").append("Usted tiene <strong>"+ $( "#resumen_de_perfil" ).val().length+"</strong> caracteres de "+caracteres);
-
 }
 
 
 
-
 $( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
-
-  console.log($(this).val().length+'\n');
   $("#contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres);
   if($(this).val().length > caracteres){
     $(this).val($(this).val().substr(0, caracteres));
@@ -104,6 +66,40 @@ $( "#resumen_de_perfil" ).bind( "keyup keypress", function() {
 });
 
 
+
+
+if ($("#descripcion").length>0)  {
+  var caracteres= 140;
+  $("#descripcion_contador").append("Usted tiene <strong>"+ $( "#descripcion" ).val().length+"</strong> caracteres de "+caracteres);
+}
+
+
+
+$( "#descripcion" ).bind( "keyup keypress", function() {
+  $("#descripcion_contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres);
+  if($(this).val().length > caracteres){
+    $(this).val($(this).val().substr(0, caracteres));
+  }
+
+});
+
+
+
+
+if ($("#contenido").length>0)  {
+  var caracteres= 140;
+  $("#contenido_contador").append("Usted tiene <strong>"+ $( "#contenido" ).val().length+"</strong> caracteres de "+caracteres);
+}
+
+
+
+$( "#contenido" ).bind( "keyup keypress", function() {
+  $("#contenido_contador").html("Usted tiene <strong>"+ $(this).val().length+"</strong> caracteres de "+caracteres);
+  if($(this).val().length > caracteres){
+    $(this).val($(this).val().substr(0, caracteres));
+  }
+
+});
 
 
 
@@ -198,30 +194,7 @@ $(".has_sub > a").click(function(e){
   }
 });
 
-/* Old Code 
-
-  $("#nav > li > a").on('click',function(e){
-      if($(this).parent().hasClass("has_sub")) {
-       
-		  e.preventDefault();
-
-		  if(!$(this).hasClass("subdrop")) {
-			// hide any open menus and remove all other classes
-			$("#nav li ul").slideUp(350);
-			$("#nav li a").removeClass("subdrop");
-			
-			// open our new menu and add the open class
-			$(this).next("ul").slideDown(350);
-			$(this).addClass("subdrop");
-		  }
-		  
-		  else if($(this).hasClass("subdrop")) {
-			$(this).removeClass("subdrop");
-			$(this).next("ul").slideUp(350);
-		  } 
-      }   
-      
-    }); */
+ 
 });
 
 $(document).ready(function(){
@@ -485,10 +458,11 @@ $(document).ready(function() {
 
 
 /* Date picker */
-
+var nowTemp = new Date();
+var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 $(function() {
   $('#datetimepicker1').datetimepicker({
-    pickTime: false
+    pickTime: false,startDate: new Date()
   });
 });
 
@@ -579,3 +553,26 @@ $(document).ready(function() {
 
 
 });
+
+
+
+
+jQuery.fn.multiselect = function() {
+  $(this).each(function() {
+    var checkboxes = $(this).find("input:checkbox");
+    checkboxes.each(function() {
+      var checkbox = $(this);
+            // Highlight pre-selected checkboxes
+            if (checkbox.prop("checked"))
+              checkbox.parent().addClass("multiselect-on");
+
+            // Highlight checkboxes that the user selects
+            checkbox.click(function() {
+              if (checkbox.prop("checked"))
+                checkbox.parent().addClass("multiselect-on");
+              else
+                checkbox.parent().removeClass("multiselect-on");
+            });
+          });
+  });
+};

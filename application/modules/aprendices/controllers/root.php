@@ -147,6 +147,38 @@ class Root extends CI_Controller {
 		$this->load->view('root/view_'.$variables['modulo'].'_nuevo',$data);
 	}
 
+
+
+ ## checkeo si el correo ya existe.
+	public function check_email () {
+
+
+		$this->load->model('model_aprendices');
+		/* Evaluo en la funcion si existe, si la contrasena es correcta. */
+		$result = $this->model_aprendices->check_email( $this->input->post ('correo'),$this->input->post ('id') );
+
+		switch($result){
+			case 'existe':
+			/* 
+			Muestro mensaje de error si el existe.
+			 */
+			$this->form_validation->set_message('check_email', 'El correo '.$this->input->post('correo').' ya existe en el sistema, intente con otro.');
+			return false;
+			break;
+			
+			/*
+			Retorno verdadero si la identificacion no existe
+			*/
+			case 'aceptable':
+			return true;
+			break;
+		}
+
+	}
+
+
+
+
 	/* FUNCION GUARDAR INFORMACION A UNA TABLA */
 	public function guardar()
 	{
@@ -159,7 +191,7 @@ class Root extends CI_Controller {
 		$this->form_validation->set_rules('nombres', 'Nombres', 'required|xss_clean');
 		$this->form_validation->set_rules('apellidos', 'Apellidos', 'required|xss_clean');
 		$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean');
-		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean');
+		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean|callback_check_email');
 		$this->form_validation->set_rules('id_roles', 'Rol', 'required|xss_clean');
 		$this->form_validation->set_rules('id_tipo_planes', 'Tipo de plan', 'required|xss_clean');
 
@@ -230,15 +262,14 @@ class Root extends CI_Controller {
 
 				/* si existia una foto antes, que la borre de la carpeta asignada */
 				if ($this->input->post('image'))  { }   // si existe el post, no hace nada
-				else {
-					if ($this->input->post ('foto_antes'))  {
-						@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+					else {
+						if ($this->input->post ('foto_antes'))  {
+							@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+						}
+						$data['foto'] = "";	
 					}
-					$data['foto'] = "";	
+
 				}
-
-			}
-
 
 
 
@@ -263,22 +294,24 @@ class Root extends CI_Controller {
 #krumo ($this->input->post ('id_cursos_asignados'));
 #exit;
 
+
+
+
 ##funcion para borrar los cursos no seleccionados
 			foreach ($list as $key => $value) {
 				$tmpxx=explode ("|",$value);
 
 				if ( !in_array($tmpxx[0], $this->input->post ('id_cursos_asignados')) ) {
 					$this->model_generico->borrar('cursos_asignados',array('id_cursos_asignados'=>$tmpxx[1]));
-					echo "Borado: ".$tmpxx[1];
+					echo "Borrado: ".$tmpxx[1];
 				} 
 				else {
 					$list2[]=$tmpxx[0];
 				}
 
 			}
+ 
 
-			#krumo ($list2);
-			#exit;
 #exit;
 			foreach ($this->input->post ('id_cursos_asignados') as $postkey => $postvalue) {
 				##si no está entre la lista de los cursos asignados del estudiante...
@@ -396,8 +429,13 @@ class Root extends CI_Controller {
 ##listo los cursos asignados al estudiante:
 
 		$list=$this->model_aprendices->get_cursos_estudiante_lista($id);
+
+
+
+
+
 		foreach ($list as $key => $value) {
-			$cursos_asignados_tmp[]=$value->id_cursos;
+			$cursos_asignados_tmp[]=$value->id_cursos."|".$value->id_estatus."|".$value->id_tipo_planes;
 		}
 		$data['cursos_asignadoss']=json_encode($cursos_asignados_tmp);
 

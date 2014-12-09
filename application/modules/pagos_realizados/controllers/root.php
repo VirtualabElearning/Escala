@@ -30,6 +30,7 @@ class Root extends CI_Controller {
 		/* Cargo variables globales */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		$data['mispermisos']=$variables['mispermisos'];
+		$this->load->model('model_pagos_realizados');
 		
 		$data['titulo']=$variables['modulo'];
 		$data['menus']=$this->model_generico->menus_root_categorias();
@@ -38,7 +39,7 @@ class Root extends CI_Controller {
 
 		}
 		/* Llamo ala funcion generica para traer el listado de informacion del modulo */
-		$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
+		$data['lista']=$this->model_pagos_realizados->listado($variables['modulo'],'',array('pagos_realizados.orden','asc'));
 
 
 		
@@ -49,7 +50,7 @@ class Root extends CI_Controller {
 
 		
 		/* Envio header de la tabla de los campos que necesito mostrar */
-		$data['titulos']=array("Orden","ID","Usuario","Curso","Valor","Estado","Opciones");
+		$data['titulos']=array("Usuario","Curso","Valor","Estado");
 		/* Cargo vista de listado de informacion */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}

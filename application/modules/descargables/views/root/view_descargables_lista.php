@@ -21,9 +21,9 @@
       <div class="bread-crumb pull-right">
        <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
        <span class="divider">/</span> 
-       <a href="modulos/root">Cursos</a> 
+       <a href="modulos/root/lista/<?php echo $this->uri->segment(4) ?>/<?php echo $this->uri->segment(5) ?>">Modulos</a> 
        <span class="divider">/</span> 
-       <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
+       <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4) ?>/<?php echo $this->uri->segment(5) ?>" class="bread-current">Modulo <?php echo $titulo; ?></a>
      </div>
      <div class="clearfix"></div>
    </div>
@@ -36,7 +36,7 @@
 
 
 
-          <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo/<?php echo $this->uri->segment(4); ?>" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+          <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
 
           <div class="widget">
             <div class="widget-head">
@@ -81,13 +81,15 @@
                         <?php foreach ($lista as $key => $value): ?>
 
                           <tr id="<?php echo $value->id_descargables; ?>">
+                           <?php /* ?>
                            <td><?php echo $value->orden; ?></td>
                            <td><?php echo $value->id_descargables; ?></td>
+                           <?php */ ?>
                            <td><?php echo $value->nombre_descargable; ?></td>
                            <td><?php echo $value->descripcion_descargable; ?></td>
                            <td><a target="_blank"  href="uploads/<?php echo str_replace(" ", "_", $titulo); ?>/<?php echo $value->archivo; ?>">Descargar</a></td>
                            <td><?php echo $value->estado_nombre; ?></td>
-                           <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_descargables; ?>/<?php echo $this->uri->segment(4); ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_descargables; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                           <td>  <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5) ?>/<?php echo $value->id_descargables; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> <a href="#" id="<?php echo $value->id_descargables; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
                          </tr>
 
                        <?php endforeach ?>         
@@ -143,7 +145,7 @@
 <!-- Content ends -->
 
 
-<form id="borrar_form" action ="<?php echo $this->uri->segment(1); ?>/root/borrar/<?php echo $this->uri->segment(4); ?>" method="POST">
+<form id="borrar_form" action ="<?php echo $this->uri->segment(1); ?>/root/borrar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>" method="POST">
   <input type="hidden" name="id" id="id">
   <button class='btn btn-danger btn-xs' type="submit" name="borrar" value="borrar"><span class="fa fa-times"></span> Borrar </button>
 </form>

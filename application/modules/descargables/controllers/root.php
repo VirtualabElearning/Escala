@@ -17,7 +17,7 @@ class Root extends CI_Controller {
 
 		/*configuracion basica para subir una foto*/
 		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
-		$config['allowed_types'] =   "gif|jpg|jpeg|png|zip|rar|doc|docx|ppt|pptx|xls|xlsx|txt|rtf|doc|pps|ppsx|pdf";
+		$config['allowed_types'] =   "gif|jpg|jpeg|png|zip|rar|doc|docx|ppt|pptx|xls|xlsx|txt|rtf|doc|pps|ppsx|pdf|csv|swf|mp4|mp3|wav|ico|ai|psd";
 		$config['max_size']      =   "10000";
 		$config['max_width']     =   "20000";
 		$config['max_height']    =   "20000";
@@ -40,7 +40,7 @@ class Root extends CI_Controller {
 	}
 
 	/* Funcion listado de registros */
-	public function lista($id_modulos=null)
+	public function lista($id_cursos=null,$id_modulos=null)
 	{ /* Cargo variables globales */
 		if (!$id_modulos)  { redirect( 'modulos/root'); }
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
@@ -56,7 +56,7 @@ class Root extends CI_Controller {
 		/* Consulto el listado de la tabla asignada del modulo */
 		$data['lista']=$this->model_generico->listado($variables['modulo'],array('id_modulos',$id_modulos),array('orden','asc'));
 		/* Muestro los campos necesarios para el listado */
-		$data['titulos']=array("Orden","ID","Nombre","Descripcion","Archivo","Estado","Opciones");
+		$data['titulos']=array("Nombre","Descripcion","Archivo","Estado","Opciones");
 		/* Muestro al vista dinamica del listado */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
@@ -119,7 +119,7 @@ class Root extends CI_Controller {
 		/* si existe alguna validacion que no pasa, las muestra en pantalla */
 		if($this->form_validation->run() == FALSE)
 		{ 
-			if ($id)  { $this->editar($id); } else { $this->nuevo();  }
+			if ($id)  { $this->editar($this->input->post('id_cursos'),$this->input->post('id_modulos'),$id); } else { $this->nuevo();  }
 
 		}
 
@@ -171,7 +171,7 @@ class Root extends CI_Controller {
 			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
 			/* Redirecciono al listado */
 
-			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$this->input->post('id_modulos').'/'.$id.'/guardado_ok';
+			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$this->input->post('id_cursos').'/'.$this->input->post('id_modulos').'/'.$id.'/guardado_ok';
 			
 
 			redirect($accion_url);
@@ -180,7 +180,7 @@ class Root extends CI_Controller {
 	}
 
 	/* Funcion borrar registro */
-	public function borrar($id_modulos=null)
+	public function borrar($id_cursos=null,$id_modulos=null)
 	{
 		/* Cargo variables globales */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
@@ -196,13 +196,13 @@ class Root extends CI_Controller {
 		/* Borro el registro que consulté */
 		$this->model_generico->borrar($variables['modulo'],array($variables['id']=>$this->input->post ('id')));
 		/* Redirecciono */
-		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$id_modulos.'/borrado_ok';
+		$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/lista/'.$id_cursos.'/'.$id_modulos.'/borrado_ok';
 		redirect($accion_url);
 	}
 
 
 	/* Funcion editar */
-	public function editar($id,$error_extra=null)
+	public function editar($id_cursos,$id_modulos,$id,$error_extra=null)
 	{
 		/* Cargo variables globales */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];

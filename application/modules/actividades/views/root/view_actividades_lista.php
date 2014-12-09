@@ -66,14 +66,20 @@
                            <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
 
                             <tr id="<?php echo $value->id_actividades_barra; ?>">
-                             <td><?php echo $value->orden; ?></td>
+                            <td style="display:none;"><?php echo $value->orden; ?></td>
+                            <?php /* ?>
+                           
                              <td><?php echo $value->id_actividades_barra; ?></td>
                              <td><?php echo $value->nombre_categoria_curso; ?></td>
                              <td><?php echo $value->nombre_curso ; ?></td>
+                             <?php */ ?>
                              <td><?php echo $value->nombre_tipo_actividades; ?></td>
                              <td><?php echo $value->datos_actividad->nombre_actividad; ?></td>
-                             <td><?php echo $value->datos_actividad->descripcion_actividad; ?></td>
+                           
+                             <?php /*  ?>
+                               <td><?php echo $value->datos_actividad->descripcion_actividad; ?></td>
                               <td><?php echo $value->datos_actividad->nombre; ?></td>
+                              <?php */ ?>
                              <td><?php echo $value->estado_nombre; ?></td>
                              <td>  
                               <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>/<?php echo $value->id_actividades_barra; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
@@ -84,14 +90,19 @@
                         <?php else: ?>
 
                             <tr id="<?php echo $value->id_actividades_barra; ?>">
+                              <?php /* ?>
                              <td><?php echo $value->orden; ?></td>
                              <td><?php echo $value->id_actividades_barra; ?></td>
                              <td><?php echo $value->nombre_categoria_curso; ?></td>
                              <td><?php echo $value->nombre_curso ; ?></td>
+                             <?php */ ?>
                              <td><?php echo $value->nombre_tipo_actividades; ?></td>
                              <td><?php echo $value->datos_actividad->nombre_actividad; ?></td>
-                             <td><?php echo $value->datos_actividad->descripcion_actividad; ?></td>
+                          
+                              <?php /* ?>
+                                 <td><?php echo $value->datos_actividad->descripcion_actividad; ?></td>
                               <td><?php echo $value->datos_actividad->nombre; ?></td>
+                               <?php */ ?>
                              <td><?php echo $value->estado_nombre; ?></td>
                              <td>  
                               <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>/<?php echo $value->id_actividades_barra; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 

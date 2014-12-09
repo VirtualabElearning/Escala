@@ -15,20 +15,20 @@
 
   <script>
     $(function() {
-$( "#ciudad" ).autocomplete({
-  source: "<?php echo base_url().'ciudades'; ?>",
-  minLength: 2,
-});
-});
-</script>
+      $( "#ciudad" ).autocomplete({
+        source: "<?php echo base_url().'ciudades'; ?>",
+        minLength: 2,
+      });
+    });
+  </script>
 </head>
 <body> 
  <?php $this->load->view('view_site_header'); ?>
 
-<section class="encabezado2 clear">
+ <section class="encabezado2 clear">
   <div class="encabezado2_wrap">
-    <h6>Liderazgo Integral</h6>
-    <p>Liberando tu maximo potencial para legar al exito</p>
+    <h6>Editar Perfil</h6>
+    <p>Estos son los datos que aparecerán en tus certificados.</p>
     <div class="circle">
       <div class="circle_wrap">
        <img src="html/site/img/edit_icon.png" alt="">
@@ -42,8 +42,8 @@ $( "#ciudad" ).autocomplete({
 <?php  if ($mensaje=='fb'): ?>
   <?=form_open_multipart(base_url().$this->uri->segment(1).'/actualizar_perfil/'.$mensaje,$attributos)?>
 
-  <?php else: ?>
-    <?=form_open_multipart(base_url().$this->uri->segment(1).'/actualizar_perfil',$attributos)?>
+<?php else: ?>
+  <?=form_open_multipart(base_url().$this->uri->segment(1).'/actualizar_perfil',$attributos)?>
 
 <?php endif ?>
 
@@ -52,14 +52,20 @@ $( "#ciudad" ).autocomplete({
     <div class="change_pic">
       <div class="change_pic_wrap clear">
         <div class="change_pic_col1 imagePreview">
-          <img src="uploads/aprendices/<?php echo $mi_perfil->foto; ?>" alt="">
+          <?php if ( $mi_perfil->foto): ?>
+            <img src="escalar.php?src=<?php echo base_url(); ?>uploads/aprendices/<?php echo $mi_perfil->foto; ?>&w=126&h=126&zc=1" alt="">
+          <?php else: ?>
+            <img src="html/site/img/sin_foto.png" alt="">
+          <?php endif ?>
         </div>
 
 
         <a id="cambia_foto" href="#"> <div class="change_pic_col2"> <p>Cambiar Foto</p></div> </a>
-
-     
+        <div class="explicacion_texto">La imagen no debe superar los 1500x1500 pixeles ni mayor a 5Mb</div>
+        
         <input type="file" name="userfile" value="" id="userfile" onchange="previewImage(this,[256],4);" />
+
+        
 
 
         <input type="hidden" name="foto_antes" value="uploads/aprendices/<?php echo $mi_perfil->foto; ?>">
@@ -96,55 +102,94 @@ $( "#ciudad" ).autocomplete({
     </div>
 
 
-   <?php echo  form_error('userfile', '<div class="mensaje_error error_foto">', '</div>'); ?>
-<?php #si existe mensaje y si es diferente de fb (fb es para ver si esta actualizando perfil despues de registrarse con facebook) ?>
-  <?php if ($mensaje && $mensaje!='fb'): ?>
+    <?php echo  form_error('userfile', '<div class="mensaje_error error_foto">', '</div>'); ?>
+    <?php #si existe mensaje y si es diferente de fb (fb es para ver si esta actualizando perfil despues de registrarse con facebook) ?>
+    <?php if ($mensaje && $mensaje!='fb'): ?>
       <div class="mensaje_exito"> <?php echo $mensaje; ?> </div>
     <?php endif ?>
-    <a href="#" id="submit"><div class="editar_btn">Guardar Cambios </div> </a>
 
-
-    <div class="forgot_pass">
-      <a href="login/cambiar_clave"><p>Cambiar contraseña</p></a>
+    <?php if ($this->uri->segment(2)=="confirmar" || $this->uri->segment(2)=="actualizar_perfil" || $this->uri->segment(2)=="editar_perfil"): ?>
+     <div style="font-size: 12px;"> 
+      <b style="font-wie;color: #F00;font-weight: bold;">Advertencia:</b> Estos serán los datos usados en tus certificados, ten cuidado pues solo es permitido actualizarlos <b>una (1) vez</b>, si necesitas ayuda debes ir a la sección de soporte.
     </div>
-  </section>
-
-  <?=form_close()?>
+  <?php endif ?>
 
 
-  <?php $this->load->view('view_site_footer'); ?>
+  <div id="c1"> 
+    <div>
+      <div id="c2"><a target="_blank" href="contenidos/informacion/6/terminos-y-condiciones.html">Acepto los Términos y condiciones</a></div>
+      <div id="c3"><input type="checkbox" name="acepto" id="acepto" value="1"></div>
+    </div>
+  </div>
 
-  <style>
-    #userfile {
-      display: none;
-    }
 
-    .imagePreview p {
-      display:none;
-    }
 
-    .error_foto{
+  <?php if ($mi_perfil->cambiar_info==0): ?>
+   <a href="#" id="submit"><div class="editar_btn">Actualizar datos</div> </a>
+ <?php else: ?>
 
-    }
-  </style>
+   <?php if ($mensaje && $mensaje!='fb'): ?>
+     <a href="cursos"><div class="editar_btn">Ir a cursos</div> </a>
+   <?php else: ?>
+     <a><div class="editar_btn">Ya no se permite actualizar</div> </a>
+   <?php endif ?>
 
-  <script>
+   
+ <?php endif ?>
 
-    $(document).ready(function() {
+ <div class="forgot_pass">
+  <a href="login/cambiar_clave"><p>Cambiar contraseña</p></a>
+</div>
+</section>
 
-      $('#cambia_foto').click(function(event) {
-        event.preventDefault();
-        $('#userfile').click();
-      });
+<?=form_close()?>
 
-      $('#submit').click(function(event) {
-        event.preventDefault();
+
+<?php $this->load->view('view_site_footer'); ?>
+
+<style>
+  #userfile {
+    display: none;
+  }
+
+  .imagePreview p {
+    display:none;
+  }
+
+  .error_foto{
+
+  }
+</style>
+
+<script>
+
+  $(document).ready(function() {
+
+    $('#cambia_foto').click(function(event) {
+      event.preventDefault();
+      $('#userfile').click();
+    });
+
+    $('#submit').click(function(event) {
+      event.preventDefault();
+
+
+      if ($('#acepto').is(':checked'))  {
         $('#form-perfil').submit();
-      });
+      }
+
+      else {
+        alert ("Debes aceptar los términos y condiciones.");
+        return false;
+      }
+
+
 
     });
 
-  </script>
+  });
+
+</script>
 
         <!--
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

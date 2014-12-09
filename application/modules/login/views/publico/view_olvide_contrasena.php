@@ -16,32 +16,44 @@
 </head>
 <body>
 
-   <?php $this->load->view('view_site_header'); ?>
+ <?php $this->load->view('view_site_header'); ?>
 
-   <section class="login">
-    <div class="login_wrap">    
-        <div class="forgot_pass">
-         <h1 <?php if ($mensaje=="enviado"): ?> style="display:none;"  <?php endif ?>>Email de registro a <?php echo $custom_sistema->nombre_sistema; ?></h1>
+ <section class="login">
+  <div class="login_wrap">    
+    <div class="forgot_pass">
+     <h1 <?php if ($mensaje=="enviado"): ?> style="display:none;"  <?php endif ?>>Email de registro a <?php echo $custom_sistema->nombre_sistema; ?></h1>
 
-         <h2 <?php if ($mensaje=="enviado"): ?> style="display:block;"  <?php endif ?>>Hemos enviado un link a tu correo electronico para que reestablescas tu contraseña</h2>
 
-     </div>
+     <?php if ($mensaje=="enviado"): ?>
+      <div class="titulo_registro">Restablecer tu contraseña</div>
+      <div style="margin: 8px; padding: 10px;">Te hemos enviado a <b><?php echo $this->input->post('correo') ?></b> un mensaje para <b>restablecer tu contraseña</b>, revisa en tu bandeja de entrada o en la secci&oacute;n de SPAM.</div>
+    <?php endif ?>
 
-     <?php $attributos=array('class'=>'form-horizontal','name'=>'form_generator','id'=>'form_generator'); ?>
-     <?=form_open(base_url().'validar_olvide_contrasena',$attributos)?>
-     <div class="name">
-       <input type="text" placeholder="* Email" name="correo" id="correo" value="<?php echo $this->input->post('correo') ?>">
-       <?php echo form_error('correo', '<div class="mensaje_error">', '</div>'); ?> 
+
+  </div>
+
+  <?php $attributos=array('class'=>'form-horizontal','name'=>'form_generator','id'=>'form_generator'); ?>
+
+  <?php if (!$mensaje=="enviado"): ?> 
+
+   <?=form_open(base_url().'validar_olvide_contrasena',$attributos)?>
+   <div class="name">
+     <input type="text" placeholder="* Email" name="correo" id="correo" value="<?php echo $this->input->post('correo') ?>">
+     <?php echo form_error('correo', '<div class="mensaje_error">', '</div>'); ?> 
    </div>
    <div class="login_btn"> Enviar</div>
 
 
    <?php if ($mensaje!='enviado' && $mensaje!=''): ?>
-      <div class="mensaje_exito"> <?php echo $mensaje; ?> </div>
-    <?php endif ?>
+    <div class="mensaje_exito"> <?php echo $mensaje; ?> </div>
+  <?php endif ?>
 
 
-   <?php echo form_close(); ?>
+  <?php echo form_close(); ?>
+
+<?php endif; ?>
+
+
 
 </div>
 </section>
@@ -52,41 +64,41 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
         <script src="js/main.js"></script>
-    -->
+      -->
 
 
-    <script>
+      <script>
 
 
         $(document).ready(function() {
 
 
-            $('.login_btn').click(function(event) {
-             event.preventDefault();
+          $('.login_btn').click(function(event) {
+           event.preventDefault();
 
-             if ($('#correo').val()=='')  {
-                alert ("Por favor, escribe tu correo");
-                return false;
+           if ($('#correo').val()=='')  {
+            alert ("Por favor, escribe tu correo");
+            return false;
 
-            }
+          }
 
-            expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-            if ( !expr.test($('#correo').val()) )  {
-                alert("Error: La dirección de correo " + $('#correo').val() + " es incorrecta.");
-                return false;
-            }
+          expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          if ( !expr.test($('#correo').val()) )  {
+            alert("Error: La dirección de correo " + $('#correo').val() + " es incorrecta.");
+            return false;
+          }
 
-            $('#form_generator').submit();
-
-
-        });
+          $('#form_generator').submit();
 
 
         });
 
 
-    </script>
+        });
 
 
-</body>
-</html>
+      </script>
+
+
+    </body>
+    </html>

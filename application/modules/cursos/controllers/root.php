@@ -77,7 +77,7 @@ class Root extends CI_Controller {
 
 
 
-		$data['titulos']=array("Orden","ID","Categoria curso","Nombre","Resumen del curso","instructores asignados","Destacado?","Estado","Opciones");
+		$data['titulos']=array("Categoria curso","Nombre","Resumen del curso","instructores asignados","¿Curso destacado?","Estado","Opciones");
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
 
@@ -139,7 +139,7 @@ class Root extends CI_Controller {
 		$this->form_validation->set_rules('descripcion', 'Resumen del curso', 'required|xss_clean');
 		$this->form_validation->set_rules('contenido', 'Contenido', 'required');
 		$this->form_validation->set_rules('prerrequisitos', 'Prerrequisitos', 'required');
-		$this->form_validation->set_rules('objetivos_aprendizaje', 'Objetivos de aprendizaje', 'required');
+		#$this->form_validation->set_rules('objetivos_aprendizaje', 'Objetivos de aprendizaje', 'required');
 		$this->form_validation->set_rules('destacar', 'Destacar', 'required|xss_clean');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 		$this->form_validation->set_rules('id_categoria_cursos', 'Categoria cursos', 'required|xss_clean');
@@ -164,7 +164,6 @@ class Root extends CI_Controller {
 			$data = array(
 				'titulo' => $this->input->post ('titulo'),
 				'descripcion' => $this->input->post ('descripcion'),
-				'objetivos_aprendizaje' => $this->input->post ('objetivos_aprendizaje'),
 				'prerrequisitos' => $this->input->post ('prerrequisitos'),
 				'contenido' => $this->input->post ('contenido'),
 				'id_categoria_cursos' => $this->input->post ('id_categoria_cursos'),
@@ -243,7 +242,7 @@ class Root extends CI_Controller {
 	public function borrar()
 	{
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean|callback_check_validador');
+		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 
 		$id=$this->input->post('id');
 
@@ -271,7 +270,6 @@ class Root extends CI_Controller {
 		$data['menus']=$this->model_generico->menus_root_categorias();
 		foreach ($data['menus'] as $key => $value) {
 			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
-
 		}
 		$data['detalle']=$this->model_generico->detalle($variables['modulo'],array($variables['id']=>$id));
 		$data['error_extra']=$error_extra;
@@ -294,4 +292,94 @@ class Root extends CI_Controller {
 
 	}
 
-}
+
+###  funcion para realizar la programacion de envio de la clase en vivo desde el docente
+	public function sendEnvio () {
+		$this->load->model('model_cursos');
+
+		$post=$this->input->post('data');
+
+		if ($post['url_clase']!='') {  $url_clase=$post['url_clase']; }
+
+		if ($post['codigo_clase']!='') {  $codigo_clase=$post['codigo_clase']; }
+
+		if ($post['mensaje']!='') { $mensaje=$post['mensaje']; }
+
+		if ($post['fecha_envio']!='') { $fecha_envio=$post['fecha_envio'];  $fecha_envio=strip_tags($fecha_envio);	}
+
+		if ($post['hora_envio']!='') { $hora_envio=$post['hora_envio'];  $hora_envio=strip_tags($hora_envio);	}
+
+		if ($post['id_cursos']!='') {
+			$id_cursos=$post['id_cursos'];	
+		}
+
+		##obtengo todas las variables que necesito para generar la notificacion de cada uno de los estudiantes
+		$variables_todas=$this->model_cursos->variables_clase_en_vivo($id_cursos,$url_clase,$codigo_clase);
+		
+		$resultado_estudiantes=$variables_todas['var1'];
+		$resultado_cursos=$variables_todas['var2'];
+		$resultado_modulo=$variables_todas['var3'];
+		$resultado_actividades=$variables_todas['var4'];
+		
+
+		### genero notificacion a cada uno de los alumnos de la clase
+		foreach ($resultado_estudiantes as $resultado_estudiantes_key => $resultado_estudiantes_value) {
+			$data_notificaciones['id_usuarios']=$resultado_estudiantes_value->id_usuarios; 
+			$data_notificaciones['mensaje']="Clase en vivo programada: el próximo <b>".fecha_pdf($fecha_envio)."</b> a las <b>".$hora_envio."</b> tendrás clase de ".$mensaje." – Curso: ".$resultado_cursos->titulo;
+			$data_notificaciones['id_estados']=$this->config->item('estado_no_leido'); 
+			$data_notificaciones['fecha_modificado']=date('Y-m-d H:i:s',time());  
+			$data_notificaciones['id_usuario_modificado']=$resultado_estudiantes_value->id_usuarios;
+			$data_notificaciones['id_usuario_creado']=$resultado_estudiantes_value->id_usuarios;
+			$data_notificaciones['fecha_creado']=date('Y-m-d H:i:s',time()); 
+			$data_notificaciones['id_cursos']= $id_cursos; 
+			$data_notificaciones['id_modulos']= $resultado_modulo->id_modulos; 
+			$data_notificaciones['id_actividades_barra']=$resultado_actividades->id_actividades_barra; 
+			$id_notificaciones=$this->model_generico->guardar('notificaciones',$data_notificaciones,'id_notificaciones',array('id_notificaciones',''));
+				}  ## fin foreach
+
+
+			### consulto si ya existe una programacion de clase en vivo.
+				$detalle=$this->model_cursos->get_clase_vivo_if ($id_cursos,$this->session->userdata('id_usuario'));
+				$id_pro=$detalle->id_programacion_envio;
+
+
+			### guardo la programacion del envio para futura edición y activación 	
+				$data_programacion_envio['curso']=$resultado_cursos->titulo;
+				$data_programacion_envio['mensaje']=$mensaje;
+				$data_programacion_envio['id_estados']=$this->config->item('estado_activo'); 
+				$data_programacion_envio['fecha_envio']=$fecha_envio;
+				$data_programacion_envio['hora_envio']=$hora_envio;
+				$data_programacion_envio['id_cursos']=$resultado_cursos->id_cursos;
+				$data_programacion_envio['fecha_modificado']=date('Y-m-d H:i:s',time());  
+				$data_programacion_envio['id_usuario_modificado']=$this->session->userdata('id_usuario');
+				$data_programacion_envio['id_usuarios']=$this->session->userdata('id_usuario');
+				$data_programacion_envio['id_usuario_creado']=$this->session->userdata('id_usuario');
+				$data_programacion_envio['fecha_creado']=date('Y-m-d H:i:s',time()); 		
+				$id_programacion_envio=$this->model_generico->guardar('programacion_envio',$data_programacion_envio,'id_programacion_envio',array('id_programacion_envio',$id_pro));
+
+
+
+
+				echo "ok";
+
+			}
+
+
+
+
+
+### funcion para traer la informacion de la clase en vivo en el listado de cursos del docente
+			public function getEnvio_Ajax ($id_cursos) {
+				$this->load->model('model_cursos');
+				$id_usuarios=$this->session->userdata('id_usuario');
+				$datap=$this->model_cursos->get_clase_vivo ($id_cursos,$id_usuarios);
+				$programacion_envio=$datap['programacion_envio'];
+				$curso=$datap['curso'];
+
+				if ($curso->url_clase_en_vivo!='') { $op=1; $clase=$curso->url_clase_en_vivo;	}
+				else if ($curso->codigo_clase !='') { $op=2; $clase=$curso->codigo_clase; }
+				else { $op=0; }
+
+				echo $op."|".$clase."|".$programacion_envio->id_estados."|".$programacion_envio->fecha_envio."|".$programacion_envio->hora_envio."|".$programacion_envio->id_programacion_envio."|".$programacion_envio->mensaje;
+			}
+		}

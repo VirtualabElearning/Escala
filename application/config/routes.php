@@ -45,6 +45,12 @@
 	$route['admin'] = "login/root";
 	$route['color.css'] = "color";
 	$route['customjs.js'] = "customjs";
+	$route['certificado.css'] = "certificado";
+
+
+
+
+
 
 	$route['inicio'] = "inicio/publico";
 	$route['ciudades'] = "login/publico/ciudades";
@@ -62,13 +68,14 @@
 
 	$route['cursos/get_oportunidades_ev/(:any)'] = "cursos/publico/get_oportunidades_ev/$1";
 	$route['cursos/get_notificaciones_ajax'] = "cursos/publico/get_notificaciones_ajax";
+	$route['get_certificado/(:any)/(:any)'] = "cursos/publico/get_certificado/$1/$2";
 	$route['get_certificado/(:any)'] = "cursos/publico/get_certificado/$1";
 	$route['validar_certificado/(:any)'] = "cursos/publico/validar_certificado/$1";
 
 
 	$route['get_puntos_actual_ajax/(:any)'] = "cursos/publico/get_puntos_actual_ajax/$1";
 
-
+$route['encuestas/informacion/(:any)'] = "encuestas/publico/informacion/$1";
 
 
 
@@ -85,7 +92,8 @@
 
 	$route['explicacion'] = "generico/explicacion";
 
-	$route['notificaciones/(:any)'] = "login/publico/notificaciones/$1";
+	$route['notificaciones_user/(:any)'] = "login/publico/notificaciones/$1";
+	$route['inbox/(:any)'] = "login/publico/inbox/$1";
 	$route['inbox'] = "login/publico/inbox";
 
 
@@ -93,6 +101,10 @@
 	$route['op_inbox/(:any)/(:any)'] = "login/publico/op_inbox/$1/$2";
 
 	$route['get_notificaciones_ajax_list'] = "login/publico/get_notificaciones_ajax_list";
+	$route['get_inbox_ajax_list'] = "login/publico/get_inbox_ajax_list";
+
+
+
 	$route['login/recuperar_contrasena/(:any)'] = "login/publico/recuperar_contrasena/$1";
 
 	$route['login/validar_recuperar_contrasena'] = "login/publico/validar_recuperar_contrasena";

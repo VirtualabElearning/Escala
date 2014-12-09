@@ -74,6 +74,7 @@
                          <td><?php echo $value->id_contenidos; ?></td>
                          <td><?php echo $value->titulo; ?></td>
                          <td><?php echo $value->descripcion; ?></td>
+                            <td><?php if ($value->url_personalizado!='') { echo $value->url_personalizado; } else { echo "Ninguno"; } ?></td>
                           <td><?php if ($value->habilitar_e_footer==1) { echo "Si"; } else {echo "No"; } ?></td>
                          <td><?php echo $value->estado_nombre; ?></td>
                          <td>  

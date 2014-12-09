@@ -12,9 +12,12 @@ body {
    text-align: center;
    width: 950px;
 }
-
+ 
 .main {
  border: 1pt solid #777777;  
+ margin-top: 60%;
+ position: relative;
+
 }
 
 
@@ -65,20 +68,23 @@ body {
 }
 
 .campo1 {
-    text-align: none;
-    margin-left: 10%;
+    text-align: center;
+}
+
+.capa1 {
+  margin-left: 137px;
 }
 
 .linea2 {
     border-bottom: 1pt solid #575756;
-    width: 42%;
-    margin-left: 49%;
+    width: 22%;
+    margin-left: 44%;
     margin-top: 0%;
 }
 
 .cedula{
    margin-top: -25px;
-   margin-left: 50%;
+   margin-left: 45%;
    width: 140px;
 }
 
@@ -96,7 +102,7 @@ body {
 
 .linea3{
    border-bottom: 1pt solid #575756; 
-   margin-left: 21%;
+   margin-left: 28%;
    width: 170px;
 }
 

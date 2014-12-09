@@ -10,7 +10,7 @@ class Model_Modulos extends CI_Model{
 		}
 
 
-		$this->db->select($tabla.".*,tipo_planes.*,estados.nombre as estado_nombre");
+		$this->db->select($tabla.".*,tipo_planes.nombre,estados.nombre as estado_nombre");
 
 
 

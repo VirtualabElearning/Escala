@@ -52,7 +52,7 @@ class Root extends CI_Controller {
 		/* Consulto el listado de la tabla asignada del modulo */
 		$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
 		/* Muestro los campos necesarios para el listado */
-		$data['titulos']=array("Orden","ID","Titulo","Descripcion","Habilitar en footer","Estado","Opciones");
+		$data['titulos']=array("Orden","ID","Titulo","Descripcion","Url personalizado","Habilitar en footer","Estado","Opciones");
 		/* Muestro al vista dinamica del listado */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
@@ -123,6 +123,7 @@ class Root extends CI_Controller {
 			/* Guardo en un array los valores de los campos a guardar */
 			$data = array(
 				'titulo' => $this->input->post ('titulo'),
+				'url_personalizado' => $this->input->post ('url_personalizado'),
 				'descripcion' => $this->input->post ('descripcion'),
 				'contenido' => $this->input->post ('contenido'),
 				'id_estados' => $this->input->post ('id_estados'),

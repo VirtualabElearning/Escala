@@ -21,7 +21,7 @@
  <section class="encabezado2 clear">
   <div class="encabezado2_wrap">
     <h6>Centro de Mensajes</h6>
-    <p>Para escribir un mensaje al facilitador, hazlo <br> directo en el curso.</p>
+    <p>Acá encuentras tus respuestas a las preguntas generadas en los cursos.</p>
     <div class="circle">
       <div class="circle_wrap">
         <img src="html/site/img/icono_18.png" alt="">
@@ -48,9 +48,9 @@
 
 
           <?php  if ($value->id_estados==$this->config->item('estado_leido')) { ?>
-          <div opx="2" id="<?php echo $value->id_mensajes; ?>" class="not_block_col2 clicker_inbox">  </div>
-          <?php } else { ?>
           <div opx="1" id="<?php echo $value->id_mensajes; ?>" class="not_block_col2 not_off clicker_inbox">  </div>
+          <?php } else { ?>
+          <div opx="2" id="<?php echo $value->id_mensajes; ?>" class="not_block_col2  clicker_inbox">  </div>
           <?php } ?>
 
 
@@ -70,7 +70,7 @@
             </div>
             <div class="inbox_actividad">
               <?php if ($value->modulo->nombre_modulo!=''): ?>
-               <?php echo $value->modulo->nombre_modulo; ?>: <?php echo $value->actividad->nombre_actividad; ?>
+               <?php #echo $value->modulo->nombre_modulo; ?> <?php #echo $value->actividad->nombre_actividad; ?>
              <?php endif ?>
            </div>
          </div>

@@ -53,9 +53,7 @@
     <div class="close">x</div>
     <div id="gracias">¡GRACIAS!</div>
     <p>Tu información ha sido enviada satisfactoriamente, ingresa a este link para conocer mas de nuestros servicios</p>
-    <div class="thanks_btn">
-      Ver mas
-    </div>
+      <a href="cursos"> <div class="thanks_btn">Ver m&aacute;s</div></a>
   </div>
 </div>
 

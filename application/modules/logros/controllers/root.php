@@ -5,7 +5,7 @@ class Root extends CI_Controller {
 	/**
 	Controlador de la aplicacion
 	 **/
-
+ 
 
 	var $variables = array();
 
@@ -124,28 +124,48 @@ class Root extends CI_Controller {
 			if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
 
+	
+
+
+
+
+
+			/* Si existe algun error, continua el programa */
 			if ($_FILES['userfile']['tmp_name'])  {
-				#echo "sihay";
-				#exit;
+
 				$finfo=$this->upload->data();
-				if ($this->input->post ('foto_antes')!=$this->input->post ('image'))  {
-					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
-				}
 
-				$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
-				$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
-				$data['foto'] = $finfo['file_name'];
-
-			}
-
-			else {
-				#echo "niohay";
-				#exit;
+				/* si existia una foto antes, que la borre de la carpeta asignada */
 				if ($this->input->post ('foto_antes'))  {
 					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
 				}
-				$data['foto'] = "";
+
+				/* obteno la extesion y nombre de la imagen */
+				$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
+				$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+				$data['foto'] = $finfo['file_name'];
 			}
+
+			else {
+
+				/* si existia una foto antes, que la borre de la carpeta asignada */
+				if ($this->input->post('image'))  { }   // si existe el post, no hace nada
+					else {
+						if ($this->input->post ('foto_antes'))  {
+							@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+						}
+						$data['foto'] = "";	
+					}
+
+				}
+
+
+
+
+
+
+
+
 
 			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
 			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/index/'.$id.'/guardado_ok';

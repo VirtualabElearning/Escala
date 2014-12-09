@@ -35,7 +35,7 @@ class Root extends CI_Controller {
 		if (!$id_cursos)  { redirect( 'cursos/root'); }
 		if (!$id_modulos)  { redirect( 'modulos/root/lista/'.$id_cursos); }
 
-$this->load->model('model_actividades');
+		$this->load->model('model_actividades');
 
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		# cargo titulo
@@ -103,7 +103,9 @@ $this->load->model('model_actividades');
 		}
 
 		# titulos del listado de la tabla de informacion traida para msotrar en pantalla
-		$data['titulos']=array("Orden","ID","Categoria curso","Curso","Tipo actividad","Nombre actividad","Descripcion","Plan","Estado","Opciones");
+		#$data['titulos']=array("Orden","ID","Categoria curso","Curso","Tipo actividad","Nombre actividad","Descripcion","Plan","Estado","Opciones");
+		$data['titulos']=array("Tipo actividad","Nombre actividad","Estado","Opciones");
+		
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
 
@@ -173,7 +175,7 @@ $this->load->model('model_actividades');
 ### si es igual solo actualizo la actividad_evaluacion, barra y estado de las dos tablas
 
 	## datos nuevos a insertar:
-	
+			
 			$nueva_actividad=$this->{$variables['modelo']}->detalle('tipo_actividades',array('id_tipo_actividades',$id_tipo_actividades_var));
 
 			$data_nuevo=array('nombre_actividad'=>$nom_activ,'descripcion_actividad'=>$desc_acti,
@@ -310,8 +312,14 @@ $this->load->model('model_actividades');
 				case 4:  // campo de texto
 				foreach (${"campo_pregunta".($num_pregunta_value)} as $respuesta_key => $respuesta_value) {
 					$rtmp='';
+					$datos_actividadss=$this->{$variables['modelo']}->get_actividad_url ($id_actividades_barra);
 
-					$tmp_array[]=array('texto'=>$respuesta_value,'retroalimentacion'=>${"retrotexto".($num_pregunta_value)}[$respuesta_key]);
+
+					#$tmp_array[]=array('id'=>$num_pregunta_key.'|'.$datos_actividadss->{'id_'.$datos_actividadss->tabla_actividad}.'|'.$id_actividades_barra,'texto'=>$respuesta_value,'retroalimentacion'=>${"retrotexto".($num_pregunta_value)}[$respuesta_key]);
+					$tmp_array[]=array('id_texto'=>${"id_texto".($num_pregunta_value)}[$respuesta_key],'texto'=>$respuesta_value,'retroalimentacion'=>${"retrotexto".($num_pregunta_value)}[$respuesta_key]);
+				
+
+
 				}
 
 				break;
@@ -481,7 +489,7 @@ $this->load->model('model_actividades');
 		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 		$id=$this->input->post('id');
 
-	
+		
 
 
 		$this->load->helper($variables['modulo'].'_core');

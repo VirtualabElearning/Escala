@@ -72,6 +72,7 @@
                             <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
                               <img src="<?php echo base_url().'uploads/'.$carpeta.'/'.$detalle->foto; ?>" alt="img"/>
                             </div>
+<div class="explicacion_texto">Debe ser de 200x150</div>
 
                             <div>
                               <span class="btn btn-file">
@@ -117,63 +118,114 @@
                    <?php $array_opc=array(); ?>
                    <?php $cursos_checked=json_decode($cursos_asignadoss); $checkeado=""; ?>
 
-                   <?php foreach ($cursos as $key => $value_cursos): ?>
+                   <?php 
+                   $listxcursosasig=array();
+                   if ($cursos_checked) {
+                   foreach ($cursos_checked as $keyxxxx => $valuexxxx) {
+                    $tmpxxp=explode ("|",$valuexxxx);
+                    $listxcursosasig[]=$tmpxxp[0];
+                    $xxestatus[]=$tmpxxp[1];
+                    $xxplanes[]=$tmpxxp[2];
+                  }
+                  }
+                  ?>
+
+
+                  <?php 
+                  /*
+                  foreach ($cursos as $key => $value_cursos): ?>
                     <?php $checkeado=""; ?>
-                    <?php if ( @in_array($value_cursos->id_cursos."",$cursos_checked)) { $checkeado="checked"; }  ?>
-                    <?php $array_opc['id_cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$value_cursos->id_cursos.'|'.$checkeado]="[$value_cursos->categoria_curso] ".$value_cursos->titulo; ?>
+                    <?php if ( @in_array($value_cursos->id_cursos."",$listxcursosasig)) { $checkeado="checked"; }  ?>
+                    <?php $array_opc['id_cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$data_value_cursos[0].'|'.$checkeado]="[$value_cursos->categoria_curso] ".$value_cursos->titulo; ?>
                   <?php endforeach  ?>
                   <?php 
-                  echo checkbox ('Cursos asignados',$array_opc,1,'');
+                 # echo checkbox ('Cursos asignados',$array_opc,1,'');
+                 */
                   ?>
-
-
-
-                  <?php 
-                  $opciones=array("1"=>"Activo","0"=>"Inactivo");
-                  echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
-                  ?>
-
-
 
 
                   <div class="form-group">
-                    <div class="col-lg-offset-2 col-lg-6">
-                     <button type="button" class="guardar_usuario_clic btn btn-sm btn-primary">Guardar</button>
-                     <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
-                   </div>
-                 </div>
-                 <?php if ($this->input->post('id')): ?>
-                  <?=form_hidden('id',$this->input->post('id'))?>
-                  <?=form_hidden('foto_antes',$detalle->foto)?>
-                <?php endif; ?>
+                    <label class="col-lg-2 control-label">Cursos asignados</label>
+                    <div class="col-lg-5">
+                     
 
-                <?php if ($this->uri->segment(4)): ?>
-                  <?=form_hidden('id',$this->uri->segment(4))?>
-                  <?=form_hidden('foto_antes',$detalle->foto)?>
-                <?php endif ?>
-                <?=form_hidden('redirect',@$redirect)?>
-                <?=form_close()?>
+
+ <?php foreach ($cursos as $key => $value_cursos): ?>
+                    <?php $checkeado=""; ?>
+                    <?php if ( @in_array($value_cursos->id_cursos."",$listxcursosasig)) { $checkeado="checked"; }  ?>
+                    <?php #$array_opc['id_cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$data_value_cursos[0].'|'.$checkeado]="[$value_cursos->categoria_curso] ".$value_cursos->titulo; ?>
+                  
+
+
+                  <label class="checkbox-inline">
+                        <input type="checkbox" value="<?php echo $value_cursos->id_cursos; ?>" <?php echo $checkeado; ?> id="<?php echo amigable($value_cursos->titulo); ?>" name="id_cursos_asignados[]">[<?php echo $value_cursos->categoria_curso; ?>] <?php echo $value_cursos->titulo; ?>
+                        </label>
+
+                        <br>
+
+
+                  <?php endforeach  ?>
+                  <?php 
+                 # echo checkbox ('Cursos asignados',$array_opc,1,'');
+                  ?>
+
+
+                      
+                      
+
+                     
+
+                        </div>
+                      </div>
+
+
+
+                      <?php 
+                      $opciones=array("1"=>"Activo","0"=>"Inactivo");
+                      echo select ("Estado","id_estados","id_estados",$opciones,$detalle->id_estados); 
+                      ?>
+
+
+
+
+                      <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-6">
+                         <button type="button" class="guardar_usuario_clic btn btn-sm btn-primary">Guardar</button>
+                         <a href="<?php echo base_url().$this->uri->segment(1)."/".$this->uri->segment(2); ?>"><button type="button" class="btn btn-sm btn-warning btncancelar">Cancelar</button></a>
+                       </div>
+                     </div>
+                     <?php if ($this->input->post('id')): ?>
+                      <?=form_hidden('id',$this->input->post('id'))?>
+                      <?=form_hidden('foto_antes',$detalle->foto)?>
+                    <?php endif; ?>
+
+                    <?php if ($this->uri->segment(4)): ?>
+                      <?=form_hidden('id',$this->uri->segment(4))?>
+                      <?=form_hidden('foto_antes',$detalle->foto)?>
+                    <?php endif ?>
+                    <?=form_hidden('redirect',@$redirect)?>
+                    <?=form_close()?>
+                  </div>
+                </div>
+                <div class="widget-foot">
+
+                </div>
               </div>
-            </div>
-            <div class="widget-foot">
+            </div>  
 
-            </div>
           </div>
-        </div>  
-
+        </div>
       </div>
     </div>
-  </div>
-  </div>
 
   </div>
 
   <div class="clearfix"></div>
 
-  </div>
+</div>
 
-  <?php /* CARGO FOOTER GENERICO */ ?>
-  <?php $this->load->view('view_admin_footer'); ?>
+<?php /* CARGO FOOTER GENERICO */ ?>
+<?php $this->load->view('view_admin_footer'); ?>
 
-  </body>
-  </html>
+</body>
+</html>

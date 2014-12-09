@@ -19,7 +19,7 @@ public function listado($tabla,$where=null,$order_by=null){
 	}
 
 	$query = $this->db->get($tabla);
-	#echo  $this->db->last_query()."<br>";
+	#krumo ($this->db->last_query());
 	return $query->result();
 }
 
@@ -233,6 +233,33 @@ public function get_mensajes ($id_usuarios,$id_estados=null,$limit=null) {
 
 
 
+##funcion que trae las inbox count
+public function get_mensajes_count ($id_usuarios,$id_estados=null,$limit=null) {
+	if ($limit) { $this->db->limit($limit); }
+	if ($id_estados) { $this->db->where( "mensajes.id_estados",$id_estados ); }
+	$this->db->where( "mensajes.id_usuarios",$id_usuarios ); 
+	$this->db->order_by("mensajes.fecha_creado", "desc"); 
+	$this->db->from('mensajes');
+	$con=$this->db->count_all_results();
+	return $con;
+}
+
+## muestro los cursos que tengo suscripcion
+public function mis_cursos_suscripcion ($id_usuarios) {
+	
+	$this->db->select('cursos.*,pagos_realizados.*,cursos_asignados.*,pagos_realizados.fecha_creado as fecha_pago');
+	$this->db->join('cursos', 'cursos_asignados.id_cursos = cursos.id_cursos');
+	$this->db->join('pagos_realizados', 'pagos_realizados.id_cursos = cursos.id_cursos and pagos_realizados.id_usuarios=cursos_asignados.id_usuarios');
+	$this->db->order_by("cursos_asignados.orden", "desc"); 
+	$this->db->where( "cursos_asignados.id_usuarios",$id_usuarios ); 
+	#$this->db->where( "cursos_asignados.id_tipo_planes",$this->config->item('Premium') );
+	$query = $this->db->get("cursos_asignados");
+	return $query->result();
+
+
+}
+
+
 
 ## funcion para tener la pregunta del mensaje
 public function get_pregunta_mensaje ($id_mensajes) {
@@ -242,6 +269,17 @@ public function get_pregunta_mensaje ($id_mensajes) {
 	return $resultados;
 }
 
+
+
+#funcion para obtener los cursos asignados del docente
+public function cursos_list_doc($id_usuarios) {
+	$this->db->where('cursos.id_estados',$this->config->item('estado_activo'));
+	$this->db->like('cursos.instructores_asignados', '"'.$id_usuarios.'"'); 
+	$query = $this->db->get('cursos');
+	$resultados=$query->result();
+		#krumo ($this->db->last_query());
+	return $resultados;
+}
 
 
 

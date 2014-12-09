@@ -8,7 +8,7 @@
   <base href="<?=base_url()?>" /> 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title></title>
+  <title>Mis cursos</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,10 +21,10 @@
   <?php $this->load->view('view_site_header'); ?>
 
 
-  <section class="encabezado">
-    <div class="encabezado_wrap">
-      <h6>MIS DE CURSOS</h6>
-      <p>¡Una experiencia de aprendizaje online que te dejará sin palabras y potencializará tus capacidades para el éxito integral!</p>
+  <section class="encabezado2">
+    <div class="encabezado2_wrap">
+      <h6>MIS CURSOS</h6>
+     <p>Estos son los cursos en los que te encuentras matriculado.</p>
     
 
 <?php if ($this->session->userdata('id_estatus')): ?>
@@ -34,7 +34,7 @@
         <div class="circle_wrap">
             <img src="html/site/img/icono_6.png" alt="">
         </div>
-        <div class="filtro">
+        <div class="filtro  mobile-hider">
          <?php $attributos=array("method"=>"get","id"=>"formbuscar","name"=>"formbuscar"); ?>
          <?=form_open(base_url().$this->uri->segment(1).'/buscar_mis_cursos',$attributos)?>
          <input type="text" name="buscar" id="buscar"  autocomplete="off" value="<?php echo $this->input->get('buscar'); ?>" placeholder="* Buscar cursos">
@@ -52,7 +52,7 @@
 
 
  <section class="cursos_destacados">
-  <div class="cursos_destacados_wrap clear">
+  <div class="cursos_destacados_wrap clear" <?php if (count($cursos_lista)==1): ?> style="width:320px;"  <?php elseif (count($cursos_lista)==2): ?>   style="width:640px;" <?php endif ?>>
    <?php $contador=1; ?>   
    <?php if (@$cursos_lista): ?>
                  

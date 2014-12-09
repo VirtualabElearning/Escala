@@ -33,7 +33,10 @@
            </div>
          <?php endif ?>
          <div class="col-md-12">
+<?php /* ?>
           <a href="<?php echo $this->uri->segment(1); ?>/root/nuevo" class="btn btn-success btn-xs"><i class="fa"></i> Nuevo</a>
+          <?php */ ?>
+
           <div class="widget">
             <div class="widget-head">
               <div class="pull-left"><?php echo str_replace("_", " ", $titulo); ?></div>
@@ -62,19 +65,22 @@
                         <?php foreach ($lista as $key => $value): ?>
 
                           <tr id="<?php echo $value->id_categoria_cursos; ?>">
-                           <td><?php echo $value->orden; ?></td>
-                           <td><?php echo $value->id_categoria_cursos; ?></td>
-                           <td><?php echo $value->nombre; ?></td>
-                           <td><?php echo $value->Descripcion; ?></td>
+                           <td style="display:none;"><?php echo $value->orden; ?></td>
+                           <td style="display:none;"><?php echo $value->id_pagos_realizados; ?></td>
+                           <td><?php echo $value->nombres; ?> <?php echo $value->apellidos; ?></td>
+                           <td><?php echo $value->titulo; ?></td>
+                           <td><?php echo $value->valor; ?></td>
                            <td><?php echo $value->estado_nombre; ?></td>
+                            <?php /* ?>
                            <td> 
                            <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_categoria_cursos; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
-                            <a href="#" id="<?php echo $value->id_categoria_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> 
-                             </td>
-                         </tr>
-                       <?php endforeach ?>         
-                     </tbody>
-                     <tfoot>
+                            <a href="#" id="<?php echo $value->id_categoria_cursos; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a>               
+                          </td>
+                             <?php */ ?>    
+                        </tr>
+                      <?php endforeach ?>         
+                    </tbody>
+                    <tfoot>
                       <tr>
                         <?php foreach ($titulos as $key => $value): ?>
                           <th> <?php echo $value; ?> </th>

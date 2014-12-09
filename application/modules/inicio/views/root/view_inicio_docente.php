@@ -96,38 +96,45 @@
 
           </ul>
 
+<?php /* ?>
+  <?php $if_calif=if_calificar2($value->id_usuarios,$value->id_cursos); ?>
+ <?php if ($if_calif==0) { echo "Por calificar"; } if ($if_calif==1) { echo "Calificado"; } ?>
+ <?php */ ?>                      
 
+ <?php $cal=0 ?>
+ <?php foreach ($mis_cursos as $c_key => $c_value): ?>
 
+  <?php $est=get_est_curso_actual($c_value->id_cursos); ?>
 
+  <?php foreach ($est as $est_key => $est_value): ?>
 
+    <?php $if_calif=if_calificar2($est_value->id_usuarios,$c_value->id_cursos); ?>
 
+    <?php if ($if_calif==0): ?>
+     <?php $cal=1; ?>
+   <?php endif ?>
+ <?php endforeach ?>
 
+<?php endforeach ?>
 
-
-          <div class="header-data botssxx2">
-
-
-            <a href="#">
-              <!-- Members data -->
-              <div class="hdata">
-                <div class="mcol-left">
-                  <!-- Icon with blue background -->
-                  <i class="fa fa-user bblue"></i> 
-                </div>
-                <div class="mcol-right">
-                  <!-- Number of visitors -->
-                  <p>3000 <em>users</em></p>
-                </div>
-                <div class="clearfix"></div>
-              </div>
-            </a>
-
-
-          </div>
-
-
-
+<?php if ($cal>0): ?>
+  <div class="header-data">
+    <div class="hdata">
+      <a href="cursos/root">
+        <div class="mcol-left">
+          <i class="fa fa-check bblue"></i> 
         </div>
+        <div class="mcol-right">
+          <p><em>por <br>Calificar</em></p>
+        </div>
+      </a>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+<?php endif ?>
+
+
+</div>
 
 
 
@@ -155,24 +162,43 @@
 
 
 
+</div>
+
+
+
+</div>
+
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="widget">
+      <div class="widget-head">
+        <div class="pull-left">Novedades Virtualab</div>
+        <div class="widget-icons pull-right">
+          <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+          <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+        </div>  
+        <div class="clearfix"></div>
       </div>
 
 
 
-    </div>
 
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="widget">
-          <div class="widget-head">
-            <div class="pull-left">Promedio de visitas diarias</div>
-            <div class="widget-icons pull-right">
-              <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-              <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-            </div>  
-            <div class="clearfix"></div>
-          </div>
+      <div class="slider-wrapper theme-default">
+        <div id="slider_docente" class="nivoSlider">
+          <img src="html/admin/nivo/images/banner1.jpg" data-thumb="html/admin/nivo/images/banner1.jpg" alt="" />
+          <img src="html/admin/nivo/images/banner2.jpg" data-thumb="html/admin/nivo/images/banner2.jpg" alt="" />
+<?php /* ?>
+                <a href="http://dev7studios.com"><img src="html/admin/nivo/images/banner2.jpg" data-thumb="html/admin/nivo/images/banner2.jpg" alt="" title="This is an example of a caption" /></a>
+                <?php */ ?>       
+                <img src="html/admin/nivo/images/banner3.jpg" data-thumb="html/admin/nivo/images/banner3.jpg" alt="" />
+              </div>
+
+            </div>
+
+<?php /* ?>
+
           <div class="widget-content">
             <div class="padd">
 
@@ -183,12 +209,18 @@
             <!-- Footer goes here -->
           </div>
         </div>
+        <?php */ ?>
+
+
+
+
+
       </div> 
     </div>
     <div class="col-md-6">
       <div class="widget">
         <div class="widget-head">
-          <div class="pull-left">Mensaje rapido a usuario</div>
+          <div class="pull-left">Mensaje masivo</div>
           <div class="widget-icons pull-right">
             <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
             <a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -200,62 +232,63 @@
 
             <div class="form quick-post">
 
-              <form action="<?php echo base_url(); ?>mensajes/root/enviar" method="post" accept-charset="utf-8" class="form-horizontal" role="form" enctype="multipart/form-data">                   
+              <form action="<?php echo base_url(); ?>mensajes/root/enviar_masivo" method="post" accept-charset="utf-8" class="form-horizontal" role="form" enctype="multipart/form-data">                   
+                <?php if ($mensaje_p): ?>
+                  <div class="errormensaje"><?php echo $mensaje_p; ?></div>
+                <?php endif ?>
 
-               <div class="form-group">
-                <label class="control-label col-lg-2">Curso</label>
-                <div class="col-lg-5">                               
-                  <select class="form-control" name="id_cursos" id="id_cursos">
-                    <option value="">- Seleccone curso -</option>
-                    <?php foreach ($mis_cursos as $key => $value): ?>
-                      <option value="<?php echo $value->id_cursos; ?>"><?php echo $value->titulo; ?></option>
-                    <?php endforeach ?>
-                  </select>  
+
+
+
+       <?php if ($mensaje_ok): ?>
+                  <div class="mensaje_ok"><?php echo $mensaje_ok; ?></div>
+                <?php endif ?>
+
+
+
+                <div class="form-group">
+                  <label class="control-label col-lg-2">Curso</label>
+                  <div class="col-lg-5">                               
+                    <select class="form-control" name="id_cursos" id="id_cursos">
+                      <option value="">- Seleccone curso -</option>
+                      <?php foreach ($mis_cursos as $key => $value): ?>
+                        <option value="<?php echo $value->id_cursos; ?>"><?php echo $value->titulo; ?></option>
+                      <?php endforeach ?>
+                    </select>  
+                  </div>
+                </div>      
+
+
+                <div class="form-group">
+                  <label class="control-label col-lg-2" for="content">Mensaje</label>
+                  <div class="col-lg-8">
+                    <textarea class="form-control" name="mensaje" id="mensaje" rows="5" placeholder="Digita el mensaje que quieres comunicar a todos los <?php echo asignar_frase_diccionario ($diccionario,"{estudiante}","Estudiante",2); ?>." id="content"></textarea>
+                  </div>
+                </div>                           
+
+
+
+
+                <!-- Buttons -->
+                <div class="form-group">
+                 <!-- Buttons -->
+                 <div class="col-lg-offset-2 col-lg-6">
+                  <button type="submit" class="btn btn-sm btn-success">Enviar</button>
                 </div>
-              </div>      
-
-              <div class="form-group">
-                <label class="control-label col-lg-2">Usuario</label>
-                <div class="col-lg-5">                               
-                  <select class="form-control" name="id_usuarios" id="id_usuarios">
-                   <option value="">- Seleccone Usuario -</option>
-                 </select>  
-               </div>
-             </div>   
-
-
-
-
-             <div class="form-group">
-              <label class="control-label col-lg-2" for="content">Mensaje</label>
-              <div class="col-lg-8">
-                <textarea class="form-control" name="mensaje" id="mensaje" rows="5" id="content"></textarea>
               </div>
-            </div>                           
+              <input type="hidden" id="id_estados" name="id_estados" value="<?php echo $this->config->item('estado_no_leido'); ?>">
 
-
-
-
-            <!-- Buttons -->
-            <div class="form-group">
-             <!-- Buttons -->
-             <div class="col-lg-offset-2 col-lg-6">
-              <button type="submit" class="btn btn-sm btn-success">Enviar</button>
-            </div>
+            </form>
           </div>
-<input type="hidden" id="id_estados" name="id_estados" value="<?php echo $this->config->item('estado_no_leido'); ?>">
 
-        </form>
+
+        </div>
+        <div class="widget-foot">
+          <!-- Footer goes here -->
+        </div>
       </div>
-
-
-    </div>
-    <div class="widget-foot">
-      <!-- Footer goes here -->
-    </div>
-  </div>
-</div> 
-</div>            
+    </div> 
+  </div>            
 </div>  
 
 

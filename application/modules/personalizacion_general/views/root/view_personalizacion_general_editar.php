@@ -41,6 +41,9 @@
                       <br />
                       <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                       <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
+
+                      <h3 class="subittlex">Personalización de la plataforma</h3>
+
                       <?php echo input_text ("Nombre del sistema","nombre_sistema","nombre_sistema","Ingrese el nombre del sistema",$detalle->nombre_sistema); ?>
                       <?php echo input_text ("Nombre contacto","nombre_contacto","nombre_contacto","Ingrese el nombre de contacto",$detalle->nombre_contacto); ?>
                       <?php echo input_text ("Correo contacto","correo_contacto","correo_contacto","Ingrese el correo de contacto",$detalle->correo_contacto); ?>
@@ -51,7 +54,7 @@
                       <?php echo textarea ("Descripci&oacute;n del sistema","descripcion_sistema","descripcion_sistema","Ingrese la descripci&oacute;n del sistema",$detalle->descripcion_sistema); ?>
                       <?php echo form_error('descripcion_sistema', '<div class="mensaje_error">', '</div>'); ?>
 
-                      <?php echo textarea ("Keywords del sistema","keywords_sistema","keywords_sistema","Ingrese los keywords del sistema",$detalle->keywords_sistema); ?>
+                      <?php echo textarea ("Keywords del sistema","keywords_sistema","keywords_sistema","Ingrese los keywords del sistema separados por comas, recuerde que éstas serán las palabras que lo posicionarán los buscadores como Google.",$detalle->keywords_sistema); ?>
                       <?php echo form_error('keywords_sistema', '<div class="mensaje_error">', '</div>'); ?>
 
 
@@ -65,12 +68,14 @@
 
                           <div class="fileupload <?php if ($detalle->logo): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                             <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                              <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
+                              <img src="html/site/img/110x110.png" alt="img"/>
                             </div>
 
                             <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
                               <img src="<?php echo base_url().'uploads/'.$titulo.'/'.$detalle->logo; ?>" alt="img"/>
+                            
                             </div>
+                            <div class="explicacion_texto">Debe ser de 110x110</div>
 
                             <div>
                               <span class="btn btn-file">
@@ -81,6 +86,7 @@
                               <a href="#" class="btn fileupload-exists delete_photoxx" data-dismiss="fileupload">Borrar</a>
                               <?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
                             </div>
+
                           </div>
                         </div>
                       </div>
@@ -107,21 +113,53 @@
 
 
                       <div class="form-group">
-                        <label class="col-lg-2 control-label">Color3</label>
+                        <label class="col-lg-2 control-label">Color footer</label>
                         <div class="col-lg-5">
                           <div id="colores_sistema3" class="color_fondo"><div style="background-color: <?php echo $detalle->colores_sistema3; ?>;"></div></div>
                           <input type="hidden" name="colores_sistema3" id="colores_sistema3_input" value="<?php echo $detalle->colores_sistema3; ?>">
                         </div>
                       </div>
 
+                      <?php 
+                      $tmp=file_get_contents("http://static.scripting.com/google/webFontNames.txt");
+                      $list=explode ("\r",$tmp);
+                      $opciones=array('century'=>'century');
+                      foreach ($list as $key => $value) {
+                        $opciones[ $value]= $value;
+                      }
+                      echo select ("Fuente general","fuente_general","fuente_general",$opciones,$detalle->fuente_general); 
+                      ?>
 
                       <div class="form-group">
-                        <label class="col-lg-2 control-label">Color4</label>
+                        <label class="col-lg-2 control-label">Imagen footer</label>
                         <div class="col-lg-5">
-                          <div id="colores_sistema4" class="color_fondo"><div style="background-color: <?php echo $detalle->colores_sistema4; ?>;"></div></div>
-                          <input type="hidden" name="colores_sistema4" id="colores_sistema4_input"  value="<?php echo $detalle->colores_sistema4; ?>">
+                          <input type="hidden" id="image_footer" name="image_footer" value="<?php echo $detalle->image_footer; ?>">
+                          <input type="hidden" name="foto_antes_image_footer" value="<?php echo $detalle->image_footer; ?>">
+
+
+                          <div class="fileupload <?php if ($detalle->image_footer): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                              <img src="html/site/img/2000x266.png" alt="img"/>
+                            </div>
+
+                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
+                              <img src="<?php echo base_url().'uploads/'.$titulo.'/'.$detalle->image_footer; ?>" alt="img"/>
+                            </div>
+
+                            <div>
+                              <span class="btn btn-file">
+                                <span class="fileupload-exists">Cambiar</span>
+                                <span class="fileupload-new">Seleccione imagen</span>         
+                                <input type="file" value="uploads/perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="logo_footer" id="logo_footer"/>
+                              </span>
+                              <a href="#" class="btn fileupload-exists delete_photoxx2" data-dismiss="fileupload">Borrar</a>
+                              <?php echo  form_error('logo_footer', '<div class="mensaje_error">', '</div>'); ?>
+                            </div>
+                          </div>
                         </div>
                       </div>
+
+
 
 
                       <?php echo input_text ("Facebook URL","facebook_sistema","facebook_sistema","",$detalle->facebook_sistema,form_error('facebook_sistema', '<div class="mensaje_error">', '</div>')); ?>
@@ -131,6 +169,79 @@
                       <?php echo input_text ("Copyright nombre","copyright_nombre","copyright_nombre","",$detalle->copyright_nombre,form_error('copyright_nombre', '<div class="mensaje_error">', '</div>')); ?>
 
                       <?php echo input_text ("Copyright Url","copyright_url","copyright_url","",$detalle->copyright_url,form_error('copyright_url', '<div class="mensaje_error">', '</div>')); ?>
+
+
+
+                      <?php echo textarea ("Información de contacto","info_contacto","info_contacto","Ingrese la información de contacto",$detalle->info_contacto); ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      <h3 class="subittlex">Personalización certificado</h3>
+
+                      <?php echo textarea ("¿Quién certifica?","certificado_texto1","certificado_texto1","Digita el nombre de la organización, tal y como deseas que aparezca en el certificado.",$detalle->certificado_texto1); ?>
+                      <?php echo form_error('certificado_texto1', '<div class="mensaje_error">', '</div>'); ?>
+
+                      <?php echo textarea ("Legalidad","certificado_texto2","certificado_texto2","Digita la resolución y leyes que te permiten expedir tus certificados, tal y como deseas que aparezca en el certificado.",$detalle->certificado_texto2); ?>
+                      <?php echo form_error('certificado_texto2', '<div class="mensaje_error">', '</div>'); ?>
+
+                      <?php echo textarea ("¿Qué certificas?","certificado_texto3","certificado_texto3","Digita el texto que describe tu certificación. Ejemplo: 'Certifica la asistencia y participación al programa de'",$detalle->certificado_texto3); ?>
+                      <?php echo form_error('certificado_texto3', '<div class="mensaje_error">', '</div>'); ?>
+
+
+
+                      <h3 class="subittlex">Códigos Extra</h3>
+
+                      <?php echo textarea ("Google Analytics","google_analytics","google_analytics","Ingrese el código de Google Analytics",$detalle->google_analytics); ?>
+                      <?php echo form_error('google_analytics', '<div class="mensaje_error">', '</div>'); ?>
+
+
+
+
+<?php /* ?>
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">imagen Footer</label>
+                        <div class="col-lg-5">
+                          <input type="hidden" id="image3" name="image3" value="<?php echo $detalle->certificado_footer; ?>">
+                          <input type="hidden" name="foto_antes3" value="<?php echo $detalle->certificado_footer; ?>">
+
+
+                          <div class="fileupload <?php if ($detalle->certificado_footer): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                              <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
+                            </div>
+
+                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
+                              <img src="<?php echo base_url().'uploads/'.$titulo.'/'.$detalle->certificado_footer; ?>" alt="img"/>
+                            </div>
+
+                            <div>
+                              <span class="btn btn-file">
+                                <span class="fileupload-exists">Cambiar</span>
+                                <span class="fileupload-new">Seleccione imagen</span>         
+                                <input type="file" value="uploads/perfil/2524e95f51cd37a6cef307ddffa86fcc.jpg" name="certificado_footer" id="certificado_footer"/>
+                              </span>
+                              <a href="#" class="btn fileupload-exists delete_photoxx" data-dismiss="fileupload">Borrar</a>
+                              <?php echo  form_error('image', '<div class="mensaje_error">', '</div>'); ?>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <?php */ ?>
+
 
 
 

@@ -26,10 +26,31 @@ class Publico extends CI_Controller {
 
 ##vista de suscripcion y saber que plan tengo
 	public function suscripcion()  {
+
+
+		if ($this->session->userdata('logeado')!=1) {  redirect('ingresar');  }
+
 		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
 		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 		$data['inicio']=$this->model_generico->detalle('pagina_inicio',array('id_pagina_inicio'=>1));
+		
+
+		$data['mis_cursos_suscripcion']=$this->model_generico->mis_cursos_suscripcion($this->encrypt->decode($this->session->userdata('id_usuario')));
+
+
+	##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
+		$data['notificaciones_count']=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		$data['notificaciones']=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$data['tipo_planes']=$this->model_generico->listado('tipo_planes',array('tipo_planes.id_estados','1'),array('orden','asc'));
+		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+		$data['inicio']=$this->model_generico->detalle('pagina_inicio',array('id_pagina_inicio'=>1));
+
+		$data['inbox']=$this->model_generico->listado('mensajes',array('mensajes.id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario'))),array('orden','asc'));
+
+
+
 		$this->load->view('publico/view_suscripcion',$data);
 	}
 
@@ -180,7 +201,7 @@ class Publico extends CI_Controller {
 			$this->session->unset_userdata('foto_subida');
 
 			
-			$this->registro_usuario("Creado correctamente, verifica tu correo para validar el registro y poder iniciar sesi&oacute;n.");
+			$this->registro_usuario("Solo te queda un &uacute;ltimo paso, te hemos enviado a <b>".$this->input->post ('correo')."</b> un mensaje para <b>verificar tu cuenta</b>, revisa en tu bandeja de entrada o en la secci&oacute;n de SPAM.");
 
 			
 #krumo($this->session->all_userdata()); 
@@ -225,7 +246,8 @@ class Publico extends CI_Controller {
 				{
 					$datos_perfil = $service->getUserProfile();
 
-					$arr=array('user_social_key',md5($datos_perfil->firstName.'~'.$datos_perfil->lastName.'~'.$datos_perfil->email));
+					#$arr=array('user_social_key',md5($datos_perfil->firstName.'~'.$datos_perfil->lastName.'~'.$datos_perfil->email));
+					$arr=array('correo',$datos_perfil->email);
 
 					$info_usuario = $this->model_login->get_info_usuario_estudiante('usuarios', $arr );
 
@@ -367,7 +389,7 @@ else {
 
 
 /* redirecciono a la ventana de inicio o a donde me haya quedado la ultima vez */
-if (!$redirect)  { redirect( 'cursos/mis_cursos' ); }  else { redirect( $redirect ); }
+if (!$redirect)  { redirect( 'cursos' ); }  else { redirect( $redirect ); }
 
 
 
@@ -387,6 +409,8 @@ if (!$redirect)  { redirect( 'cursos/mis_cursos' ); }  else { redirect( $redirec
 		}
 		catch(Exception $e)
 		{
+
+			echo "PAAAILA"; exit;
 			$error = 'Unexpected error';
 			switch($e->getCode())
 			{
@@ -396,13 +420,14 @@ if (!$redirect)  { redirect( 'cursos/mis_cursos' ); }  else { redirect( $redirec
 				case 3 : $error = 'Unknown or disabled provider.'; break;
 				case 4 : $error = 'Missing provider application credentials.'; break;
 				case 5 : log_message('debug', 'controllers.HAuth.login: Authentification failed. The user has canceled the authentication or the provider refused the connection.');
-				         //redirect();
+				redirect( "ingresar" );
 				if (isset($service))
 				{
-					log_message('debug', 'controllers.HAuth.login: logging out from service.');
+					#log_message('debug', 'controllers.HAuth.login: logging out from service.');
 					$service->logout();
 				}
-				show_error('User has cancelled the authentication or the provider refused the connection.');
+				echo "paila1";
+				#show_error('User has cancelled the authentication or the provider refused the connection.');
 				break;
 				case 6 : $error = 'User profile request failed. Most likely the user is not connected to the provider and he should to authenticate again.';
 				break;
@@ -416,7 +441,9 @@ if (!$redirect)  { redirect( 'cursos/mis_cursos' ); }  else { redirect( $redirec
 			}
 
 			#log_message('error', 'controllers.HAuth.login: '.$error);
-			show_error('Error authenticating user.');
+			echo "paila2";
+			#show_error('Error authenticating user.');
+			redirect( "ingresar" );
 		}
 
 
@@ -481,7 +508,7 @@ $this->session->set_userdata($data);
 
 /* Redirecciono a la ventana de inicio del sistema de administraciona  */
 
-if (!$redirect)  { redirect( 'cursos/mis_cursos' ); }  else { redirect( $redirect ); }
+if (!$redirect)  { redirect( '/' ); }  else { redirect( $redirect ); }
 
 }
 }
@@ -547,6 +574,12 @@ public function estudiante_check(){
 ######################################### lineas de programacion debe estar en todas ####################################
 
 
+####################### consulto si puedo editar mi perfil (Solo lo permite una sola vez) ###############################
+		
+
+
+
+
 		$this->load->view('publico/view_editar_perfil',$data);
 	}
 
@@ -606,10 +639,11 @@ public function estudiante_check(){
 ## checkeo si la identificacion ya existe.
 	public function check_identificacion () {
 
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
 
 		$this->load->model('model_login');
 		/* Evaluo en la funcion si existe, si la contrasena es correcta. */
-		$result = $this->model_login->check_user_identificacion( $this->input->post ('identificacion') );
+		$result = $this->model_login->check_user_identificacion( $this->input->post ('identificacion'),$id_usuarios );
 
 		switch($result){
 			case 'existe':
@@ -650,10 +684,12 @@ public function estudiante_check(){
 
 		if ($if_fb) {
 			$this->form_validation->set_rules('identificacion', 'Identificación', 'required|xss_clean|callback_check_identificacion');
+			#$this->form_validation->set_rules('identificacion', 'Identificación', 'required|xss_clean');
 		}
 
 		else {
-			$this->form_validation->set_rules('identificacion', 'Identificación', 'required|xss_clean');
+			#$this->form_validation->set_rules('identificacion', 'Identificación', 'required|xss_clean');
+			$this->form_validation->set_rules('identificacion', 'Identificación', 'required|xss_clean|callback_check_identificacion');
 		}
 
 		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean');
@@ -673,6 +709,7 @@ public function estudiante_check(){
 				'correo' => $this->input->post ('correo'),
 				'identificacion' => $this->input->post ('identificacion'),
 				'ciudad' => $this->input->post ('ciudad'),
+				'cambiar_info' => 1,
 				);
 
 			if ($this->input->post ('foto_antes')!=$this->input->post ('userfile'))  {
@@ -716,7 +753,7 @@ public function estudiante_check(){
 			/* Guardo los datos en la variable sesion */
 			$this->session->set_userdata($data);
 
-			$this->editar_perfil("Actualizado correctamente!");
+			$this->editar_perfil("¡Actualizado correctamente!");
 
 			
 
@@ -999,7 +1036,7 @@ public function estudiante_check(){
 
 
 
-			$this->editar_perfil("confirmado correctamente!");
+			$this->editar_perfil("¡Bienvenido!,ya haces parte de la comunidad. :), actualiza tus datos.");
 
 
 		}
@@ -1054,8 +1091,6 @@ public function estudiante_check(){
 
 ##funcion para obtener el listado de notificaciones con ajax
 	public function get_notificaciones_ajax_list () {
-
-
 		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
 		$notificaciones=$this->model_generico->get_notificaciones ($id_usuarios,$this->config->item('estado_no_leido'),5);
 		$notificaciones_count=$this->model_generico->get_notificaciones_count ($id_usuarios,$this->config->item('estado_no_leido'));
@@ -1071,7 +1106,7 @@ public function estudiante_check(){
 		$html.='<div class="not_col1">';
 		$html.='</div>';
 		$html.='<div class="not_col2">';
-		$html.='<a target="_blank" href="'.base_url().'notificaciones/'.$noti_value->id_notificaciones.'">';
+		$html.='<a target="_blank" href="'.base_url().'notificaciones_user/'.$noti_value->id_notificaciones.'">';
 		$html.='<h5>'.substr($noti_value->mensaje, 0, 35)."...".'</h5>';
 		$html.='<h6> '.$meses[$fecha[1]].' '.$fecha[2].', '.$datetime[1].'</h6>';
 		$html.='</a>';
@@ -1079,12 +1114,38 @@ public function estudiante_check(){
 		$html.='</li>';
 		endforeach; 
 		echo $html."|".$notificaciones_count;
+	}
 
+
+
+
+##funcion para obtener el listado de inbox con ajax
+	public function get_inbox_ajax_list () {
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$mensajes=$this->model_generico->get_mensajes ($id_usuarios,$this->config->item('estado_no_leido'),5);
+		$mensajes_count=$this->model_generico->get_mensajes_count ($id_usuarios,$this->config->item('estado_no_leido'));
+		$html='';
+		$meses=array("0"=>"","1"=>"Enero","2"=>"Febrero","3"=>"Marzo","4"=>"Abril","5"=>"Mayo","6"=>"Junio","7"=>"Julio","8"=>"Agosto","9"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembre"); 
+		foreach ($mensajes as $mensa_key => $mensa_value): 
+			$datetime=explode (" ",$mensa_value->fecha_creado);
+		$fecha=explode ("-",$datetime[0]);
+		$html.='<li class="clear">';
+		$html.='<div class="inb_col1">';
+		$html.='</div>';
+		$html.='<div class="not_col2">';
+		$html.='<a target="_blank" href="'.base_url().'inbox/'.$mensa_value->id_mensajes.'">';
+		$html.='<h5>'.substr($mensa_value->mensaje, 0, 35)."...".'</h5>';
+		$html.='<h6> '.$meses[$fecha[1]].' '.$fecha[2].', '.$datetime[1].'</h6>';
+		$html.='</a>';
+		$html.='</div>';
+		$html.='</li>';
+		endforeach; 
+		echo $html."|".$mensajes_count;
 	}
 
 
 ## funcion que carga los mensajes de entrada del estudiante actual 
-	public function inbox () {
+	public function inbox ($id_mensajes=null) {
 
 		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
 		
@@ -1093,9 +1154,9 @@ public function estudiante_check(){
 		
 
 
-foreach ($data['inbox_list'] as $key => $value) {
-	$data['inbox_list'][$key]->pregunta=$this->model_generico->get_pregunta_mensaje ($value->id_mensajes_parent);
-}
+		foreach ($data['inbox_list'] as $key => $value) {
+			$data['inbox_list'][$key]->pregunta=$this->model_generico->get_pregunta_mensaje ($value->id_mensajes_parent);
+		}
 
 
 
@@ -1153,14 +1214,15 @@ foreach ($data['inbox_list'] as $key => $value) {
 		$this->load->model('model_login');
 		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
 
-##marcarla como leida la notificacion
+##marcarla como no leida la notificacion
 		if ($opcion==1) {
-			$this->model_login->update_inbox_leida($id_notificaciones);
+			$this->model_login->update_inbox_no_leida($id_notificaciones);
 		}
 
-		##marcarla como no leida la notificacion
+		##marcarla como leida la notificacion
 		if ($opcion==2) {
-			$this->model_login->update_inbox_no_leida($id_notificaciones);
+			
+			$this->model_login->update_inbox_leida($id_notificaciones);
 		}
 
 ##eliminar la notificacion

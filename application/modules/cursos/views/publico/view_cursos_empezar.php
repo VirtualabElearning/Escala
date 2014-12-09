@@ -9,22 +9,18 @@
   <base href="<?=base_url()?>" /> 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title></title>
+  <title>Curso de <?php echo $detalle_curso->titulo; ?></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="<?php echo base_url(); ?>html/site/css/normalize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="<?php echo base_url();  ?>html/site/css/normalize.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>html/site/css/main.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>color.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>html/site/css/custom.css">
 
-
   <script src="<?php echo base_url(); ?>html/site/js/vendor/modernizr-2.6.2.min.js"></script>
   <?php //  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> ?>
   <script src="html/site/js/jquery-1.7.2.min.js"></script>
-
-
-
 
   <script type="text/javascript" src="<?php echo base_url(); ?>html/site/js/functions.js"></script>
   <script type="text/javascript" src="<?php echo base_url(); ?>html/site/js/custom.js"></script>
@@ -37,26 +33,87 @@
     window.addEventListener("load", function(){
       var load_screen = document.getElementById("load_screen");
       document.body.removeChild(load_screen);
+      $('.numero_de_actividad_responsive').html($('.act_actual').attr('number')+"/"+$('.act_block').length );
     });
   </script>
   <script type="text/javascript">
 
     $(document).ready(function(){
       setMenuActive(3);
-    });
-
-  </script>
 
 
-  <script src="html/site/js/isotope.pkgd.min.js"></script>
+      $('.activity_title h3').html($('.act_actual').data("actividad"));
 
+
+      $( document ).on( "click", ".noparticipar", function(event) {
+       $('#act_btn_'+$(this).attr('id')).next().removeClass('sinaccesop'); 
+       $('#act_btn_'+$(this).attr('id')).next().attr('next','ok');
+       $('#act_btn_'+$(this).attr('id')).next().click();
+     });
+
+
+
+      $( document ).on( "click", ".closex_foro", function(event) {
+
+       event.preventDefault();
+       var thiz=$(this);
+       jQuery.ajax({
+        url:'<?php echo base_url(); ?>cursos/publico/borrarMensajeForo/'+$(this).attr('id'),
+        type: "post",async: false,
+        ajaxSend:function(result){              
+          console.log ("ajaxSend\n");
+        },
+        success:function(result){               
+          console.log ("success\n");
+          thiz.parent().fadeOut(300, function() {   thiz.parent().remove();       
+
+
+            if ($container==undefined) {
+
+
+             var $container = $j('.disc_estudiantes').isotope({
+              layoutMode: 'vertical',
+                    //sortBy: 'mencantas_estudiantes_todos', sortAscending : false,
+                    getSortData: {
+                      mencantas_estudiantes_todos: '.mencantas_estudiantes_todos parseInt',
+                    }
+                  });
+
+             $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
+           }
+           else {
+             $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
+           }
+
+
+         });
+
+        },
+        complete:function(result){              
+          console.log ("complete\n");
+        },
+        beforeSend:function(result){                
+          console.log ("beforeSend\n");
+        },
+        ajaxStop:function(result){              
+          console.log ("ajaxStop\n");
+        }
+
+      });
+
+});
+
+
+});
+
+</script>
+
+<script src="html/site/js/isotope.pkgd.min.js"></script>
+<?php echo $custom_sistema->google_analytics."\n"; ?>
 </head>
 <body> 
 
   <?php $this->load->view('view_site_header'); ?>
-
-
-
 
 
   <div class="backdrop"></div>
@@ -147,8 +204,6 @@
     </div>
 
 
-
-
     <?php ### ventana para los motivos de medalla y posiblemente para cuando aumente en puntos y cambie de estatus, mostrar a que estatus pasé ?>
     <div class="box_container">
       <div class="box4">
@@ -163,58 +218,63 @@
 
         </div>
         <p class="motivo_medalla">{motivo de la medalla}</p>
+        <div class="seguir_block">
+         <a href="encuestas/informacion/2/<?php echo $this->uri->segment(3); ?>"><h4>ENCUESTA DE SATISFACCIÓN</h4></a>
+       </div>
+
+     </div>
+   </div>
+
+
+   <a <?php if ( $mi_plan_actual==$this->config->item('Estandar'))  { ?> class="denegado" <?php } ?> <?php if ( $mi_plan_actual==$this->config->item('Premium')) { ?> id="btn3" <?php } ?>>
+    <div class="question_btn">
+      <div class="question_btn_wrap">
+        <img src="html/site/img/question_icon.png" alt="Pregunta">
+        <h6>Preguntas</h6>
       </div>
     </div>
+  </a>
 
 
-    <a <?php if ( $mi_plan_actual==$this->config->item('Estandar'))  { ?> onclick=" alert ('Lo siento, debes ser usuario premium para enviar mensajes.'); return false;" <?php } ?> <?php if ( $mi_plan_actual==$this->config->item('Premium')) { ?> id="btn3" <?php } ?>>
-      <div class="question_btn">
-        <div class="question_btn_wrap">
-          <img src="html/site/img/question_icon.png" alt="Pregunta">
-          <h6>Pregunta</h6>
+
+  <section class="question">
+    <div class="question_wrap">
+      <h5>Pregunta al facilitador</h5>
+      <h6 class="hider">Tu pregunta ha sido enviada con éxito, recibirás la notificación de respuesta en tus mensajes de entrada <img src="html/site/img/inbox_icon.png" alt=""></h6>
+      <textarea name="" id="pregunta" cols="30" rows="10" placeholder="Escribe tu pregunta"></textarea>
+      <a href="#" id="enviar_pregunta">  <div class="send_question">Enviar </div></a>
+    </div>
+  </section>
+
+  <section class="encabezado2 clear">
+    <div class="encabezado2_wrap">
+      <h6><?php echo $detalle_curso->titulo; ?></h6>
+      <p><?php echo $detalle_curso->descripcion; ?></p>
+      <div class="circle">
+        <div class="circle_wrap">
+          <img src="html/site/img/<?php echo $detalle_curso->miestatus; ?>.png" alt="<?php echo $detalle_curso->miestatusnombre; ?>" title="<?php echo $detalle_curso->miestatusnombre; ?>">
         </div>
+        <span>Estatus</span>
       </div>
-    </a>
+    </div>            
+  </section>
+
+  <?php #krumo ($detalle_curso); ?>
+  <?php #krumo ($detalle_curso->modulos_vistos_arr); ?>
+  <?php #krumo ($detalle_curso->actividad_actual); ?>
+
+
+  <?php #krumo ($detalle_curso->actividades); ?>
 
 
 
-    <section class="question">
-      <div class="question_wrap">
-        <h5>Pregunta al facilitador</h5>
-        <h6 class="hider">Tu pregunta ha sido enviada con éxito, recibirás la notificación de respuesta en tus mensajes de entrada <img src="html/site/img/inbox_icon.png" alt=""></h6>
-        <textarea name="" id="pregunta" cols="30" rows="10" placeholder="Escribe tu pregunta"></textarea>
-        <a href="#" id="enviar_pregunta">  <div class="send_question">Enviar </div></a>
-      </div>
-    </section>
+  <?php #krumo ($detalle_curso->actividades); ?>
+  <?php #krumo ($detalle_curso->actividades_vistas); ?>
 
-    <section class="encabezado clear">
-      <div class="encabezado_wrap">
-        <h6><?php echo $detalle_curso->categoria_cursos; ?></h6>
-        <p><?php echo $detalle_curso->titulo; ?></p>
-        <div class="circle">
-          <div class="circle_wrap">
-            <img src="html/site/img/<?php echo $detalle_curso->miestatus; ?>.png" alt="<?php echo $detalle_curso->miestatusnombre; ?>" title="<?php echo $detalle_curso->miestatusnombre; ?>">
-          </div>
-        </div>
-      </div>            
-    </section>
-
-    <?php #krumo ($detalle_curso); ?>
-    <?php #krumo ($detalle_curso->modulos_vistos_arr); ?>
-    <?php #krumo ($detalle_curso->actividad_actual); ?>
-
-
-    <?php #krumo ($detalle_curso->actividades); ?>
-
-
-
-    <?php #krumo ($detalle_curso->actividades); ?>
-    <?php #krumo ($detalle_curso->actividades_vistas); ?>
-
-    <?php #krumo (json_decode($detalle_curso->actividad_actual->variables_pregunta)); ?>
-    <?php #krumo ($detalle_curso->actividad_actual->pregunta); ?>
-    <?php #krumo ($detalle_curso->actividad_actual->tipo_pregunta); ?>
-    <?php #krumo ($detalle_curso->actividad_actual->id_actividades_videos); ?>
+  <?php #krumo (json_decode($detalle_curso->actividad_actual->variables_pregunta)); ?>
+  <?php #krumo ($detalle_curso->actividad_actual->pregunta); ?>
+  <?php #krumo ($detalle_curso->actividad_actual->tipo_pregunta); ?>
+  <?php #krumo ($detalle_curso->actividad_actual->id_actividades_videos); ?>
 
 
 
@@ -238,29 +298,29 @@
 
 
 
-    <section class="aula">
-      <div class="aula_wrap clear">
+  <section class="aula">
+    <div class="aula_wrap clear">
 
-        <div class="col1 clear">
-          <div class="activity_title">
-           <h3><?php echo $detalle_curso->actividad_actual->nombre_actividad; ?></h3>
-         </div>
-         <div class="activities">
-          <?php ############ variable para saber si tengo o no videos en el sistema #################### ?>
-          <?php $tiene_videos=0; ?> 
+      <div class="col1 clear">
+        <div class="activity_title">
+         <h3><?php echo $detalle_curso->actividad_actual->nombre_actividad; ?></h3>
+       </div>
+       <div class="activities">
+        <?php ############ variable para saber si tengo o no videos en el sistema #################### ?>
+        <?php $tiene_videos=0; ?> 
 
-          <?php #krumo ($detalle_curso->actividades); ?>
+        <?php #krumo ($detalle_curso->actividades); ?>
 
-          <?php $contador=0; ?>
-          <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
+        <?php $contador=0; ?>
+        <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
 
-            <?php ################################ <si es video> #######################################################?>
-            <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
-              <?php $tiene_videos=1; ?>
-              <div style="<?php if ($contador==0) { echo "display:block;"; } else { echo "display:none;";  } ?>" class="vvideo video_main<?php echo $actividades_value->id_actividades; ?>" id="video<?php echo $actividades_value->id_actividades_barra; ?>">
-                <div class="video_wrap">
-                 <div id="player<?php echo $actividades_value->id_actividades; ?>"></div>
-               </div>
+          <?php ################################ <si es video> #######################################################?>
+          <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
+            <?php $tiene_videos=1; ?>
+            <div style="<?php if ($contador==0) { echo "display:block;"; } else { echo "display:none;";  } ?>" class="vvideo video_main<?php echo $actividades_value->id_actividades; ?>" id="video<?php echo $actividades_value->id_actividades_barra; ?>">
+              <div class="video_wrap">
+               <div id="player<?php echo $actividades_value->id_actividades; ?>"></div>
+             </div>
 
                <?php ##obtengo si tiene pregunta rapida y si tiene respuestas de la pregunta rapida para que no la vuelva a repetir
                $variables_pregunta=json_decode($actividades_value->info_extra->variables_pregunta);
@@ -345,7 +405,7 @@
                   
                   <?php if ( $sinpreguntarapida==0): ?>
                     <?php ## boton de enviar respuesta de la pregunta rapida ?>
-                    <div class="evaluacion_btn" id="evaluacion_btn_preg<?php echo $actividades_value->id_actividades_barra; ?>" onclick="caja_puntos(<?php echo $motivo_puntos_por_actividad; ?>,<?php echo $puntos_por_actividad; ?>,<?php echo $actividades_value->id_actividades_barra; ?>);" id="evaluacion_btn_vid<?php echo $actividades_value->id_actividades; ?>">Enviarx</div>
+                    <div class="evaluacion_btn" id="evaluacion_btn_preg<?php echo $actividades_value->id_actividades_barra; ?>" onclick="caja_puntos(<?php echo $motivo_puntos_por_actividad; ?>,<?php echo $puntos_por_actividad; ?>,<?php echo $actividades_value->id_actividades_barra; ?>);" id="evaluacion_btn_vid<?php echo $actividades_value->id_actividades; ?>">Enviar</div>
                   <?php endif; ?>
 
                   <div class="evaluacion_btn conti" id="evaluacion_btn_preg_cont<?php echo $actividades_value->id_actividades_barra; ?>" onclick="continuar(<?php echo $actividades_value->id_actividades_barra; ?>);">Continuar</div>
@@ -443,7 +503,7 @@
 
                           echo '<div class="evaluacion_preg"><p>'.$varpvalue->pregunta.'</p><span style="display:none;">'.$varpvalue->id_competencias.'</span><form id="form'.$actividades_value->id_actividades_barra.'">';
                           ?>
-                          <textarea class="textp_v<?php echo $actividades_value->id_actividades_barra; ?>" placeholder="<?php echo $var_txtv->texto; ?>" retro="<?php echo $var_txtv->retroalimentacion; ?>" rows="10" cols="30" id="<?php echo amigable($varpvalue->pregunta); ?>" name="<?php echo amigable($varpvalue->pregunta); ?>"></textarea>
+                          <textarea keypid="<?php echo $var_txtv->id_texto; ?>" class="textp_v<?php echo $actividades_value->id_actividades_barra; ?>" placeholder="<?php echo $var_txtv->texto; ?>" retro="<?php echo $var_txtv->retroalimentacion; ?>" rows="10" cols="30" id="<?php echo amigable($varpvalue->pregunta); ?>" name="<?php echo amigable($varpvalue->pregunta); ?>"></textarea>
                           <?php       echo "</form></div>"; 
                           break;
                        } ## fin switch
@@ -489,7 +549,7 @@
             
 
             <div onclick="reload_eval(<?php echo $actividades_value->id_actividades_barra; ?>);" class="volver"> Volver a intentar </div>
-
+            <p class="sumaras" style="display:none;">Sumarás más puntos si superas tu record</p>
             <div class="evaluacion_btn cont_resp_eval" onclick="continuar(<?php echo $actividades_value->id_actividades_barra; ?>);">Continuar</div>
 
 
@@ -529,123 +589,156 @@
             $foto_docente='uploads/usuarios/'.$instructor_var->foto;
 
           }
-          #sabado
-#echo "perro".$instructor_var->foto;
+
+
+          $ultima_letra = substr($foto_docente,-1 , 1); 
+          if (  $ultima_letra=='/'  )  {
+            $foto_docente="html/site/img/sin_foto.png";
+          } 
+
+
+          # krumo ($instructor_var);
           ?>
 
           <div class="disc_block_A">
             <div class="disc_block_A_wrap clear">
               <div class="disc_block_A_col1">
                 <img src="<?php echo base_url().$foto_docente; ?>" alt="">
-                <h4><?php echo $instructor_var->nombres; ?> <?php echo $instructor_var->apellidos; ?></h4>
+
+                <?php if ($instructor_var->id_roles==3): ?>
+                 <div id="disc_status"><img src="<?php echo base_url(); ?>html/site/img/<?php echo $instructor_var->estatus->id_estatus; ?>.png"></div>
+               <?php endif ?>
+
+
+
+
+               <h4><?php echo $instructor_var->nombres; ?> <?php echo $instructor_var->apellidos; ?></h4>
 
                 <?php  #si es un docente
-                if (file_exists( FCPATH.'uploads/instructores/'.$instructor_var->foto))  { ?>
+                if ($instructor_var->id_roles==2)  { ?>
                 <h5><?php echo asignar_frase_diccionario ($detalle_curso->diccionario,'{docente}','Instructor',1); ?></h5>
-                <?php } ?>
+
 
           <?php # si es un estudiante
-          if (file_exists(FCPATH.'uploads/aprendices/'.$instructor_var->foto))  { ?>
-          <h5><?php echo asignar_frase_diccionario ($detalle_curso->diccionario,'{estudiante}','Aprendiz',1); ?></h5>
-          <?php } ?>
+        } else if ($instructor_var->id_roles==3)  { ?>
+        <h5><?php echo asignar_frase_diccionario ($detalle_curso->diccionario,'{estudiante}','Aprendiz',1); ?></h5>
+        
 
           <?php # si es un usuario de sistema
-          if (file_exists(FCPATH.'uploads/usuarios/'.$instructor_var->foto))  { ?>
-          <h5><?php echo asignar_frase_diccionario ($detalle_curso->diccionario,'{administrador}','Usuario',1); ?></h5>
-          <?php  } ?>
+        } else if ($instructor_var->id_roles==1 || $instructor_var->id_roles==4)  { ?>
+        <h5><?php echo asignar_frase_diccionario ($detalle_curso->diccionario,'{administrador}','Usuario',1); ?></h5>
+        <?php  } ?>
 
 
 
 
 
-          <?php #evaluo si puedo dar megusta o no puedo dar me gusta ?>
-          <?php $if_megusta=0; $megustas_total_docente=0; ?>
-          <?php foreach ($actividades_value->info_extra->me_encantas as $me_encantas_key => $me_encantas_value): ?>
-            <?php if ($me_encantas_value->id_usuario_modificado==$this->encrypt->decode($this->session->userdata('id_usuario'))): ?>
-              <?php $if_megusta=1; ?>
-            <?php endif ?>
-            <?php $megustas_total_docente++; ?>
-          <?php endforeach ?>
+        <?php #evaluo si puedo dar megusta o no puedo dar me gusta ?>
+        <?php $if_megusta=0; $megustas_total_docente=0; ?>
+        <?php foreach ($actividades_value->info_extra->me_encantas as $me_encantas_key => $me_encantas_value): ?>
+          <?php if ($me_encantas_value->id_usuario_modificado==$this->encrypt->decode($this->session->userdata('id_usuario'))): ?>
+            <?php $if_megusta=1; ?>
+          <?php endif ?>
+          <?php $megustas_total_docente++; ?>
+        <?php endforeach ?>
 
 
-          <a class="meencantar" docente="<?php echo $actividades_value->info_extra->id_usuario_modificado; ?>" id="<?php echo $actividades_value->id_actividades_barra; ?>" dhref="<?php echo base_url(); ?>cursos/dar_meencanta">
-            <div class="<?php if ($if_megusta==0): ?>kudos <?php else: ?> kudos_off <?php endif ?>"><p class="meencanta_docente meencanta_docente<?php echo $actividades_value->id_actividades_barra; ?>"><?php echo $megustas_total_docente; ?></p></div>
-          </a>
-
-
-
+        <a class="meencantar" docente="<?php echo $actividades_value->info_extra->id_usuario_modificado; ?>" id="<?php echo $actividades_value->id_actividades_barra; ?>" dhref="<?php echo base_url(); ?>cursos/dar_meencanta">
+          <div class="<?php if ($if_megusta==0): ?>kudos <?php else: ?> kudos_off <?php endif ?>"><p class="meencanta_docente meencanta_docente<?php echo $actividades_value->id_actividades_barra; ?>"><?php echo $megustas_total_docente; ?></p></div>
+        </a>
 
 
 
-        </div>
-        <div class="disc_block_A_col2">
-          <span><?php  if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "Discusión de usuario campeón"; } else {  echo $actividades_value->info_extra->nombre_actividad;  } ?></span>
-          <p><?php echo $actividades_value->info_extra->contenido_foro; ?></p>
-        </div>
+
+
+
       </div>
-    </div> 
-    <div class="disc_estudiantes">
-      <?php foreach ($actividades_value->info_extra->mensajes_foro as $mensajes_foro_key => $mensajes_foro_value): ?>
+      <div class="disc_block_A_col2">
+        <span><?php  if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "Discusión de usuario campeón"; } else {  echo $actividades_value->info_extra->nombre_actividad;  } ?></span>
+        <p><?php echo $actividades_value->info_extra->contenido_foro; ?></p>
+      </div>
+    </div>
+  </div> 
 
-        <?php 
-        if (file_exists( FCPATH.'uploads/instructores/'.$mensajes_foro_value->foto_usuario))  { $foto_usuario='uploads/instructores/'.$mensajes_foro_value->foto_usuario; }
-        else if (file_exists(FCPATH.'uploads/aprendices/'.$mensajes_foro_value->foto_usuario))  { $foto_usuario='uploads/aprendices/'.$mensajes_foro_value->foto_usuario; }
-        else  { $foto_usuario='uploads/usuarios/'.$mensajes_foro_value->foto_usuario; }
-        ?>
 
-        <?php 
+  <div class="discusion_respuesta">
+    <div class="discusion_respuesta_wrap">
+      <textarea class="mensaje_foro" placeholder="¿Qué estás pensando?" rows="10" cols="30" id="mensaje_foro" name="mensaje_foro"></textarea>
+      <div class="counter_foro"></div>
+      <h6>Tu mensaje ha sido enviado con éxito. Ahora indica las participaciones que te encantan.</h6>
+      <img alt="" src="html/site/img/kudos_icon.png">
+      <a id="" class="send_foro" barra_foro="<?php echo $actividades_value->id_actividades_barra; ?>"><div class="discusion_btn"><p>Participar</p></div></a>
+      <div class="countinuar_btn noparticipar" id="<?php echo $actividades_value->id_actividades_barra; ?>"><p>No deseo participar</p></div>
+    </div>
+  </div>
+
+
+
+  <div class="disc_estudiantes">
+    <?php foreach ($actividades_value->info_extra->mensajes_foro as $mensajes_foro_key => $mensajes_foro_value): ?>
+
+      <?php 
+      if (file_exists( FCPATH.'uploads/instructores/'.$mensajes_foro_value->foto_usuario))  { $foto_usuario='uploads/instructores/'.$mensajes_foro_value->foto_usuario; }
+      else if (file_exists(FCPATH.'uploads/aprendices/'.$mensajes_foro_value->foto_usuario))  { $foto_usuario='uploads/aprendices/'.$mensajes_foro_value->foto_usuario; }
+      else  { $foto_usuario='uploads/usuarios/'.$mensajes_foro_value->foto_usuario; }
+      ?>
+
+      <?php 
         ## nueva validacion de que si tiene un / es porque definitivamente no tiene una foto.
-        $ultima_letra = substr($foto_usuario,-1 , 1); 
-        if (  $ultima_letra=='/'  )  {
-          $foto_usuario="html/site/img/sin_foto.png";
-        } 
-        ?>
+      $ultima_letra = substr($foto_usuario,-1 , 1); 
+      if (  $ultima_letra=='/'  )  {
+        $foto_usuario="html/site/img/sin_foto.png";
+      } 
+      ?>
 
-        <div class="disc_block_B">
-          <div class="disc_block_B_wrap clear">
-            <div class="disc_block_B_col1 clear">
-              <img src="<?php echo base_url(); ?><?php echo $foto_usuario; ?>" alt="">
+      <div class="disc_block_B">
+        <div class="disc_block_B_wrap clear">
+          <div class="disc_block_B_col1 clear">
+            <img src="escalar.php?src=<?php echo base_url(); ?><?php echo $foto_usuario; ?>&amp;w=126&amp;h=126&amp;zc=1" alt="">
 
-              <div id="disc_status"><img src="<?php echo base_url(); ?>html/site/img/<?php echo $mensajes_foro_value->id_estatus; ?>.png"></div>
-              <h4><?php echo $mensajes_foro_value->nombres; ?> <?php echo $mensajes_foro_value->apellidos; ?></h4>
-              <?php #evaluo si puedo dar megusta o no puedo dar me gusta ?>
-              <?php $if_megusta=0; ?>
-              <?php foreach ($mensajes_foro_value->mencantas as $megustas_key => $megustas_value): ?>
-                <?php if ($megustas_value->id_usuario_modificado==$this->encrypt->decode($this->session->userdata('id_usuario'))): ?>
-                  <?php $if_megusta=1; ?>
-                <?php endif ?>
-              <?php endforeach ?>
-              <a barr="<?php echo $actividades_value->id_actividades_barra; ?>" class="meencantar_estudiante" est="<?php echo $mensajes_foro_value->id_usuario_modificado; ?>" id="<?php echo $mensajes_foro_value->id_actividades_foro_mensajes; ?>" href="<?php echo base_url(); ?>cursos/dar_meencanta_estudiante">
-                <div class="<?php if ($if_megusta==0): ?>kudos <?php else: ?> kudos_off <?php endif ?>"><p class="mencantas_estudiantes_todos" id="<?php echo $mensajes_foro_value->id_actividades_foro_mensajes; ?>meencanta_estudiante"><?php echo count ($mensajes_foro_value->mencantas); ?></p> </div>
-              </a>
 
-            </div>
-            <div class="disc_block_B_col2">
-              <p><?php echo $mensajes_foro_value->mensaje; ?></p>
-            </div>
+            <div id="disc_status"><img src="<?php echo base_url(); ?>html/site/img/<?php echo $mensajes_foro_value->id_estatus; ?>.png"></div>
+
+            <?php #evaluo si puedo dar megusta o no puedo dar me gusta ?>
+            <?php $if_megusta=0; ?>
+            <?php foreach ($mensajes_foro_value->mencantas as $megustas_key => $megustas_value): ?>
+              <?php if ($megustas_value->id_usuario_modificado==$this->encrypt->decode($this->session->userdata('id_usuario'))): ?>
+                <?php $if_megusta=1; ?>
+              <?php endif ?>
+            <?php endforeach ?>
+
+            <a barr="<?php echo $actividades_value->id_actividades_barra; ?>" class="meencantar_estudiante" est="<?php echo $mensajes_foro_value->id_usuario_modificado; ?>" id="<?php echo $mensajes_foro_value->id_actividades_foro_mensajes; ?>" href="<?php echo base_url(); ?>cursos/dar_meencanta_estudiante">
+              <div class="<?php if ($if_megusta==0): ?>kudos <?php else: ?> kudos_off <?php endif ?>"><p class="mencantas_estudiantes_todos" id="<?php echo $mensajes_foro_value->id_actividades_foro_mensajes; ?>meencanta_estudiante"><?php echo count ($mensajes_foro_value->mencantas); ?></p> </div>
+            </a>
+
+
+          </div>
+          <div class="disc_block_B_col2">
+            <h4><?php echo $mensajes_foro_value->nombres; ?> <?php echo $mensajes_foro_value->apellidos; ?></h4>
+
+            <p><?php echo $mensajes_foro_value->mensaje; ?></p>
           </div>
         </div>
 
-      <?php endforeach ?>
-    </div>
+        <?php if ($mensajes_foro_value->id_usuario_modificado==$this->encrypt->decode($this->session->userdata('id_usuario'))): ?>
+          <span id="<?php echo $mensajes_foro_value->id_actividades_foro_mensajes; ?>" class="closex_foro">X</span>
+        <?php endif ?>
 
-    <div class="discusion_respuesta">
-      <div class="discusion_respuesta_wrap">
-        <textarea class="mensaje_foro" placeholder="Escribe tu respuesta" rows="10" cols="30" id="mensaje_foro" name="mensaje_foro"></textarea>
-        <div class="counter_foro"></div>
-        <h6>Tu mensaje ha sido enviado con éxito. Ahora indica las participaciones que te encantan.</h6>
-        <a id="" class="send_foro" barra_foro="<?php echo $actividades_value->id_actividades_barra; ?>" href="#"><div class="discusion_btn"><p>Participar</p></div></a>
       </div>
-    </div>
 
-
-
-
-
-
-
-
+    <?php endforeach ?>
   </div>
+
+
+
+
+
+
+
+
+
+
+</div>
 </div>
 
 
@@ -671,9 +764,8 @@
 
 
       <div class="disc_block_A_col1">
-        <img src="<?php echo base_url().$foto_docente; ?>" alt="">
-        <h4><?php echo $instructor_var->nombres; ?> <?php echo $instructor_var->apellidos; ?></h4>
-        <h5><?php echo asignar_frase_diccionario ($detalle_curso->diccionario,'{docente}','Instructores',1); ?></h5>
+        <img src="html/site/img/status_3.png" alt="">
+        <h5>Campeón</h5>
 
       </div>
 
@@ -682,8 +774,8 @@
 
 
       <div class="disc_block_A_col2">
-        <span>Genera tu discusion instrucciones</span>
-        <p>Escribe en el campo de texto una pregunta abierta para los demás participantes, de esa forma todos participarán en la discusion realizada.</p>
+        <span>Crea una discusión</span>
+        <p>Escribe en el campo de texto una pregunta abierta para los demás participantes, se creativo y fomenta el aprendizaje.</p>
       </div>
     </div>
 
@@ -696,7 +788,8 @@
   <div class="discusion_respuesta">
     <div class="discusion_respuesta_wrap">
       <textarea placeholder="Empieza tu discusion" rows="10" cols="30" id="miforo" name="miforo"></textarea>
-      <h6>Tu discusion ha sido creada con éxito. Ahora tus imigos les encantara .</h6>
+      <div class="miforocounter_foro"></div>
+      <h6>Tu discusion ha sido creada con éxito. Ahora tus amigos les encantara .</h6>
       <img alt="" src="html/site/img/kudos_icon.png">
 
       <a id="create_foro"> <div class="discusion_btn"><p>Crear</p></div></a>
@@ -732,7 +825,7 @@
 <section class="activity_bar">
   <div class="activity_bar_wrap clear">
     <div class="prev_btn"><img src="<?php echo base_url(); ?>html/site/img/prev.png" alt="prev"></div>
-
+    <div class="numero_de_actividad_responsive">x</div>
     <?php $contador=0; ?>
 
     <?php $tam=350;
@@ -764,6 +857,7 @@
     if (count((array)$detalle_curso->actividades) <6) { $tam=370;  }
     if (count((array)$detalle_curso->actividades) <5) { $tam=378;  }
     if (count((array)$detalle_curso->actividades) <4) { $tam=383;  }
+
     ?>
 
     <?php $tamano_block=round( ($tam)/count((array)$detalle_curso->actividades),10 ); ?>
@@ -775,21 +869,24 @@
   </style>
 
 
+
+
   <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
    <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
-    <div type="video" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?>  <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
+    <div number="<?php echo $contador+1; ?>" type="video" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?>  class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off sinaccesop"; } ?>  <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
   <?php endif ?>
   <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Evaluacion')): ?>
-    <div type="eval" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
+    <div number="<?php echo $contador+1; ?>" type="eval" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { echo "on"; } else { echo "off sinaccesop"; } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" data-actividad="<?php echo $actividades_value->info_extra->nombre_actividad; ?>"></div>
   <?php endif ?>
   <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Foro')): ?>
-
-
-
-    <div type="foro" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "on_est"; } else { echo "on"; }  } else { if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "off_est"; } else { echo "off"; } } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" userby="<?php echo $actividades_value->info_extra->creador_foro->id_roles; ?>" data-actividad="<?php if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "Discusi&oacute;n de usuario campe&oacute;n";  } else {  echo $actividades_value->info_extra->nombre_actividad; } ?>"></div>
+    <div number="<?php echo $contador+1; ?>" type="foro" <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { ?> next="ok" <?php } ?> class="act_block <?php if ( in_array($actividades_value->id_actividades_barra,$detalle_curso->actividades_vistas_arr) ) { if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "on_est"; } else { echo "on"; }  } else { if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "off_est"; } else { echo "off sinaccesop"; } } ?> <?php if ($contador==0) { ?>on act_actual<?php } ?>" id="act_btn_<?php echo $actividades_value->id_actividades_barra; ?>" userby="<?php echo $actividades_value->info_extra->creador_foro->id_roles; ?>" data-actividad="<?php if ($actividades_value->info_extra->creador_foro->id_roles==3) { echo "Discusi&oacute;n de usuario campe&oacute;n";  } else {  echo $actividades_value->info_extra->nombre_actividad; } ?>"></div>
   <?php endif ?>
   <?php $contador++; ?>
 <?php endforeach ?>
+
+
+
+
 
 <div class="next_btn"><img src="<?php echo base_url(); ?>html/site/img/next.png" alt="next"></div>                  
 </div>  
@@ -825,22 +922,30 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
 
 
   <div class="col2_wrap">
+   <div class="modulos_title">Módulos del curso</div>
+
    <div class="modules_wrap">
 
      <ul class="clear">
        <?php $if_ver=0; $cont_if_ver=0; ?>
        <?php foreach ($detalle_curso->modulos as $modulos_key => $modulos_value): ?>
 
-        <?php if ($miplan_curso_actual->id_tipo_planes==$this->config->item('Estandar') && $modulos_value->id_tipo_planes==$this->config->item('Premium')): ?>
+        <?php ### si tiene actividad ?>
+        <?php if ($modulos_value->primera_actividad->id_actividades_barra): ?>
 
-        <?php else: ?>
+          <?php if ($miplan_curso_actual->id_tipo_planes==$this->config->item('Estandar') && $modulos_value->id_tipo_planes==$this->config->item('Premium')): ?>
+
+          <?php else: ?>
 
 
-         <a idmod="<?php echo $modulos_value->id_modulos; ?>" id="modd<?php echo $modulos_value->id_modulos; ?>" <?php if ($if_ver==1 && $modulos_key > $cont_if_ver) {   } else { ?>href="<?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/<?php echo $this->uri->segment(3); ?>/<?php echo $modulos_value->id_modulos; ?>/<?php echo $modulos_value->primera_actividad->id_actividades_barra; ?>/<?php echo $this->uri->segment(6); ?> "<?php } ?>>
-           <li class="<?php if ($modulos_value->id_modulos==$this->uri->segment(4))  { echo " modulo_actual "; } if ( in_array($modulos_value->id_modulos,$detalle_curso->modulos_vistos_arr) ) { echo "modulo_on";  } else { echo "modulo_off"; $if_ver=1; $cont_if_ver=$modulos_key; } ?>" desactivarmod="<?php echo $if_ver; ?>"><?php echo $modulos_value->nombre_modulo; ?> </li>
-         </a>
+           <a idmod="<?php echo $modulos_value->id_modulos; ?>" id="modd<?php echo $modulos_value->id_modulos; ?>" <?php if ($if_ver==1 && $modulos_key > $cont_if_ver) {   } else { ?>href="<?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/<?php echo $this->uri->segment(3); ?>/<?php echo $modulos_value->id_modulos; ?>/<?php echo $modulos_value->primera_actividad->id_actividades_barra; ?>/<?php echo $this->uri->segment(6); ?>?click=1"<?php } ?>>
+             <li class="<?php if ($modulos_value->id_modulos==$this->uri->segment(4))  { echo " modulo_actual "; } if ( in_array($modulos_value->id_modulos,$detalle_curso->modulos_vistos_arr) ) { echo "modulo_on";  } else { echo "modulo_off"; $if_ver=1; $cont_if_ver=$modulos_key; } ?>" desactivarmod="<?php echo $if_ver; ?>"> <p><?php echo $modulos_value->nombre_modulo; ?></p> </li>
+           </a>
 
+         <?php endif ?>
        <?php endif ?>
+
+
 
      <?php endforeach ?>
 
@@ -849,10 +954,10 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
      <?php ## modulo de premios que está en todo curso ?>
 
 
-     <a id="mimodulopremio" style="<?php if ($mostrar_premio_video=='ok'): ?> display:block; <?php else: ?> display:none; <?php endif ?>" href="<?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/<?php echo $this->uri->segment(3); ?>/<?php echo $modulo_premios->id_modulos; ?>/<?php echo $primera_actividad_premio->id_actividades_barra; ?>/<?php echo $this->uri->segment(6); ?>">
 
-       <li class="<?php if ($modulo_premios->id_modulos==$this->uri->segment(4))  { echo " modulo_actual "; } if ( in_array($modulo_premios->id_modulos,$detalle_curso->modulos_vistos_arr) ) { echo "modulo_premium_on"; } else { echo "modulo_premium"; } ?> modulo_premium"><?php echo $modulo_premios->nombre_modulo; ?></li>
 
+     <a id="mimodulopremio" style="<?php if ($mostrar_premio_video=='ok' && $modulo_premios->nombre_modulo!='' && $primera_actividad_premio->id_actividades_barra!=''): ?> display:block; <?php else: ?> display:none; <?php endif ?>" href="<?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/<?php echo $this->uri->segment(3); ?>/<?php echo $modulo_premios->id_modulos; ?>/<?php echo $primera_actividad_premio->id_actividades_barra; ?>/<?php echo $this->uri->segment(6); ?>">
+       <li class="<?php if ($modulo_premios->id_modulos==$this->uri->segment(4))  { echo " modulo_actual "; } if ( in_array($modulo_premios->id_modulos,$detalle_curso->modulos_vistos_arr) ) { echo "modulo_premium_on"; } else { echo "modulo_premium"; } ?> modulo_premium"> <p><?php echo $modulo_premios->nombre_modulo; ?></p> </li>
      </a>
 
 
@@ -866,36 +971,81 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
  <div class="aula_btns clear">
 
 
+  <ul>
 
 
-   <a <?php if ( $mi_plan_actual==$this->config->item('Estandar'))  { ?> onclick=" alert ('Lo siento, debes ser usuario premium para acceder al contenido!'); return false;" <?php } ?> <?php if ( $mi_plan_actual==$this->config->item('Premium'))  { ?> href="tmp/<?php echo str_replace(".html", ".zip", $this->uri->segment(6)); ?>"<?php } ?>>
-     <div class="download_btn">
-      <div>                              
-      </div>
-      <p>Contenido Adicional</p>
+
+    <li>
+      <a <?php if ( $mi_plan_actual==$this->config->item('Estandar'))  { ?> class="denegado" <?php } ?> <?php if ( $mi_plan_actual==$this->config->item('Premium'))  { ?> href="tmp/<?php echo str_replace(".html", ".zip", $this->uri->segment(6)); ?>"<?php } ?>>
+       <div class="download_on"></div>
+       <p>Contenido Adicional</p>
+
+     </a>
+   </li>
+
+
+
+
+   <li>
+    <div class="crear_discusion_btn" id="crearforito">
+      <div class="discusion_off"></div>
+      <p>Crear Discusion</p></a>
+
     </div>
-  </a>
+  </li>
+
+  <li>
+
+    <a <?php if ( $mi_plan_actual==$this->config->item('Estandar'))  { ?> class="denegado" <?php } ?> <?php if ( $mi_plan_actual==$this->config->item('Premium')) { ?> target="_blank" <?php if (@$detalle_curso->url_clase_en_vivo!=''): ?> <?php  if (@$detalle_curso->ver_clase_vivo==1) { ?> href="<?php echo @$detalle_curso->url_clase_en_vivo; ?>" <?php } ?> <?php endif; ?> <?php if (@$detalle_curso->codigo_clase!=''): ?>  <?php  if (@$detalle_curso->ver_clase_vivo==1) { ?> onclick="clasevivo()" <?php } ?> <?php endif; ?> <?php } ?>>
+      <div class="envivo_btn">
+
+       <?php if ( $mi_plan_actual==$this->config->item('Premium')) { ?>
 
 
-  <div class="crear_discusion_btn" id="crearforito" style="display:none;">
-    <div class="discusion_on">                              
-    </div>
-    <p>Crear Discusion</p></a>
-  </div>
+
+
+       <?php if (@$detalle_curso->ver_clase_vivo==1 && (@$detalle_curso->url_clase_en_vivo!='' || @$detalle_curso->codigo_clase!='') ): ?> 
+        <div class="envivo_on">                          
+        <?php else: ?>
+          <div class="envivo_off">  
+          <?php endif; ?>    
+          <?php } else {  ?>
+
+          <div class="envivo_on">        
+
+            <?php } ?>
+          </div>
+          <p>Clase en vivo</p>
+        </div>
+      </a>
 
 
 
 
-  <a <?php if ( $mi_plan_actual==$this->config->item('Estandar'))  { ?> onclick=" alert ('Lo siento, debes ser usuario premium para acceder a la clase en vivo!'); return false;" <?php } ?> <?php if ( $mi_plan_actual==$this->config->item('Premium')) { ?> href="#" <?php } ?>>
-    <div class="envivo_btn">
-      <div class="envivo_on">                              
-      </div>
-      <p>Clase en vivo</p>
-    </div>
-  </a>
 
-  
+
+
+
+      <?php if ( $mi_plan_actual==$this->config->item('Premium')) { ?>
+      <?php if (@$detalle_curso->codigo_clase!=''): ?>
+        <script>
+          function clasevivo() {
+            var myWindow = window.open("", "Clase en vivo", "width=1280, height=720");
+            myWindow.document.write('<?php echo @$detalle_curso->codigo_clase; ?>');
+          }
+        </script>
+      <?php endif; ?>  
+      <?php } ?>
+
+
+
+
+    </li>
+  </ul>
+
 </div>
+
+
 </div>
 
 
@@ -943,7 +1093,7 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
 </audio>
 <?php ## aplausos ?>
 <audio id="sound-1b">
-  <source src="<?php echo base_url(); ?>html/site/sound/crowd.mp3"></source>
+  <source src="<?php echo base_url(); ?>html/site/sound/GanarPuntosSinAplauso.mp3"></source>
   Your browser isn't invited for super fun audio time.
 </audio>
 
@@ -980,7 +1130,6 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
 </audio>
 
 
-
 <?php $this->load->view('view_site_footer'); ?>
         <!--
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -994,12 +1143,6 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
 
 
 
-      <?php ################################ <si es video> #######################################################?>
-      <?php if ($tiene_videos==1): ?>
-        <script src="http://www.youtube.com/player_api"></script>
-      <?php endif ?>
-      <?php ################################ </si es video> #######################################################?>
-
 
 
 
@@ -1007,13 +1150,18 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
       <script>
         $(document).ready(function(){
 
+
+
+
+
+
           var valorr_status= $('#proxsts').val();
           strstatus=$('#proxsts').val();
           var opstatus = strstatus.split("|");
           data="";
           jQuery.ajax({
             url:'<?php echo base_url(); ?>cursos/set_nuevostatus/<?php echo $this->uri->segment(3); ?>/'+opstatus[2]+'/'+opstatus[1],
-            type: "post",
+            type: "post",async: false,
             data:({
               data:data
             }),
@@ -1025,28 +1173,33 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
               if (result!='error') {
                str=result;
 
-        // alert (result);
+         //alert (result);
 
-        var op = str.split("|");
-        <?php ## muestro efecto si cambié de estatus ?>
+         var op = str.split("|");
+         <?php ## muestro efecto si cambié de estatus ?>
+        //$('.box4 h3 ').html("¡Lo has logrado!");
+        
+        $('.box4 > h3').html("¡Lo has logrado!");
         $('.box4 > .premio_img > #surprise_result >img').attr('src',op[1]);
         $('.box4').css({'height':'290px'});
         $('.circle_wrap > img').attr('src',op[1]);
         $('.box4 > .motivo_medalla').html(op[4]);
+        $('.box4 .seguir_block').hide();
         $('.box4 > .premio_img > #surprise_result > span').hide();
         $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
         $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-        $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+        $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
         $j('.backdrop, .box4').css('display', 'block');
         $j('#sound-1b').get(0).play();
         $j('#surprise_result4').css("display","block");
-
+        $('.circle_wrap').next().html(op[8]);
         <?php ## actualizo la variable actual que maneja el estatus del estudiante ?>
         $('#proxsts').val(op[0]+'|'+op[4]+'|'+op[5]+'|'+op[6]);
 
         <?php ##evaluo si soy campeon para habilitar el boton de crear foro ?>
         if (op[7]==<?php echo $this->config->item('Campeon') ?>) {
           $('#crearforito').show();
+          $('#crearforito > div').addClass('discusion_on').removeClass('discusion_off');
         }
 
 
@@ -1064,6 +1217,33 @@ foreach ($detalle_curso->actividades as $keytmp => $valuetmp) {
     }
 
   });
+
+
+
+
+$('.denegado').click(function(event) {
+ event.preventDefault();
+
+ $('.box4 > h3').html("ACCESO DENEGADO");
+ $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_15.png');
+ ///$('.box4').css({'height':'290px'});
+ $('.box4 > .motivo_medalla').html('Lo sentimos, debes ser un usuario Premium para acceder a estos beneficios. <a href="cursos/registrarme_al_curso_premium/<?php echo $this->uri->segment(3) ?>/<?php echo $this->uri->segment(6) ?>">¡Accede ahora!</a>');
+ $('.box4 > .premio_img > #surprise_result > span').hide();
+ $('.box4 .seguir_block').hide();
+ $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+ $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+ $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
+ $j('.backdrop, .box4').css('display', 'block');
+ $j('#sound-1f').get(0).play();
+ $j('#surprise_result4').css("display","block");
+
+ <?php ## actualizo la variable actual que maneja el estatus del estudiante ?>
+
+
+ return false;
+
+});
+
 
 
 
@@ -1096,6 +1276,7 @@ $('#crearmiforo').animate(getin);
 $('.prev_btn').click(function(event) {
 
   if ( $('.act_actual').prev('.act_block').length>0  )  {
+    $('.numero_de_actividad_responsive').html(   $('.act_actual').prev().attr('number')+"/"+$('.act_block').length    );
     $('.act_actual').prev().click();  
   }
 
@@ -1114,11 +1295,15 @@ $('.prev_btn').click(function(event) {
 $('.next_btn').click(function(event) {
 
 
+
   if ( $('.act_actual').next('.act_block').length>0  )  {
    $('.act_actual').next().click();  
  }
 
  else {
+
+
+
 
   <?php ### valido es el ultimo modulo (modulo premio) para no hacer el efecto de la caja sorpresa ?>
   if ($('.modulo_actual').hasClass('modulo_premium')) { return false; }
@@ -1127,31 +1312,37 @@ $('.next_btn').click(function(event) {
 
   var id_actividades_barra=Number($(this).prev().attr('id').replace('act_btn_',''));
 
+
+
+
   jQuery.ajax({
     url:'<?php echo base_url(); ?>cursos/caja_sorpresa/<?php echo $this->uri->segment(3) ?>/<?php echo $this->uri->segment(4) ?>/'+id_actividades_barra,
     type: "post",
+    async: false,
     ajaxSend:function(result){              
       console.log ("ajaxSend\n");
+
     },
     success:function(result){  
-              //alert (result);
-              console.log ("success\n");
-              <?php #si no hubo error, hace el efecto en pantalla para mostrar el premio sorpresa ?>
-              if (result!='error')  {
 
+      console.log ("success\n");
+      <?php #si no hubo error, hace el efecto en pantalla para mostrar el premio sorpresa ?>
+      if (result!='error')  {
 
-                <?php ##divido mis respuestas que ha retornado en el ajax para mostrarlo en la caja sorpresa ?>
-                str=result;
-                var respuestas = str.split("|");
-                <?php ##asigno mis valores retornados en los elementos html correspondientes ?>
+        jQuery('#sound-1a').get(0).play();
 
-                <?php ### asigno el numero de la actividad barra a los botones de las redes sociales para guardar las notificaciones ?>
-                $('#fblink').attr('barra',respuestas[7]); 
-                $('#twlink').attr('barra',respuestas[7]); 
+        <?php ##divido mis respuestas que ha retornado en el ajax para mostrarlo en la caja sorpresa ?>
+        str=result;
+        var respuestas = str.split("|");
+        <?php ##asigno mis valores retornados en los elementos html correspondientes ?>
 
-                <?php ##si el premio son puntos, actualizo los puntos que tengo de forma visual ?>
-                if (respuestas[0]==<?php echo $this->config->item('tipos_premio_puntos'); ?>) {
-                  <?php ##Actualizo mis puntos de forma visual?>
+        <?php ### asigno el numero de la actividad barra a los botones de las redes sociales para guardar las notificaciones ?>
+        $('#fblink').attr('barra',respuestas[7]); 
+        $('#twlink').attr('barra',respuestas[7]); 
+
+        <?php ##si el premio son puntos, actualizo los puntos que tengo de forma visual ?>
+        if (respuestas[0]==<?php echo $this->config->item('tipos_premio_puntos'); ?>) {
+          <?php ##Actualizo mis puntos de forma visual?>
                 //  $('.mis_puntos').html(respuestas[8]);
                 points('.mis_puntos',Number($('.mis_puntos').html()),respuestas[8]);
 
@@ -1190,11 +1381,17 @@ $('.next_btn').click(function(event) {
 
 
 
+            <?php ## si es el ultim modulo, le agrego una variable a la caja ?>
+            if ($('.modulo_actual').parent().next().attr('id')=="mimodulopremio") {
+              $('.box').addClass('ultimatum');
+            }
+
+
             $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
             $j('.box').animate({'opacity':'1.00'}, 300, 'linear');
-            $j('.box').animate({'top':'20%'}, 1500, 'easeOutElastic');
+            $j('.box').animate({'top':'10%'}, 1500, 'easeOutElastic');
             $j('.backdrop, .box').css('display', 'block');
-            $j('#sound-1a').get(0).play();
+            
             setTimeout(function(){
              $j('#surprise_box').hide();
              $j('#surprise_result').css("display","block");
@@ -1221,6 +1418,7 @@ $('.next_btn').click(function(event) {
 
                       jQuery.ajax({
                         url:'<?php echo base_url(); ?>cursos/set_puntos_curso/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>',
+                        async: false,
                         type: "post",
                         data:({
                           data:data
@@ -1230,73 +1428,73 @@ $('.next_btn').click(function(event) {
                         },
                         success:function(result){               
                           console.log ("success\n");
+                          $j('#sound-1d').get(0).play();
+
                           if (result!='error') {
                            str=result;
+
                            var mispuntos=Number($j('.mis_puntos').html());
                            mispuntos=Number(Number(mispuntos)+Number(str));
-//                           $j('.mis_puntos').html(mispuntos);
-points('.mis_puntos',Number($('.mis_puntos').html()),mispuntos);
-
-<?php ## muestro efecto de ganar puntos cuando termino el certificado solo version estandar ?>
-var titulo_certificado=$('.encabezado_wrap > p').html();
-var categoria_certificado=$('.encabezado_wrap > h6').html();
-<?php ### contruyo el popup para el certificado del usuario ?>
-$('.box4').css({'height':'325px'});
-$('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
-$('.box4 > .motivo_medalla').html('Has finalizado y aprobado con éxito tu curso de  '+titulo_certificado+",ganaste "+str+" puntos por tu esfuerzo y dedicación.");
-$('.box4 > .premio_img > #surprise_result > span').hide();
-$j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
-$j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-$j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
-$j('.backdrop, .box4').css('display', 'block');
-$j('#sound-1d').get(0).play();
-$j('#surprise_result4').css("display","block");
+                           points('.mis_puntos',Number($('.mis_puntos').html()),mispuntos);
 
 
 
+                           <?php ## muestro efecto de ganar puntos cuando termino el certificado solo version estandar ?>
+                           var titulo_certificado=$('.encabezado2_wrap > h6').html();
+                           <?php ### contruyo el popup para el certificado del usuario ?>
+                           $('.box4').css({'height':'325px'});
+                           $('.box4 > h3').html("¡FELICITACIONES!");
+                           $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
+                           $('.box4 > .motivo_medalla').html('Has finalizado con honores tu curso de '+titulo_certificado+",ganaste "+str+" puntos por tu esfuerzo y dedicación.");
+                           $('.box4 .seguir_block').show();
+                           $('.box4 > .premio_img > #surprise_result > span').hide();
+                           $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+                           $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+                           $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
+                           $j('.backdrop, .box4').css('display', 'block');
+                           $j('#surprise_result4').css("display","block");
 
-}
+                         }
 
-else {
+                         else {
 
+                          <?php ## si sale error es porque ya tengo los puntos y debo mostrar el mensaje otra vez ?>
+                          var titulo_certificado=$('.encabezado2_wrap > h6').html();
 
-
-  <?php ## si sale error es porque ya tengo los puntos y debo mostrar el mensaje otra vez ?>
-  var titulo_certificado=$('.encabezado_wrap > p').html();
-  var categoria_certificado=$('.encabezado_wrap > h6').html();
-  <?php ### contruyo el popup para el certificado del usuario ?>
-  $('.box4').css({'height':'325px'});
-  $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
-  $('.box4 > .motivo_medalla').html('Has finalizado y aprobado con éxito tu curso de  '+titulo_certificado+".");
-  $('.box4 > .premio_img > #surprise_result > span').hide();
-  $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
-  $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-  $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
-  $j('.backdrop, .box4').css('display', 'block');
-  $j('#sound-1d').get(0).play();
-  $j('#surprise_result4').css("display","block");
+                          <?php ### contruyo el popup para el certificado del usuario ?>
+                          $('.box4').css({'height':'325px'});
+                          $('.box4 > h3').html("¡FELICITACIONES!");
+                          $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
+                          $('.box4 > .motivo_medalla').html('..Has finalizado con honores tu curso de '+titulo_certificado+".");
+                          $('.box4 .seguir_block').show();
+                          $('.box4 > .premio_img > #surprise_result > span').hide();
+                          $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+                          $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+                          $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
+                          $j('.backdrop, .box4').css('display', 'block');
+                          $j('#surprise_result4').css("display","block");
 
 
 
 
-}
+                        }
 
 
 
 
-},
-complete:function(result){              
-  console.log ("complete\n");
+                      },
+                      complete:function(result){              
+                        console.log ("complete\n");
 
-},
-beforeSend:function(result){                
-  console.log ("beforeSend\n");
-},
-ajaxStop:function(result){              
-  console.log ("ajaxStop\n");
-}
+                      },
+                      beforeSend:function(result){                
+                        console.log ("beforeSend\n");
+                      },
+                      ajaxStop:function(result){              
+                        console.log ("ajaxStop\n");
+                      }
 
-});
+                    });
 
 
 
@@ -1306,7 +1504,7 @@ ajaxStop:function(result){
 
   jQuery.ajax({
     url:'<?php echo base_url(); ?>validar_certificado/<?php echo $this->uri->segment(3); ?>',
-    type: "post",
+    type: "post",async: false,
     data:({
       data:data
     }),
@@ -1321,16 +1519,17 @@ ajaxStop:function(result){
                          //var op = str.split("|");
                          <?php ## si retorno verdadero es porque es posible imprimir el certificado ?>
                          if (result=='true')  { 
-                           var titulo_certificado=$('.encabezado_wrap > p').html();
-                           var categoria_certificado=$('.encabezado_wrap > h6').html();
+                           var titulo_certificado=$('.encabezado2_wrap > h6').html();
                            <?php ### contruyo el popup para el certificado del usuario ?>
                            $('.box4').css({'height':'325px'});
+                           $('.box4 > h3').html("¡FELICITACIONES!");
                            $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_9.png');
-                           $('.box4 > .motivo_medalla').html('Felicidades!, has obtenido el certificado de '+titulo_certificado+" de la categoría "+categoria_certificado+".<br>Link de descarga: <a target=\"_blank\" href=\"<?php echo base_url().'get_certificado/'.$this->uri->segment(3); ?>\"><li>Descargar certificado</li></a>");
+                           $('.box4 > .motivo_medalla').html('Has finalizado con honores tu curso de '+titulo_certificado+".<br><a target=\"_blank\" href=\"<?php echo base_url().'get_certificado/'.$this->uri->segment(3); ?>\"><li>Descarga aquí tu certificado</li></a>");
+                           $('.box4 .seguir_block').show();
                            $('.box4 > .premio_img > #surprise_result > span').hide();
                            $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
                            $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-                           $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+                           $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
                            $j('.backdrop, .box4').css('display', 'block');
                            $j('#sound-1d').get(0).play();
                            $j('#surprise_result4').css("display","block");
@@ -1505,7 +1704,7 @@ var getout = {left:'-600px'};
 
 jQuery.ajax({
   url:'<?php echo base_url(); ?>cursos/set_visto/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/<?php echo $actividades_value->id_actividades_barra; ?>',
-  type: "post",
+  type: "post",async: false,
   ajaxSend:function(result){              
     console.log ("ajaxSend\n");
   },
@@ -1600,7 +1799,7 @@ else {
 //// aqui evento en ajax enviar el comando para guardarlo como visto la actividad
 jQuery.ajax({
   url:'<?php echo base_url(); ?>cursos/set_visto/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/<?php echo $actividades_value->id_actividades_barra; ?>',
-  type: "post",
+  type: "post",async: false,
   ajaxSend:function(result){              
     console.log ("ajaxSend\n");
   },
@@ -1691,7 +1890,7 @@ btn_eval<?php echo $actividades_value->id_actividades_barra; ?>.addClass('act_ac
 
 jQuery.ajax({
   url:'<?php echo base_url(); ?>cursos/set_visto/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/<?php echo $actividades_value->id_actividades_barra; ?>',
-  type: "post",
+  type: "post",async: false,
   ajaxSend:function(result){              
     console.log ("ajaxSend\n");
   },
@@ -1754,19 +1953,29 @@ btn_disc<?php echo $actividades_value->id_actividades_barra; ?>.addClass('act_ac
 </script>
 
 <script>
-  <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
-  <?php ################################ <si es video> #######################################################?>
-  <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
-  var player<?php echo $actividades_value->id_actividades; ?>;
+
+ var tag = document.createElement('script');
+
+ tag.src = "https://www.youtube.com/player_api";
+ var firstScriptTag = document.getElementsByTagName('script')[0];
+ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+ 
+ <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
+ <?php ################################ <si es video> #######################################################?>
+ <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
+ var player<?php echo $actividades_value->id_actividades; ?>;
 <?php endif ?>
 <?php endforeach ?>
+
+
 
 
 function onYouTubePlayerAPIReady() {
  <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
  <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
  <?php parse_str( parse_url( $actividades_value->info_extra->url_video, PHP_URL_QUERY ), $arrvideo ); ?>
- player = new YT.Player('player<?php echo $actividades_value->id_actividades; ?>', {
+ player<?php echo $actividades_value->id_actividades; ?> = new YT.Player('player<?php echo $actividades_value->id_actividades; ?>', {
   height: '390',
   width: '640',
   videoId: '<?php echo $arrvideo["v"]; ?>',
@@ -1787,19 +1996,33 @@ function onYouTubePlayerAPIReady() {
 <?php foreach ($detalle_curso->actividades as $actividades_key => $actividades_value): ?>
   <?php if ($actividades_value->id_tipo_actividades == $this->config->item('Video')): ?>
   function onPlayerStateChange<?php echo $actividades_value->id_actividades; ?>(event) {
-   if(event.data === 0) {         
-    $('#pregunta_rapida<?php echo $actividades_value->id_actividades_barra; ?>').show();
-    $('#pregunta_rapida<?php echo $actividades_value->id_actividades_barra; ?>').parent().children('.video_wrap').hide();
 
+   if(event.data === 1) {  
 
-
-
-  }
+    <?php foreach ($detalle_curso->actividades as $actividades_keyst => $actividades_valuest): ?>
+    <?php if ($actividades_valuest->id_tipo_actividades == $this->config->item('Video')): ?>
+    <?php if ($actividades_value->id_actividades != $actividades_valuest->id_actividades): ?>
+    player<?php echo $actividades_valuest->id_actividades; ?>.pauseVideo();
+  <?php endif ?>
+<?php endif ?>
+<?php endforeach ?>
 
 }
 
+if(event.data === 0) {    
+    //$('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').next().removeClass('sinaccesop');  
+   //$('#act_btn_<?php echo $actividades_value->id_actividades_barra; ?>').next().attr('next','ok');   
+   $('#pregunta_rapida<?php echo $actividades_value->id_actividades_barra; ?>').show();
+   $('#pregunta_rapida<?php echo $actividades_value->id_actividades_barra; ?>').parent().children('.video_wrap').hide();
+
+   
+ }
 
 
+
+
+
+}
 
 
 
@@ -1846,30 +2069,70 @@ function onYouTubePlayerAPIReady() {
 
   function send_eval(motivo,puntos,actividad_barra){
 
-   data = new Object;
-   var cont_v=0;
-   var con=0;
-   respuestas_totales_v={};
-   var if_error=0;
+
+
+    data = new Object;
+    var cont_v=0;
+    var con=0;
+    respuestas_totales_v={};
+    var if_error=0;
 
 
 
 
-   $('#evaluacion'+actividad_barra+" .evaluacion_wrap .evaluacion_preg").children('form').each(function(index, el) {
+    $('#evaluacion'+actividad_barra+" .evaluacion_wrap .evaluacion_preg").children('form').each(function(index, el) {
 
 
-    var thiz=$(this);
-    var pregunta=thiz.prev().prev().html();
-    var id_competencias=thiz.prev().html();
-    var cuantascheked=0;
-    <?php #si tengo radios... ?>
-    if ( thiz.children('input[type=radio]').length >0) {
+      var thiz=$(this);
+      var pregunta=thiz.prev().prev().html();
+      var id_competencias=thiz.prev().html();
+      var cuantascheked=0;
+      <?php #si tengo radios... ?>
+      if ( thiz.children('input[type=radio]').length >0) {
+       respuestas_v=[];
+       respuestas_totales_v[cont_v] = {};
+       respuestas_totales_v[cont_v]['pregunta']=pregunta;
+       respuestas_totales_v[cont_v]['id_competencias']=id_competencias;
+       respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_tipo_test; ?>;
+       thiz.children('input[type=radio]').each(function(index2, el) {
+         respuestas_v[index2] = {};
+         str=$(this).val();
+         var op = str.split("|");
+         respuestas_v[index2]['opcion']=op[0];
+         respuestas_v[index2]['retroalimentacion']=op[1];
+         respuestas_v[index2]['correcta']=op[2];
+         respuestas_totales_v[cont_v]['variables_respuesta']= respuestas_v; 
+         if ($(this).prop("checked")==true)  {
+          respuestas_v[index2]['seleccionada']="1";
+          cuantascheked++;
+        }
+        else {
+         respuestas_v[index2]['seleccionada']='0';
+       }
+     });
+
+       <?php #evaluo si no checkeo nada ?>
+       if (cuantascheked==0) {
+        alert ("Diligencie todas las preguntas.");
+        thiz.children('input[type=radio]').next().addClass('error_eval');
+        thiz.children('input[type=radio]').focus();
+        if_error=1;
+        return false;
+      }
+
+    }
+
+
+
+    <?php #si tengo lista... ?>
+    if ( thiz.children('select').length >0) {
      respuestas_v=[];
      respuestas_totales_v[cont_v] = {};
      respuestas_totales_v[cont_v]['pregunta']=pregunta;
      respuestas_totales_v[cont_v]['id_competencias']=id_competencias;
-     respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_tipo_test; ?>;
-     thiz.children('input[type=radio]').each(function(index2, el) {
+     respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_elegir_de_una_lista; ?>;
+
+     $("option", thiz).each(function(index2, el) {
        respuestas_v[index2] = {};
        str=$(this).val();
        var op = str.split("|");
@@ -1877,37 +2140,26 @@ function onYouTubePlayerAPIReady() {
        respuestas_v[index2]['retroalimentacion']=op[1];
        respuestas_v[index2]['correcta']=op[2];
        respuestas_totales_v[cont_v]['variables_respuesta']= respuestas_v; 
-       if ($(this).prop("checked")==true)  {
+
+       if ($(this).prop("selected")==true)  {
         respuestas_v[index2]['seleccionada']="1";
-        cuantascheked++;
       }
       else {
        respuestas_v[index2]['seleccionada']='0';
      }
+
    });
 
-     <?php #evaluo si no checkeo nada ?>
-     if (cuantascheked==0) {
-      alert ("Diligencie todas las preguntas.");
-      thiz.children('input[type=radio]').next().addClass('error_eval');
-      thiz.children('input[type=radio]').focus();
-      if_error=1;
-      return false;
-    }
+   }
 
-  }
-
-
-
-  <?php #si tengo lista... ?>
-  if ( thiz.children('select').length >0) {
-   respuestas_v=[];
-   respuestas_totales_v[cont_v] = {};
-   respuestas_totales_v[cont_v]['pregunta']=pregunta;
-   respuestas_totales_v[cont_v]['id_competencias']=id_competencias;
-   respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_elegir_de_una_lista; ?>;
-
-   $("option", thiz).each(function(index2, el) {
+   <?php #si tengo checkboxs... ?>
+   if ( thiz.children('input[type=checkbox]').length >0) {
+    respuestas_v={};
+    respuestas_totales_v[cont_v] = {};
+    respuestas_totales_v[cont_v]['pregunta']=pregunta;
+    respuestas_totales_v[cont_v]['id_competencias']=id_competencias;
+    respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_tipo_test; ?>;
+    thiz.children('input[type=checkbox]').each(function(index2, el) {
      respuestas_v[index2] = {};
      str=$(this).val();
      var op = str.split("|");
@@ -1916,78 +2168,53 @@ function onYouTubePlayerAPIReady() {
      respuestas_v[index2]['correcta']=op[2];
      respuestas_totales_v[cont_v]['variables_respuesta']= respuestas_v; 
 
-     if ($(this).prop("selected")==true)  {
-      respuestas_v[index2]['seleccionada']="1";
+     if ($(this).prop('checked')==true)  {
+       respuestas_v[index2]['seleccionada']="1";
+       cuantascheked++;
+     }
+     else {
+      respuestas_v[index2]['seleccionada']='0';
     }
-    else {
-     respuestas_v[index2]['seleccionada']='0';
-   }
 
- });
+  });
 
- }
 
- <?php #si tengo checkboxs... ?>
- if ( thiz.children('input[type=checkbox]').length >0) {
-  respuestas_v={};
-  respuestas_totales_v[cont_v] = {};
-  respuestas_totales_v[cont_v]['pregunta']=pregunta;
-  respuestas_totales_v[cont_v]['id_competencias']=id_competencias;
-  respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_tipo_test; ?>;
-  thiz.children('input[type=checkbox]').each(function(index2, el) {
-   respuestas_v[index2] = {};
-   str=$(this).val();
-   var op = str.split("|");
-   respuestas_v[index2]['opcion']=op[0];
-   respuestas_v[index2]['retroalimentacion']=op[1];
-   respuestas_v[index2]['correcta']=op[2];
+    <?php #evaluo si no checkeo nada ?>
+    if (cuantascheked==0) {
+      alert ("Diligencie todas las preguntas.");
+      thiz.children('input[type=checkbox]').next().addClass('error_eval');
+      thiz.children('input[type=checkbox]').focus();
+      if_error=1;
+      return false;
+    }
+
+  }
+
+  <?php #si tengo campos de texto... ?>
+  if ( thiz.children('textarea').length >0) {
+   respuestas_v={};
+   respuestas_totales_v[cont_v] = {};
+   respuestas_totales_v[cont_v]['pregunta']=pregunta;
+   respuestas_totales_v[cont_v]['id_competencias']=id_competencias;
+   respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_campo_de_texto; ?>;
+   respuestas_v[0] = {};
+   respuestas_v[0]['texto']=thiz.children('textarea').attr('placeholder');
+   respuestas_v[0]['retroalimentacion']=thiz.children('textarea').attr('retro');
+   respuestas_v[0]['respuesta']=thiz.children('textarea').val();
+   respuestas_v[0]['id_texto']=thiz.children('textarea').attr('keypid');
+
    respuestas_totales_v[cont_v]['variables_respuesta']= respuestas_v; 
 
-   if ($(this).prop('checked')==true)  {
-     respuestas_v[index2]['seleccionada']="1";
-     cuantascheked++;
-   }
-   else {
-    respuestas_v[index2]['seleccionada']='0';
-  }
 
-});
+   if ( thiz.children('textarea').val()=='' ) {
 
-
-  <?php #evaluo si no checkeo nada ?>
-  if (cuantascheked==0) {
-    alert ("Diligencie todas las preguntas.");
-    thiz.children('input[type=checkbox]').next().addClass('error_eval');
-    thiz.children('input[type=checkbox]').focus();
+    alert ("no deje campos vacíos!");
+    thiz.children('textarea').addClass('error_eval_s');
+    thiz.children('textarea').focus();
     if_error=1;
     return false;
+
   }
-
-}
-
-<?php #si tengo campos de texto... ?>
-if ( thiz.children('textarea').length >0) {
- respuestas_v={};
- respuestas_totales_v[cont_v] = {};
- respuestas_totales_v[cont_v]['pregunta']=pregunta;
- respuestas_totales_v[cont_v]['id_competencias']=id_competencias;
- respuestas_totales_v[cont_v]['tipo_pregunta']=<?php echo $pregunta_campo_de_texto; ?>;
- respuestas_v[0] = {};
- respuestas_v[0]['texto']=thiz.children('textarea').attr('placeholder');
- respuestas_v[0]['retroalimentacion']=thiz.children('textarea').attr('retro');
- respuestas_v[0]['respuesta']=thiz.children('textarea').val();
- respuestas_totales_v[cont_v]['variables_respuesta']= respuestas_v; 
-
-
- if ( thiz.children('textarea').val()=='' ) {
-
-  alert ("no deje campos vacíos!");
-  thiz.children('textarea').addClass('error_eval_s');
-  thiz.children('textarea').focus();
-  if_error=1;
-  return false;
-
-}
 
 }
 
@@ -2009,14 +2236,16 @@ if (if_error==0) {
 
   jQuery.ajax({
     url:'<?php echo base_url(); ?>cursos/set_puntos_pregunta_rapida_ev/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/'+motivo+'/'+puntos+'/'+actividad_barra,
-    type: "post",
+    type: "post",async: false,
     data:({
       data:data
     }),
     ajaxSend:function(result){              
       console.log ("ajaxSend\n");
+      $('#v'+actividad_barra+'v').hide();
     },
-    success:function(result){     
+    success:function(result){    
+      $('#v'+actividad_barra+'v').show(); 
       if (result!='error') {
         console.log ("success\n");
 
@@ -2059,7 +2288,6 @@ if (if_error==0) {
       console.log ("complete\n");
 
 
-
       $j('.actividad_aprobada2').animate({'opacity':'.90'}, 300, 'linear');
       $j('.actividad_eval').animate({'opacity':'1.00'}, 300, 'linear');
       $j('.actividad_eval').animate({'top':'30%'}, 2000, 'easeOutElastic');
@@ -2067,15 +2295,23 @@ if (if_error==0) {
       $j('#sound-1b').get(0).play();
 
 
+      setTimeout(function() { 
+        $j('.actividad_aprobada2').click();
+      }, 4000);
+
+
+
+
 
 
       $('#evaluacion'+actividad_barra).hide();
       $('#respuesta'+actividad_barra).show();
+      $('#act_btn_'+actividad_barra).next().attr('next','ok');
 
       <?php ##envio un pequeño ajax para consultar las oportunidades disponibles y las que he realizado ?>
       jQuery.ajax({
         url:'<?php echo base_url(); ?>cursos/get_oportunidades_ev/'+actividad_barra,
-        type: "post",
+        type: "post",async: false,
         data:({
           data:data
         }),
@@ -2097,11 +2333,17 @@ if (if_error==0) {
             if (rta[0]!='') {
 
               if (rta[0]!='ilimitatu')  {
+
                $('#respuesta'+actividad_barra+" > .evaluacion_wrap > .volver").html(" Volver a intentar ("+Number( Number(rta[0])-Number(rta[1]) )+") ");
+               $('#respuesta'+actividad_barra+" > .evaluacion_wrap > .volver").next().show();
+               $('#respuesta'+actividad_barra > '.evaluacion_wrap .sumaras').show();
+
              }
            }
            else {
              $('#respuesta'+actividad_barra+" > .evaluacion_wrap > .volver").html(" Volver a intentar ");
+             $('#respuesta'+actividad_barra+" > .evaluacion_wrap > .volver").next().show();
+             $('#respuesta'+actividad_barra > '.evaluacion_wrap .sumaras').show();
            }
 
          }
@@ -2147,6 +2389,8 @@ ajaxStop:function(result){
 
 <?php ########################################## caja de puntos ############################################### ?>
 function caja_puntos(motivo,puntos,actividad_barra) {
+
+
 
  data = new Object;
 
@@ -2201,8 +2445,15 @@ else if ( $('#form'+actividad_barra).children('select').length>0) {
 
 <?php # es porque es tipo pregunta con texto ?>
 else if ( $('#form'+actividad_barra).children('textarea').length>0) {
-  data.tipo_pregunta=<?php echo $pregunta_campo_de_texto; ?>;
-  data.respuesta=JSON.stringify($('.textp'+actividad_barra).val());
+
+  if ($('.textp'+actividad_barra).val()=='') {
+   alert ("Diligencie todas las preguntas.");
+   return false;
+ }
+
+
+ data.tipo_pregunta=<?php echo $pregunta_campo_de_texto; ?>;
+ data.respuesta=JSON.stringify($('.textp'+actividad_barra).val());
 
 
 }
@@ -2224,7 +2475,7 @@ $('#form'+actividad_barra).hide();
 
 jQuery.ajax({
   url:'<?php echo base_url(); ?>cursos/set_puntos_pregunta_rapida/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/'+motivo+'/'+puntos+'/'+actividad_barra,
-  type: "post",
+  type: "post",async: false,
   data:({
     data:data
   }),
@@ -2251,6 +2502,43 @@ jQuery.ajax({
 
       points('.mis_puntos',Number($('.mis_puntos').html()),Number( Number($('.mis_puntos').html())+Number(puntito)));
 
+
+
+      $('#act_btn_'+actividad_barra).next().attr('next','ok');
+      $('#act_btn_'+actividad_barra).next().removeClass('sinaccesop');
+
+
+      <?php ##funcion para ocultar la caja de puntos por tiempo ?>
+      setTimeout(function() { $j('section.actividad_aprobada').click();
+
+
+        if ($('.modulo_actual').parent().next().attr('id')=="mimodulopremio") {
+
+
+          if ($(".act_actual").next().hasClass('next_btn')) {
+           $('#evaluacion_btn_preg_cont'+actividad_barra).each(function(index, el) {
+            if ( $(this).css('display') == 'block' &&  $(this).hasClass('conti') ) {
+              $(this).click();
+            }
+          });
+         }
+
+
+
+       }
+
+       
+
+
+     //  alert ("Doy clic en el boton1"); 
+
+
+
+   }, 4000);
+
+
+
+      <?php ## si estoy en el ultimo modulo... es porque debo hacer otro clic en el modulo ?>
 
       <?php ##doy permiso para que pueda ver la siguiente actividad ?>
       $("#act_btn_"+actividad_barra).next().attr('next','ok');
@@ -2308,7 +2596,7 @@ function continuar (id_actividades_barra) {
   data.pregunta=$('#pregunta').val();
   jQuery.ajax({
     url:'<?php echo base_url(); ?>cursos/if_first_actividad/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/'+id_actividades_barra,
-    type: "post",
+    type: "post",async: false,
     data:({
       data:data
     }),
@@ -2317,6 +2605,9 @@ function continuar (id_actividades_barra) {
     },
     success:function(result){               
       console.log ("success\n");
+
+
+
       if (result!='error') {
        str=result;
        var op = str.split("|");
@@ -2332,7 +2623,7 @@ function continuar (id_actividades_barra) {
 
        $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
        $j('.box3').animate({'opacity':'1.00'}, 300, 'linear');
-       $j('.box3').animate({'top':'20%'}, 1500, 'easeOutElastic');
+       $j('.box3').animate({'top':'10%'}, 1500, 'easeOutElastic');
        $j('.backdrop, .box3').css('display', 'block');
        $j('#sound-1b').get(0).play();
        $j('#surprise_result3').css("display","block");
@@ -2364,7 +2655,7 @@ function continuar (id_actividades_barra) {
 
 
 
-$('#act_btn_'+id_actividades_barra).next().attr('next','ok');
+
 $('#act_btn_'+id_actividades_barra).next().click();
 $('#evaluacion'+id_actividades_barra).hide();
 //$('#respuesta'+id_actividades_barra).hide();
@@ -2378,7 +2669,7 @@ $( function() {
   $('.act_block').click(function(event) {
    event.preventDefault();
 
-   if ( $('.act_actual').attr('type')=='foro') { $('.act_actual').next().attr('next','ok'); }
+   if ( $('.act_actual').attr('type')=='foro') { $('.act_actual').next().attr('next','ok');  $('.act_actual').next().removeClass('sinaccesop');  }
 
    if ($(this).prev().attr('id'))  {
      var idbarra=$(this).prev().attr('id').replace('act_btn_','');
@@ -2387,11 +2678,15 @@ $( function() {
 
      if ( $(this).attr('next')=='ok' ) {
 
+
+       $('.numero_de_actividad_responsive').html($(this).attr('number')+"/"+$('.act_block').length );
+
+
        data = new Object;
        data.idbarra=idbarra;
        jQuery.ajax({
         url:'<?php echo base_url(); ?>cursos/getif_logro/'+idbarra+'/<?php echo $this->uri->segment(3);?>/<?php echo $this->uri->segment(4);?>',
-        type: "post",
+        type: "post",async: false,
         data:({
           data:data
         }),
@@ -2404,12 +2699,14 @@ $( function() {
            str=result;
            var op = str.split("|");
            <?php ## muestro efecto de la medalla si la tengo en ésta actividad ?>
+           $('.box4 > h3').html("¡FELICITACIONES!");
            $('.box4 > .premio_img > #surprise_result >img').attr('src',op[0]);
            $('.box4 > .motivo_medalla').html(op[1]);
+           $('.box4 .seguir_block').hide();
            $('.box4 > .premio_img > #surprise_result > span').hide();
            $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
            $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-           $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+           $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
            $j('.backdrop, .box4').css('display', 'block');
            $j('#sound-1e').get(0).play();
            $j('#surprise_result4').css("display","block");
@@ -2456,7 +2753,7 @@ if (opstatus[3]==0 || opstatus[3]==undefined) {
 
     jQuery.ajax({
       url:'<?php echo base_url(); ?>cursos/set_nuevostatus/<?php echo $this->uri->segment(3); ?>/'+opstatus[2]+'/'+opstatus[1],
-      type: "post",
+      type: "post",async: false,
       data:({
         data:data
       }),
@@ -2468,28 +2765,33 @@ if (opstatus[3]==0 || opstatus[3]==undefined) {
         if (result!='error') {
          str=result;
 
-        // alert (result);
+         //alert (result);
 
-        var op = str.split("|");
-        <?php ## muestro efecto si cambié de estatus ?>
-        $('.box4 > .premio_img > #surprise_result >img').attr('src',op[1]);
-        $('.box4').css({'height':'290px'});
-        $('.circle_wrap > img').attr('src',op[1]);
-        $('.box4 > .motivo_medalla').html(op[4]);
-        $('.box4 > .premio_img > #surprise_result > span').hide();
-        $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
-        $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-        $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
-        $j('.backdrop, .box4').css('display', 'block');
-        $j('#sound-1b').get(0).play();
-        $j('#surprise_result4').css("display","block");
+         var op = str.split("|");
+         <?php ## muestro efecto si cambié de estatus ?>
+         $('.box4 > .premio_img > #surprise_result >img').attr('src',op[1]);
+         $('.box4').css({'height':'290px'});
+         $('.circle_wrap > img').attr('src',op[1]);
+         $('.box4 > .motivo_medalla').html(op[4]);
+         $('.box4 .seguir_block').hide();
+         $('.box4 > h3').html("¡Lo has logrado!");
+         $('.box4 > .premio_img > #surprise_result > span').hide();
+         $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
+         $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
+         $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
+         $j('.backdrop, .box4').css('display', 'block');
+         $j('#sound-1b').get(0).play();
+         $j('#surprise_result4').css("display","block");
 
-        <?php ## actualizo la variable actual que maneja el estatus del estudiante ?>
-        $('#proxsts').val(op[0]+'|'+op[4]+'|'+op[5]+'|'+op[6]);
+         <?php ## actualizo la variable actual que maneja el estatus del estudiante ?>
+         $('#proxsts').val(op[0]+'|'+op[4]+'|'+op[5]+'|'+op[6]);
 
-        <?php ##evaluo si soy campeon para habilitar el boton de crear foro ?>
-        if (op[7]==<?php echo $this->config->item('Campeon') ?>) {
+         $('.circle_wrap').next().html(op[8]);
+
+         <?php ##evaluo si soy campeon para habilitar el boton de crear foro ?>
+         if (op[7]==<?php echo $this->config->item('Campeon') ?>) {
           $('#crearforito').show();
+          $('#crearforito > div').addClass('discusion_on').removeClass('discusion_off');
         }
 
 
@@ -2562,7 +2864,7 @@ $("input[type=checkbox]").click(function(event) {
 
   $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
   $j('.box2').animate({'opacity':'1.00'}, 300, 'linear');
-  $j('.box2').animate({'top':'20%'}, 1500, 'easeOutElastic');
+  $j('.box2').animate({'top':'10%'}, 1500, 'easeOutElastic');
   $j('.backdrop, .box2').css('display', 'block');
   $j('#sound-1b').get(0).play();
   $j('#surprise_result2').css("display","block");
@@ -2575,7 +2877,7 @@ $j('.lightbox').click(function(){
 
   $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
   $j('.box').animate({'opacity':'1.00'}, 300, 'linear');
-  $j('.box').animate({'top':'20%'}, 1500, 'easeOutElastic');
+  $j('.box').animate({'top':'10%'}, 1500, 'easeOutElastic');
   $j('.backdrop, .box').css('display', 'block');
   $j('#sound-1a').get(0).play();
   setTimeout(function(){
@@ -2646,8 +2948,23 @@ $j('.close4').click(function(){
 
 
 $j('.close').click(function(){
+
+
+  <?php ## si estoy en el ultimo modulo y cierro la caja sorpresa... ?>
+  if ($('.modulo_actual').parent().next().attr('id')=="mimodulopremio") {
+    if (  $('.box').hasClass('ultimatum') ) {
+    // $('.next_btn').click();
+  }
+
   close_box();
   pausatodo();
+}
+
+else {
+  close_box();
+  pausatodo();
+}
+
 }); 
 $j('.backdrop').click(function(){
   close_box();
@@ -2691,7 +3008,7 @@ $j('.actividad_aprobada').click(function(){
   data.pregunta=$('#pregunta').val();
   jQuery.ajax({
     url:'<?php echo base_url(); ?>cursos/if_first_actividad/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>',
-    type: "post",
+    type: "post",async: false,
     data:({
       data:data
     }),
@@ -2715,7 +3032,7 @@ $j('.actividad_aprobada').click(function(){
 
        $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
        $j('.box3').animate({'opacity':'1.00'}, 300, 'linear');
-       $j('.box3').animate({'top':'20%'}, 1500, 'easeOutElastic');
+       $j('.box3').animate({'top':'10%'}, 1500, 'easeOutElastic');
        $j('.backdrop, .box3').css('display', 'block');
        $j('#sound-1b').get(0).play();
        $j('#surprise_result3').css("display","block");
@@ -2799,6 +3116,13 @@ function close_box()
                 event.preventDefault();
                 var thiz=$(this);
                 data = new Object;
+
+                if ($('#pregunta').val()=='') {
+                  alert ("Por favor, escribe tu pregunta");
+                  return false;
+                }
+
+
                 data.pregunta=$('#pregunta').val();
                 data.id_cursos=<?php echo $this->uri->segment(3); ?>;
                 data.id_modulos=<?php echo $this->uri->segment(4); ?>;
@@ -2807,7 +3131,7 @@ function close_box()
 
                 jQuery.ajax({
                   url:'<?php echo base_url(); ?>cursos/enviar_pregunta',
-                  type: "post",
+                  type: "post",async: false,
                   data:({
                     data:data
                   }),
@@ -2871,7 +3195,7 @@ $('.meencantar').click(function(event) {
 
  jQuery.ajax({
   url:$(this).attr('dhref'),
-  type: "post",
+  type: "post",async: false,
   data:({
     data:data
   }),
@@ -2933,7 +3257,7 @@ $('.meencantar').click(function(event) {
 
    jQuery.ajax({
     url:$(this).attr('href'),
-    type: "post",
+    type: "post",async: false,
     data:({
       data:data
     }),
@@ -2978,8 +3302,12 @@ $('.meencantar').click(function(event) {
   });
 
 
-    $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
+//    $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  },onAnimationFinished );
 //   $container.isotope({ sortBy: 'mencantas_estudiantes_todos', sortAscending : false });
+
+
+$container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
+$container.isotope( 'on', 'layoutComplete', onLayout ); 
 
 
 
@@ -2987,7 +3315,7 @@ $('.meencantar').click(function(event) {
 
 jQuery.ajax({
   url:'<?php echo base_url(); ?>cursos/get_notificaciones_ajax',
-  type: "post",
+  type: "post",async: false,
   data:({
     data:data
   }),
@@ -3046,9 +3374,9 @@ $('#create_foro').click(function(event) {
  var thiz=$(this);
 
 
- if ( thiz.prev().prev().prev().val()=='' )  {
+ if ( thiz.prev().prev().prev().prev().val()=='' )  {
   alert ("Por favor, escriba el mensaje a enviar");
-  thiz.prev().prev().prev().focus();
+  thiz.prev().prev().prev().prev().focus();
   return false;
 
 }
@@ -3061,7 +3389,7 @@ data.id_cursos="<?php echo $this->uri->segment(3); ?>";
 data.id_usuario="<?php echo $this->session->userdata('id_usuario'); ?>";
 jQuery.ajax({
   url:'<?php echo base_url(); ?>cursos/createpost',
-  type: "post",
+  type: "post",async: false,
   data:({
     data:data
   }),
@@ -3071,26 +3399,26 @@ jQuery.ajax({
   success:function(result){               
     console.log ("success\n");
     
-    alert (result);
+   // alert (result);
 
-    if (result!='error') {
-      thiz.prev().prev().prev().fadeOut(2000);
-      thiz.fadeOut(2000);
-      setTimeout(function(){thiz.prev().fadeIn(1000); thiz.prev().prev().fadeIn(1000); }, 1000);
-      setTimeout(function(){thiz.prev().fadeOut(2000); thiz.prev().prev().fadeOut(2000); thiz.prev().prev().prev().fadeIn(2000); }, 5000);
-      if (result=='ok')  {  setTimeout(function(){  location.reload();  }, 6000);  }
-    }
-
-  },
-  complete:function(result){              
-    console.log ("complete\n");
-  },
-  beforeSend:function(result){                
-    console.log ("beforeSend\n");
-  },
-  ajaxStop:function(result){              
-    console.log ("ajaxStop\n");
+   if (result!='error') {
+    thiz.prev().prev().prev().fadeOut(2000);
+    thiz.fadeOut(2000);
+    setTimeout(function(){thiz.prev().fadeIn(1000); thiz.prev().prev().fadeIn(1000); }, 1000);
+    setTimeout(function(){thiz.prev().fadeOut(2000); thiz.prev().prev().fadeOut(2000); thiz.prev().prev().prev().fadeIn(2000); }, 5000);
+    if (result=='ok')  {  setTimeout(function(){  location.reload();  }, 6000);  }
   }
+
+},
+complete:function(result){              
+  console.log ("complete\n");
+},
+beforeSend:function(result){                
+  console.log ("beforeSend\n");
+},
+ajaxStop:function(result){              
+  console.log ("ajaxStop\n");
+}
 
 });
 
@@ -3107,22 +3435,25 @@ $('.send_foro').click(function(event) {
  var thiz=$(this);
 
 
- if ( thiz.prev().prev().prev().val()=='' )  {
+
+ if ( thiz.prev().prev().prev().prev().val()=='' )  {
   alert ("Por favor, escriba el mensaje a enviar");
-  thiz.prev().prev().focus();
+  thiz.prev().prev().prev().focus();
   return false;
 
 }
 
+
+
 data = new Object;
 
-data.mensaje=thiz.prev().prev().prev().val();
+data.mensaje=thiz.prev().prev().prev().prev().val();
 data.id_actividades_barra=thiz.attr('barra_foro');
 data.id_usuario="<?php echo $this->session->userdata('id_usuario'); ?>";
 data.id_cursos="<?php echo $this->uri->segment(3); ?>";
 jQuery.ajax({
   url:'<?php echo base_url(); ?>cursos/sendpost',
-  type: "post",
+  type: "post",async: false,
   data:({
     data:data
   }),
@@ -3132,13 +3463,23 @@ jQuery.ajax({
   success:function(result){               
     console.log ("success\n");
 
+
+
+    thiz.prev().prev().prev().prev().val('');
+
     if ( $('#discusion'+thiz.attr('barra_foro')+' > .discusion_wrap > .disc_estudiantes > .disc_block_B').length>0 )  { 
       $('#discusion'+thiz.attr('barra_foro')+' > .discusion_wrap > .disc_estudiantes > .disc_block_B').last().after(result);
     } 
     else { 
       $('#discusion'+thiz.attr('barra_foro')+' > .discusion_wrap > .disc_estudiantes ').html(result); 
+      $('.disc_estudiantes .disc_block_B').css({'left':'28px'});
+
+
     }
     thiz.prev().prev().prev().val(' ');
+
+    <?php ## efecto despues de que se envia el mensaje   ?>
+
 
 
     if ( $('#discusion'+thiz.attr('barra_foro')+' > .discusion_wrap > .disc_estudiantes > .disc_block_B').length>0 )  {
@@ -3152,20 +3493,50 @@ jQuery.ajax({
   });
 
       $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
+      $container.isotope( 'on', 'layoutComplete', onLayout ); 
+
+    }
+
+    else {
+      $('.disc_estudiantes .disc_block_B').css({'left':'28px'});
+      $('.disc_block_B').css({'left':'28px'});
     }
 
 
-    thiz.prev().prev().prev().fadeOut(2000);  <?php ##oculto el campo de texto ?>
-    thiz.prev().prev().fadeOut(2000);     <?php ##oculto el contador ?>
-    setTimeout(function(){thiz.prev().fadeIn(2000);}, 1000);  <?php ##muestro el mensaje de enviado! ?>
+
+
+
+
+
+    thiz.prev().prev().prev().prev().fadeOut(2000);  <?php ##oculto el campo de texto ?>
+    thiz.prev().prev().prev().fadeOut(2000);     <?php ##oculto el contador ?>
+    setTimeout(function(){
+      if ( $('#discusion'+thiz.attr('barra_foro')+' > .discusion_wrap > .disc_estudiantes > .disc_block_B').length==1 )  { $('.disc_block_B').css({'left':'28px'}); }
+       
+     
+
+     thiz.prev().fadeIn(2000); thiz.prev().prev().fadeIn(2000); }, 1000);  <?php ##muestro el mensaje de enviado! ?>
 
     <?php ##oculto el mensaje de enviado!, muestro el campo de texto y el contador ?>
-    setTimeout(function(){thiz.prev().fadeOut(2000); thiz.prev().prev().prev().fadeIn(2000); thiz.prev().prev().fadeIn(2000);  }, 7000);
+    setTimeout(function(){ thiz.prev().prev().fadeOut(2000); thiz.prev().fadeOut(2000); thiz.prev().prev().prev().prev().fadeIn(2000); thiz.prev().prev().prev().fadeIn(2000);  }, 7000);
 
 
   },
   complete:function(result){              
     console.log ("complete\n");
+
+    var $container = $j('.disc_estudiantes').isotope({
+      layoutMode: 'vertical',
+    //sortBy: 'mencantas_estudiantes_todos', sortAscending : false,
+    getSortData: {
+      mencantas_estudiantes_todos: '.mencantas_estudiantes_todos parseInt',
+    }
+  });
+
+
+    $container.isotope( 'reloadItems' ).isotope( { sortBy: 'mencantas_estudiantes_todos', sortAscending : false  } );
+    $container.isotope( 'on', 'layoutComplete', onLayout ); 
+
   },
   beforeSend:function(result){                
     console.log ("beforeSend\n");
@@ -3192,13 +3563,17 @@ $('.solocurso').removeClass('hider');
 $('.mis_puntos').html("<?php echo $mis_puntos_actuales_curso_actual; ?>");
 
 
+function onLayout() {
+  $('.disc_block_B').css({'left':'28px'});
+}
+
 <?php ##funcion para dar puntos por compartir la informacion ?>
 $('.sharerpoint').click(function(event) {
   var thiz=$(this);
   var barra=$(this).attr('barra');
   jQuery.ajax({
     url:"cursos/socialpoint/<?php echo $this->uri->segment(3); ?>/<?php echo $this->uri->segment(4); ?>/"+thiz.attr('id')+'/'+barra,
-    type: "post",
+    type: "post",async: false,
 
     ajaxSend:function(result){              
       console.log ("ajaxSend\n");
@@ -3253,9 +3628,10 @@ $('#twlink').click(function(event) {
          $('.box4 > h3').html("<?php echo $titulo_resta_puntos; ?>");
          $('.box4 > .motivo_medalla').html("<?php echo $mensaje_resta_puntos; ?>");
          $('.box4 > .premio_img > #surprise_result > span').hide();
+         $('.box4 .seguir_block').hide();
          $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
          $j('.box4').animate({'opacity':'1.00'}, 300, 'linear');
-         $j('.box4').animate({'top':'20%'}, 1500, 'easeOutElastic');
+         $j('.box4').animate({'top':'10%'}, 1500, 'easeOutElastic');
          $j('.backdrop, .box4').css('display', 'block');
          $j('#sound-1f').get(0).play();
          $j('#surprise_result4').css("display","block");
@@ -3289,51 +3665,83 @@ $('#twlink').click(function(event) {
       <?php ##evaluo si soy campeon para habilitar el boton de crear foro ?>
       if (<?php echo $detalle_curso->miestatus; ?>==<?php echo $this->config->item('Campeon') ?>) {
         $('#crearforito').show();
+        $('#crearforito > div').addClass('discusion_on').removeClass('discusion_off');
 
         if ( '<?php echo $foro_ya_creado_campeon; ?>'=='no') {
+         $('#crearforito > div').addClass('discusion_on').removeClass('discusion_off');
+       }
 
-        }
+       else {
 
-        else {
-
-          $('#crearforito > div').addClass('discusion_off').removeClass('discusion_on');
-          $('#crearforito').unbind( "click" );
-        }
+        $('#crearforito > div').addClass('discusion_off').removeClass('discusion_on');
+        $('#crearforito').unbind( "click" );
+      }
 
 
 
+    }
+
+    else {
+      <?php ##evaluo si tengo el premio de crear foro sin ser campeon ?>
+
+      if ( '<?php echo $foro_ya_creado_campeon; ?>'=='no') {
+        $('#crearforito').show();
+        $('#crearforito > div').addClass('discusion_on').removeClass('discusion_off');
       }
 
       else {
-        <?php ##evaluo si tengo el premio de crear foro sin ser campeon ?>
 
-        if ( '<?php echo $foro_ya_creado_campeon; ?>'=='no') {
-          $('#crearforito').show();
-        }
-
-        else {
-
-          $('#crearforito > div').addClass('discusion_off').removeClass('discusion_on');
-          $('#crearforito').unbind( "click" );
-
-        }
-
-
+        $('#crearforito > div').addClass('discusion_off').removeClass('discusion_on');
+        $('#crearforito').unbind( "click" );
 
       }
 
 
-      function points(clase,inicio,final){
-        $j(clase).countTo({
-          from: inicio,to:final,speed: 1500,refreshInterval: 50,
-          onComplete: function(value) {
-            console.debug(this);
-          }
-        });
-      }
+
+    }
+
+
+    function points(clase,inicio,final){
+      $j(clase).countTo({
+        from: inicio,to:final,speed: 1500,refreshInterval: 50,
+        onComplete: function(value) {
+          console.debug(this);
+        }
+      });
+    }
 
 
 
-    </script>
-  </body>
-  </html>
+
+    <?php ##### funcion para los bloques del curso de las actividades ##### ?>
+
+
+
+    <?php #### para cerrar popups de puntos ?>
+    jQuery(document).on('keyup',function(evt) {
+      if (evt.keyCode == 27) {
+        $j('section.actividad_aprobada').click();
+    //$j('.backdrop').click();
+  }
+});
+
+
+    jQuery(document).on('click',function(evt) {
+
+      if($('.notificaciones').css('display') == 'block')
+      {
+  // $(".notificaciones").slideUp();
+}
+
+
+
+});
+
+
+
+
+
+
+  </script>
+</body>
+</html>

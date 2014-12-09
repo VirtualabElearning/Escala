@@ -29,7 +29,7 @@ $( "#ciudad" ).autocomplete({
 </head>
 <body> 
  <?php $this->load->view('view_site_header'); ?>
-
+<?php /* ?>
  <section class="encabezado2 clear">
   <div class="encabezado2_wrap">
     <h6>Registro</h6>
@@ -37,6 +37,8 @@ $( "#ciudad" ).autocomplete({
     
   </div>            
 </section>
+<?php */ ?>
+
 
 <?php $attributos=array('name'=>'form-perfil','id'=>'form-perfil'); ?>
 <?=form_open_multipart(base_url().'registro_usuario_validar',$attributos)?>
@@ -111,11 +113,17 @@ $( "#ciudad" ).autocomplete({
     <?php #echo  form_error('userfile', '<div class="mensaje_error error_foto">', '</div>'); ?>
 
     <?php if ($mensaje): ?>
-      <div class="mensaje_exito"><?php echo $mensaje; ?></div>
+      <div class="titulo_registro">Verifica tu cuenta</div>
+      <div style="margin: 8px; padding: 10px;"><?php echo $mensaje; ?></div>
+
+<style>
+  .editar_wrap a, .editar_wrap .edit_block { display: none; }
+</style>
+
     <?php endif ?>
 
 
-    <a href="#" id="submit"><div class="editar_btn">Guardar </div> </a>
+    <a href="#" id="submit"><div class="editar_btn">Registrarse </div> </a>
 
 
 

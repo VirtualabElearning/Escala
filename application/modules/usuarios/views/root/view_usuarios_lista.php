@@ -43,10 +43,10 @@
               </div>
               <div class="widget-content">
                 <div class="padd">
-                
+
                   <div class="page-tables">
                     <div class="table-responsive">
-                      
+
                       <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
 
 
@@ -77,14 +77,15 @@
                              <td><?php echo $value->estado_nombre; ?></td>
 
                              <td> 
-<?php #solo los master puede editar los mismos master! ?>
-<?php if ( ($this->session->userdata('id_roles')==$value->id_roles) || $this->session->userdata('id_roles')==1 ): ?>
-  
+                              <?php #solo los master puede editar los mismos master! ?>
+                              <?php if ( ($this->session->userdata('id_roles')==$value->id_roles) || $this->session->userdata('id_roles')==1 ): ?>
 
-                              <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_usuarios; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar </a> 
-                           
-                             <a href="#" id="<?php echo $value->id_usuarios; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
-          <?php endif ?>                
+
+                                <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_usuarios; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar </a> 
+                                <?php if ($value->id_usuarios!=1 && $value->id_usuarios!=$this->session->userdata('id_usuario')): ?>
+                                 <a href="#" id="<?php echo $value->id_usuarios; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> </td>
+                               <?php endif ?>
+                             <?php endif ?>                
 
 
                            </tr>

@@ -64,6 +64,10 @@
                           <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
                             <img src="<?php echo base_url().'uploads/'.$carpeta.'/'.$detalle->foto; ?>" alt="img"/>
                           </div>
+
+                          <div class="explicacion_texto">Debe ser de 200x150</div>
+
+                          
                           <div>
                             <span class="btn btn-file">
                               <span class="fileupload-exists">Cambiar</span>

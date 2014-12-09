@@ -9,6 +9,26 @@ class Model_Usuarios extends CI_Model{
 
 
 
+## checkeo si el correo existe
+	public function check_email_usuario( $email,$id_usuarios ){
+
+		$extra=array('correo' => $email);
+		$query = $this->db->get_where('usuarios', $extra );
+		if( $query->num_rows() > 0 ){
+				# si existe no permite actualizar con la misma cedula
+					##verifico si tiene el mismo id_usuarios...
+			$resultado=$query->row();
+			if ($resultado->id_usuarios==$id_usuarios) { return 'aceptable'; } else {
+				return 'existe';
+			}
+		} else {
+			#si no existe la identificacion
+			return 'aceptable';
+		}
+	}
+
+
+
 	public function listado($tabla,$where=null,$order_by=null){
 		$this->db->select($tabla.".*,estados.nombre as estado_nombre,roles.*");
 		if ($where) {

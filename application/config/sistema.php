@@ -4,7 +4,10 @@ ini_set("display_errors", 1);
 
 /*  Configuracion del sistema a nivel de programacion  */
 
-
+$config['correo_contacto']	= 'contacto@virtualab.co';
+$config['clave_contacto']	= '1nf0rm4c10n_100';
+$config['smtp_host']	= 'ssl://smtp.gmail.com';
+$config['smtp_port']  = '465';
 ################################################# CONFIGURACION GENERAL DEL SISTEMA #######################################################
 #puntos por ser primer curso
 $config['puntos_primer_curso']	= '10';
@@ -87,6 +90,7 @@ $config['estado_no_utilizado']	= '10';
 
 $config['estado_leido']	= '9';
 $config['estado_no_leido']	= '8';
+$config['estado_no_leido_mensaje']	= '15';
 
 $config['estado_premio']	= '11';
 $config['estado_calificado']	= '12';
@@ -102,6 +106,20 @@ $config['requerido_campeon'] = '100';
 
 ## variable para restar los dias, si pasado de 5 dias nada que ingresa al curso, se resta puntos por dia que vaya pasando
 $config['dias_restar']	= '5';
+
+
+
+
+
+############################################## ROLES DE USUARIO ################################
+$config['roles_master'] = '1';
+$config['roles_docente'] = '2';
+$config['roles_estudiante']	 = '3';
+$config['roles_administrador'] = '4';
+############################################## ROLES DE USUARIO ################################
+
+
+
 
 
 ################################VARIABLES PARA REALIZACION DE PAGOS EN LINEA####################################################

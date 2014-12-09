@@ -18,6 +18,14 @@ $(function() {
 				menu.slideToggle();
 			});
 
+            $(pull).on("click", function (event) {
+                event.stopPropagation();
+            });
+
+            $(document).on("click", function () {
+                $(menu).hide();
+            });
+
 			$(window).resize(function(){
         		var w = $(window).width();
         		if(w > 479 && menu.is(':hidden')) {
@@ -47,6 +55,27 @@ $(document).ready(function() {
 			$(".notificaciones").hide();
 			$("#btn2").click(function(){$(".notificaciones").slideToggle(300);})	
 		});
+
+        $("#btn2").on("click", function (event) {
+                event.stopPropagation();
+            });
+
+            $(document).on("click", function () {
+                $(".notificaciones").hide();
+            });
+
+        $(function(){
+            $(".inbos").hide();
+            $("#btn22").click(function(){$(".inbos").slideToggle(300);})    
+        });
+
+        $("#btn22").on("click", function (event) {
+                event.stopPropagation();
+            });
+
+            $(document).on("click", function () {
+                $(".inbos").hide();
+         });
 
 		var  block_in = false;
         $("#btn3").toggle(
@@ -348,7 +377,21 @@ $(document).ready(function(){
 
     });
 
-   
+   $(document).ready(function(){
+        var sinAcceso = "No tienes acceso a esta actividad aun";
+        $("#act_btn_8").click(function(){
+            alert(sinAcceso);
+        });
+        $("#act_btn_9").click(function(){
+            alert(sinAcceso);
+        });
+        $("#act_btn_10").click(function(){
+            alert(sinAcceso);
+        });
+        $("#act_btn_11").click(function(){
+            alert(sinAcceso);
+        });
+   });
 
     
     

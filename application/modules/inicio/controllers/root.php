@@ -15,8 +15,25 @@ class Root extends CI_Controller {
 
 
 	/* Cargo la pantalla de inicio */
-	public function index()
+	public function index($funcion=null,$mensaje=null)
+	
 	{
+		$mensaje_p='';
+		$mensaje_ok='';
+		## error en el form
+		if ($funcion=='formv') {
+			$mensaje_p=base64_decode($mensaje);	
+		}
+
+		if ($funcion=='frmok') {
+			$mensaje_ok=base64_decode($mensaje);	
+		}
+
+
+		$data['mensaje_p']=$mensaje_p;
+		$data['mensaje_ok']=$mensaje_ok;
+
+
 		$variables = $this->variables; 
 		$data['diccionario']=$this->variables['diccionario'];
 		$this->load->model('model_inicio');
@@ -36,6 +53,10 @@ class Root extends CI_Controller {
 			$mensajes_lista=$this->model_inicio->get_mensajes_docente($this->session->userdata('id_usuario'));
 			$data['mensajes_count']=count($mensajes_lista);
 			$data['mensajes']=$mensajes_lista;
+
+
+
+
 
 
 

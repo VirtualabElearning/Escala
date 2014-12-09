@@ -88,6 +88,37 @@ class Root extends CI_Controller {
 	}
 
 
+
+
+## checkeo si el correo ya existe.
+	public function check_email () {
+
+
+		$this->load->model('model_usuarios');
+		/* Evaluo en la funcion si existe, si la contrasena es correcta. */
+		$result = $this->model_usuarios->check_email_usuario( $this->input->post ('correo'),$this->input->post('id') );
+
+		switch($result){
+			case 'existe':
+			/* 
+			Muestro mensaje de error si el existe.
+			 */
+			$this->form_validation->set_message('check_email', 'El correo '.$this->input->post('correo').' ya existe en el sistema, intente con otro.');
+			return false;
+			break;
+			
+			/*
+			Retorno verdadero si la identificacion no existe
+			*/
+			case 'aceptable':
+			return true;
+			break;
+		}
+
+	}
+
+
+
 	public function guardar()
 	{
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
@@ -95,7 +126,7 @@ class Root extends CI_Controller {
 		$this->form_validation->set_rules('nombres', 'Nombres', 'required|xss_clean');
 		$this->form_validation->set_rules('apellidos', 'Apellidos', 'required|xss_clean');
 		$this->form_validation->set_rules('identificacion', 'Identificacion', 'required|xss_clean');
-		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean');
+		$this->form_validation->set_rules('correo', 'Correo', 'required|xss_clean|callback_check_email');
 		$this->form_validation->set_rules('id_roles', 'Rol', 'required|xss_clean');
 		$this->form_validation->set_rules('id_estados', 'Estado', 'required|xss_clean');
 		$this->form_validation->set_rules('contrasena', 'contrasena', 'xss_clean');

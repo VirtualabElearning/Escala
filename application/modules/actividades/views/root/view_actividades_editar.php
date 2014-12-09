@@ -27,6 +27,10 @@
           <a href="cursos/root/lista/<?php echo $this->uri->segment(4); ?>" class="bread-current">Cursos</a>
           <span class="divider">/</span> 
           <a href="modulos/root/lista/<?php echo $this->uri->segment(5); ?>" class="bread-current">Modulos</a>
+          <span class="divider">/</span> 
+          <a href="<?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista/<?php echo $this->uri->segment(4); ?>/<?php echo $this->uri->segment(5); ?>" class="bread-current">Actividades</a>
+
+          
         </div>
         <div class="clearfix"></div>
       </div>
@@ -53,8 +57,8 @@
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form','id'=>'form_editar_actividad'); ?>
                     <?=form_open_multipart(base_url().$carpeta.'/root/guardar',$attributos)?>
                     <?php echo input_text ("Nombre ".asignar_frase_diccionario ($diccionario,'{actividades}','Actividad',1),"nombre_actividad","nombre_actividad","Ingrese el nombre",$detalle->datos_actividad->nombre_actividad,form_error('nombre_actividad', '<div class="mensaje_error">', '</div>')); ?>
-
-                    <?php echo textarea ("Descripción ".asignar_frase_diccionario ($diccionario,'{actividades}','Actividad',1),"descripcion_actividad","descripcion_actividad","Ingrese la descripción",$detalle->datos_actividad->descripcion_actividad,form_error('descripcion_actividad', '<div class="mensaje_error">', '</div>')); ?>
+                    <input type="hidden" name="descripcion_actividad" id="descripcion_actividad" value="descripcion">
+                    <?php #echo textarea ("Descripción ".asignar_frase_diccionario ($diccionario,'{actividades}','Actividad',1),"descripcion_actividad","descripcion_actividad","Ingrese la descripción",$detalle->datos_actividad->descripcion_actividad,form_error('descripcion_actividad', '<div class="mensaje_error">', '</div>')); ?>
                     <?php 
                     $opciones=array("0"=>"Ninguno");
                     foreach ($logros_lista as $key => $value) {

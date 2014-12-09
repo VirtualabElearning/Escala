@@ -32,7 +32,7 @@
 /* ==========================================================================
     Color # 2 TEXTO
    ======================== ================================================== */
-.dark_blue,nav ul li,.atributo_wrap h2,h4,.plan_wrap h3,.question_wrap h5,.question_wrap h6,.discusion_respuesta_wrap h6,.login_wrap h3,.login_wrap h6{  
+.dark_blue,nav ul li,.atributo_wrap h2,h4,.plan_wrap h3,.question_wrap h5,.question_wrap h6,.discusion_respuesta_wrap h6,.login_wrap h3,.login_wrap h6,.contact_info{  
   color: #0c4a6e;
 }
 /* ==========================================================================
@@ -41,7 +41,7 @@
 /* ==========================================================================
     Color # 3 TEXTO
    ======================== ================================================== */
-.desktop_nav a:link,.desktop_nav a:visited,.desktop_nav a:active,.atributo_wrap p, h5,.curso_des p,.testimonial_wrap p,.pepName h5,.pepName p,.col2_wrap p,.sus_col1 h3,.sus_col1 h4,.fecha,.sus_col2 h3,.explicacion_wrap,
+.desktop_nav a:link,.desktop_nav a:visited,.desktop_nav a:active,.atributo_wrap p, h5,.curso_des p,.testimonial_wrap p,.pepName h5,.pepName p,.sus_col1 h3,.sus_col1 h4,.fecha,.sus_col2 h3,.explicacion_wrap,
 .col2_wrap ul,.pensum_block p,.teacher_col2 h2,.teacher_col2 p,.login_wrap p,.perfil_col2 h6,.question_btn h6,.edit_block p, .editar_wrap a,.paginador_col2 ul li,.paginador_btn,.change_pic_col2 p,.forgot_pass,.disc_block_A_col1 h4,.disc_block_A_col1 h5,.disc_block_A_col2 p,.evaluacion_preg,.evaluacion_preg form span,.tutorial_inter_wrap h2,.landing_col1 p,.not_block_col3 p,.evaluacion_wrap ul li p{
   color:#575756;
 }
@@ -71,11 +71,11 @@
     Color # 6 VERDE
    ======================== ================================================== */
 
-.login_btn,.editar_btn,.evaluacion_btn,.tut_btn,.cta_btn_after,.thanks_btn{
-  background-color:#5fcf80;
+.login_btn,.editar_btn,.evaluacion_btn,.tut_btn,.cta_btn_after,.thanks_btn,.imprimir_recibo,.ver_curso,.countinuar_btn{
+  background-color: #5fcf80;
   color:#fff;
 }
 
-.login_btn:hover,.editar_btn:hover,.evaluacion_btn:hover,.tut_btn:hover,.cta_btn_after:hover,.thanks_btn:hover{
+.login_btn:hover,.editar_btn:hover,.evaluacion_btn:hover,.tut_btn:hover,.cta_btn_after:hover,.thanks_btn:hover,.imprimir_recibo:hover,.ver_curso:hover,.countinuar_btn:hover{
   background-color:#76df95;
 }

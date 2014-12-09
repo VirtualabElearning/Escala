@@ -30,9 +30,25 @@
 <script src="html/admin/js/respond.min.js"></script>
 
 
+<link rel="stylesheet" href="html/admin/nivo/themes/default/default.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="html/admin/nivo/themes/light/light.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="html/admin/nivo/themes/dark/dark.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="html/admin/nivo/themes/bar/bar.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="html/admin/nivo/nivo-slider.css" type="text/css" media="screen" />
+
+<style>
+	.slider-wrapper { 
+		width: 95%; 
+		margin: 13px auto;
+	}
+</style>
+
+<link rel="stylesheet" href="<?php base_url(); ?>color.css" type="text/css" media="screen" />
+
   <!--[if lt IE 9]>
   <script src="js/html5shiv.js"></script>
   <![endif]-->
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="html/admin/img/favicon/favicon.png">
+

@@ -12,13 +12,23 @@ class Root extends CI_Controller {
 	 public function __construct()
 	 {
 	 	parent::__construct();
-	 			
+
+	 	#if (!$this->session->userdata('id_usuario'))  {   redirect( 'login/root/iniciar_sesion/' );  }
+	 	$mispermisos=$this->model_generico->mispermisos($this->session->userdata('id_roles'),$this->variables['modulo']);
+	 	$this->variables['mispermisos']=json_decode($mispermisos->id_roles);  
+
+
+
+	 	$this->variables['diccionario']=$diccionario=$this->model_generico->diccionario(); 
 
 	 }
- 
+
 	 /*  Funcion principal del programa  */
 	 public function index($url_redirect=null)
 	 {
+
+
+
 
 	 	if ($this->session->userdata('id_usuario'))  {   redirect( 'inicio/root' );  }
 
@@ -236,11 +246,15 @@ public function perfil($id_usuarios)
 	$this->load->model('model_login');
 
 
-	$data['menus']=$this->model_generico->menus_root_categorias();
-		foreach ($data['menus'] as $key => $value) {
-			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+	$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+	$data['titulo']=$variables['modulo'];
 
-		}
+
+	$data['menus']=$this->model_generico->menus_root_categorias();
+	foreach ($data['menus'] as $key => $value) {
+		$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+	}
 	
 	$data['perfil'] = $this->model_login->detalle('usuarios',array('id_usuarios',$id_usuarios));
 	$data['titulo']="perfil";

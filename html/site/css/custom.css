@@ -1,8 +1,9 @@
-body,html {
-  font-family: century!important;  
+.question_btn h6 {
+  font-size: 10px;
+  font-weight: bold;
 }
 
-a,.avatar_infoblock_col1 > h3,.status_bar >img,.status_bar.solocurso.clear img ,.circle_wrap > img,.tut_btn,.prev_btn,.prev_btn img,.crear_discusion_btn,.next_btn,.next_btn img,.evaluacion_btn,.evaluacion_btn,.volver,.not_block_col2,.not_col1,.closex,.login_btn  {
+.act_block,a,.avatar_infoblock_col1 > h3,.status_bar >img,.status_bar.solocurso.clear img ,.tut_btn,.prev_btn,.prev_btn img,.crear_discusion_btn,.next_btn,.next_btn img,.evaluacion_btn,.evaluacion_btn,.volver,.not_block_col2,.not_col1,.closex,.login_btn  {
 	cursor: pointer;
 }
 
@@ -12,20 +13,15 @@ a,.avatar_infoblock_col1 > h3,.status_bar >img,.status_bar.solocurso.clear img ,
 }
 
 .disc_block_A_col2  {
-	font-family: century;
 	font-size: 11px;
 }
 
 
 .disc_block_A_col2 h3 {
-	font-family: century_b;
 	font-size: 15px;
 }
 
 
-.error{
-  font-family: century_b;  
-}
 
 
 .mensaje_exito{
@@ -65,14 +61,12 @@ a,.avatar_infoblock_col1 > h3,.status_bar >img,.status_bar.solocurso.clear img ,
 }
 
 .nosotros_col1 h2 font {
-  font-family: century_b;
   font-size: 22px;
   text-transform: uppercase;
 }
 
 .nosotros_col1 h3 font {
   color: #fff;
-  font-family: century_b;
   font-size: 18px;
 }
 
@@ -86,7 +80,6 @@ a,.avatar_infoblock_col1 > h3,.status_bar >img,.status_bar.solocurso.clear img ,
 
 
 form h6 {
-  font-family: century_b;
   text-align: center;
   font-size: 18px;
   display: none;
@@ -108,19 +101,19 @@ form h6 {
 
 
 .box2,.box3,.box4 {
-   background: none repeat scroll 0 0 #f5f5f5;
-    border-radius: 5px;
-    box-shadow: 0 0 5px #444444;
-    display: none;
-    height: 280px;
-    margin: 0 auto;
-    padding: 20px;
-    pointer-events: auto;
-    position: relative;
-    text-align: center;
-    top: -100%;
-    width: 500px;
-    z-index: 61;
+ background: none repeat scroll 0 0 #f5f5f5;
+ border-radius: 5px;
+ box-shadow: 0 0 5px #444444;
+ display: none;
+ height: 280px;
+ margin: 0 auto;
+ padding: 20px;
+ pointer-events: auto;
+ position: relative;
+ text-align: center;
+ top: -100%;
+ width: 500px;
+ z-index: 61;
 
 }
 
@@ -129,17 +122,20 @@ form h6 {
   cursor: pointer;
   float: right;
   margin-right: 6px;
+  font-size: 30px;
+  line-height: 20px;
+
+
+  
 }
 
 .box2 h4,.box3 h4,.box4 h4 {
-  font-family: century_b;
   font-size: 16px;
   margin: 10px 0;
 }
 
 
 .box2 h3,.box3 h3,.box4 h3  {
-  font-family: century_b;
   font-size: 24px;
   margin: 20px 0;
   width: 100%;
@@ -159,7 +155,6 @@ form h6 {
 
 
 .box2 p,.box3 p,.box4 p {
-  font-family: century;
   font-size: 14px;
 }
 
@@ -313,8 +308,7 @@ form h6 {
 }
 
 
-.counter_foro {
- font-family: century;
+.counter_foro,.miforocounter_foro {
  font-size: 11px;
 }
 
@@ -338,7 +332,7 @@ observaciones AJUSTE HECHO  EL CONTENEDOR DEL CENTRO DEBE TENER EL
 SIGUIENTE ALTO min-height:500px;
 */
 
-section#tutorial {
+section#tutorial,section.editar,section#aula {
 
   min-height:500px;    
 
@@ -346,47 +340,46 @@ section#tutorial {
 
 
 .discusion_off {
-   background: url("../img/discusion_off.png") no-repeat scroll 19px 3px rgba(0, 0, 0, 0);
-    height: 31px;
-    width: 100%;
+ background: url("../img/discusion_off.png") no-repeat scroll 19px 3px rgba(0, 0, 0, 0);
+ height: 31px;
+ width: 100%;
 }
 
 
 .pago_wrap {
-    margin: 0 auto;
-    padding: 20px 0 0;
-    width: 960px;
+  margin: 0 auto;
+  padding: 20px 0 0;
+  width: 960px;
 }
 
 
 .inbox_btn {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 
 .inbox_numero {
-    background-color: #f28d18;
-    border-radius: 15px;
-    color: #fff;
-    font-family: century_b;
-    font-size: 10px;
-    height: 20px;
-    left: 64px;
-    line-height: 20px;
-    position: absolute;
-    top: -16px;
-    width: 20px;
+  background-color: #f28d18;
+  border-radius: 15px;
+  color: #fff;
+  font-size: 10px;
+  height: 20px;
+  left: 64px;
+  line-height: 20px;
+  position: absolute;
+  top: -16px;
+  width: 20px;
 }
 
 .delete_inbox{
-position: absolute;
-right: 0px;
+  position: absolute;
+  right: 0px;
 }
 
 .clicker_inbox{
-position: absolute;
-right: 0px;
+  position: absolute;
+  right: 0px;
 }
 
 .inbox_block_wrap{
@@ -403,25 +396,285 @@ right: 0px;
 }
 
 .actualiza_tus_datos_wrap{
-  
+
 }
 
 
 .off_est {
-    background-color: #eeeeee;
+  background-color: #eeeeee;
 }
 
 .on_est {
-    background-color: #5fcf80;
+  background-color: #5fcf80;
 }
 
 
 .act_actual {
-    background-color: #f28d18!important;
+  background-color: #f28d18!important;
 }
 
 .cursiv {
-   color: #6f6f6f;
-    font-style: italic;
+ color: #6f6f6f;
+ font-style: italic;
+ font-weight: bold;
+}
+
+.disc_block_A_col1{
+  position: relative;
+}
+
+.login_wrap {
+  min-height: 500px;
+}
+
+.cursos_destacados {
+  min-height: 500px;
+  margin-top: 28px;
+}
+
+.curso_wrap {
+ min-height: 500px;
+}
+
+
+.not_page_wrap {
+ min-height: 500px;
+}
+
+.cert_page_wrap {
+  min-height: 500px; 
+}
+
+
+
+div#load_screen2 {
+  background: #fff;
+  opacity: 1;
+  position: fixed;
+  z-index: 60;
+  top: 0px;
+  width: 100%;
+  height: 1600px;
+}
+
+
+div#load_screen2 > div#loading {
+  color: #0f8dcd;
+  background: url(../img/virtualab.png);
+  background-repeat: no-repeat;
+  background-position: 10px 15px;
+  width: 120px;
+  height: 120px;
+  margin: 250px auto;
+  text-align: align;
+  font-size: 16px;
+  position: relative;
+}
+
+.closex_foro {
+ font-weight: bold;
+ position: absolute;
+ right: 8px;
+ top: 1px;
+}
+
+.disc_block_B {
+  position: relative;
+}
+
+.closex_foro {
+  cursor: pointer;
+}
+
+.titulo_registro {
+  color: #0f8dcd;
+  font-size: 21px;
+  font-weight: bold;
+  padding: 1px;
+  text-align: center;
+}
+
+.explicacion_texto{
+ clear: both;
+ font-size: 11px;
+ font-style: italic;
+}
+
+
+nav ul li a {
+  border-bottom: none;
+}
+
+
+
+
+
+.discusion_btn {
+  background-color: #f28d18;
+  color: #fff;
+}
+
+.imprimir_recibo {
+  cursor: pointer;
+}
+
+.biton  {
+ color: #222;
+}
+
+.biton p {
+  margin-bottom: 10px;
+}
+
+
+
+.light_blue {
+  border-radius: 15px;
+}
+
+
+.circle span {
+ left: 31px;
+ top: 106px;
+}
+
+
+#c1 {
+  font-size: 12px; margin: 4px 10px 27px 0px; padding: 11px 16px 16px 0px;
+}
+
+
+#c2 {
+  float: left;
+}
+
+#c2 a {
+  color: #1A1A1A;
+  border-bottom: 1px solid #1A1A1A;
+}
+
+
+#c2 a:hover {
+  color: #676767;
+  border-bottom: 1px solid #676767;
+}
+
+#c3 {
+  float: left; margin-top: 9px;
+}
+
+footer {
+  background-image: none;
+}
+
+.atributos {
+  background: none;
+}
+
+
+@media screen and (max-width: 719px) and (min-width: 480px) {
+  .logo {
+    background-image: none;
+  }
+
+}
+
+
+.activity_title {
+  max-width: 460px;
+}
+
+
+.discusion_btn:hover {
+ background-color: #f4972f;
+}
+
+
+
+@media screen and (min-width: 720px) and (max-width: 959px) {
+
+
+ .box1,.box2,.box3,.box4
+ {
+  position:fixed;
+  top:-100%;
+  left:15%;
+  width:500px;
+  height:400px;
+  background:#f5f5f5;
+  z-index:61;
+  padding:20px 10px 30px 10px;
+  margin:0 auto;
+
+}
+
+
+}
+
+
+
+@media screen and (min-width: 480px) and (max-width: 719px) {
+
+ .box1,.box2,.box3,.box4
+ {
+  position:relative;
+  top:-100%;
+  width:400px;
+  height:420px;
+  background:#f5f5f5;
+  z-index:61;
+  padding:20px 10px 30px 10px;
+  margin:0 auto;
+
+}
+
+
+
+}
+
+
+
+
+@media screen and (min-width: 20px) and (max-width: 479px) {
+
+ .box1,.box2,.box3,.box4
+ {
+  position:relative;
+  top:-100%;
+  margin:0 auto;
+  width:300px;
+  height:420px;
+  background:#f5f5f5;
+  z-index:61;
+  padding:20px 0 30px 0;
+  margin:0 auto;
+
+}
+
+.inbox_numero {
+left: 38px;
+top: -16px;
+}
+
+
+}
+
+
+
+.actividad_aprobada_wrap h4 {
+  color: #fff !important;
+}
+
+.sus_col2 a h2 {
+    color: #29a659;
     font-weight: bold;
+}
+
+.navmovil{
+
+}
+
+
+.navmovil li.active{
+  
 }

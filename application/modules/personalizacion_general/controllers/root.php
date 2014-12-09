@@ -19,15 +19,14 @@ class Root extends CI_Controller {
 
 
 		/*configuracion basica para subir una foto*/
-		$config['upload_path']   =   "uploads/".$this->variables['modulo']."/";
-		$config['allowed_types'] =   "gif|jpg|jpeg|png";
-		$config['max_size']      =   "5000";
-		$config['max_width']     =   "2000";
-		$config['max_height']    =   "2000";
-		$config['remove_spaces']  = TRUE;
-		$config['encrypt_name']  = TRUE;
-		$this->load->library('upload',$config);
-
+		$config_img['upload_path']   =   "uploads/".$this->variables['modulo']."/";
+		$config_img['allowed_types'] =   "gif|jpg|jpeg|png";
+		$config_img['max_size']      =   "5000";
+		$config_img['max_width']     =   "2000";
+		$config_img['max_height']    =   "2000";
+		$config_img['remove_spaces']  = TRUE;
+		$config_img['encrypt_name']  = TRUE;
+		$this->variables['config_img']=$config_img;
 
 	}
 
@@ -36,6 +35,8 @@ class Root extends CI_Controller {
 	{ /* llamo a la funcion lista para traer el listado de informacion */
 		$this->personalizacion_general(1);
 	}
+
+
 
 
 // funcion para validar la foto (Solo valido cuando exista una foto, cuando no, no valido nada)
@@ -86,7 +87,7 @@ class Root extends CI_Controller {
 
 	{ /* Cargo variables globales */
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
-
+		
 		/* asigno variable id de lo que voy  aguardar (solo si es modo editar) */
 		$id=1;
 
@@ -101,13 +102,21 @@ class Root extends CI_Controller {
 		$this->form_validation->set_rules('keywords_sistema', 'Keywords sistema', 'xss_clean');
 		$this->form_validation->set_rules('colores_sistema1', 'Color 1', 'required|xss_clean');
 		$this->form_validation->set_rules('colores_sistema2', 'Color 2', 'required|xss_clean');
-		$this->form_validation->set_rules('colores_sistema3', 'Color 3', 'required|xss_clean');
-		$this->form_validation->set_rules('colores_sistema4', 'Color 4', 'required|xss_clean');
+		#$this->form_validation->set_rules('colores_sistema3', 'Color 3', 'required|xss_clean');
+		#$this->form_validation->set_rules('colores_sistema4', 'Color 4', 'required|xss_clean');
 		$this->form_validation->set_rules('facebook_sistema', 'Facebook', 'required|xss_clean');
 		$this->form_validation->set_rules('twitter_sistema', 'Twitter', 'required|xss_clean');
 		$this->form_validation->set_rules('copyright_nombre', 'Copyright nombre', 'required|xss_clean');
 		$this->form_validation->set_rules('copyright_url', 'Copyright URL', 'required|xss_clean');
-		$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
+		#$this->form_validation->set_rules('image', 'Foto', 'callback_check_foto');
+		$this->form_validation->set_rules('certificado_texto1', '¿Quién certifica?', 'required|xss_clean');
+		$this->form_validation->set_rules('certificado_texto2', 'Legalidad', 'required|xss_clean');
+		$this->form_validation->set_rules('certificado_texto3', '¿Qué certificas?', 'required|xss_clean');
+
+		#$this->form_validation->set_rules('image', 'Logo', 'callback_check_foto');
+		#$this->form_validation->set_rules('image2', 'Footer', 'callback_check_foto2');
+
+
 
 
 		/* Si existe error en las validaciones, los muestra */
@@ -135,71 +144,158 @@ class Root extends CI_Controller {
 				'twitter_sistema' => $this->input->post ('twitter_sistema'),
 				'copyright_nombre' => $this->input->post ('copyright_nombre'),
 				'copyright_url' => $this->input->post ('copyright_url'),
-
+				'info_contacto' => $this->input->post ('info_contacto'),
+				'certificado_texto1' => $this->input->post ('certificado_texto1'),
+				'certificado_texto2' => $this->input->post ('certificado_texto2'),
+				'certificado_texto3' => $this->input->post ('certificado_texto3'),
+				'google_analytics' => $this->input->post ('google_analytics'),
+				'fuente_general' => $this->input->post ('fuente_general'),
 				);
 
-			/* Si tiene id, es porque es de editar y guarda la fecha de modificacion, de lo contrario, guarda fecha modificado y creado */
+/* Si tiene id, es porque es de editar y guarda la fecha de modificacion, de lo contrario, guarda fecha modificado y creado */
 			#if ($id) { $data[$variables['id']]=$id; $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  } else {  $data['fecha_modificado']=date('Y-m-d H:i:s',time());  $data['id_usuario_modificado']=$this->session->userdata('id_usuario');  $data['fecha_creado']=date('Y-m-d H:i:s',time()); $data['id_usuario_creado']=$this->session->userdata('id_usuario');   }
 
+$config_img=$this->variables['config_img'];
+$this->load->library('upload',$config_img);
 
 
-			if ($_FILES['logo']['tmp_name'])  {
-				
-				$finfo=$this->upload->data();
-				if ($this->input->post ('image')<>$this->input->post ('foto_antes'))  {
-					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
-				}
+if ($_FILES['logo']['tmp_name'])  {
 
-				$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
-				$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
-				$data['logo'] = $finfo['file_name'];
+	#$finfo=$this->upload->data();
+	
+	if ( ! $this->upload->do_upload('logo'))
+	{
 
-			}
-
-			else {
-				## elimino la foto
-				if ($this->input->post ('image')=='')  {
-					@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
-					$data['logo'] = "";
-				}
-				
-				
-			}
-
-
-
-
-			/* Guardo la informacion */
-			$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
-
-			/* Redirecciono al listado */
-			$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/personalizacion_general/'.$id.'/guardado_ok';
-			redirect($accion_url);
-		}
+		#echo $this->upload->display_errors(); exit;
 	}
+	else
+	{
+		$finfo=$this->upload->data();
+
+	}
+
+
+
+
+	if ($this->input->post ('image')<>$this->input->post ('foto_antes'))  {
+		@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+	}
+
+	$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
+	$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+	$data['logo'] = $finfo['file_name'];
+
+}
+
+else {
+				## elimino la foto
+	if ($this->input->post ('image')=='')  {
+		@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+		$data['logo'] = "";
+	}
+
+
+}
+
+
+
+
+
+
+/*
+if ($_FILES['certificado_logo']['tmp_name'])  {
+	$finfo=$this->upload->data();
+	if ($this->input->post ('image')<>$this->input->post ('foto_antes'))  {
+		@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+	}
+	$temp_ext=substr(strrchr($finfo['file_name'],'.'),1);
+	$myphoto=str_replace(".".$temp_ext, "", $finfo['file_name']);
+	$data['certificado_logo'] = $finfo['file_name'];
+}
+else {
+				## elimino la foto
+	if ($this->input->post ('image')=='')  {
+		@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes'));
+		$data['certificado_logo'] = "";
+	}
+}
+*/
+
+
+
+
+if ($_FILES['logo_footer']['tmp_name'])  {
+	
+	if ( ! $this->upload->do_upload('logo_footer'))
+	{
+
+		#echo $this->upload->display_errors(); exit;
+	}
+	else
+	{
+		$finfo_footer=$this->upload->data();
+
+	}
+
+
+	if ($this->input->post ('image_footer')<>$this->input->post ('foto_antes_image_footer'))  {
+		@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes_image_footer'));
+	}
+	$temp_ext=substr(strrchr($finfo_footer['file_name'],'.'),1);
+	$myphoto=str_replace(".".$temp_ext, "", $finfo_footer['file_name']);
+	$data['image_footer'] = $finfo_footer['file_name'];
+
+}
+else {
+	
+				## elimino la foto
+	if ($this->input->post ('image_footer')=='')  {
+		@unlink('uploads/'.$variables['modulo'].'/'.$this->input->post ('foto_antes_image_footer'));
+		$data['image_footer'] = "";
+	}
+}
+
+#echo $data['image_footer'];
+
+
+#print_r($finfo_footer);
+
+#exit;
+
+
+
+
+/* Guardo la informacion */
+$id=$this->model_generico->guardar($variables['modulo'],$data,$variables['id'],array($variables['id'],$id));
+
+/* Redirecciono al listado */
+$accion_url=base_url().$this->uri->segment(1).'/'.$this->uri->segment(2).'/personalizacion_general/'.$id.'/guardado_ok';
+redirect($accion_url);
+}
+}
 
 
 // funcion para validar datos en cascada
-	public function check_validador($id)
-	{
-		/* consulto en cascada si hay datos para asi evitar error entre llaves foraneas */
-		$if_detalle=$this->model_generico->listado('cursos',array('id_categoria_cursos',$id));
+public function check_validador($id)
+{
+	/* consulto en cascada si hay datos para asi evitar error entre llaves foraneas */
+	$if_detalle=$this->model_generico->listado('cursos',array('id_categoria_cursos',$id));
 		#krumo ($if_detalle);
-		if (count ($if_detalle)==0)  {
+	if (count ($if_detalle)==0)  {
 
-			return true;
-		}
-		else {
-
-			foreach ($if_detalle as $key => $value) {
-				$cursos[]=$value->titulo;
-			}
-
-			$this->form_validation->set_message('check_validador', 'Existe cursos en esta categoria <b>('.implode(",", $cursos).')</b>, borrelos primero');
-			return false;
-		}
-
+		return true;
 	}
+	else {
+
+		foreach ($if_detalle as $key => $value) {
+			$cursos[]=$value->titulo;
+		}
+
+		$this->form_validation->set_message('check_validador', 'Existe cursos en esta categoria <b>('.implode(",", $cursos).')</b>, borrelos primero');
+		return false;
+	}
+
+}
 
 
 

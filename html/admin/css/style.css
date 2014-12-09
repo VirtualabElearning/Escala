@@ -2010,3 +2010,23 @@ margin-bottom: 40px !important;
 	margin-bottom: 0;
 }
 
+
+.multiselect {
+    width:20em;
+    height:15em;
+    border:solid 1px #c0c0c0;
+    overflow:auto;
+}
+ 
+.multiselect label {
+    display:block;
+}
+ 
+.multiselect-on {
+    color:#ffffff;
+    background-color:#000099;
+}
+
+.multiselect .checkbox-inline {
+	margin-left:0px;
+}

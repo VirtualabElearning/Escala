@@ -54,17 +54,18 @@
                     ?>
                     <?php echo input_text ("Titulo","titulo","titulo","Ingrese el titulo del curso",$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
                     
+                    <?php echo textarea ("Descripción corta","descripcion","descripcion","Ingrese la descripción corta",$detalle->descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
+                    <div id="descripcion_contador" class="contar_caracteres"></div>
+                   
+
+                    <?php echo textarea ("Objetivos de aprendizaje","contenido","contenido","Ingrese los Objetivos de aprendizaje",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')); ?>
+                    <div id="contenido_contador" class="contar_caracteres"></div>
+
+                    <?php #echo editor ("Descripción corta","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
 
 
-                    <?php echo textarea ("Resumen del curso","descripcion","descripcion","Ingrese el resumen del curso",$detalle->descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
+
                     
-
-
-                    <?php echo editor ("Descripción corta","contenido","contenido",$detalle->contenido,form_error('contenido', '<div class="mensaje_error">', '</div>')) ?>
-
-
-
-                    <div id="contador"></div>
 
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
@@ -73,12 +74,14 @@
                         <input type="hidden" name="image" id="image" value="<?php echo $detalle->foto; ?>">
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
+                            <img src="http://www.placehold.it/306x218/EFEFEF/AAAAAA" alt="img"/>
                           </div>
 
                           <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
                            <img src="<?php echo base_url().'uploads/'.$titulo.'/'.$detalle->foto; ?>" alt="img"/>
                          </div>
+
+                         <div class="explicacion_texto">Debe ser de 306x218</div>
 
                          <div>
                           <span class="btn btn-file">
@@ -98,7 +101,7 @@
 
 
 
-                  <?php echo editor ("Objetivos de parendizaje","objetivos_aprendizaje","objetivos_aprendizaje",$detalle->objetivos_aprendizaje,form_error('objetivos_aprendizaje', '<div class="mensaje_error">', '</div>')) ?>
+                  <?php #echo editor ("Objetivos de parendizaje","objetivos_aprendizaje","objetivos_aprendizaje",$detalle->objetivos_aprendizaje,form_error('objetivos_aprendizaje', '<div class="mensaje_error">', '</div>')) ?>
                   <?php echo editor ("Prerrequisitos","prerrequisitos","prerrequisitos",$detalle->prerrequisitos,form_error('prerrequisitos', '<div class="mensaje_error">', '</div>')) ?>
 
                   <?php $array_opc=array(); ?>
@@ -117,7 +120,7 @@
 
                   <?php 
                   $opciones=array("1"=>"Si","0"=>"No");
-                  echo select ("Destacar?","destacar","destacar",$opciones,$detalle->destacar); 
+                  echo select ("¿Curso destacado?","destacar","destacar",$opciones,$detalle->destacar); 
                   ?>
                 <?php /* ?>
                    <?php $opciones=array();
@@ -128,7 +131,7 @@
                     <?php echo select ('Tipo plan','id_tipo_planes','id_tipo_planes',$opciones,$detalle->id_tipo_planes);
                     */
                     ?>
-                <input type="hidden" name="id_tipo_planes" id="id_tipo_planes" value="1">
+                    <input type="hidden" name="id_tipo_planes" id="id_tipo_planes" value="1">
                     <?php #echo input_text ("Máximo estudiantes","maximo_estudiantes","maximo_estudiantes","Ingrese el máximo de estudiantes en el curso",$detalle->maximo_estudiantes,form_error('maximo_estudiantes', '<div class="mensaje_error">', '</div>')); ?>
 
                     <?php echo input_text ("Valor","valor","valor","Ingrese el valor del curso (Solo si es premium)",$detalle->valor,form_error('valor', '<div class="mensaje_error">', '</div>')); ?>
@@ -177,17 +180,17 @@
 
   $(document).ready(function() {
 
- var num = $("#valor").val().replace(/\./g,"");
-    if(!isNaN(num)){
-      num = num.toString().split("").reverse().join("").replace(/(?=\d*\.?)(\d{3})/g,"$1.");
-      num = num.split("").reverse().join("").replace(/^[\.]/,"");
-      $("#valor").val(num);
-    }else{
+   var num = $("#valor").val().replace(/\./g,"");
+   if(!isNaN(num)){
+    num = num.toString().split("").reverse().join("").replace(/(?=\d*\.?)(\d{3})/g,"$1.");
+    num = num.split("").reverse().join("").replace(/^[\.]/,"");
+    $("#valor").val(num);
+  }else{
 
-      $(this).val($("#valor").val().replace(/[^\d\.]*/g,""));
-    }
+    $(this).val($("#valor").val().replace(/[^\d\.]*/g,""));
+  }
 
-  });
+});
   
 
   $("#valor").keyup(function(){

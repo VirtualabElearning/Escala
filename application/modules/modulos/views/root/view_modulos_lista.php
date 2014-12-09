@@ -19,7 +19,7 @@
       <div class="bread-crumb pull-right">
        <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
        <span class="divider">/</span> 
-       <a href="cursos/root/lista/<?php echo $this->uri->segment(3); ?>" class="bread-current">Cursos</a>
+       <a href="cursos/root/lista/<?php echo $this->uri->segment(4); ?>" class="bread-current">Cursos</a>
      </div>
      <div class="clearfix"></div>
    </div>
@@ -63,8 +63,11 @@
                     <?php foreach ($lista as $key => $value): ?>
 
                       <tr id="<?php echo $value->id_modulos; ?>">
-                       <td><?php echo $value->orden; ?></td>
+                       <td style="display:none;"><?php echo $value->orden; ?></td>
+                      <?php /* ?>
+                      
                        <td><?php echo $value->id_modulos; ?></td>
+                      <?php */ ?>
                        <td><?php echo $value->nombre_modulo; ?></td>
                        <td><?php echo $value->introduccion_modulo; ?></td>
                        <td><?php echo $value->nombre; ?></td>
@@ -75,7 +78,7 @@
                         <?php } ?>
 
                         <?php if (in_array($this->session->userdata('id_roles'), $if_descargables)) {  ?>
-                          <a href="descargables/root/lista/<?php echo $value->id_modulos; ?>" class="btn btn-primary btn-xs"><i class="fa"></i> Decargables </a> 
+                          <a href="descargables/root/lista/<?php echo $this->uri->segment(4); ?>/<?php echo $value->id_modulos; ?>" class="btn btn-primary btn-xs"><i class="fa"></i> Decargables </a> 
                           <?php } ?>
 
                           
@@ -170,6 +173,7 @@
         data: {"data": orden},
         type: 'post'
       }).done(function(data) {
+     //   alert (data);
       });
       $(".ajax-loader").hide();
     }

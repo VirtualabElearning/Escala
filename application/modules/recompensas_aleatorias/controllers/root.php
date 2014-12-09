@@ -63,6 +63,10 @@ class Root extends CI_Controller {
 		$data['titulo']=$variables['modulo'];
 
 		$data['videos_lista']=$this->model_generico->listado('actividades_videos',array('actividades_videos.id_estados',1),array('actividades_videos.orden','asc'));
+		
+
+
+
 		$data['foros_lista']=$this->model_generico->listado('actividades_foro',array('actividades_foro.id_estados',1),array('actividades_foro.orden','asc'));
 		$data['logros_lista']=$this->model_generico->listado('logros',array('logros.id_estados',1),array('logros.orden','asc'));
 
@@ -193,6 +197,17 @@ class Root extends CI_Controller {
 
 
 		$data['videos_lista']=$this->model_generico->listado('actividades_videos',array('actividades_videos.id_estados',1),array('actividades_videos.orden','asc'));
+		
+
+foreach ($data['videos_lista'] as $key => $value) {
+	$data['videos_lista'][$key]->modulo=$this->model_generico->detalle('modulos',array('id_modulos'=>$value->id_modulos));
+	$data['videos_lista'][$key]->curso=$this->model_generico->detalle('cursos',array('id_cursos'=>$data['videos_lista'][$key]->modulo->id_cursos));
+
+}
+
+
+
+
 		$data['foros_lista']=$this->model_generico->listado('actividades_foro',array('actividades_foro.id_estados',1),array('actividades_foro.orden','asc'));
 		$data['logros_lista']=$this->model_generico->listado('logros',array('logros.id_estados',1),array('logros.orden','asc'));
 

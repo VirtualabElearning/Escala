@@ -41,18 +41,33 @@
 										<br />
 										<?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
 										<?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
-										<?php echo input_text ("Nombre","nombre_modulo","nombre_modulo","Ingrese el nombre",$this->input->post('nombre_modulo'),form_error('nombre_modulo', '<div class="mensaje_error">', '</div>')); ?>
-										<?php echo textarea ("Introducción","introduccion_modulo","introduccion_modulo","Ingrese la introducción",$this->input->post('introduccion_modulo'),form_error('introduccion_modulo', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo input_text ("Nombre del módulo","nombre_modulo","nombre_modulo","Ingrese el nombre del módulo",$this->input->post('nombre_modulo'),form_error('nombre_modulo', '<div class="mensaje_error">', '</div>')); ?>
+										<?php echo textarea ("Descripción corta","introduccion_modulo","introduccion_modulo","Ingrese la descripción corta",$this->input->post('introduccion_modulo'),form_error('introduccion_modulo', '<div class="mensaje_error">', '</div>')); ?>
 										<?php #echo editor ("Contenido","contenido_modulo","contenido_modulo",$this->input->post('contenido_modulo')) ?>
 										<?php 
 										foreach ($tipo_planes as $key => $value_tipo_planes) {
 											$opciones[$value_tipo_planes->id_tipo_planes]=$value_tipo_planes->nombre;
 										} 
+										 if ($this->input->post('id_estados')) {
 										echo select ("Tipo de plan","id_tipo_planes","id_tipo_planes",$opciones,$this->input->post('id_tipo_planes')); 
+										} else {
+											echo select ("Tipo de plan","id_tipo_planes","id_tipo_planes",$opciones,1); 
+										}
 										?>
 										<?php 
 								     	 $opciones=array("1"=>"Activo","0"=>"Inactivo","11"=>"Para premios");
-										echo select ("Estado","id_estados","id_estados",$opciones,$this->input->post('id_estados')); 
+
+								     	 if ($this->input->post('id_estados')) {
+								     	 		echo select ("Estado","id_estados","id_estados",$opciones,$this->input->post('id_estados')); 
+								     	 }
+
+								     	 else {
+								     	 		echo select ("Estado","id_estados","id_estados",$opciones,1); 
+								     	 }
+									
+
+
+
 										?>
 										<div class="form-group">
 											<div class="col-lg-offset-2 col-lg-6">

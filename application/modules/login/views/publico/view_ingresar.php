@@ -48,6 +48,11 @@
       </div>
 
 
+
+  <div class="forgot_pass">
+      <a href="<?php echo base_url(); ?>registro_usuario"><p style="font-weight: bold;">¿Eres nuevo? ¡Registrate!</p></a>
+      </div>
+
     </div>
   </section>
 

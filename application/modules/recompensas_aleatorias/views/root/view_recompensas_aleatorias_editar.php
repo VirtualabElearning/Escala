@@ -51,7 +51,7 @@
                       <?php $stylestmp="margin-top:15px;"; ?>
 
                       <div class="tab-content" id="myTabContent">
-                        
+
                         <div id="puntos" class="tab-pane fade <?php if ($detalle->puntos!='0'): ?>in active<?php endif ?>">
                           <div style="<?php echo $stylestmp; ?>"></div>
                           <?php echo input_text ("Puntos","puntos","puntos","Ingrese los puntos a premiar",$detalle->puntos); ?>
@@ -62,13 +62,41 @@
 
                         <div id="video" class="tab-pane fade <?php if ($detalle->id_actividades_videos!='0'): ?>in active<?php endif ?>">
                           <div style="<?php echo $stylestmp; ?>"></div>
-                          <?php 
+
+
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label">Video</label>
+                            <div class="col-lg-6">
+                             <?php 
+                             $opciones=array(""=>"Seleccione...");
+                             foreach ($videos_lista as $key => $value) {
+                              $opciones[$value->id_actividades_videos]=$value->nombre_actividad."[".$value->modulo->nombre_modulo."] [".$value->curso->titulo."]";
+                            }
+                            ?>
+
+                            <select id="id_actividades_videos" name="id_actividades_videos" class="form-control">
+                              <?php foreach ($opciones as $key => $value): ?>
+                                <option value="<?php echo $key; ?>"> <?php echo $value; ?> </option>
+                              <?php endforeach ?>
+                            </select>
+                          </div>
+                        </div>
+
+
+
+                          <?php /*
                           $opciones=array(""=>"Seleccione...");
                           foreach ($videos_lista as $key => $value) {
-                            $opciones[$value->id_actividades_videos]=$value->nombre_actividad;
+                            $opciones[$value->id_actividades_videos]=$value->nombre_actividad."[".$value->modulo->nombre_modulo."] [".$value->curso->titulo."]";
                           }
                           echo select ("Video","id_actividades_videos","id_actividades_videos",$opciones,$detalle->id_actividades_videos); 
+                         */
                           ?>
+
+
+
+
+
                           <input type="hidden" name="if_foro" value="">
                           <input type="hidden" name="puntos" value="">
                           <input type="hidden" name="id_logros" value="">
@@ -81,13 +109,13 @@
 
 
                           <div class="form-group">
-                                  <label class="col-lg-2 control-label">Crear foro</label>
-                                  <div class="col-lg-5">
-                                    <label class="checkbox-inline">
-                                      <input type="checkbox" name="if_foro" id="if_foro" value="1" <?php if ($detalle->if_foro!=0): ?> checked <?php endif ?>>
-                                    </label>
-                                  </div>
-                                </div>
+                            <label class="col-lg-2 control-label">Crear foro</label>
+                            <div class="col-lg-5">
+                              <label class="checkbox-inline">
+                                <input type="checkbox" name="if_foro" id="if_foro" value="1" <?php if ($detalle->if_foro!=0): ?> checked <?php endif ?>>
+                              </label>
+                            </div>
+                          </div>
 
                           <input type="hidden" name="id_actividades_videos" value="">
                           <input type="hidden" name="puntos" value="">

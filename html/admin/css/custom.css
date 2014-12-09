@@ -9,29 +9,36 @@
 	text-align: center;
 }
 
+.explicacion_texto {
+    clear: both;
+    font-size: 11px;
+    font-style: italic;
+    margin-left: 53px;
+    margin-top: -20px;
+}
 
 .ultimos-registrados i {
-max-width: 20px;
-width: 20px;
-position: absolute;
-left: 14px;
+    max-width: 20px;
+    width: 20px;
+    position: absolute;
+    left: 14px;
 }
 
 
 .ultimos-registrados tr td:first-child {
-position: relative;
+    position: relative;
 }
 
 
 .sidebar #nav li ul li.open a {
-background: #eee;
-border-bottom: 1px solid #ddd;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
 }
 
 .txtperfil {
 
-	  float: left;
-	  width: 500px;
+   float: left;
+   width: 500px;
 }
 
 
@@ -43,45 +50,45 @@ border-bottom: 1px solid #ddd;
 
 
 .foto_img {
-	 /*max-width: 10%!important; */
+  /*max-width: 10%!important; */
 }
 
 .foto_img_edit {
-	 max-width: 50%!important;
+  max-width: 50%!important;
 }
 
 
 
 .fileupload-exists .fileupload-new, .fileupload-new .fileupload-exists {
-display: none;
+    display: none;
 }
 
 .btn-file > input {
-position: absolute;
-top: 0;
-right: 0;
-margin: 0;
-opacity: 0;
-filter: alpha(opacity=0);
-transform: translate(-300px, 0) scale(4);
-font-size: 23px;
-direction: ltr;
-cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    transform: translate(-300px, 0) scale(4);
+    font-size: 23px;
+    direction: ltr;
+    cursor: pointer;
 }
 
 .btn-file {
-overflow: hidden;
-position: relative;
-vertical-align: middle;
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
 }
 
 
 .fileupload .btn {
-padding: 5px 18px !important;
+    padding: 5px 18px !important;
 }
 
 .fileupload .btn {
-vertical-align: middle;
+    vertical-align: middle;
 }
 
 /*
@@ -102,16 +109,16 @@ border: 0px;
 
 #contador{
    margin-left: 274px;
-    position: relative;
-    top: -15px;	
+   position: relative;
+   top: -15px;	
 }
 
 .opc{
 
 
  border: 1px solid #ccc;
-    margin-top: 12px;
-    padding: 10px;
+ margin-top: 12px;
+ padding: 10px;
 
 
 }
@@ -139,13 +146,13 @@ border: 0px;
 .respuestas_lista{
 
   margin-bottom: 5px;
-    overflow: hidden;
+  overflow: hidden;
 }
 
 
 
 .col-lg-1.clonx {
-margin: 0;
+    margin: 0;
     padding: 0;
     position: absolute;
     right: -36px;
@@ -162,30 +169,13 @@ margin: 0;
 }
 
 .tab-content>.tab-pane {
-overflow: hidden;
+    overflow: hidden;
 }
 
 #add_preguntas button {
-margin-bottom: 10px;
-margin-left: 32px;
+    margin-bottom: 10px;
+    margin-left: 32px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -291,9 +281,104 @@ margin-left: 32px;
 
 .botssxx{
    margin-right: 25px;
-    float: left;
+   float: left;
 }
 
 .botssxx2{
-    
+
+}
+
+span.input-group-addon i {
+    cursor: pointer;
+}
+
+
+.clases{
+    display: none;
+}
+
+
+.page-tables table#data-table thead th {
+    font-weight: bold;
+    background: #E8E8E8;
+}
+
+
+.page-tables table#data-table tfoot th {
+    font-weight: bold;
+    background: #E8E8E8;
+}
+
+.subittlex{
+ font-weight: bold;
+ padding: 30px;
+}
+
+#descripcion_contador,#contenido_contador {
+ margin-bottom: 20px;
+ margin-left: 274px;
+ margin-top: -12px;
+}
+
+.errormensaje {
+
+}
+
+
+.errormensaje p {
+  background: #F5BCBC;
+  color: #373737;
+  text-align: center;
+  padding: 4px;  
+}
+
+.mensaje_ok{
+    background: #CBFFCC;
+    padding: 6px;
+    color: #4C4C4C;
+}
+
+.mensaje_ok p {
+
+}
+
+
+.opciones{
+    clear: both;
+    overflow: hidden;
+}
+
+.gosp{
+    left: -4px;
+    position: absolute;
+    top: 2px;
+}
+
+.col-lg-9 {
+    position: relative;
+}
+
+.delete_cloned1{
+    position: absolute;
+    right: -15px;
+    top: 4px;
+}
+
+.cloned1{
+
+}
+
+.clon1 {
+    position: relative;
+}
+
+.opciones{
+    display: none;
+}
+
+.has_sub a .pull-right {
+    position: absolute;
+}
+.has_sub > a {
+    position: relative;
 }

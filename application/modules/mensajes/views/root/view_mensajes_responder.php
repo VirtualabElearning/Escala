@@ -38,6 +38,7 @@
                   <div class="widget-content">
                     <div class="padd">
                       <br />
+                      <?php #krumo ($detalle); ?>
                       <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                       <?=form_open_multipart(base_url().$titulo.'/root/enviar',$attributos)?>
 
@@ -46,20 +47,30 @@
                         <div class="col-lg-5">
                           <input type="text" name="usuario" value="<?php echo $detalle->datos_usuario->nombres; ?> <?php echo $detalle->datos_usuario->apellidos; ?>" id="usuario" readonly="true" class="form-control " placeholder="">
                           <input type="hidden" name="id_usuarios" id="id_usuarios" value="<?php echo $detalle->datos_usuario->id_usuarios; ?>">
-                         <input type="hidden" name="id_cursos" id="id_cursos" value="<?php echo $detalle->id_cursos; ?>">
-                           <input type="hidden" name="id_modulos" id="id_modulos" value="<?php echo $detalle->id_modulos; ?>">
-                             <input type="hidden" name="id_actividades_barra" id="id_actividades_barra" value="<?php echo $detalle->id_actividades_barra; ?>">
+                          <input type="hidden" name="id_cursos" id="id_cursos" value="<?php echo $detalle->id_cursos; ?>">
+                          <input type="hidden" name="id_modulos" id="id_modulos" value="<?php echo $detalle->id_modulos; ?>">
+                          <input type="hidden" name="id_actividades_barra" id="id_actividades_barra" value="<?php echo $detalle->id_actividades_barra; ?>">
 
                         </div>
                       </div>
 
+
+
+                      <div class="form-group">
+                        <label class="col-lg-2 control-label">Pregunta</label>
+                        <div class="col-lg-5"><textarea readonly style="height: 70px;" name="pregunta" id="pregunta" class="form-control" rows="5" placeholder="Pregunta del estudiante"> <?php echo $detalle->mensaje; ?></textarea>  
+                        </div>
+                      </div>
+
+
                       <?php echo form_error('nombre', '<div class="mensaje_error">', '</div>'); ?>
-                      <?php echo textarea ("Mensaje","mensaje","mensaje","Ingresa tu mensaje",''); ?>
-                      <?php echo form_error('mensaje', '<div class="mensaje_error">', '</div>'); ?>
+                      <?php echo textarea ("Mensaje","mensaje","mensaje","Ingresa tu mensaje",'',form_error('mensaje', '<div class="mensaje_error">', '</div>')); ?>
+
                       <?php 
-                      $opciones=array("8"=>"No le&iacute;do","9"=>"Le&iacute;do");
-                      echo select ("Marcar este mensaje como","id_estados","id_estados",$opciones,$detalle->id_estados); 
+                      #$opciones=array("8"=>"No le&iacute;do","9"=>"Le&iacute;do");
+                      #echo select ("Marcar este mensaje como","id_estados","id_estados",$opciones,$detalle->id_estados); 
                       ?>
+                      <input type="hidden" name="id_estados" id="id_estados" value="<?php echo $this->config->item('estado_leido'); ?>">
                       <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-6">
                           <button type="submit" class="btn btn-sm btn-primary btnguardar">Guardar</button>

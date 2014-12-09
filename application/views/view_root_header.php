@@ -8,7 +8,7 @@
           <span>Menu</span>
         </button>
         <!-- Site name for smallar screens -->
-        <a href="index.html" class="navbar-brand hidden-lg">MacBeth</a>
+        <a href="index.html" class="navbar-brand hidden-lg">Virtualab</a>
       </div>
       
       <?php #krumo($this->session->all_userdata()); ?>

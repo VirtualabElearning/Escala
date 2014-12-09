@@ -22,7 +22,7 @@
   <section class="encabezado">
     <div class="encabezado_wrap">
       <h6>Certificados</h6>
-      <p>¡Una experiencia de aprendizaje online que te dejará sin palabras y potencializará tus capacidades para el éxito integral!</p>
+      <p>Descarga aquí tus certificados alcanzados.</p>
 
       <div class="circle">
         <div class="circle_wrap">
@@ -42,8 +42,7 @@
         <div class="cert_block_wrap">   
           <img src="html/site/img/icono_9.png" alt="">
           <h3>Curso de <?php echo $value->titulo; ?></h3>
-          <p> Obteninido el <?php echo $value->fecha_creado; ?></p>
-
+          <p> Obtenido el <?php echo $value->fecha_cert_creado; ?></p>
           <a href="<?php echo base_url(); ?>get_certificado/<?php echo $value->id_cursos; ?>">
             <div class="cert_btn">Descargar</div>
           </a>

@@ -42,12 +42,13 @@
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
                     <?php echo input_text ("Nombre","nombre","nombre","Ingrese el nombre del logro",$detalle->nombre,form_error('nombre', '<div class="mensaje_error">', '</div>')); ?>
-                    <?php echo textarea ("Descripción","Descripcion","Descripcion","Ingrese la descripción del contenido",$detalle->Descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo textarea ("Descripci&oacute;n","Descripcion","Descripcion","Ingrese la descripción del contenido",$detalle->Descripcion,form_error('Descripcion', '<div class="mensaje_error">', '</div>')); ?>
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
-                      <div class="col-lg-5">
+                      <div class="col-lg-5"> 
                        <input type="hidden" name="image" value="<?php echo $detalle->foto; ?>">
-                       <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
+                           <?=form_hidden('foto_antes',$detalle->foto)?>
+                        <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                           <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>
                         </div>

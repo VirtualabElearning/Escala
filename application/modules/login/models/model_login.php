@@ -62,21 +62,26 @@ class Model_login extends CI_Model{
 
 
 	#funcion para detectar si existe o no la identificacion
-	public function check_user_identificacion( $identificacion ){
+	public function check_user_identificacion( $identificacion,$id_usuarios ){
 
 		$extra=array('identificacion' => $identificacion);
 
-		
+		$this->db->where('usuarios.id_usuarios != ', $id_usuarios);
+
 		$query = $this->db->get_where('usuarios', $extra );
 
 
 
 		if( $query->num_rows() > 0 ){
 				# si existe no permite actualizar con la misma cedula
+			#echo  $this->db->last_query()."<br>";
+			#exit;
 			return 'existe';
 			
 		} else {
 			#si no existe la identificacion
+			#echo  $this->db->last_query()."<br>";
+			#exit;
 			return 'aceptable';
 		}
 	}

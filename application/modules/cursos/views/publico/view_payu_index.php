@@ -16,12 +16,12 @@
 
 </head>
 <body> 
-  <?php $this->load->view('view_site_header'); ?>
+  <?php #$this->load->view('view_site_header'); ?>
 
 
-  <div id="load_screen">
+  <div id="load_screen2">
     <div id="loading">                
-      <img alt="loading" src="html/site/img/loading.GIF">
+      <img alt="loading" src="<?php echo base_url(); ?>html/site/img/loading.GIF">
       <p>Cargando proceso de pago...</p>
     </div>
   </div>
@@ -50,9 +50,11 @@
 
 </form>
     <script>
-      $(document).ready(function() {
-        $('#forma').submit();
-      });
+     //$(document).ready(function() {
+
+       document.forma.submit();
+      
+    
     </script>
 
 

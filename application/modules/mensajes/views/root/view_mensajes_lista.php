@@ -64,14 +64,32 @@
                             <tr id="<?php echo $value->id_mensajes; ?>">
                              <td><?php echo $value->orden; ?></td>
                              <td><?php echo $value->id_mensajes; ?></td>
-                             <td><img src="escalar.php?src=<?php echo base_url().'uploads/aprendices/'.$value->foto_estudiante; ?>&w=126&h=126&zc=1" alt=""></td>
-                             <td><?php echo $value->nombres; ?></td>
-                             <td><?php echo $value->apellidos ; ?></td>
-                             <td><?php echo $value->titulo; ?></td>
-                             <td><?php echo truncate($value->mensaje,40); ?></td>
-                             <td><?php echo $value->estado_nombre; ?></td>
-                             <td> 
+                             <?php  
+                             $foto_estudiante=$value->foto_estudiante;
+                             $ultima_letra = substr($foto_estudiante,-1 , 1); 
+
+                             
+
+                             if (  $ultima_letra=='/'  )  {
+                              $foto_estudiante="html/site/img/sin_foto.png";
+                            } 
+
+
+                            ?>
+                            <?php if ($foto_estudiante!=''): ?>
+                              <td><img src="escalar.php?src=<?php echo base_url().'uploads/aprendices/'.$foto_estudiante; ?>&w=126&h=126&zc=1" alt=""></td>
+                            <?php else: ?>
+                             <td><img src="escalar.php?src=<?php echo base_url(); ?>html/site/img/sin_foto.png&w=126&h=126&zc=1" alt=""></td>
+                           <?php endif ?>
+                           <td><?php echo $value->nombres; ?></td>
+                           <td><?php echo $value->apellidos ; ?></td>
+                           <td><?php echo $value->titulo; ?></td>
+                           <td><?php echo truncate($value->mensaje,40); ?></td>
+                           <td><?php echo $value->estado_nombre; ?></td>
+                           <td> 
+                               <?php /* ?>
                                <a href="<?php echo $this->uri->segment(1); ?>/root/leido/<?php echo $value->id_mensajes."/".$value->estado_mensaje; ?>" class="btn btn-info btn-xs"><i class="fa"></i> <?php if ($value->estado_mensaje==$this->config->item('estado_no_leido')) {  ?> Marcar como leído <?php } if ($value->estado_mensaje==$this->config->item('estado_leido')) {?> Marcar como no leído <?php } ?></a> 
+                               <?php */ ?>
                                <a href="<?php echo $this->uri->segment(1); ?>/root/responder/<?php echo $value->id_mensajes; ?>" class="btn btn-success btn-xs"><i class="fa"></i> Responder</a> 
                                <a href="#" id="<?php echo $value->id_mensajes; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> 
                              </td>

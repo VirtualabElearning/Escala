@@ -27,6 +27,9 @@ class Publico extends CI_Controller {
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		
 		$data['contenido']=$this->model_generico->detalle('contenidos',array('id_contenidos'=>$id_contenidos));
+
+		if ($data['contenido']->url_personalizado!='') {  header('Location: '.$data['contenido']->url_personalizado); exit; }
+		
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
 		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 		##funcion para cargar el conteo de las notificaciones y el listado de notificaciones
@@ -73,7 +76,7 @@ class Publico extends CI_Controller {
 		else {
 			## envio correo electronico
 			$configuracion=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
-			$array_claves=array('{nombres_completos}'=>$this->input->post('nombres_completos'),'{empresa}'=>$configuracion->nombre_sistema,'{correo}'=>$datos_perfil->email,'{base_url}'=>$configuracion->base_url,'{foto}'=>'uploads/aprendices/'.$foto_nombre,'{correo_confirmar}'=>base64_encode($datos_perfil->email."|fb"));
+			$array_claves=array('{nombres_completos}'=>$this->input->post('nombres_completos'),'{mensaje}'=>$this->input->post('mensaje'),'{empresa}'=>$configuracion->nombre_sistema,'{correo}'=>$datos_perfil->email,'{base_url}'=>$configuracion->base_url,'{foto}'=>'uploads/aprendices/'.$foto_nombre,'{correo_confirmar}'=>base64_encode($datos_perfil->email."|fb"));
 			#envio el mensaje al administrador
 			envio_correo($array_claves,$this->input->post('correo'),$this->input->post('nombres_completos'),$configuracion->correo_contacto,"Nuevo mensaje de contacto en ".$configuracion->nombre_sistema,$configuracion->nombre_contacto,site_url()."email_templates/notificacion_contacto.html",$this);
 			$this->contacto ("enviado");

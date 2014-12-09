@@ -206,9 +206,9 @@ class Model_Cursos extends CI_Model{
 
 
 ##funcion para obtener el plan del curso que estoy viendo en este momento
-	public function get_plan_curso($id_cursos,$id_usuarios){
+	public function get_plan_curso($id_cursos,$id_usuarios,$id_estados=1){
 		$this->db->select('cursos_asignados.id_tipo_planes');
-		$this->db->where('cursos_asignados.id_estados',$this->config->item('estado_activo'));
+		$this->db->where('cursos_asignados.id_estados',$id_estados);
 		$this->db->where('cursos_asignados.id_cursos',$id_cursos);
 		$this->db->where('cursos_asignados.id_usuarios',$id_usuarios);
 		$query = $this->db->get('cursos_asignados');
@@ -328,7 +328,7 @@ class Model_Cursos extends CI_Model{
 ##obtengo el listado de actividades de un modulo
 	public function get_docente($id_usuarios) {
 		$this->db->where('usuarios.id_estados',$this->config->item('estado_activo'));
-		$this->db->select('usuarios.id_roles,usuarios.nombres,usuarios.apellidos,usuarios.foto,usuarios.correo,usuarios.identificacion,usuarios.resumen_de_perfil');
+		$this->db->select('usuarios.id_usuarios,usuarios.id_roles,usuarios.nombres,usuarios.apellidos,usuarios.foto,usuarios.correo,usuarios.identificacion,usuarios.resumen_de_perfil');
 		$this->db->where('usuarios.id_usuarios',$id_usuarios);
 		$query = $this->db->get('usuarios');
 		$resultados=$query->row();
@@ -337,13 +337,14 @@ class Model_Cursos extends CI_Model{
 
 
 #obtengo los mensajes del foro en particular y su respectivo usuario
-	public function get_mensajes_foro($id_actividades_foro) {
+	public function get_mensajes_foro($id_actividades_foro,$id_cursos) {
 		$this->db->where('actividades_foro_mensajes.id_estados',$this->config->item('estado_activo'));
 		$this->db->select('actividades_foro_mensajes.*,usuarios.nombres,usuarios.apellidos,usuarios.correo,usuarios.foto as foto_usuario,estatus.nombre as nombre_estatus,cursos_asignados.id_estatus');
 		$this->db->join('usuarios', 'actividades_foro_mensajes.id_usuario_modificado = usuarios.id_usuarios');
 		$this->db->join('cursos_asignados', 'cursos_asignados.id_usuarios = usuarios.id_usuarios');
 		$this->db->join('estatus', 'estatus.id_estatus = cursos_asignados.id_estatus');
 		$this->db->where('actividades_foro_mensajes.id_actividades_foro',$id_actividades_foro);
+		$this->db->where('cursos_asignados.id_cursos',$id_cursos);
 		$this->db->order_by('actividades_foro_mensajes.orden', 'desc');
 		$query = $this->db->get('actividades_foro_mensajes');
 
@@ -428,11 +429,47 @@ class Model_Cursos extends CI_Model{
 
 #funcion para desactivar el tutorial en la cuenta del usuario
 	public function update_tutorial ($id_usuarios) {
-
 		$data=array("mostrar_tutorial"=>1);
 		$this->db->where('id_usuarios', $id_usuarios);
 		$this->db->update('usuarios', $data); 
 	}
+
+
+
+
+#funcion para actualizar la posicion de actividad del usuario
+	public function update_posicion ($id_actividades_barra,$id_cursos,$id_modulos,$id_usuarios) {
+		$data=array("posicion_actividad_barra"=>$id_actividades_barra,"posicion_modulo"=>$id_modulos);
+		$this->db->where('id_usuarios', $id_usuarios);
+		$this->db->where('id_cursos', $id_cursos);
+		$this->db->update('cursos_asignados', $data); 
+
+		#crear_log_txt('update_posicion.txt', $this->db->last_query());
+
+
+	}
+
+
+
+#funcion para actualizar la clase en vivo del curso creado
+	public function update_clase_en_vivo ($id_cursos,$url_clase_en_vivo) {
+		$data=array("url_clase_en_vivo"=>$url_clase_en_vivo);
+		$this->db->where('id_cursos', $id_cursos);
+		$this->db->update('cursos', $data); 
+	}
+
+
+	### obtengo la posicion del modulo y actividad actual
+	public function get_posicion ($id_cursos,$id_usuarios) {
+		$this->db->select("posicion_actividad_barra,posicion_modulo");
+		$this->db->where('cursos_asignados.id_cursos',$id_cursos);
+		$this->db->where('cursos_asignados.id_usuarios',$id_usuarios);
+		$query = $this->db->get('cursos_asignados');
+		return $query->row();
+	}
+
+
+
 
 
 	public function update_pos_mensaje ($id_actividad,$cant_megusta) {
@@ -742,6 +779,14 @@ class Model_Cursos extends CI_Model{
 	}
 
 
+##funcion que actualiza el estado del curso actual del estudiante actual
+	public function update_estado_curso_asignado($id_usuarios,$id_cursos,$data) {
+		$this->db->where('cursos_asignados.id_usuarios', $id_usuarios);
+		$this->db->where('cursos_asignados.id_cursos', $id_cursos);
+		$this->db->update('cursos_asignados', $data); 
+
+	}
+
 
 
 ##funcion de consultar mi foro creado en el curso y modulo actual
@@ -794,7 +839,7 @@ class Model_Cursos extends CI_Model{
         $query = $this->db->get('recompensas_aleatorias');
 		#echo $this->db->last_query(); exit;
 
-        crear_log_txt("v_sql.txt",$this->db->last_query()."\n\n");
+        #crear_log_txt("v_sql.txt",$this->db->last_query()."\n\n");
         return $query->row();
     }
 
@@ -856,7 +901,7 @@ class Model_Cursos extends CI_Model{
     	return $resultado; 
     }
 
-    	
+
     public function update_premio_sorpresa($id_recompensas_aleatorias_usuarios,$data) {
     	$this->db->where('recompensas_aleatorias_usuarios.id_recompensas_aleatorias_usuarios', $id_recompensas_aleatorias_usuarios);
     	$this->db->update('recompensas_aleatorias_usuarios', $data); 
@@ -917,7 +962,8 @@ class Model_Cursos extends CI_Model{
     }
 
 ##Consulto si ya habia echo el examen y ver habia ganado anteriormente
-    public function get_if_examen($id_cursos,$id_modulos,$id_actividades_barra){
+    public function get_if_examen($id_usuarios,$id_cursos,$id_modulos,$id_actividades_barra){
+    	$this->db->where('puntaje.id_usuarios',$id_usuarios);
     	$this->db->where('puntaje.id_cursos',$id_cursos);
     	$this->db->where('puntaje.id_modulos',$id_modulos);
     	$this->db->where('puntaje.id_actividades_barra',$id_actividades_barra);
@@ -1146,6 +1192,7 @@ class Model_Cursos extends CI_Model{
 
  ## funcion que consulta unicamente los modulos del curso (sin el modulo de premios)
     public function get_certificados ($id_usuarios) {
+    	$this->db->select("certificados.*,cursos.*,certificados.fecha_creado as fecha_cert_creado");
     	$this->db->where('certificados.id_estados',$this->config->item('estado_activo'));
     	$this->db->join('cursos', 'cursos.id_cursos = certificados.id_cursos');
     	$this->db->where('certificados.id_usuarios',$id_usuarios);
@@ -1179,6 +1226,135 @@ class Model_Cursos extends CI_Model{
     	#echo $this->db->last_query();
     	return $resultados;
     }
+
+
+
+
+
+ ## funcion que consulta si estoy inscrito al curso
+    public function get_curso_usuario ($id_cursos,$id_usuarios) {
+    	$this->db->where('cursos_asignados.id_cursos',$id_cursos);
+    	$this->db->where('cursos_asignados.id_usuarios',$id_usuarios);
+    	$this->db->where('cursos_asignados.id_estados',$this->config->item('estado_activo'));
+    	$query = $this->db->get('cursos_asignados');
+    	$resultados=$query->row();
+    	return $resultados;
+    }
+
+
+ ## funcion que consulta la clase en vivo programada
+    public function get_clase_vivo ($id_cursos,$id_usuarios) {
+    	$this->db->where('programacion_envio.id_cursos',$id_cursos);
+    	$this->db->where('programacion_envio.id_usuarios',$id_usuarios);
+    	#$this->db->where('programacion_envio.id_estados',$this->config->item('estado_activo'));
+    	$query = $this->db->get('programacion_envio');
+    	$programacion_envio=$query->row();
+
+    	$this->db->where('cursos.id_cursos',$id_cursos);
+    	$query = $this->db->get('cursos');
+    	$cursos=$query->row();
+
+    	return array('programacion_envio'=>$programacion_envio,'curso'=>$cursos);
+    }
+
+ ## funcion para saber si existe una clase en vivo del docente
+    public function get_clase_vivo_if ($id_cursos,$id_usuarios) {
+    	$this->db->where('programacion_envio.id_cursos',$id_cursos);
+    	$this->db->where('programacion_envio.id_usuarios',$id_usuarios);
+    	$query = $this->db->get('programacion_envio');
+    	$programacion_envio=$query->row();
+    	return $programacion_envio;
+    }
+
+
+
+ ## funcion para saber si existe una clase en vivo del curso
+    public function get_clase_vivo_curso ($id_cursos) {
+    	$this->db->where('programacion_envio.id_cursos',$id_cursos);
+    	$query = $this->db->get('programacion_envio');
+    	$programacion_envio=$query->row();
+    	return $programacion_envio;
+    }
+
+
+
+    public function delmensajeforo ($id_usuarios,$id_actividades_foro_mensajes) {
+    	$this->db->delete('actividades_foro_mensajes', array('id_actividades_foro_mensajes' => $id_actividades_foro_mensajes,'id_usuario_modificado' => $id_usuarios)); 
+    }
+
+
+
+
+
+    public function variables_clase_en_vivo($id_cursos,$url_clase,$codigo_clase){
+
+		## consulto los estudiantes registrados en el curso que no hayan finalizado el curso
+    	$this->db->where('cursos_asignados.id_cursos', $id_cursos);
+    	$this->db->where('cursos_asignados.id_estados', $this->config->item('estado_activo')); 
+    	#$this->db->where('cursos_asignados.finalizado', $this->config->item('estado_inactivo')); 
+    	$query = $this->db->get('cursos_asignados');
+    	$resultado_estudiantes=$query->result();
+
+
+
+
+		## obtengo informacion del curso actual
+    	$this->db->where('cursos.id_cursos', $id_cursos);
+    	$this->db->where('cursos.id_estados', $this->config->item('estado_activo')); 
+    	$query = $this->db->get('cursos');
+    	$resultado_cursos=$query->row();
+
+
+
+
+
+
+		## obtengo el primer modulo que se tenga en el curso actual a notificar
+    	$this->db->where('modulos.id_cursos', $id_cursos);
+    	$this->db->where('modulos.id_estados', $this->config->item('estado_activo')); 
+    	$this->db->order_by("orden", "asc"); 
+    	$query = $this->db->get('modulos');
+    	$resultado_modulo=$query->row();
+
+
+
+
+
+		## obtengo la primera actividad del primer modulo del curso para notificar al estudiante
+    	$this->db->where('actividades_barra.id_modulos', $resultado_modulo->id_modulos);
+    	$this->db->where('actividades_barra.id_estados', $this->config->item('estado_activo')); 
+    	$this->db->order_by("orden", "asc"); 
+    	$query = $this->db->get('actividades_barra');
+    	$resultado_actividades=$query->row();
+
+
+
+
+
+    	## actualizo el curso con el link de la clase en vivo o el codigo iframe de la clase en vivo
+    	$data_update_curso=array("url_clase_en_vivo"=>$url_clase,'codigo_clase'=>$codigo_clase);
+    	$this->db->where('id_cursos', $id_cursos);
+    	$this->db->update('cursos', $data_update_curso); 
+
+/*
+    	print_r ($resultado_estudiantes);
+    	print_r ($resultado_cursos);
+    	print_r ($resultado_modulo);
+    	print_r ($resultado_actividades);
+    	echo "-----------------------------------";
+    	exit;
+*/
+
+
+
+
+    	$arr_x=array('var1'=>$resultado_estudiantes,'var2'=>$resultado_cursos,'var3'=>$resultado_modulo,'var4'=>$resultado_actividades);
+    	return $arr_x;
+    	#return $resultado_estudiantes."|".$resultado_cursos."|".$resultado_modulo."|".$resultado_actividades;
+
+    }
+
+
 
 
 

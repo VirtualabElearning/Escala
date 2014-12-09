@@ -42,6 +42,7 @@
                     <br />
                     <?php $attributos=array('class'=>'form-horizontal','role'=>'form'); ?>
                     <?=form_open_multipart(base_url().$titulo.'/root/guardar',$attributos)?>
+                      <?php echo input_text ("Url personalizado (Url externa)","url_personalizado","url_personalizado","Ingrese una url externa s&oacute;lo si desea que la página vaya a otro lugar, deje el campo vacío si no es necesario",$detalle->url_personalizado,form_error('url_personalizado', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo input_text ("Nombre men&uacute;","titulo","titulo","Ingrese el Nombre del men&uacute;",$detalle->titulo,form_error('titulo', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo textarea ("Descripci&oacute;n","descripcion","descripcion","Ingrese la descripci&oacute;n del contenido",$detalle->descripcion,form_error('descripcion', '<div class="mensaje_error">', '</div>')); ?>
                     <div class="form-group">

@@ -2,6 +2,8 @@
 @charset "utf-8";
 /* CSS Document */
 
+
+
 /*--------------------------------------------------
   // RESET
 ---------------------------------------------------*/
@@ -105,88 +107,10 @@ textarea {
 /* ==========================================================================
    FONT
    ========================================================================== */
-@font-face {
-    font-family: century;
-    src: url("fonts/GOTHIC.eot?#iefix");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century;
-    src: url("fonts/GOTHIC.eot");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century;
-    src: url("fonts/GOTHIC.ttf");
-    /* For most other browsers */
-}
-@font-face {
-    font-family: century;
-    src: url("fonts/GOTHIC.woff");
-    /* For most other browsers */
-}
 
-@font-face {
-    font-family: century_b;
-    src: url("fonts/GOTHICB.eot?#iefix");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century_b;
-    src: url("fonts/GOTHICB.eot");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century_b;
-    src: url("fonts/GOTHICB.ttf");
-    /* For most other browsers */
-}
-@font-face {
-    font-family: century_b;
-    src: url("fonts/GOTHICB.woff");
-    /* For most other browsers */
-}
+  
+   
 
-@font-face {
-    font-family: century_it;
-    src: url("fonts/GOTHICI.eot?#iefix");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century_it;
-    src: url("fonts/GOTHICI.eot");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century_it;
-    src: url("fonts/GOTHICI.ttf");
-    /* For most other browsers */
-}
-@font-face {
-    font-family: century_it;
-    src: url("fonts/GOTHICI.woff");
-    /* For most other browsers */
-}
-@font-face {
-    font-family: century_itb;
-    src: url("fonts/GOTHICBI.eot?#iefix");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century_itb;
-    src: url("fonts/GOTHICBI.eot");
-    /* For IE browsers */
-}
-@font-face {
-    font-family: century_itb;
-    src: url("fonts/GOTHICBI.ttf");
-    /* For most other browsers */
-}
-@font-face {
-    font-family: century_itb;
-    src: url("fonts/GOTHICBI.woff");
-    /* For most other browsers */
-}
 /* ==========================================================================
    LOADING
    ========================================================================== */
@@ -208,7 +132,6 @@ div#load_screen > div#loading {
     height: 120px;
     margin: 250px auto;
     text-align:align;
-    font-family:century;
     font-size:16px;
     position:relative;
     
@@ -266,12 +189,11 @@ nav ul li {
     background: #fff;
     float: left;
     width: 110px;
-    height: 40px;
+    height: 50px;
     text-align: center;
-    display: inline;
-    border-radius: 10px;
+    display: inline;    
     padding: 20px 0 0 0;
-    font-family: century;
+    
     -webkit-transition: 0.4s;
     -moz-transition: 0.4s;
     transition: 0.4s;
@@ -280,6 +202,9 @@ nav ul li {
     margin: 28px 0 0 10px;
 }
 
+nav ul li a{
+    border-bottom:3pt solid #0f8dcd;
+}
 nav ul li:hover {
     color: #999999;
     -webkit-transition: 0.4s;
@@ -325,12 +250,12 @@ nav ul li:hover {
     width: 50%;
 }
 .perfil_col2 h6 {
-    font-family: century_b;
+    
     font-size: 10px;
     line-height: 0px;
 }
 .perfil_col2 h3 {
-    font-family: century_b;
+    
     font-size: 21px;
     line-height: 16px;
     line-height: 30px;
@@ -354,7 +279,7 @@ nav ul li:hover {
     left: 45px;
     background-color: #f28d18;
     color: #fff;
-    font-family: century_b;
+    
     font-size: 10px;
     line-height: 20px
 }
@@ -381,7 +306,7 @@ nav ul li:hover {
     padding: 6px 0 0 9px;
 }
 .question_btn h6 {
-    font-family: century;
+    
     font-size: 10px;
     text-align: center;
 }
@@ -402,7 +327,7 @@ nav ul li:hover {
 .question_wrap h5 {
     font-size: 18px;
     margin: 0 0 10px 0;
-    font-family: century_b;
+    
     
 }
 .question_wrap h6 {
@@ -410,7 +335,7 @@ nav ul li:hover {
     width: 90%;
     font-size: 15px;
     margin: 0 0 10px 0;
-    font-family: century_b;
+    
     display:none;
     position:relative;
     text-align:center;
@@ -429,7 +354,7 @@ nav ul li:hover {
     border: 0;
     border-radius: 5px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     font-size: 15px;
     padding: 7px;
     width: 65%;
@@ -444,7 +369,7 @@ nav ul li:hover {
     text-align: center;
     padding: 12px 0 0px 0;
     margin: 15px auto 15px auto;
-    font-family: century;
+    
     -webkit-transition: 0.4s;
     -moz-transition: 0.4s;
     transition: 0.4s;
@@ -516,7 +441,7 @@ ol, ul {
 a {
     text-decoration: none;
     color: #fff;
-    font-family: century;
+    
 }
 a.selected {
     background-image: url(../img/bg-main-navigation.png);
@@ -611,13 +536,13 @@ a.selected {
 }
 .profile_dark p {
     color: #bfbfbf;
-    font-family: century;
+    
     font-size: 13px;
     line-height: 30px;
 }
 .profile_dark h2 {
     color: #ffffff;
-    font-family: century_b;
+    
     font-size: 16px;
     line-height: 30px;
 }
@@ -643,11 +568,11 @@ a.selected {
     padding: 30px;
 }
 .prof_av_col2 h6 {
-    font-family: century_b;
-    font-size: 16px;
+    
+    font-size: 10px;
 }
 .prof_av_col2 p {
-    font-family: century;
+    
     font-size: 12px;
     color: #bfbfbf;
 }
@@ -687,14 +612,14 @@ a.selected {
     float:right;
 }
 .status_txt p,.status_txt span{
-    font-family:century_b;
+    
     font-size:14px;
     text-align:center;
 }
 .avatar_infoblock {
     width: 75%;
     margin: 0 auto;
-    font-family: century_b;
+    
 }
 .avatar_infoblock_col1 {
     float: left ;
@@ -711,7 +636,7 @@ a.selected {
 }
 .medal_container {
     width: 80%;
-    height:130px;
+    height:60px;
     margin: 10px auto;
     overflow-y:scroll;
 }
@@ -742,6 +667,130 @@ a.selected {
     margin: 0 0px 0 0px;
 }
 /* ==========================================================================
+inbos
+   ========================================================================== */
+   .inbos_container{
+       width:960px;
+       margin:0 auto;
+       position:relative;
+   }
+.inbos {
+    width: 290px;
+    position: fixed;
+    right: 28%;
+    z-index: 20;
+}
+.inbos_wrap {
+    border: 1pt #000 solid;
+    border-radius: 0 0 10px 10px;
+    margin: 0px 0px 0px 0px ;
+    overflow: hidden;
+    background-color: #fff;
+}
+.inbos_wrap h4 {
+    
+    font-size: 16px;
+    margin: 0px 0 0 0 ;
+    line-height: 30px;
+    border-bottom: 1pt solid #575756;
+}
+.inbos_wrap ul {
+    width: 100%;
+    height: 150px;
+    overflow-y: scroll;
+}
+.inbos_wrap ul li {
+    width: 100%;
+    border-bottom: 1pt solid #575756;
+    padding: 10px 0;
+    background-color: #fff;
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    transition: 0.4s;
+    -o-transition: 0.4s;
+    -khtml-transition: 0.4s;
+}
+.inbos_wrap ul li:hover {
+    background-color: #eee;
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    transition: 0.4s;
+    -o-transition: 0.4s;
+    -khtml-transition: 0.4s;
+}
+/* ==========================================================================
+Encuesta
+   ========================================================================== */
+   .encuesta{
+       width:100%;
+       padding:40px 0 0 0;       
+   }
+   .encuesta_wrap{
+       width:450px;
+       margin:0 auto;
+       box-shadow: 0 1px 2px rgba(0,0,0,0.2);       
+       padding: 5px 25px 25px 25px;
+       background-color: #f8f8f8;
+       border-radius: 10px;
+
+   }
+   /* ==========================================================================
+Reporte
+   ========================================================================== */
+   .reporte{
+       width:100%;
+       padding:40px 0 0 0;       
+   }
+   .reporte_wrap{
+       width:960px;
+       margin:0 auto;     
+
+   }
+   .reporte_studiante{
+       width:280px;
+       margin:0 20px 20px 0;
+       float:left;
+       box-shadow: 0 1px 2px rgba(0,0,0,0.2);       
+       padding: 5px 10px 25px 10px;
+       background-color: #f8f8f8;
+       border-radius: 10px;
+   }
+   .reporte_avatar{
+       width:100%;
+       margin:13px 0 0 0;
+   }
+   .reporte_avatar img{
+       width:90px;
+       float:left;
+
+   }
+   .reporte_avatar ul{
+       float:left;
+       
+       font-size:13px;
+       margin:0 0 0 15px;
+       color:#0c4a6e;
+   }
+   .reporte_studiante span{
+       font-weight:bold;
+   }
+   .evaluacion_wrap ul.reporte_graph li{
+    float:left;
+    margin:0 10px 0 0; 
+    display: inline;
+    bottom:0px;
+    vertical-align:bottom;
+    height:100px;
+    width:70px;
+    position:relative;
+}
+.evaluacion_wrap ul.reporte_graph li p{
+    position:absolute;
+    bottom:0px;
+    font-size:12px;
+}
+
+/* ==========================================================================
 Notificaciones
    ========================================================================== */
    .notificaciones_container{
@@ -763,7 +812,7 @@ Notificaciones
     background-color: #fff;
 }
 .notificaciones_wrap h4 {
-    font-family: century;
+    
     font-size: 16px;
     margin: 0px 0 0 0 ;
     line-height: 30px;
@@ -801,20 +850,37 @@ Notificaciones
     width: 55px;
     height: 30px;
 }
+.inb_col1 {
+    float: left;
+    background: url(../img/inb_icon.png);
+    background-repeat: no-repeat;
+    background-position: 20px 0px;
+    width: 55px;
+    height: 30px;
+}
 .not_col2 {
     float: left;
 }
 .not_col2 h5 {
-    font-family: century;
+    
     font-size: 10px;
     color: #444444;
 }
 .not_col2 h6 {
-    font-family: century;
+    
     font-size: 9px;
     color: #959595;
 }
-
+.ver_todos{
+    width:100%;
+    background-color:#eee;
+    padding:5px 0;
+    text-align:center;
+    border-top:1pt solid #959595;
+    
+    font-size:14px;
+    color:#575756;
+}
 /* ==========================================================================
 Barra actualizar datos
    ========================================================================== */
@@ -825,7 +891,7 @@ Barra actualizar datos
 .actualiza_tus_datos_wrap {
     width: 320px;
     color: #fff;
-    font-family: century;
+    
     font-size: 10px;
     padding: 2px 0;
     margin: 0 auto;
@@ -858,7 +924,7 @@ Atributos
     text-align: center;
     color: #fff;
     font-weight: bold;
-    font-family: century;
+    
     font-size: 20px;
     width: 60%;
     margin: 0 auto;
@@ -892,12 +958,12 @@ Atributos
     margin: 0 0 5% 0;
 }
 .atributo_wrap h2 {
-    font-family: century;
+    
     font-size: 21px;
     line-height: 24px;
 }
 .atributo_wrap p {
-    font-family: century;
+    
     font-size: 11px;
 }
 
@@ -905,7 +971,7 @@ Atributos
     width: 20%;
     text-align: center;
     font-weight: bold;
-    font-family: century;
+    
     padding: 20px 0 20px 0;
     margin: 2% auto;
     border-radius: 10px;
@@ -943,47 +1009,55 @@ Atributos
 .encabezado2_wrap {
     width: 960px;
     margin: 0 auto;
-    padding: 1.5% 0 0 0;
+    padding: 0.5% 0 0 0;
     position: relative;
 }
 .encabezado_wrap h6 {
     width: 30%;
-    font-family: century_b;
+    
     font-size: 30px;
 }
 .encabezado_wrap p {
     width: 40%;
-    font-family: century;
+    
     font-size: 14px;
 }
 .encabezado2_wrap h6 {
     width: 100%;
-    font-family: century_b;
+    
     font-size: 30px;
 }
 .encabezado2_wrap p {
-    width: 100%;
-    font-family: century;
+    width: 42%;
+    
     font-size: 14px;
 }
 .circle {
-    width: 160px;
-    height: 160px;
-    border-radius: 160px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
     position: absolute;
-    top: 30px;
-    left: 400px;
+    top: 20px;
+    left: 430px;
+    border:#0f8dcd 5pt solid;
 }
 .circle_wrap {
     width: 100%;
-    height: 100%;
-    padding: 5px;
+    height: 100%;  
+    position:relative;  
 }
 .circle_wrap img {
-    width: 150px;
-    height: 150px;
-    border-radius: 150px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
     overflow: hidden;
+}
+.circle span{
+    font-size:12px;    
+    text-align:center;
+    position:absolute;
+    top:110px;
+    left:20px;
 }
 .filtro {
     position: absolute;
@@ -996,7 +1070,7 @@ Atributos
     height: 45px;
     width: 175px;
     border: 2pt solid #0f8dcd;
-    font-family: century_b;
+    
     color: #575756;
     padding: 0 50px 0 15px;
 }
@@ -1063,13 +1137,25 @@ Descripcion
 .col2_wrap {
     width: 300px;
     height: auto;
-    padding: 25px;
+    padding: 15px 25px 25px 25px;
     background-color: #f8f8f8;
     border-radius: 10px;
     margin: 60px 0 40px 0;
 }
+.col2_wrap ul,.col2_wrap ol{
+    margin:10px 0;
+}
 .shadow,.col2_wrap,.pensum_block,.teacher_col2,.question,.question_btn,.evaluacion {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.modulos_title{
+    width:100%;
+    text-align:center;
+    padding:0px 0 0 0;
+    
+    font-size: 14px;
+    color: #575756;
+    margin:0 0 10px 0;
 }
 .col2_wrap h4 {
     margin: 0 0 0 0;
@@ -1078,12 +1164,12 @@ Descripcion
 .col2_wrap p {
     width: 100%;
     font-size: 12px;
-    font-family: century;
+    
 }
 .col2_wrap ul {
     margin: 10px auto 10px auto;
     font-size: 12px;
-    font-family: century;
+    
 }
 .empezar_btn {
     width: 95%;
@@ -1096,7 +1182,7 @@ Descripcion
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century_b;
+    
     font-size: 20px;
     border-radius: 5px;
 }
@@ -1132,13 +1218,13 @@ Editar Perfil
     border: 0;
     border-radius: 2px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     padding: 7px 30px 7px 7px;
     width: 95%;
     margin: 0 0 0 9px;
 }
 .edit_block p {
-    font-family: century;
+    
     font-size: 12px;
     margin: 0 0 0 10px;
     line-height: 30px;
@@ -1158,7 +1244,7 @@ Editar Perfil
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century;
+    
     font-size: 20px;
     border-radius: 5px;
 }
@@ -1212,13 +1298,12 @@ Editar Perfil
     width:350px;
 }
 .tutorial_inter_wrap h2{
-    font-family:century_b;
+    
     text-align:center;
     font-size:17px;
 }
 .tutorial_inter_wrap p{
     height:38px;
-    font-family:century;
     text-align:center;
     font-size:14px;
     color:#a0a0a0;
@@ -1254,7 +1339,7 @@ Editar Perfil
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century;
+    
     font-size: 16px;
     border-radius: 5px;
     display:block;
@@ -1327,12 +1412,12 @@ Pensum
     margin: 0 0 2% 0;
 }
 .pensum_block h2 {
-    font-family: century_b;
+    
     font-size: 20px;
     margin: 0 0 0.5% 0;
 }
 .pensum_block p {
-    font-family: century;
+    
     font-size: 12px;
 }
 .teacher_block {
@@ -1351,16 +1436,14 @@ Pensum
     padding: 35px;
 }
 .teacher_col2 h3 {
-    font-family: century_b;
+    
     font-size: 20px;
 }
 .teacher_col2 h2 {
-    font-family: century_itb;
     font-size: 12px;
     margin: 0 0 0.5% 0;
 }
 .teacher_col2 p {
-    font-family: century_it;
     font-size: 14px;
 }
 
@@ -1375,14 +1458,14 @@ Pensum
     padding: 0 0 5% 0;
 }
 h4 {
-    font-family: century_b;
+    
     font-size: 48px;
     margin: 60px auto 0 auto;
     text-align: center
 }
 
 h5 {
-    font-family: century;
+    
     font-size: 21px;
     margin: 0 auto;
     text-align: center
@@ -1414,13 +1497,13 @@ h5 {
     margin: 10% 0 0 5%;
 }
 .curso_des h2 {
-    font-family: century_b;
+    
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
 }
 .curso_des p {
-    font-family: century_b;
+    
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -1430,7 +1513,7 @@ h5 {
     width: 30%;
     float: left;
     color: #fff;
-    font-family: century;
+    
     font-weight: bold;
     border-radius: 5px;
     padding: 15px 0 ;
@@ -1464,18 +1547,18 @@ h5 {
 }
 .sus_col1 h2 {
     color: #29a659;
-    font-family: century_b;
+    
     font-size: 25px;
-
+    line-height:23px;
 }
 .sus_col1 h3 {
     color: #29a659;
-    font-family: century_b;
+    
     font-size: 18px;
 }
 .sus_col1 h4 {
     color: #29a659;
-    font-family: century;
+    
     font-size: 13px;
     text-align: left;
     margin: 0 0 0 0;
@@ -1490,19 +1573,19 @@ h5 {
 }
 .sus_col2 h5 {
     color: #d2d2d2;
-    font-family: century_b;
+    
     font-size: 18px;
     text-align: left;
 }
 .sus_col2 h5 {
     color: #d2d2d2;
-    font-family: century_b;
+    
     font-size: 18px;
     text-align: left;
 }
 .fecha {
     width: 100%;
-    font-family: century_b;
+    
     font-size: 18px;
 }
 .fecha p {
@@ -1512,8 +1595,79 @@ h5 {
     float: right;
 }
 .sus_col2 h3 {
-    font-family: century;
+    
     font-size: 13px;
+}
+.sus_col3 {
+    float: none;
+    width: 45%;
+    background-color: #eafdf2;
+    border-radius: 10px;
+    border: #29a659 1pt solid;
+    padding: 30px;
+    margin: 90px auto 0 auto;
+
+}
+.sus_col3 h2 {
+    color: #29a659;
+    
+    font-size: 25px;
+    line-height:23px;
+}
+.sus_col3 h3 {
+    color: #29a659;
+    
+    font-size: 18px;
+}
+.sus_col3 h4 {
+    color: #29a659;
+    
+    font-size: 13px;
+    text-align: left;
+    margin: 0 0 0 0;
+}
+.imprimir_recibo, .ver_curso{
+     width: 250px;
+    margin: 20px auto 5px auto;
+    padding: 10px 0 10px 0;
+    text-align: center;
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    transition: 0.4s;
+    -o-transition: 0.4s;
+    -khtml-transition: 0.4s;
+    
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.sus_col4 {
+    float: none;
+    width: 45%;
+    background-color: #FDEAEA;
+    border-radius: 10px;
+    border: #A62944 1pt solid;
+    padding: 30px;
+    margin: 90px auto 0 auto;
+
+}
+.sus_col4 h2 {
+    color: #A62944;
+    
+    font-size: 25px;
+    line-height:23px;
+}
+.sus_col4 h3 {
+    color: #A62944;
+    
+    font-size: 18px;
+}
+.sus_col4 h4 {
+    color: #A62944;
+    
+    font-size: 13px;
+    text-align: left;
+    margin: 0 0 0 0;
 }
 /* ==========================================================================
    Paginador
@@ -1546,7 +1700,7 @@ h5 {
     padding: 3px;
     text-align: center;
     margin: 0 20px 0 0;
-    font-family: century_b;
+    
     display: inline-block;
     text-decoration: none;
     border: 1px solid #dae1e5;
@@ -1582,7 +1736,7 @@ h5 {
 .activity_title h3 {
     width: 100%;
     margin: 0 auto;
-    font-family: century_b;
+    
     font-size: 18px;
     color: #5fcf80;
     text-align:center;
@@ -1654,11 +1808,15 @@ h5 {
     width: 100%;
     border-bottom: 1pt solid #959595;
     padding: 10px;
-    font-size: 14px;
-    font-family: century_b;
     background-position: 240px 4px;
     
 }
+.modules_wrap ul li p {
+    font-size: 14px;
+    width:80%;
+        
+}
+
 .modulo_on{
     background: url(../img/aprov_icon.png);
     background-repeat: no-repeat;
@@ -1684,39 +1842,50 @@ h5 {
 }
 .aula_btns {
     width: 100%;
+    padding:0 0 0 12px;
 }
-.download_btn {
-    margin: 10px 0 0 0;
-    padding: 7px 0 5px 0px;
-    width: 40%;
-    height:48px;
+.aula_btns a{
+    color:#575756;
+}
+.aula_btns ul li{
+    width: 80px;
+    height: 59px;
+    margin: 10px 20px 0 0px;
     float: left;
-    position:relative;
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     border-radius: 5px;
-    background: url(../img/download_icon.png);
-    background-repeat: no-repeat;
-    background-position: 37px 10px;
-    -webkit-transition: 0.4s;
-    -moz-transition: 0.4s;
-    transition: 0.4s;
-    -o-transition: 0.4s;
-    -khtml-transition: 0.4s;
+    padding: 0 0 0 0;
 }
-.download_btn h5 {
-    font-family: century_b;
-    text-align: left;
-    text-transform: uppercase;
-    font-size: 16px;
-    line-height: 15px;
-    color: #fff;
+.aula_btns ul li p{
+    
+    text-align: center;
+    font-size: 10px; 
+    line-height:10px;   
 }
-.download_btn p {
-    font-family: century_b;
-    text-align: left;
-    font-size: 10px;
-    position:absolute;
-    top:41px;
-    left:10px;
+.aula_btns ul div{
+     height: 34px;
+     width: 100%;
+     background-repeat: no-repeat;
+    background-position: 19px 5px;
+}
+.download_on {   
+    background: url(../img/download_on.png);    
+}
+.download_off{
+    background: url(../img/discusion_off.png); 
+}
+.envivo_on {   
+    background: url(../img/envivo_on.png);    
+}
+.envivo_off{
+    background: url(../img/envivo_off.png); 
+}
+.discusion_on {   
+    background: url(../img/discusion_on.png);    
+}
+.discusion_off{
+    background: url(../img/discusion_off.png); 
 }
 .decor_line {
     background-image: url("../img/decor_line.png");
@@ -1724,46 +1893,7 @@ h5 {
     width: 100%;
     margin: 15px 0 5px 0;
 }
-.envivo_btn, .crear_discusion_btn {
-    width: 80px;
-    height: 59px;
-    margin: 10px 0 0 10px;
-    float: left;
-    background-color: #f8f8f8;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    padding: 0 0 0 0;
-}
-.envivo_on {
-    height: 31px;
-    width: 100%;
-    background: url(../img/envivo_on.png);
-    background-repeat: no-repeat;
-    background-position: 19px 3px;
 
-}
-.discusion_on {
-    height: 31px;
-    width: 100%;
-    background: url(../img/discusion_on.png);
-    background-repeat: no-repeat;
-    background-position: 19px 3px;
-
-}
-.envivo_off {
-    height: 31px;
-    width: 100%;
-    background: url(../img/envivo_off.png);
-    background-repeat: no-repeat;
-    background-position: 19px 3px;
-
-}
-.envivo_btn p,.crear_discusion_btn p {
-    font-size: 9px;
-    width: 100%;
-    text-align: center;
-    padding: 5px 0 0 0;
-}
 /* ==========================================================================
    Evaluacion
    ========================================================================== */
@@ -1783,7 +1913,7 @@ h5 {
 }
 .evaluacion_preg {
     width: 95%;
-    font-family: century;
+    
     margin: 30px 0 0 10px;
 }
 .evaluacion_preg form{
@@ -1791,7 +1921,7 @@ h5 {
 }
 .evaluacion_preg form select {
     background-color:#eee;
-    font-family:century_b;
+    
     font-size:14px;
     padding:3px;
     border-radius: 5px;
@@ -1806,7 +1936,7 @@ h5 {
     border: 0;
     border-radius: 5px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     font-size: 15px;
     padding: 7px;
     width: 95%;
@@ -1814,16 +1944,21 @@ h5 {
     margin: 0 0 0 0;
 }
 .evaluacion_preg p {
-    font-family: century;
+    
     font-size: 13px;
     margin: 0 0 20px 0;
 }
 
 .evaluacion_preg form span {
     font-size: 13px;
-    font-family: century_b;
+    
     margin: 0 0 0 4px;
     padding: 0 0 0 0;
+}
+.sumaras{
+    width:100%;
+    text-align:center;
+    margin:20px 0 0 0;
 }
 .evaluacion_btn,.volver {
     width: 75%;
@@ -1835,31 +1970,30 @@ h5 {
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century_b;
+    
     font-size: 20px;
     border-radius: 5px;
 }
 .evaluacion_wrap p{
-    font-family:century;
     font-size:14px;
     margin:0 auto 15px auto;
     width:100%;
 }
 .evaluacion_wrap p.bien{
     color:#5fcf80;
-    font-family:century_b;
+    
 }
 .evaluacion_wrap p.mal{
     color:#ff0000;
-    font-family:century_b;
+    
 }
 .evaluacion_wrap h2{
-    font-family:century_b;
+    
     text-align:center;
     font-size:35px;
 }
 .evaluacion_wrap ul{
-    font-family:century_b;
+    
     text-align:center;    
     margin:100px auto 40px auto;
     width:100%;
@@ -1904,7 +2038,7 @@ h5 {
     margin:0 auto;
 }
 .retro span{
-    font-family:century;
+
     font-size:14px;
     margin:0 0 15px 0;
     
@@ -1959,12 +2093,12 @@ h5 {
 }
 .disc_block_A_col1 h4 {
     font-size: 14px;
-    font-family: century_b;
+    
     margin: 0 0 0 0;
 }
 .disc_block_A_col1 h5 {
     font-size: 12px;
-    font-family: century;
+    
 }
 .kudos {
     background: url(../img/kudos_icon.png)no-repeat;
@@ -1973,7 +2107,7 @@ h5 {
     margin: 5px auto 0 auto;
 }
 .kudos p {
-    font-family: century_b;
+    
     font-size: 13px;
     padding: 3px 0 0 0;
     color: #fff;
@@ -1983,11 +2117,11 @@ h5 {
     width: 70%;
 }
 .disc_block_A_col2 span {
-    font-family: century_b;
+    
     font-size: 15px;
 }
 .disc_block_A_col2 p {
-    font-family: century;
+    
     font-size: 11px;
 }
 
@@ -2028,14 +2162,14 @@ h5 {
     border-radius: 60px;
     overflow: hidden;
 }
-.disc_block_B_col1 h4 {
+.disc_block_B_col2 h4 {
     font-size: 14px;
-    font-family: century_b;
+    
     margin: 0 0 0 0;
 }
 .disc_block_B_col1 h5 {
     font-size: 12px;
-    font-family: century;
+    
 }
 .kudos {
     background: url(../img/kudos_icon.png)no-repeat;
@@ -2050,7 +2184,7 @@ h5 {
     margin: 5px auto 0 auto;
 }
 .kudos p,.kudos_off p {
-    font-family: century_b;
+    
     font-size: 13px;
     padding: 3px 0 0 0;
     color: #fff;
@@ -2061,13 +2195,13 @@ h5 {
     margin: 0 0 0 10px;
 }
 .disc_block_B_col2 span {
-    font-family: century_b;
+    
     font-size: 15px;
     text-align: right;
 }
 .disc_block_B_col2 p {
-    font-family: century;
-    font-size: 11px;
+    
+    font-size: 12px;
 }
 .discusion_respuesta {
     width: 80%;
@@ -2084,12 +2218,12 @@ h5 {
     border: 0;
     border-radius: 5px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     font-size: 15px;
     padding: 7px;
     width: 100%;
     height: 100px;
-    margin: 0 0 0 0;
+    margin: 0 0 40px 0;
     display:block;
 }
 .discusion_respuesta_wrap{
@@ -2102,24 +2236,25 @@ h5 {
 .discusion_respuesta_wrap h6 {
     text-align: center;
     margin-top: 15px;
-    font-family: century_b;
+    
     display: none;
 }
 
-.discusion_btn {
+.discusion_btn,.countinuar_btn{
     border-radius: 3px;
-    width: 100px;
+    width: 230px;
     height: 30px;
     text-align: center;
     padding: 12px 0 0px 0;
     margin: 15px auto 0px auto;
-    font-family: century;
+    
     -webkit-transition: 0.4s;
     -moz-transition: 0.4s;
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
     display:block;
+    cursor:pointer;
 }
 /* ==========================================================================
    Barra de progreso
@@ -2136,6 +2271,10 @@ h5 {
     width: 460px;
     position:relative;
 }
+.numero_de_actividad_responsive{
+        display:none;
+        
+    }
 .act_block {
     width: 6.8%;
     height: 30px;
@@ -2165,7 +2304,7 @@ h5 {
     top:-30px;
     left:0;
     text-align:center;
-    font-family:century;
+    
     font-size:14px;
     padding:10px;
 }
@@ -2220,7 +2359,7 @@ h5 {
 }
 .plan_wrap h2 {
     text-align: center;
-    font-family: century_b;
+    
     font-size: 34px;
     color: #fff;
     padding: 28px 0 0 0;
@@ -2228,14 +2367,14 @@ h5 {
 .plan_wrap h3 {
     margin: 31px 0 0 0;
     text-align: center;
-    font-family: century_b;
+    
     font-size: 40px;
 }
 
 .plan_wrap ul li {
     list-style: none;
     text-align: center;
-    font-family: century_b;
+    
     font-size: 15px;
     color: #959595;
     padding: 5px 0 5px 0;
@@ -2258,7 +2397,7 @@ h5 {
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
     color: #fff;
-    font-family: century_b;
+    
     font-size: 26px;
     border-radius: 5px;
 }
@@ -2282,7 +2421,7 @@ h5 {
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
     color: #fff;
-    font-family: century_b;
+    
     font-size: 26px;
     border-radius: 5px;
 }
@@ -2312,21 +2451,28 @@ h5 {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 .login_wrap h3 {
-    font-family: century_b;
+    
     text-align: center;
     font-size: 18px;
 }
 .login_wrap h6 {
-    font-family: century_b;
+    
     text-align: center;
     font-size: 18px;
     display: none;
+}
+.contact_info{
+    
+    width:95%;
+    text-align: center;
+    font-size: 18px;
+    margin:20px 0 0 0;
 }
 .brand_line {
     height: 5px;
 }
 .login_wrap p {
-    font-family: century;
+    
     font-size: 14px;
     text-align: center;
 }
@@ -2341,7 +2487,7 @@ h5 {
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century;
+    
     font-size: 20px;
     border-radius: 5px;
 }
@@ -2361,7 +2507,7 @@ h5 {
     border: 0;
     border-radius: 2px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     padding: 7px 30px 7px 7px;
     width: 95%;
     margin: 0 0 0 9px;
@@ -2386,7 +2532,7 @@ h5 {
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century;
+    
     font-size: 20px;
     border-radius: 5px;
 }
@@ -2400,14 +2546,14 @@ h5 {
 }
 .forgot_pass p, .newsletter p{
     text-align: center;
-    font-family: century;
+    
     font-size: 12px;
     margin: 15px auto;
     color: #575756;
 }
 .forgot_pass h1{
     text-align: center;
-    font-family: century_b;
+    
     font-size: 18px;
     margin: 15px auto;
     color: #575756;
@@ -2415,7 +2561,7 @@ h5 {
 }
 .forgot_pass h2{
     text-align: center;
-    font-family: century_b;
+    
     font-size: 18px;
     margin: 15px auto;
     color: #575756;
@@ -2430,7 +2576,7 @@ h5 {
     border: 0;
     border-radius: 5px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     font-size: 15px;
     padding: 7px;
     width: 95%;
@@ -2457,17 +2603,17 @@ h5 {
     padding: 30px;
 }
 .nosotros_col1 h2 {
-    font-family: century_b;
+    
     font-size: 22px;
     text-transform: uppercase;
 }
 .nosotros_col1 h3 {
-    font-family: century_b;
+    
     font-size: 18px;
     color: #fff;
 }
 .nosotros_col1 p {
-    font-family: century;
+    
     font-size: 16px;
     color: #fff;
 }
@@ -2496,7 +2642,7 @@ h5 {
     margin:50px 0 0 0;
 }
 .landing h3{
-    font-family:century_b;
+    
     text-transform:uppercase;
     font-size:34px;
     line-height:30px;
@@ -2504,7 +2650,7 @@ h5 {
     margin:30px auto 0 auto;
 }
 .landing_col1 p{
-    font-family:century;    
+        
     font-size:16px;
     line-height:18px;
     margin:10px 0 20px 0;
@@ -2529,7 +2675,7 @@ h5 {
     border: 0;
     border-radius: 2px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     padding: 7px 30px 7px 7px;
     width: 95%;
     margin: 0 0 0 9px;
@@ -2544,7 +2690,7 @@ h5 {
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century_b;
+    
     font-size: 26px;
     border-radius: 5px;
     display:block;
@@ -2559,7 +2705,7 @@ h5 {
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century_b;
+    
     font-size: 14px;
     border-radius: 5px;
     line-height:15px;
@@ -2609,7 +2755,7 @@ h5 {
 }
 .testimonial_wrap p {
     text-align: center;
-    font-family: century;
+    
     font-size: 18px;
     line-height: 1.6;
     margin-bottom: 6%;
@@ -2644,7 +2790,7 @@ h5 {
     border-radius: 10px;
 }
 .testi_block_wrap p {
-    font-family: century;
+    
     color: #8c989e;
     font-size: 14px;
     font-style: italic;
@@ -2677,13 +2823,11 @@ h5 {
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 3px;
-    font-family: century_itb;
     text-align: left;
 
 }
 .pepName p {
     font-size: 16px;
-    font-family: century_it;
     text-align: left;
 }
 .read_stories {
@@ -2739,7 +2883,7 @@ h5 {
     margin:0 0 30px 0;
 }
 .cert_firma{
-    font-family:century_b;
+    
     font-size:12px;
     float:left;
     margin:0 0 0 15%;
@@ -2775,12 +2919,12 @@ h5 {
     border-radius:90px;
 }
 .cert_block_wrap h3{
-    font-family:century_b;
+    
     font-size:15px;
     line-height:16px;
 }
 .cert_block_wrap p{
-    font-family:century;
+    
     font-size:12px;
     line-height:14px;
     margin:10px 0 10px 0;
@@ -2788,7 +2932,7 @@ h5 {
 .cert_btn{    
     border-radius:5px;
     color:#ffffff;
-    font-family:century_b;
+    
     font-size:12px;
     padding:5px;
     -webkit-transition: 0.4s;
@@ -2829,14 +2973,14 @@ h5 {
     margin:0 0 0 10px;
 }
 .not_block_col1 h4{
-    font-family:century_b;
+    
     font-size:16px;
     margin:0 0 0 0;
     padding:0 0 0 0;
     text-align:left;
 }
 .not_block_col1 span{
-     font-family:century;
+     
      font-size:14px;
 }
 .not_block_col2{
@@ -2852,7 +2996,7 @@ h5 {
     float:left;
 }
 .not_block_col3 p{
-    font-family:century;
+    
     font-size:14px;
 }
 /* ==========================================================================
@@ -2876,7 +3020,7 @@ h5 {
 .inbox_col1{
     width:80px;
     float:left;
-    font-family:century;
+    
     padding:0 0 0 0px;
     margin:0 30px 0 0;
 }
@@ -2892,18 +3036,18 @@ h5 {
 .inbox_col1 p{
    text-align:center;
    font-size:10px;
-   font-family:century_b;
+   
 
 }
 .inbox_col1 h2{
    text-align:center;
    font-size:10px;
-   font-family:century;
+   
 }
 .inbox_col2{
     width:20%;
     float:left;
-    font-family:century_b;
+    
     font-size:14px;
     padding:5px 0 0 0;
     margin:0 10px 0 0;
@@ -2912,7 +3056,7 @@ h5 {
 .inbox_col3{
     width:60%;
     float:left;
-    font-family:century;
+    
     font-size:14px;
     padding:5px 0 0 0;
 }
@@ -2925,7 +3069,7 @@ h5 {
     border: 0;
     border-radius: 5px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.35),0 1px 0 #fff;
-    font-family: century;
+    
     font-size: 15px;
     padding: 7px;
     width: 100%;
@@ -2983,22 +3127,25 @@ h5 {
             color:#0f8dcd;
         }
  
+        
         .close
         {
             top:10px;
             right:20px;
             cursor:pointer;
             position:absolute;
+            font-size:30px;
+            line-height:20px;
         }
         .box h3{
             width:100%;
-            font-family:century_b;
+            
             font-size:24px;
             margin:20px 0;
         }
         div#gracias{
             width:100%;
-            font-family:century_b;
+            
             font-size:32px;
             margin:80px 0 20px 0;
         }
@@ -3012,7 +3159,7 @@ h5 {
             transition: 0.4s;
             -o-transition: 0.4s;
             -khtml-transition: 0.4s;
-            font-family: century_b;
+            
             font-size: 26px;
             border-radius: 5px;
             display:block;
@@ -3025,11 +3172,11 @@ h5 {
             margin:20px auto;
         }
         .box p{
-            font-family:century;
+            
             font-size:14px;
         }
         .box h4{
-            font-family:century_b;
+            
             font-size:16px;
             margin:10px 0 10px 0;
         }
@@ -3041,6 +3188,12 @@ h5 {
         .box ul li{
             float:left;
             margin:0 10px 0 0;
+        }
+        .seguir_block{
+            display:none;
+        }
+        .share_block{
+            display:block;
         }
 /* ==========================================================================
    Sorpresa
@@ -3060,7 +3213,7 @@ h5 {
        left:41%;
        font-size:50px;
        color:#fff;
-       font-family:century_b;
+       
    }
 /* ==========================================================================
    Puntos Actividad Aprobada
@@ -3089,7 +3242,7 @@ h5 {
     z-index:67;
     top:-100%;
     left:46%;
-    font-family:century_b;
+    
     background-color:#5fcf80;
     color:#fff;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -3123,7 +3276,7 @@ h5 {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 .explicacion_wrap h2{
-    font-family:century;
+    
     font-size:21px;    
 }
 .expl_txt{
@@ -3137,22 +3290,22 @@ h5 {
     top:-5px;
 }
 .expl_txt h3{
-    font-family:century_b;
+    
     font-size:18px;
     margin:10px 0;
 }
 .expl_txt p{
-    font-family:century;
+    
     font-size:14px;
 }
 ul.expl_tab{
     width:95%;    
     padding:15px 0 0 20px;
-    font-family:century;
+    
     font-size:12px;    
 }
 #expl_white li:nth-child(2), #expl_gray li:nth-child(2) {
-    font-family:century_b;
+    
 }
 #expl_white{
     background-color:#fff;
@@ -3205,14 +3358,17 @@ footer {
     margin: 0 auto;
 
 }
+.footer_wrap a{
+    border-bottom:1pt #fff solid;
+}
 .social {
     margin: 150px 0 0 0;
 }
 .footer_wrap p {
-    font-family: century;
+    
     font-size: 12px;
     color: #fff;
-    line-height: 14px;
+    line-height: 16px;
     padding: 10px 0 0 0;
 }
 
@@ -3285,17 +3441,17 @@ This area adds love and makes the site reponsive
     }
     .encabezado_wrap h6 {
         width: 40%;
-        font-family: century_b;
+        
         font-size: 30px;
     }
     .encabezado_wrap p {
         width: 40%;
-        font-family: century;
+        
         font-size: 14px;
     }
     .encabezado2 {
         width: 100%;
-        height: 150px;
+        height: 170px;
     }
     .encabezado2_wrap {
         width: 700px;
@@ -3306,26 +3462,23 @@ This area adds love and makes the site reponsive
     }
     .encabezado2_wrap h6 {
         width: 40%;
-        font-family: century_b;
+        
         font-size: 30px;
     }
     .encabezado2_wrap p {
         width: 40%;
-        font-family: century;
+        
         font-size: 14px;
     }
     .circle {
-        width: 160px;
-        height: 160px;
-        border-radius: 160px;
-        position: absolute;
+      
         top: 30px;
         left: 300px;
     }
     .circle_wrap {
         width: 100%;
         height: 100%;
-        padding: 5px;
+       
     }
     .filtro {
         position: absolute;
@@ -3338,7 +3491,7 @@ This area adds love and makes the site reponsive
         height: 45px;
         width: 135px;
         border: 2pt solid #0f8dcd;
-        font-family: century_b;
+        
         color: #575756;
         padding: 0 50px 0 15px;
     }
@@ -3361,9 +3514,8 @@ This area adds love and makes the site reponsive
         padding: 20px 0 0px 0;
     }
     .curso {
-        width: 270px;
-        height: 320px;
-        margin: 0 0 40px 50px;
+        
+        margin: 0 0 40px 35px;
     }
     .tercero {
         margin: 30px 0 0 50px;
@@ -3409,13 +3561,13 @@ This area adds love and makes the site reponsive
     margin:50px 0 0 20px;
 }
 .landing_col1 h3{
-    font-family:century_b;
+    
     text-transform:uppercase;
     font-size:30px;
     line-height:30px;
 }
 .landing_col1 p{
-    font-family:century;    
+        
     font-size:16px;
     line-height:18px;
     margin:10px 0 20px 0;
@@ -3476,6 +3628,20 @@ This area adds love and makes the site reponsive
         width: 250px;
         margin: 3px auto 3px auto;
     }
+   /* ==========================================================================
+    inbos
+   ========================================================================== */
+   .inbos_container{
+       width:720px;
+       margin:0 auto;
+       position:relative;
+   }
+.inbos {
+    width: 290px;
+    position: fixed;
+    right: 155px;
+    z-index: 20;
+}
     /* ==========================================================================
     Notificaciones
        ========================================================================== */
@@ -3488,7 +3654,7 @@ This area adds love and makes the site reponsive
     .notificaciones {
         width: 290px;
         position: absolute;
-        right: 0px;
+        right: 20px;
         z-index: 20;
     }
     /*--------------------------------------------------
@@ -3565,11 +3731,20 @@ This area adds love and makes the site reponsive
     background-position: 190px 4px;
     
 }
-    .download_btn {
-        width: 54%;
-        float: left;
-        background-image: none;
-    }
+.aula_btns {
+    width: 100%;
+    padding:0 0 0 0px;
+}
+.aula_btns ul li{
+    width: 78px;
+    height: 59px;
+    margin: 10px 5px 0 0px;
+    float: left;
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 0 0 0 0;
+}
     /* ==========================================================================
        Barra de progreso
        ========================================================================== */
@@ -3681,7 +3856,7 @@ This area adds love and makes the site reponsive
         }
         .box h3{
             width:100%;
-            font-family:century_b;
+            
             font-size:24px;
             margin:20px 0;
         }
@@ -3693,11 +3868,11 @@ This area adds love and makes the site reponsive
             margin:10px auto;
         }
         .box p{
-            font-family:century;
+            
             font-size:14px;
         }
         .box h4{
-            font-family:century_b;
+            
             font-size:16px;
             margin:20px ;
         }
@@ -3726,7 +3901,7 @@ This area adds love and makes the site reponsive
     z-index:67;
     top:-100%;
     left:39%;
-    font-family:century_b;
+    
     background-color:#5fcf80;
     color:#fff;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -3767,6 +3942,18 @@ This area adds love and makes the site reponsive
     width:600px;
    
 }
+   /* ==========================================================================
+Reporte
+   ========================================================================== */
+   .reporte{
+       width:100%;
+       padding:40px 0 0 0;       
+   }
+   .reporte_wrap{
+       width:640px;
+       margin:0 auto;     
+
+   }
  /* ==========================================================================
        Footer
        ========================================================================== */
@@ -3785,7 +3972,7 @@ This area adds love and makes the site reponsive
         margin: 140px 0 0 0;
     }
     .footer_wrap p {
-        font-family: century;
+        
         font-size: 12px;
         color: #fff;
         line-height: 14px;
@@ -3843,7 +4030,7 @@ This area adds love and makes the site reponsive
         margin: 0px 0px 0px 0px !important;
         background-color: #eeeeee;
         border-bottom: 1px solid #898989;
-        font-family: century;
+        
     }
     
     #primary-menu li:hover {
@@ -3859,6 +4046,20 @@ This area adds love and makes the site reponsive
         background-image: none;
         text-align: center;
     }
+        /* ==========================================================================
+inbos
+   ========================================================================== */
+   .inbos_container{
+       width:480px;
+       margin:0 auto;
+       position:relative;
+   }
+.inbos {
+    width: 290px;
+    position: fixed;
+    right: 125px;
+    z-index: 20;
+}
     /* ==========================================================================
        notificaciones
        ========================================================================== */
@@ -3909,7 +4110,7 @@ This area adds love and makes the site reponsive
         text-align: center;
         display: inline;
         padding: 10px 0;
-        font-family: century;
+        
         -webkit-transition: 0.4s;
         -moz-transition: 0.4s;
         transition: 0.4s;
@@ -3931,7 +4132,7 @@ This area adds love and makes the site reponsive
         left: 45px;
         background-color: #f28d18;
         color: #fff;
-        font-family: century_b;
+        
         font-size: 10px;
         line-height: 20px
     }
@@ -3982,7 +4183,7 @@ This area adds love and makes the site reponsive
     .atr_mobile_block{
         width:216px;
          height:235px;
-         font-family: century;
+         
          font-size: 21px;
          line-height: 24px;
          background-color:#fff;
@@ -4019,7 +4220,7 @@ This area adds love and makes the site reponsive
     }
     .encabezado2 {
         width: 100%;
-        height: 310px;
+        height: 280px;
     }
     .encabezado2_wrap {
         width: 290px;
@@ -4030,26 +4231,28 @@ This area adds love and makes the site reponsive
     }
     .encabezado_wrap h6 {
         width: 90%;
-        font-family: century_b;
+        
         font-size: 25px;
     }
     .encabezado_wrap p {
         width: 90%;
-        font-family: century;
+        
         font-size: 14px;
     }
-    .circle {
-        width: 160px;
-        height: 160px;
-        border-radius: 160px;
+    .encabezado2_wrap p {
+        width: 100%;
+        
+        font-size: 14px;
+    }
+    .circle {        
         position: relative;
         top: 20px;
-        left: 65px;
+        left: 100px;
     }
     .circle_wrap {
         width: 100%;
         height: 100%;
-        padding: 5px 0 0 0;
+       
     }
     .filtro {
         position: absolute;
@@ -4062,10 +4265,14 @@ This area adds love and makes the site reponsive
         height: 45px;
         width: 175px;
         border: 2pt solid #0f8dcd;
-        font-family: century_b;
+        
         color: #575756;
         padding: 0 50px 0 15px;
     }
+    .sus_col3 {
+    margin: 40px auto 0 auto;
+
+}
     /*--------------------------------------------------
       // PREGUNTA
     ---------------------------------------------------*/
@@ -4148,14 +4355,14 @@ This area adds love and makes the site reponsive
         padding: 0 0 1% 0;
     }
     h4 {
-        font-family: century_b;
+        
         font-size: 30px;
         color: #0c4a6e;
         margin: 30px auto 0 auto;
         text-align: center
     }
     h5 {
-        font-family: century;
+        
         font-size: 24px;
         color: #575756;
         margin: 0 auto;
@@ -4212,8 +4419,7 @@ This area adds love and makes the site reponsive
     
     }
     .col2_wrap {
-        width: 270px;
-        height: 240px;
+        width: 270px;        
         padding: 25px;
         background-color: #f8f8f8;
         border-radius: 10px;
@@ -4299,15 +4505,26 @@ This area adds love and makes the site reponsive
        ========================================================================== */
     .aula_wrap {
         width: 480px;   
+        
     }
     .modules_wrap ul li {
       background-position: 210px 4px;
     
 }
-    .download_btn {
-        width: 64%;
-        float: left;
-    }
+    .aula_btns {
+    width: 100%;
+    padding:0 0 0 0px;
+}
+.aula_btns ul li{
+    width: 78px;
+    height: 59px;
+    margin: 10px 12px 0 0px;
+    float: left;
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 0 0 0 0;
+}
     
     /* ==========================================================================
        Planes
@@ -4352,7 +4569,7 @@ This area adds love and makes the site reponsive
     
     .test_block_wrap p {
         text-align: left;
-        font-family: century;
+        
         color: #575756;
         font-size: 14px;
         line-height: 1.6;
@@ -4414,14 +4631,14 @@ This area adds love and makes the site reponsive
     margin:0 30px 0 0px;
 }
 .not_block_col1 h4{
-    font-family:century_b;
+    
     font-size:14px;
     margin:0 0 0 0;
     padding:0 0 0 0;
     text-align:left;
 }
 .not_block_col1 span{
-     font-family:century;
+     
      font-size:14px;
 }
 .not_block_col2{
@@ -4437,7 +4654,7 @@ This area adds love and makes the site reponsive
     float:left;
 }
 .not_block_col3 p{
-    font-family:century;
+    
     font-size:12px;
 }
 /* ==========================================================================
@@ -4458,7 +4675,7 @@ This area adds love and makes the site reponsive
 .inbox_col1{
     width:80px;
     float:left;
-    font-family:century;
+    
     padding:0 0 0 0px;
     margin:0 10px 0 0;
 }
@@ -4474,18 +4691,18 @@ This area adds love and makes the site reponsive
 .inbox_col1 p{
    text-align:center;
    font-size:10px;
-   font-family:century_b;
+   
 
 }
 .inbox_col1 h2{
    text-align:center;
    font-size:10px;
-   font-family:century;
+   
 }
 .inbox_col2{
     width:20%;
     float:left;
-    font-family:century_b;
+    
     font-size:13px;
     padding:5px 0 0 0;
 }
@@ -4493,7 +4710,7 @@ This area adds love and makes the site reponsive
 .inbox_col3{
     width:50%;
     float:left;
-    font-family:century;
+    
     font-size:14px;
     padding:5px 0 0 0;
 }
@@ -4525,7 +4742,7 @@ This area adds love and makes the site reponsive
         }
         .box h3{
             width:100%;
-            font-family:century_b;
+            
             font-size:24px;
             margin:20px 0;
         }
@@ -4537,11 +4754,11 @@ This area adds love and makes the site reponsive
             margin:20px auto;
         }
         .box p{
-            font-family:century;
+            
             font-size:14px;
         }
         .box h4{
-            font-family:century_b;
+            
             font-size:16px;
             margin:20px ;
         }
@@ -4605,8 +4822,34 @@ This area adds love and makes the site reponsive
 .student_name input{
     width:400px;
 }
+/* ==========================================================================
+Encuesta
+   ========================================================================== */
+   .encuesta{
+       width:100%;
+       padding:10px 0 0 0;       
+   }
+   .encuesta_wrap{
+       width:400px;
+       margin:0 auto;
+       box-shadow: 0 1px 2px rgba(0,0,0,0.2);       
+       padding: 5px 25px 25px 25px;
+       background-color: #f8f8f8;
+       border-radius: 10px;
 
+   }
+   /* ==========================================================================
+Reporte
+   ========================================================================== */
+   .reporte{
+       width:100%;
+       padding:40px 0 0 0;       
+   }
+   .reporte_wrap{
+       width:300px;
+       margin:0 auto;     
 
+   }
     /* ==========================================================================
        Footer
        ========================================================================== */
@@ -4676,7 +4919,7 @@ This area adds love and makes the site reponsive
         margin: 0px 0px 0px 0px !important;
         background-color: #eeeeee;
         border-bottom: 1px solid #898989;
-        font-family: century;
+        
     }
     
     #primary-menu li:hover {
@@ -4732,7 +4975,7 @@ This area adds love and makes the site reponsive
         text-align: center;
         display: inline;
         padding: 5px 0;
-        font-family: century;
+        
         -webkit-transition: 0.4s;
         -moz-transition: 0.4s;
         transition: 0.4s;
@@ -4771,7 +5014,7 @@ This area adds love and makes the site reponsive
         left: 35px;
         background-color: #f28d18;
         color: #fff;
-        font-family: century_b;
+        
         font-size: 10px;
         line-height: 20px
     }
@@ -4801,7 +5044,7 @@ This area adds love and makes the site reponsive
     .atr_mobile_block{
          width:235px;
          height:235px;
-         font-family: century;
+         
          font-size: 21px;
          line-height: 24px;
          background-color:#fff;
@@ -4864,7 +5107,7 @@ This area adds love and makes the site reponsive
     }
     .encabezado2 {
         width: 100%;
-        height: 300px;
+        height: 230px;
     }
     .encabezado2_wrap {
         width: 290px;
@@ -4873,33 +5116,37 @@ This area adds love and makes the site reponsive
         position: relative;
         text-align: center;
     }
+    .encabezado2_wrap p {
+        width: 90%;
+        
+        font-size: 14px;
+        display:none;
+    }
     .encabezado_wrap h6 {
         width: 100%;
-        font-family: century_b;
+        
         font-size: 25px;
     }
     .encabezado_wrap p {
         width: 100%;
-        font-family: century;
+        
         font-size: 14px;
     }
     .circle {
-        width: 160px;
-        height: 160px;
-        border-radius: 160px;
+      
         position: relative;
-        top: 20px;
-        left: 65px;
+        top: 10px;
+        left: 85px;
     }
     .circle_wrap {
         width: 100%;
         height: 100%;
-        padding: 5px 0 0 0;
+       
     }
     .filtro {
         position: absolute;
-        left: -40px;
-        top: 200px;
+        left: -70px;
+        top: 160px;
     
     }
     .filtro input {
@@ -4907,10 +5154,28 @@ This area adds love and makes the site reponsive
         height: 45px;
         width: 175px;
         border: 2pt solid #0f8dcd;
-        font-family: century_b;
+        
         color: #575756;
         padding: 0 50px 0 15px;
     }
+    .sus_col3 {
+    margin: 40px auto 0 auto;
+
+}
+    /* ==========================================================================
+inbos
+   ========================================================================== */
+   .inbos_container{
+       width:320px;
+       margin:0 auto;
+       position:relative;
+   }
+.inbos {
+    width: 290px;
+    position: fixed;
+    right: 20px;
+    z-index: 20;
+}
     /* ==========================================================================
     Notificaciones
        ========================================================================== */
@@ -5015,7 +5280,7 @@ This area adds love and makes the site reponsive
         padding: 0 0 5% 0;
     }
     h4 {
-        font-family: century_b;
+        
         font-size: 30px;
         color: #0c4a6e;
         margin: 30px auto 0 auto;
@@ -5023,7 +5288,7 @@ This area adds love and makes the site reponsive
     }
     h5 {
         width:100%;
-        font-family: century;
+        
         font-size: 21px;
         color: #575756;
         margin: 0 auto;
@@ -5084,7 +5349,7 @@ This area adds love and makes the site reponsive
     }
     .col2_wrap {
         width: 270px;
-        height: 240px;
+        
         padding: 25px;
         background-color: #f8f8f8;
         border-radius: 10px;
@@ -5100,12 +5365,12 @@ This area adds love and makes the site reponsive
     .col2_wrap p {
         width: 100%;
         font-size: 12px;
-        font-family: century;
+        
     }
     .col2_wrap ul {
         margin: 10px auto 20px auto;
         font-size: 12px;
-        font-family: century;
+        
     }
     .empezar_btn {
         width: 95%;
@@ -5118,7 +5383,7 @@ This area adds love and makes the site reponsive
         transition: 0.4s;
         -o-transition: 0.4s;
         -khtml-transition: 0.4s;
-        font-family: century_b;
+        
         font-size: 20px;
         border-radius: 5px;
     }
@@ -5182,12 +5447,12 @@ This area adds love and makes the site reponsive
     }
     .disc_block_A_col1 h4 {
         font-size: 11px;
-        font-family: century_b;
+        
         margin: 0 0 0 0;
     }
     .disc_block_A_col1 h5 {
         font-size: 9px;
-        font-family: century;
+        
     }
     
     
@@ -5205,12 +5470,12 @@ This area adds love and makes the site reponsive
     }
     .disc_block_B_col1 h4 {
         font-size: 11px;
-        font-family: century_b;
+        
         margin: 0 0 0 0;
     }
     .disc_block_B_col1 h5 {
         font-size: 9px;
-        font-family: century;
+        
     }
     /* ==========================================================================
        Barra de progreso
@@ -5223,6 +5488,16 @@ This area adds love and makes the site reponsive
         width: 6.3%;
         height: 15px;
         margin: 5% 1% 0 0;
+        display:none;
+    }
+    .numero_de_actividad_responsive{
+        display:block;
+        float:left;
+        width:75%;
+        
+        font-size:30px;
+        padding:10px 0 0 0;
+        color:#575756;
     }
     /* ==========================================================================
        Paginador
@@ -5290,15 +5565,22 @@ This area adds love and makes the site reponsive
     .modules_wrap ul li {
     background-position: 210px 4px;    
 }  
-    .download_btn {
-        width: 64%;
-        float: left;
-    }
-    .envivo_btn p {
-        font-size: 9px;
-    }
+        .aula_btns {
+    width: 100%;
+    padding:0 0 0 0px;
+}
+.aula_btns ul li{
+    width: 78px;
+    height: 59px;
+    margin: 10px 12px 0 0px;
+    float: left;
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 0 0 0 0;
+}
     .evaluacion_wrap ul{
-    font-family:century_b;
+    
     text-align:center;    
     margin:100px auto 20px auto;
     width:90%;
@@ -5396,7 +5678,7 @@ This area adds love and makes the site reponsive
     
     .test_block_wrap p {
         text-align: left;
-        font-family: century;
+        
         color: #575756;
         font-size: 14px;
         line-height: 1.6;
@@ -5457,13 +5739,13 @@ This area adds love and makes the site reponsive
 }
 .tutorial_inter_wrap h2{
     height:40px;
-    font-family:century_b;
+    
     text-align:center;
     font-size:16px;
 }
 .tutorial_inter_wrap p{
     height:38px;
-    font-family:century;
+    
     text-align:center;
     font-size:14px;
     color:#a0a0a0;
@@ -5499,7 +5781,7 @@ This area adds love and makes the site reponsive
     transition: 0.4s;
     -o-transition: 0.4s;
     -khtml-transition: 0.4s;
-    font-family: century;
+    
     font-size: 12px;
     border-radius: 5px;
     display:block;
@@ -5577,14 +5859,14 @@ This area adds love and makes the site reponsive
     margin:0 25px 0 0px;
 }
 .not_block_col1 h4{
-    font-family:century_b;
+    
     font-size:14px;
     margin:0 0 0 0;
     padding:0 0 0 0;
     text-align:left;
 }
 .not_block_col1 span{
-     font-family:century;
+     
      font-size:14px;
 }
 .not_block_col2{
@@ -5600,7 +5882,7 @@ This area adds love and makes the site reponsive
     float:left;
 }
 .not_block_col3 p{
-    font-family:century;
+    
     font-size:12px;
 }    
 /* ==========================================================================
@@ -5621,7 +5903,7 @@ This area adds love and makes the site reponsive
 .inbox_col1{
     width:80px;
     float:left;
-    font-family:century;
+    
     padding:0 0 0 0px;
     margin:0 50px 0 0;
 }
@@ -5637,18 +5919,18 @@ This area adds love and makes the site reponsive
 .inbox_col1 p{
    text-align:center;
    font-size:10px;
-   font-family:century_b;
+   
 
 }
 .inbox_col1 h2{
    text-align:center;
    font-size:10px;
-   font-family:century;
+   
 }
 .inbox_col2{
     width:45%;
     float:left;
-    font-family:century_b;
+    
     font-size:13px;
     padding:5px 0 0 0;
 }
@@ -5656,7 +5938,7 @@ This area adds love and makes the site reponsive
 .inbox_col3{
     width:100%;
     float:left;
-    font-family:century;
+    
     font-size:14px;
     padding:5px 0 0 0;
 } 
@@ -5688,7 +5970,7 @@ This area adds love and makes the site reponsive
         }
         .box h3{
             width:100%;
-            font-family:century_b;
+            
             font-size:24px;
             margin:20px 0;
         }
@@ -5700,11 +5982,13 @@ This area adds love and makes the site reponsive
             margin:20px auto;
         }
         .box p{
-            font-family:century;
+            width:90%;
+            
             font-size:14px;
+            margin:0 auto;
         }
         .box h4{
-            font-family:century_b;
+            
             font-size:16px;
             margin:10px 0 10px 0;
         }
@@ -5735,7 +6019,7 @@ This area adds love and makes the site reponsive
 ul.expl_tab{
     width:95%;    
     padding:15px 0 0 20px;
-    font-family:century;
+    
     font-size:12px;
 }
 #expl_white{
@@ -5796,6 +6080,46 @@ ul.expl_tab li.expl_col3{
 .Escuela, .certifica, .identificado,.duracion{
     font-size:18px;
 }
+/* ==========================================================================
+Encuesta
+   ========================================================================== */
+   .encuesta{
+       width:100%;
+       padding:10px 0 0 0;       
+   }
+   .encuesta_wrap{
+       width:250px;
+       margin:0 auto;
+       box-shadow: 0 1px 2px rgba(0,0,0,0.2);       
+       padding: 5px 25px 25px 25px;
+       background-color: #f8f8f8;
+       border-radius: 10px;
+
+   }
+      /* ==========================================================================
+Reporte
+   ========================================================================== */
+   .reporte{
+       width:100%;
+       padding:40px 0 0 0;       
+   }
+   .reporte_wrap{
+       width:300px;
+       margin:0 auto;     
+
+   }
+
+   .evaluacion_wrap ul.reporte_graph li{
+    float:left;
+    margin:0 10px 0 0; 
+    display: inline;
+    bottom:0px;
+    vertical-align:bottom;
+    height:100px;
+    width:60px;
+    position:relative;
+}
+
     /* ==========================================================================
        Footer
        ========================================================================== */

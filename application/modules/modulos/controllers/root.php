@@ -47,7 +47,7 @@ class Root extends CI_Controller {
 		/* Llamo ala funcion generica para traer el listado de informacion del modulo */
 		$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],array('id_cursos',$id_cursos),array('orden','asc'));
 		/* Envio header de la tabla de los campos que necesito mostrar */
-		$data['titulos']=array("Orden","ID","Nombre","Introducción","Tipo de plan","Estado","Opciones");
+		$data['titulos']=array("Nombre del módulo","Descripción corta","Tipo de plan","Estado","Opciones");
 		/* Cargo vista de listado de informacion */
 
 
@@ -181,7 +181,7 @@ class Root extends CI_Controller {
 		/*Cargo variables globales*/
 		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
 		/* Validacion basica del id */
-		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean|callback_check_validador');
+		$this->form_validation->set_rules('id', 'Id', 'required|xss_clean');
 		/*Asigno valor del id a una variable*/
 		$id=$this->input->post('id');
 		/*Llamo funcion borrar */

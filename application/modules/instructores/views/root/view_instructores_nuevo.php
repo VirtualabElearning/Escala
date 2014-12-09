@@ -22,10 +22,10 @@
         <h2 class="pull-left"><i class="fa fa-table"></i> Modulo <?php echo $titulo; ?> (Nuevo registro)</h2>
 
         <div class="bread-crumb pull-right">
-        <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
+          <a href="inicio/root"><i class="fa fa-home"></i> Inicio</a> 
           
           <span class="divider">/</span> 
-        <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
+          <a href="<?php echo base_url(); ?><?php echo $this->uri->segment(1); ?>/<?php echo $this->uri->segment(2); ?>/lista" class="bread-current">Modulo <?php echo $titulo; ?></a>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -60,7 +60,7 @@
                     <?php echo password ("Contraseña","contrasena","contrasena","Escriba la contraseña",'',form_error('contrasena', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo password ("Repetir Contraseña","contrasena2","contrasena2","Repetir la contraseña",'',form_error('contrasena2', '<div class="mensaje_error">', '</div>')); ?>
                     <?php echo input_text ("Identificacion","identificacion","identificacion","Ingrese el numero de identificacion",$this->input->post('identificacion'),form_error('identificacion', '<div class="mensaje_error">', '</div>')); ?>
-                      <?php echo input_text ("Profesión","profesion","profesion","Ingrese la profesión",$this->input->post('profesion'),form_error('profesion', '<div class="mensaje_error">', '</div>')); ?>
+                    <?php echo input_text ("Profesión","profesion","profesion","Ingrese la profesión",$this->input->post('profesion'),form_error('profesion', '<div class="mensaje_error">', '</div>')); ?>
 
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
@@ -74,6 +74,8 @@
 
                           <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">            
                           </div>
+
+                          <div class="explicacion_texto">Debe ser de 200x150</div>
 
                           <div>
                             <span class="btn btn-file">
@@ -97,9 +99,9 @@
                     <?php #$array_opc=array(); ?>
                     <?php #$cursos_checked=json_decode($this->input->post('cursos_asignados')); $checkeado=""; ?>
                     <?php #foreach ($lista_cursos as $key => $value_cursos): ?>
-                      <?php #$checkeado=""; ?>
-                      <?php #if ( @in_array($value_cursos->id_cursos,$cursos_checked)) { $checkeado="checked"; }  ?>
-                      <?php #$array_opc['cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$value_cursos->id_cursos.'|'.$checkeado]=$value_cursos->titulo." [".$value_cursos->titulo."] "; ?>
+                    <?php #$checkeado=""; ?>
+                    <?php #if ( @in_array($value_cursos->id_cursos,$cursos_checked)) { $checkeado="checked"; }  ?>
+                    <?php #$array_opc['cursos_asignados[]|'.amigable($value_cursos->titulo).'|'.$value_cursos->id_cursos.'|'.$checkeado]=$value_cursos->titulo." [".$value_cursos->titulo."] "; ?>
                     <?php #endforeach ?>
 
                     <?php 
@@ -114,12 +116,12 @@
                      </div>
                    </div>
 
-                  <?=form_hidden('redirect',@$redirect)?>
-                  <?=form_close()?>
+                   <?=form_hidden('redirect',@$redirect)?>
+                   <?=form_close()?>
 
-                </div>
-              </div>
-              <div class="widget-foot">
+                 </div>
+               </div>
+               <div class="widget-foot">
                 >
               </div>
             </div>

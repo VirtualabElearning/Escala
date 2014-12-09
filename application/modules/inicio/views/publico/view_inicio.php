@@ -20,13 +20,43 @@
  <?php $this->load->view('view_site_header'); ?>
 
  <!--SECCIÓN ATRIBUTOS-->
- <section class="atributos clear">
+ <section class="atributos clear" <?php if ($inicio->foto_banner!='') { ?> style="background: url('uploads/pagina_inicio/<?php echo $inicio->foto_banner; ?>') left center no-repeat fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;" 
+ <?php }  ?>>
+
+
+
+ 
+
     <h3> <?php echo $inicio->slogan; ?> </h3>
 
 
     <div class="atributos_wrap clear">
-       <?php foreach ( json_decode(json_decode($inicio->cajas)->titulos) as $key => $value): ?>
-        <div class="atributo <?php if ($key<2)  {   ?> mobile-hider <?php } else { ?>atributo_third<?php } ?>">
+
+        <div id="atr_slider clear mobile-visible">
+            <div class="atr_slider_wrap">
+                <div class="atr_mobile_blocks clear">
+                 <?php foreach ( json_decode(json_decode($inicio->cajas)->titulos) as $key => $value): ?>
+                     <?php $_atributos_fotos=json_decode(json_decode($inicio->cajas)->atributo_fotos); ?>
+                     <div class="atr_mobile_block">
+                        <div class="atr_mobile_block_wrap">
+                            <img src="uploads/pagina_inicio/<?php echo $_atributos_fotos[$key]->{"atributo_foto".($key+1)}; ?>" alt="contenidos de calidad">
+                            <h2><?php echo $value->{"atributo_titulo".($key+1)}; ?></h2>
+                        </div>
+                    </div>
+                <?php endforeach ?>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <?php foreach ( json_decode(json_decode($inicio->cajas)->titulos) as $key => $value): ?>
+        <div class="atributo <?php if ($key<2)  {   ?> mobile-hider <?php } else { ?>atributo_third<?php } ?> mobile-hider">
             <div class="atributo_wrap">
                 <?php $_atributos_fotos=json_decode(json_decode($inicio->cajas)->atributo_fotos); ?>
                 <img src="uploads/pagina_inicio/<?php echo $_atributos_fotos[$key]->{"atributo_foto".($key+1)}; ?>" alt="contenidos de calidad">
@@ -56,7 +86,7 @@
                         <h2><?php echo $value->categoria_cursos; ?></h2>
                         <p><?php echo $value->titulo; ?></p>
                     </div>      
-                    <a href="cursos/detalle/<?php echo $value->id_cursos; ?>/<?php echo amigable($value->titulo); ?>.html"> <div class="curso_btn <?php if ($value->id_tipo_planes!=1) { echo " color2"; } ?>"> <?php echo $value->tipo_plan; ?></div> </a>
+                    <a href="cursos/detalle/<?php echo $value->id_cursos; ?>/<?php echo amigable($value->titulo); ?>.html"> <div class="curso_btn <?php if ($value->id_tipo_planes!=1) { echo " color2"; } ?>"> Entrar <?php #echo $value->tipo_plan; ?></div> </a>
                 </div>
             </div>
         <?php endforeach ?>
@@ -66,15 +96,20 @@
 <section class="registrate">
     <h4><?php echo $inicio->titulo_registrate; ?></h4>
     <div class="registrate_wrap clear">
-
-
         <?php foreach ($tipo_planes as $key => $value): ?>
+  <?php $_urls=@json_decode(json_decode($inicio->planes)->urls); ?>
+            <?php if ($key==0): ?>
+               <a href="<?php echo $_urls[$key]; ?>">
+               <?php else: ?>
+                <a href="<?php echo $_urls[$key]; ?>">
+            <?php endif ?>
+                <div class="plan<?php if ($key==1)  {  echo "2"; } ?> <?php if ($key>0)  {  echo " no_margin "; } ?>">
+                 <div class="plan_wrap">
+                    <?php $_planes_valores=@json_decode(json_decode($inicio->planes)->planes_valores); ?>
+                    <h2><?php echo $tipo_planes[$key]->nombre; ?></h2>
 
-           <div class="plan<?php if ($key==1)  {  echo "2"; } ?> <?php if ($key>0)  {  echo " no_margin "; } ?>">
-               <div class="plan_wrap">
-                   <h2><?php echo $value->nombre; ?></h2>
-                   <h3>Gratis</h3>
-                   <ul>
+                    <h3><?php echo @$_planes_valores[$key]; ?></h3>
+                    <ul>
                        <?php $_linea1=@json_decode(json_decode($inicio->planes)->lineas1); ?>
                        <li class="grey"><?php if ( $_linea1[$key]!='') {  echo  $_linea1[$key];  } else { echo "&nbsp;"; } ?></li>
                        <?php $_linea2=@json_decode(json_decode($inicio->planes)->lineas2); ?>
@@ -86,15 +121,17 @@
                    </ul>
                    <?php $_urls=@json_decode(json_decode($inicio->planes)->urls); ?>
                    <?php if ($key==0): ?>
-                     <a href="<?php echo $_urls[$key]; ?>"><div class="premium_btn">Empezar</div></a>
-                 <?php else: ?>
+                       <a href="<?php echo $_urls[$key]; ?>"><div class="premium_btn">Empezar</div></a>
+                   <?php else: ?>
                     <a href="<?php echo $_urls[$key]; ?>"><div class="basic_btn">Empezar</div></a>
                 <?php endif ?>
-
             </div>
         </div>
+    </a>
 
-    <?php endforeach ?>
+
+
+<?php endforeach ?>
 
 </div>
 </section>

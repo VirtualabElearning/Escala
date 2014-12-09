@@ -9,7 +9,7 @@ class Publico extends CI_Controller {
 	{
 		parent::__construct();
 
-	}
+	} 
 
 	/* Cargo la pantalla de inicio */
 	public function index()
@@ -172,6 +172,8 @@ class Publico extends CI_Controller {
 ## funcion para registrarme a un curso con solo dar clic
 	public function registrarme_al_curso($id_cursos,$nombre_curso)
 	{
+
+		if ($this->session->userdata('logeado')!=1) {  redirect('registro_usuario');  }
 		$htmtopp=$nombre_curso;
 
 		$this->load->model('model_cursos');
@@ -222,12 +224,12 @@ class Publico extends CI_Controller {
 			$array_claves=array('{nombres}'=>$this->encrypt->decode($this->session->userdata('nombres')),'{apellidos}'=>$this->encrypt->decode($this->session->userdata('apellidos')),
 				'{empresa}'=>$configuracion->nombre_sistema,'{correo}'=>$this->encrypt->decode($this->session->userdata('correo')),
 				'{base_url}'=>'http://virtualab.sem/Escala/','{foto}'=>'uploads/aprendices/'. $this->encrypt->decode($this->session->userdata('foto')),
-				'{link_curso}'=>current_url(),'{tipo_plan}'=>utf8_decode($tipo_plan->nombre),'{nombre_curso}'=>utf8_decode($nombre_del_curso)  );
+				'{link_curso}'=>current_url(),'{tipo_plan}'=>$tipo_plan->nombre,'{nombre_curso}'=>utf8_decode($nombre_del_curso)  );
 
 			#notifico al usuario de su nuevo registro en la web
 			envio_correo($array_claves,$configuracion->correo_contacto,$configuracion->nombre_contacto ,$this->input->post ('correo'),"Registro realizado al curso ".$configuracion->nombre_sistema,$this->input->post ('nombres').' '.$this->input->post ('apellidos'),site_url()."email_templates/plantilla_registro_curso.html",$this);
 			#notifico al administrador del nuevo registro de usuario
-			envio_correo($array_claves,$this->input->post ('correo'),$this->input->post ('nombres').' '.$this->input->post ('apellidos') ,$configuracion->correo_contacto,"Nuevo registro al curso xxx en ".$configuracion->nombre_sistema,$configuracion->nombre_contacto,site_url()."email_templates/notificacion_registro_curso.html",$this);
+			envio_correo($array_claves,$this->input->post ('correo'),$this->input->post ('nombres').' '.$this->input->post ('apellidos') ,$configuracion->correo_contacto,"Nuevo registro al curso ".utf8_decode($nombre_del_curso)." en ".$configuracion->nombre_sistema,$configuracion->nombre_contacto,site_url()."email_templates/notificacion_registro_curso.html",$this);
 
 
 
@@ -247,6 +249,9 @@ class Publico extends CI_Controller {
 
 ## funcion para realizar el pago en caso que sea version premium
 	public function registrarme_al_curso_premium ($id_cursos,$nombre_curso) {
+
+
+		if ($this->session->userdata('logeado')!=1) {  redirect('registro_usuario');  }
 
 		$this->load->model('model_cursos');
 
@@ -361,7 +366,12 @@ class Publico extends CI_Controller {
 
 			else {
 						# si no existe , lo inserta.
-				$id_cursos_asignados=$this->model_generico->guardar('cursos_asignados',$data_curso_asignar,'id_cursos_asignados',array('id_cursos_asignados',''));
+				
+				## actualizo el curso solo si ya existe por si depronto es estandar y pasó a premium
+				$curso_if_existe=$this->model_cursos->get_curso_usuario($id_cursos,$id_usuarios);
+				$id_cursos_asignados=$this->model_generico->guardar('cursos_asignados',$data_curso_asignar,'id_cursos_asignados',array('id_cursos_asignados',$curso_if_existe->id_cursos_asignados));
+				
+
 				$id_cursos_asignados=$this->model_generico->guardar('pagos_realizados',$data_pagos_realizados,'id_pagos_realizados',array('id_pagos_realizados',''));
 			}
 
@@ -416,7 +426,7 @@ class Publico extends CI_Controller {
 		$data['detalle_curso']->modulos=$modulos;
 
 		## si no estoy logeado, me redirecciona
-		if ($this->session->userdata('logeado')!=1) {  redirect('ingresar/'.base64_encode(current_url()));  }
+		#if ($this->session->userdata('logeado')!=1) {  redirect('ingresar/'.base64_encode(current_url()));  }
 
 		## miro si ese curso estoy inscrito o no estoy inscrito
 		$mis_cursos=$this->model_cursos->get_cursos_estudiante_lista($this->encrypt->decode($this->session->userdata('id_usuario')));
@@ -428,11 +438,33 @@ class Publico extends CI_Controller {
 		$data['if_inscrito']=if_inscrito (   $data['detalle_curso']->id_cursos,$miscursosx  );
 
 
+
+
+
 		## obtengo el primer modulo, primera actividad
 		$data['primer_mod_activ']=$this->model_cursos->get_modulo_activ($id_cursos);
-
-
 		$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
+
+
+
+		######  funcion que mira si existe programacion de envio de notificaciones para el curso y enviarlo a todos los usuarios
+		######  registrados en el sistema.
+		#get_send_if_class_vivo($id_cursos);
+
+
+
+
+		## si ya estoy inscrito, lo redirecciono al curso de una para evitar el paso de ver el detalle del curso
+		if ($data['if_inscrito']>0) {
+			redirect('cursos/empezar/'.$id_cursos."/".$data['primer_mod_activ']->id_modulos."/".$data['primer_mod_activ']->id_actividades_barra."/".$nombre_curso);
+		}
+
+
+
+
+
+
+
 
 		$this->load->view('publico/view_cursos_descripcion',$data);
 
@@ -471,6 +503,11 @@ class Publico extends CI_Controller {
 		$this->load->model('model_cursos');
 
 		if ($this->session->userdata('logeado')!=1) {  redirect('ingresar/'.base64_encode(current_url()));  }
+
+		### guardo la posicion donde me encuentro actualmente de la actividad
+	#$this->model_cursos->update_posicion ($id_actividades_barra,$id_cursos,$id_modulos,$this->encrypt->decode($this->session->userdata('id_usuario')));
+
+
 		$data['detalle_curso']=$this->model_generico->detalle('cursos',array('id_cursos'=>$id_cursos));
 		$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
 		if (!$id_cursos || !$id_modulos || !$id_actividades) {
@@ -481,7 +518,7 @@ class Publico extends CI_Controller {
 ##consulto si muestro o no el tutorial
 		$tmp_tutorial=$this->model_cursos->get_if_tutorial($this->encrypt->decode($this->session->userdata('id_usuario')));
 
-		if ($tmp_tutorial->mostrar_tutorial==0)  {
+		if ($tmp_tutorial->mostrar_tutorial==9999)  {
 
 			$this->tutorial($id_cursos,$id_modulos,$id_actividades,$nombre_curso);
 
@@ -582,12 +619,17 @@ class Publico extends CI_Controller {
 			## traigo el modulo para premios del curso
 			$modulos_premios=$this->model_cursos->get_modulos_premios($id_cursos);
 			$data['modulo_premios']=$modulos_premios;
+			#krumo ($data['modulo_premios']);
 
 				## ahora listo la primera actividad del modulo premio para ir directamente a la primer actividad al hacer click
 
 			$primera_actividad_mod_premio=$this->model_cursos->get_first_actividad ($data['modulo_premios']->id_modulos);
 
+#krumo ($primera_actividad_mod_premio); exit;
+
 			$data['primera_actividad_premio']=$primera_actividad_mod_premio;
+
+
 
 
 		### listo aqui los premios que tenga de videos para mostrarlos en los modulos
@@ -688,11 +730,22 @@ class Publico extends CI_Controller {
 
 					$arr_actividades[$tmp_actividades_value->id_actividades_barra]['info_extra']->me_encantas=$this->model_cursos->get_megustas($tmp_actividades_value->id_actividades_barra,'',$activ_foro->id_usuario_modificado);
 
-					$mensajes_foro=$this->model_cursos->get_mensajes_foro($activ_foro->id_actividades_foro);
+					$mensajes_foro=$this->model_cursos->get_mensajes_foro($activ_foro->id_actividades_foro,$id_cursos);
+
+
+
+
 					$arr_actividades[$tmp_actividades_value->id_actividades_barra]['info_extra']->mensajes_foro=$mensajes_foro;
 
 					##obtengo los datos del creador del foro para mostrarlos en pantalla del foro
 					$usuario=$this->model_cursos->get_docente($activ_foro->id_usuario_modificado);
+
+					## si es un estudiante, obtengo el estatus actual que tenga en el curso actual:
+
+					if ($usuario->id_roles==$this->config->item('roles_estudiante')) {
+						$usuario->estatus=$this->model_cursos->get_status_micurso ($usuario->id_usuarios,$id_cursos);
+					}
+
 					$arr_actividades[$tmp_actividades_value->id_actividades_barra]['info_extra']->creador_foro=$usuario;
 
 					##obtengo los me gusta de cada usuario que haya dejado mensaje (Tambien organizar los mensajes por la cantidad de me gustas)
@@ -797,21 +850,19 @@ class Publico extends CI_Controller {
 
  $tmp_curso_actual_est=$this->model_cursos->get_logeo_curso($id_cursos,$this->encrypt->decode($this->session->userdata('id_usuario')));
 
-## si el curso actual del estudiante está en modo activo...
- if ($tmp_curso_actual_est)  {
 
- 	#krumo ($tmp_curso_actual_est);
 
- 	#echo $tmp_curso_actual_est->fecha_entrado;
 
- 	#echo "<br>";
+## si el curso actual del estudiante no está finalizado
+ if ($tmp_curso_actual_est->finalizado==0)  {
 
- 	#echo date('Y-m-d H:m:s');
- 	#echo "<br>";
  	$fecha1 = new DateTime($tmp_curso_actual_est->fecha_entrado);
  	$fecha2 = new DateTime(date('Y-m-d H:m:s'));
  	$interval = $fecha1->diff($fecha2);
  	$dias=$interval->format('%a');
+
+
+
 
  	## si es mayor a x dias sin ingresar al sistema, se resta puntos por dia.
  	if ($dias>$this->config->item('dias_restar')) {
@@ -823,8 +874,45 @@ class Publico extends CI_Controller {
  		}
 
 
+ 		## total puntos a restar al estudiante
  		$total_puntos_restar=$a*$this->config->item('puntos_resta');
- 		$this->model_cursos->add_puntos ($id_cursos,$id_modulos,$this->encrypt->decode($this->session->userdata('id_usuario')),'-'.$total_puntos_restar,$this->config->item('motivo_resta_puntos_falta_actividad'),$id_actividades);
+
+
+
+
+
+ 		#### consulto mis puntos actuales del curso si es mayor a cero y si los puntos  arestar son mayores a los que voy a restar
+ 		$tmpuntajetotalarr=$this->model_cursos->get_puntos_totales_en_curso ($this->encrypt->decode($this->session->userdata('id_usuario')),$id_cursos);
+ 		$tmpuntajetotal=$tmpuntajetotalarr[0];
+ 		$iff_mis_puntos_actuales_curso_actuall[0]=$tmpuntajetotal->puntaje;
+ 		
+
+
+
+
+
+
+ 		 ## si los puntos a restar son mayores a los que tiene actualmente, resto lo que tiene en el curso para dejarlo en cero
+ 		if ($total_puntos_restar > $iff_mis_puntos_actuales_curso_actuall[0] && $iff_mis_puntos_actuales_curso_actuall[0] > 0 ) {
+ 			$total_puntos_restar = $iff_mis_puntos_actuales_curso_actuall[0];	
+ 		}
+
+
+ 		if ($iff_mis_puntos_actuales_curso_actuall[0] < 1 && $total_puntos_restar > 0)  {
+ 			$total_puntos_restar = 0;
+ 		}
+
+ 		
+
+
+
+
+ 		if ($total_puntos_restar>0) {
+ 		### agrego los puntos negativos para restar el id_puntaje
+ 			$r=$this->model_cursos->add_puntos ($id_cursos,$id_modulos,$this->encrypt->decode($this->session->userdata('id_usuario')),'-'.$total_puntos_restar,$this->config->item('motivo_resta_puntos_falta_actividad'),$id_actividades,'update');
+ 		}
+
+
  		$data['popup_resta_puntos']="ok";
  		$data['titulo_resta_puntos']="¡Te extrañamos!";
  		$data['mensaje_resta_puntos']="Nos has obligado a restarte ".$total_puntos_restar." puntos por no ingresar desde hace ".$dias." días.";
@@ -874,7 +962,7 @@ class Publico extends CI_Controller {
  	}  ## fin si es mayor a x dias sin ingresar al sistema, se resta puntos por dia.
 
 
- }  ## fin  si el curso actual del estudiante está en modo activo...
+ }  ## fin si el curso actual del estudiante no está finalizado
 
  
  #exit;
@@ -915,16 +1003,6 @@ class Publico extends CI_Controller {
 
 
 
-##============== obtengo si tengo el premio de crear un foro en el curso actual en estado no utilizado =======================
-
-
-#pendiente
-
-
-##============== obtengo si tengo el premio de crear un foro en el curso actual en estado no utilizado =======================
-
-
-
 ##============== obtengo los puntos proximos para mostrar el proximo estatus y detectar el cambio de estatus =======================
 ####consulto puntos actuales con los puntos requeridos a cada nivel
  $mis_puntos_actuales_curso_actual=$this->model_cursos->get_puntos_totales_en_curso ($this->encrypt->decode($this->session->userdata('id_usuario')),$id_cursos);
@@ -933,8 +1011,6 @@ class Publico extends CI_Controller {
  $mis_puntos_actuales_curso_actual=$tmp->puntaje;
  $tmp='';
 			$niveldios=0; #3 para saber si ya superlo los puntos de campeon
-
-
 
 
 			## nivel experto
@@ -989,9 +1065,17 @@ class Publico extends CI_Controller {
 
 
 			if ($tmp_estatus_mio_act_cur->id_estatus!=$this->config->item('Campeon')) {
+
 			### consulto si tengo premio disponible para crear foro en el modulo actual!! si no soy campeon!
 				$tmp_premio_mio_foro=$this->model_cursos->get_premio_sorpresa_mio($post['id_cursos'],$post['id_modulos'],$id_usuarios,$this->config->item('tipos_premio_foro'),$this->config->item('estado_no_utilizado'));
+
+
+			#echo $tmp_premio_mio_foro->valor; exit;
+
+
 				if ($tmp_premio_mio_foro->valor==1) {  $data['foro_ya_creado_campeon']='no'; } else {   }
+
+
 			}
 
 
@@ -1001,9 +1085,45 @@ class Publico extends CI_Controller {
 			$data['inbox']=$this->model_generico->listado('mensajes',array('mensajes.id_usuarios',$this->encrypt->decode($this->session->userdata('id_usuario'))),array('orden','asc'));
 
 
+			###consulto si hay clase en vivo
+
+			$if_clase_vivo=$this->model_cursos->get_clase_vivo_curso ($id_cursos);
+
+			## si existe una clase programada...
+			if 	($if_clase_vivo->id_programacion_envio!='')  {
+
+			###  habilito clase en vivo	
+				$hora_envio = strtotime ( '+1 hour' , strtotime ( $if_clase_vivo->hora_envio ) ) ;
+				$hora_envio = date ( 'H:i:s' , $hora_envio );		
 
 
 
+				if ($if_clase_vivo->fecha_envio==date('Y-m-d') && $hora_envio >= date('H:i:s',time())  &&  date('H:i:s',time())>= $if_clase_vivo->hora_envio ) {
+					$data['detalle_curso']->ver_clase_vivo=1;	
+				}	
+				else {
+			## deshabilito clase en vivo	
+					$data['detalle_curso']->ver_clase_vivo=0;	
+				}
+
+
+
+			}
+
+			
+
+
+#echo $hora_envio."  <br> ".date('H:i:s',time())."<br>".$if_clase_vivo->hora_envio; exit;
+			
+
+			
+
+
+
+
+
+			
+			
 
 			$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 			$this->load->view('publico/view_cursos_empezar',$data);
@@ -1128,13 +1248,11 @@ class Publico extends CI_Controller {
 
 		## evaluo si soy campeon para tener la posibilidad de crear foro ó si me lo gané como premio. sabado
 
-		$tmp_premio_mio_foro=$this->model_cursos->get_premio_sorpresa_mio($post['id_cursos'],$post['id_modulos'],$id_usuarios,$this->config->item('tipos_premio_foro'),$this->config->item('estado_no_utilizado'));
+		$tmp_premio_mio_foro=$this->model_cursos->get_premio_sorpresa_mio($post['id_cursos'],'',$id_usuarios,$this->config->item('tipos_premio_foro'),$this->config->item('estado_no_utilizado'));
 
-##valor==1  =  if_foro==1
-
-#sabado
-
-
+#print_r($post);
+#print_r($tmp_premio_mio_foro);
+#exit;
 
 		if ($tmp_estatus_mio->id_estatus==$this->config->item('Campeon')) {
 
@@ -1206,6 +1324,8 @@ class Publico extends CI_Controller {
  		else {
 
  			## si no soy campeon!!!!  miro si puedo crear el foro!
+
+
 
  			if ($tmp_premio_mio_foro->valor==1) {
 
@@ -1310,117 +1430,131 @@ class Publico extends CI_Controller {
  		} 
 
 
+
+
  		$html='<div class="disc_block_B">
  		<div class="disc_block_B_wrap clear"><div class="disc_block_B_col1 clear"> 
  			<img src="'.$foto_perfil.'" alt="">
  			<div id="disc_status"><img src="html/site/img/'.$mistatus->id_estatus.'.png"></div>
- 			<h4>'.$this->encrypt->decode($this->session->userdata("nombres")).' '.$this->encrypt->decode($this->session->userdata("apellidos")).'</h4>
  			<a barr="'.$post['id_actividades_barra'].'" class="meencantar_estudiante" est="'.$this->encrypt->decode($post['id_usuario']).'" id="'.$idpost.'" href="'.base_url().'cursos/dar_meencanta_estudiante"><div class="kudos"><p class="mencantas_estudiantes_todos" id="'.$idpost.'meencanta_estudiante">0</p> </div></a>
  		</div> 
- 		<div class="disc_block_B_col2"><p>'.$tmp_foro_insertado->mensaje.'</p> </div>
- 	</div>
- </div>';
- echo 	$html;
+ 		<div class="disc_block_B_col2">
+ 			<h4>'.$this->encrypt->decode($this->session->userdata("nombres")).' '.$this->encrypt->decode($this->session->userdata("apellidos")).'</h4>
+ 			<p>'.$tmp_foro_insertado->mensaje.'</p>
+ 		</div>
+ 	</div>';
+
+
+
+
+ 	
+
+ 	$html.='<span id="'.$idpost.'" class="closex_foro">X</span>';
+
+
+
+ 	$html.='</div>';
+ 	echo $html;
 
 	#echo "OK";
-}
+ }
 
 
 
 ##dar me encanta a la discusion 
-public function dar_meencanta () {
+ public function dar_meencanta () {
 
-	$this->load->model('model_cursos');
-	$post=$_POST['data'];
+ 	$this->load->model('model_cursos');
+ 	$post=$_POST['data'];
 
 		##inserto el megusta en la bd
-	if ($post['op']=='darmegusta') {
+ 	if ($post['op']=='darmegusta') {
 
-		$data=array('id_cursos'=>$post['id_cursos'],'id_modulos'=>$post['id_modulos'],'id_actividades'=>$post['id_actividades'],'id_actividades_foro_mensajes'=>0,'id_usuarios'=>$post['id_usuario_docente'],'id_estados'=>1);
-		$data['fecha_modificado']=date('Y-m-d H:i:s',time());  
-		$data['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
-		$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
-		$data['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
+ 		$data=array('id_cursos'=>$post['id_cursos'],'id_modulos'=>$post['id_modulos'],'id_actividades'=>$post['id_actividades'],'id_actividades_foro_mensajes'=>0,'id_usuarios'=>$post['id_usuario_docente'],'id_estados'=>1);
+ 		$data['fecha_modificado']=date('Y-m-d H:i:s',time());  
+ 		$data['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
+ 		$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
+ 		$data['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
 
 		##miro si ya le di me gusta , el d es porque debe buscar si le di  me gusta al post del docente
-		$tmp_ifmegusta=$this->model_cursos->get_if_megusta($this->encrypt->decode($this->session->userdata('id_usuario')),$post['id_actividades'],'d');
-		
+ 		$tmp_ifmegusta=$this->model_cursos->get_if_megusta($this->encrypt->decode($this->session->userdata('id_usuario')),$post['id_actividades'],'d');
 
 
-		if ($tmp_ifmegusta==0)  {
 
-			$id=$this->model_generico->guardar('actividades_foro_megusta',$data,'id_actividades_foro_megusta',array('id_actividades_foro_megusta',''));
-		}
-		else {
+ 		if ($tmp_ifmegusta==0)  {
 
-			$data_del=array('id_cursos'=>$post['id_cursos'],
-				'id_modulos'=>$post['id_modulos'],
-				'id_actividades'=>$post['id_actividades'],
-				'id_usuarios'=>$post['id_usuario_docente'],
-				'id_estados'=>1,
-				'id_usuario_modificado'=>$this->encrypt->decode($this->session->userdata('id_usuario')));
+ 			$id=$this->model_generico->guardar('actividades_foro_megusta',$data,'id_actividades_foro_megusta',array('id_actividades_foro_megusta',''));
+ 		}
+ 		else {
+
+ 			$data_del=array('id_cursos'=>$post['id_cursos'],
+ 				'id_modulos'=>$post['id_modulos'],
+ 				'id_actividades'=>$post['id_actividades'],
+ 				'id_usuarios'=>$post['id_usuario_docente'],
+ 				'id_estados'=>1,
+ 				'id_usuario_modificado'=>$this->encrypt->decode($this->session->userdata('id_usuario')));
 
 
-			$id=$this->model_generico->borrar('actividades_foro_megusta',$data_del);
-		}
+ 			$id=$this->model_generico->borrar('actividades_foro_megusta',$data_del);
+ 		}
 
 		#obtengo los megusta del docente
-		$megustas_docente=$this->model_cursos->get_megustas($post['id_actividades'],'',$post['id_usuario_docente']);
+ 		$megustas_docente=$this->model_cursos->get_megustas($post['id_actividades'],'',$post['id_usuario_docente']);
 
 		#muestro la cantidad de me gusta al docente
-		echo count($megustas_docente);
+ 		echo count($megustas_docente);
 
-	}
+ 	}
 
-}
+ }
 
 
 ##funcion de dar me encanta al mensaje del estudiante
-public function dar_meencanta_estudiante () {
+ public function dar_meencanta_estudiante () {
 
-	$this->load->model('model_cursos');
-	$post=$_POST['data'];
-	$if_borrado=0;
+ 	$this->load->model('model_cursos');
+ 	$post=$_POST['data'];
+ 	$if_borrado=0;
 
 
-	if ($post['op']=='darmegusta_Est') {
+ 	if ($post['op']=='darmegusta_Est') {
 
-		$data=array('id_cursos'=>$post['id_cursos'],'id_modulos'=>$post['id_modulos'],'id_actividades'=>$post['id_actividades'],
-			'id_actividades_foro_mensajes'=>$post['id_actividades_mensaje'],'id_usuarios'=>$post['id_usuario_estudiante'],'id_estados'=>1);
-		$data['fecha_modificado']=date('Y-m-d H:i:s',time());  
-		$data['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
-		$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
-		$data['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
+ 		$data=array('id_cursos'=>$post['id_cursos'],'id_modulos'=>$post['id_modulos'],'id_actividades'=>$post['id_actividades'],
+ 			'id_actividades_foro_mensajes'=>$post['id_actividades_mensaje'],'id_usuarios'=>$post['id_usuario_estudiante'],'id_estados'=>1);
+ 		$data['fecha_modificado']=date('Y-m-d H:i:s',time());  
+ 		$data['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
+ 		$data['fecha_creado']=date('Y-m-d H:i:s',time()); 
+ 		$data['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
 
 	#consulto el foro para saber el nombre del foro o actividad
-		$tmp_foro_actualx=$this->model_generico->detalle('actividades_barra',array('id_actividades_barra'=>$post['id_actividades']));
-		$tmp_foro_actual=$this->model_generico->detalle('actividades_foro',array('id_actividades_foro'=>$tmp_foro_actualx->id_actividades));
-		$nombre__foro=$tmp_foro_actual->nombre_actividad;
+ 		$tmp_foro_actualx=$this->model_generico->detalle('actividades_barra',array('id_actividades_barra'=>$post['id_actividades']));
+ 		$tmp_foro_actual=$this->model_generico->detalle('actividades_foro',array('id_actividades_foro'=>$tmp_foro_actualx->id_actividades));
+ 		$nombre__foro=$tmp_foro_actual->nombre_actividad;
 
 	##miro si ya le di me gusta
-		$tmp_ifmegusta=$this->model_cursos->get_if_megusta($this->encrypt->decode($this->session->userdata('id_usuario')),$post['id_actividades'],$post['id_actividades_mensaje']);
+ 		$tmp_ifmegusta=$this->model_cursos->get_if_megusta($this->encrypt->decode($this->session->userdata('id_usuario')),$post['id_actividades'],$post['id_actividades_mensaje']);
 
 
-		if ($tmp_ifmegusta==0)  {
-			$id=$this->model_generico->guardar('actividades_foro_megusta',$data,'id_actividades_foro_megusta',array('id_actividades_foro_megusta',''));
+ 		if ($tmp_ifmegusta==0)  {
+ 			$id=$this->model_generico->guardar('actividades_foro_megusta',$data,'id_actividades_foro_megusta',array('id_actividades_foro_megusta',''));
 
-		}
+ 		}
 
-		else {
+ 		else {
 
-			$data_del=array('id_cursos'=>$post['id_cursos'],
-				'id_modulos'=>$post['id_modulos'],
-				'id_actividades'=>$post['id_actividades'],
-				'id_usuarios'=>$post['id_usuario_estudiante'],
-				'id_estados'=>1,
-				'id_actividades_foro_mensajes'=>$post['id_actividades_mensaje'],
-				'id_usuario_modificado'=>$this->encrypt->decode($this->session->userdata('id_usuario')));
-			$id=$this->model_generico->borrar('actividades_foro_megusta',$data_del);
-			$if_borrado=1;
-		}
-		
+ 			$data_del=array('id_cursos'=>$post['id_cursos'],
+ 				'id_modulos'=>$post['id_modulos'],
+ 				'id_actividades'=>$post['id_actividades'],
+ 				'id_usuarios'=>$post['id_usuario_estudiante'],
+ 				'id_estados'=>1,
+ 				'id_actividades_foro_mensajes'=>$post['id_actividades_mensaje'],
+ 				'id_usuario_modificado'=>$this->encrypt->decode($this->session->userdata('id_usuario')));
+ 			$id=$this->model_generico->borrar('actividades_foro_megusta',$data_del);
+ 			$if_borrado=1;
+ 		}
+
 		#obtengo los megusta del estudiante
-		$megustas_estudiante=$this->model_cursos->get_megustas_estudiante($post['id_actividades'],$post['id_actividades_mensaje'],$post['id_usuario_estudiante']);
+ 		$megustas_estudiante=$this->model_cursos->get_megustas_estudiante($post['id_actividades'],$post['id_actividades_mensaje'],$post['id_usuario_estudiante']);
 
 
 		###### pasos para dar puntaje al mensaje de los que tenga me gusta: #########################################
@@ -1431,120 +1565,120 @@ public function dar_meencanta_estudiante () {
 		## 5. Evaluo si ya tiene el 5% de los me gusta segun cantidad de estudiantes inscritos al curso, si no lo tiene doy puntos, si no, continua
 		## 5. Evaluo si ya tiene el 10% de los me gusta segun cantidad de estudiantes inscritos al curso, si no lo tiene doy puntos, si no, continua
 		## 5. Evaluo si ya tiene el 15% de los me gusta segun cantidad de estudiantes inscritos al curso, si no lo tiene doy puntos, si no, continua
-		$total_estudiantes=$this->model_cursos->get_estudiantes_curso_count($post['id_cursos'],$this->config->item('estado_activo'));
+ 		$total_estudiantes=$this->model_cursos->get_estudiantes_curso_count($post['id_cursos'],$this->config->item('estado_activo'));
 
 
-		$_5ciento=round ( round ($total_estudiantes*5)/100 )."\n"; 
-		$_10ciento=  round( round ($total_estudiantes*10)/100 )."\n"; 
-		$_15ciento=  round( round ($total_estudiantes*15)/100 )."\n"; 
-		$existe_puntos_var=0;
+ 		$_5ciento=round ( round ($total_estudiantes*5)/100 )."\n"; 
+ 		$_10ciento=  round( round ($total_estudiantes*10)/100 )."\n"; 
+ 		$_15ciento=  round( round ($total_estudiantes*15)/100 )."\n"; 
+ 		$existe_puntos_var=0;
 
 ##despues de saber cuantos estudiantes promedio hay para cada evento (15%,10%,5%), empiezo a evaluar uno a uno si tiene esa cantidad igual para asignar puntos...
 #echo count($megustas_estudiante)." : ".$_5ciento."\n\n";
 		## si es igual a la cantidad requerida para dar puntos...
-		if (count($megustas_estudiante)==$_5ciento && $if_borrado==0) {
+ 		if (count($megustas_estudiante)==$_5ciento && $if_borrado==0) {
 
 			### valido que no tenga notificacion de ello
 
 			##consulto si ya tengo los motivos con el estudiante del puntaje ganado por los me encanta
 
-			$if_existe_noti_foro=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
+ 			$if_existe_noti_foro=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
 
-			if ($if_existe_noti_foro->id_usuarios==0 || $if_existe_noti_foro->id_usuarios=='') {
+ 			if ($if_existe_noti_foro->id_usuarios==0 || $if_existe_noti_foro->id_usuarios=='') {
 				#echo "vacio 5\n";
-				$if_existe_noti_foro1=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
+ 				$if_existe_noti_foro1=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
 
-				if ($if_existe_noti_foro1->id_usuarios==0 || $if_existe_noti_foro1->id_usuarios=='') {
+ 				if ($if_existe_noti_foro1->id_usuarios==0 || $if_existe_noti_foro1->id_usuarios=='') {
 					#echo "vacio 10\n";
-					$if_existe_noti_foro2=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_15_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
+ 					$if_existe_noti_foro2=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_15_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
 
-					if ($if_existe_noti_foro2->id_usuarios==0 || $if_existe_noti_foro2->id_usuarios=='') {
+ 					if ($if_existe_noti_foro2->id_usuarios==0 || $if_existe_noti_foro2->id_usuarios=='') {
 						#echo "vacio 15\n";
-						
-					}
-					else {
-						$existe_puntos_var=1;
+
+ 					}
+ 					else {
+ 						$existe_puntos_var=1;
 						#echo "No vacio 5\n";
-					}
-				}
+ 					}
+ 				}
 
-				else  {
+ 				else  {
 					#echo "No vacio 10\n";
-					$existe_puntos_var=1;
-				}
-			} 
+ 					$existe_puntos_var=1;
+ 				}
+ 			} 
 
-			else {
+ 			else {
 				#echo "No vacio 15\n";
-				$existe_puntos_var=1;
-			}
+ 				$existe_puntos_var=1;
+ 			}
 
 
 			#echo $existe_puntos_var."\n";
 
 
-			if ($existe_puntos_var==0) {
+ 			if ($existe_puntos_var==0) {
 
 			#echo "Entro aqui 5%\n";
 			###consulto si ya tengo éstos puntos del mensaje para no volverlo a agregar
-				$if_mispuntos_ya=$this->model_cursos->get_mispuntos_usuario ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('puntos_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje']);
+ 				$if_mispuntos_ya=$this->model_cursos->get_mispuntos_usuario ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('puntos_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje']);
 
-				if ($if_mispuntos_ya->id_puntaje=='') {
-					$resultado=$this->model_cursos->add_puntos ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('puntos_5_porciento_megusta_mensaje_foro'),$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],'',$post['id_actividades_mensaje']);
+ 				if ($if_mispuntos_ya->id_puntaje=='') {
+ 					$resultado=$this->model_cursos->add_puntos ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('puntos_5_porciento_megusta_mensaje_foro'),$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],'',$post['id_actividades_mensaje']);
 				##aqui guardar una notificacion al estudiante que se le ha dado puntos por la x cantidad de me gusta
-					$data_notificaciones['id_usuarios']=$post['id_usuario_estudiante']; 
-					$data_notificaciones['mensaje']="Has ganado ".$this->config->item('puntos_5_porciento_megusta_mensaje_foro')." puntos porque del 5% de la comunidad dió me encanta a tu participación en el foro ".$nombre__foro; 
-					$data_notificaciones['id_estados']=$this->config->item('estado_no_leido'); 
-					$data_notificaciones['fecha_modificado']=date('Y-m-d H:i:s',time());  
-					$data_notificaciones['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
-					$data_notificaciones['fecha_creado']=date('Y-m-d H:i:s',time()); 
-					$data_notificaciones['id_actividades_barra']=$post['id_actividades']; 
-					$data_notificaciones['id_cursos']= $post['id_cursos']; 
-					$data_notificaciones['id_modulos']= $post['id_modulos']; 
+ 					$data_notificaciones['id_usuarios']=$post['id_usuario_estudiante']; 
+ 					$data_notificaciones['mensaje']="Has ganado ".$this->config->item('puntos_5_porciento_megusta_mensaje_foro')." puntos porque del 5% de la comunidad dió me encanta a tu participación en el foro ".$nombre__foro; 
+ 					$data_notificaciones['id_estados']=$this->config->item('estado_no_leido'); 
+ 					$data_notificaciones['fecha_modificado']=date('Y-m-d H:i:s',time());  
+ 					$data_notificaciones['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
+ 					$data_notificaciones['fecha_creado']=date('Y-m-d H:i:s',time()); 
+ 					$data_notificaciones['id_actividades_barra']=$post['id_actividades']; 
+ 					$data_notificaciones['id_cursos']= $post['id_cursos']; 
+ 					$data_notificaciones['id_modulos']= $post['id_modulos']; 
 				#Variable extra para no confundir las notificaciones cuando son varios mensajes en el mismo foro
-					$data_notificaciones['variable_extra']= $post['id_actividades_mensaje']; 
-					$data_notificaciones['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
-					$id_notificaciones=$this->model_generico->guardar('notificaciones',$data_notificaciones,'id_notificaciones',array('id_notificaciones',''));
-				}
+ 					$data_notificaciones['variable_extra']= $post['id_actividades_mensaje']; 
+ 					$data_notificaciones['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
+ 					$id_notificaciones=$this->model_generico->guardar('notificaciones',$data_notificaciones,'id_notificaciones',array('id_notificaciones',''));
+ 				}
 
-			}
+ 			}
 
 
-		}
+ 		}
 
 
 #echo count($megustas_estudiante)." : ".$_10ciento."\n\n";
 
 		## si es igual a la cantidad requerida para dar puntos...
-		if (count($megustas_estudiante)==$_10ciento && $if_borrado==0) {
+ 		if (count($megustas_estudiante)==$_10ciento && $if_borrado==0) {
 
-			$existe_puntos_var=0;
-			$if_existe_noti_foro=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
-			if ($if_existe_noti_foro->id_usuarios==0 || $if_existe_noti_foro->id_usuarios=='') {
+ 			$existe_puntos_var=0;
+ 			$if_existe_noti_foro=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
+ 			if ($if_existe_noti_foro->id_usuarios==0 || $if_existe_noti_foro->id_usuarios=='') {
 				#echo "vacio 5\n";
-				$if_existe_noti_foro1=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
-				if ($if_existe_noti_foro1->id_usuarios==0 || $if_existe_noti_foro1->id_usuarios=='') {
+ 				$if_existe_noti_foro1=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
+ 				if ($if_existe_noti_foro1->id_usuarios==0 || $if_existe_noti_foro1->id_usuarios=='') {
 					#echo "vacio 10\n";
-					$if_existe_noti_foro2=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_15_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
-					if ($if_existe_noti_foro2->id_usuarios==0 || $if_existe_noti_foro2->id_usuarios=='') {
+ 					$if_existe_noti_foro2=$this->model_cursos->get_punto_var_extra ($post['id_usuario_estudiante'],$post['id_cursos'],$this->config->item('motivo_15_porciento_megusta_mensaje_foro'),$post['id_actividades_mensaje']);
+ 					if ($if_existe_noti_foro2->id_usuarios==0 || $if_existe_noti_foro2->id_usuarios=='') {
 						#echo "vacio 15\n";
-					}
-					else {
-						$existe_puntos_var=1;
+ 					}
+ 					else {
+ 						$existe_puntos_var=1;
 						#echo "No vacio 5\n";
-					}
-				}
+ 					}
+ 				}
 
-				else  {
+ 				else  {
 					#echo "No vacio 10\n";
-					$existe_puntos_var=1;
-				}
-			} 
+ 					$existe_puntos_var=1;
+ 				}
+ 			} 
 
-			else {
+ 			else {
 				#echo "No vacio 15\n";
-				$existe_puntos_var=1;
-			}
+ 				$existe_puntos_var=1;
+ 			}
 
 
 
@@ -1555,52 +1689,52 @@ public function dar_meencanta_estudiante () {
 
 			#echo "Entro aqui 10%\n";
 			###consulto si ya tengo éstos puntos del mensaje para no volverlo a agregar
-			$if_mispuntos_ya=$this->model_cursos->get_mispuntos_usuario ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje']);
+ 			$if_mispuntos_ya=$this->model_cursos->get_mispuntos_usuario ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje']);
 
-			if ($if_mispuntos_ya->id_puntaje=='')  {
+ 			if ($if_mispuntos_ya->id_puntaje=='')  {
 
 				##consulto si ya habia ganado el de $_5ciento, de ser asi actualizo puntaje y notificación, de lo contrario lo agrego como nuevo.
-				$if_mispuntos=$this->model_cursos->get_mispuntos_usuario ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje']);
+ 				$if_mispuntos=$this->model_cursos->get_mispuntos_usuario ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje']);
 
 				### si ya tengo los puntos de la opcion anterior, actualizo esos puntos y su respectiva notificacion
-				if ($if_mispuntos->id_puntaje!='')
-				{
-					$data_puntos_update=array('puntaje'=>$this->config->item('puntos_10_porciento_megusta_mensaje_foro'),
-						'id_motivos'=>$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),
-						'id_estados'=>$this->config->item('estado_activo'),'id_usuarios'=>$post['id_usuario_estudiante'],
-						'fecha_modificado'=>date('Y-m-d H:i:s',time()));
+ 				if ($if_mispuntos->id_puntaje!='')
+ 				{
+ 					$data_puntos_update=array('puntaje'=>$this->config->item('puntos_10_porciento_megusta_mensaje_foro'),
+ 						'id_motivos'=>$this->config->item('motivo_10_porciento_megusta_mensaje_foro'),
+ 						'id_estados'=>$this->config->item('estado_activo'),'id_usuarios'=>$post['id_usuario_estudiante'],
+ 						'fecha_modificado'=>date('Y-m-d H:i:s',time()));
 
-					$resultado=$this->model_cursos->update_puntos ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje'],$data_puntos_update) ;
+ 					$resultado=$this->model_cursos->update_puntos ($post['id_cursos'],$post['id_modulos'],$post['id_usuario_estudiante'],$this->config->item('motivo_5_porciento_megusta_mensaje_foro'),$post['id_actividades'],$post['id_actividades_mensaje'],$data_puntos_update) ;
 
       				#### consulto si ya tengo la notificacion de la actividad actual
-					$minotificacion=$this->model_cursos->get_notificacion_usuario_curso ($post['id_cursos'],$post['id_modulos'],$post['id_actividades'],$post['id_usuario_estudiante'],$post['id_actividades_mensaje']);
+ 					$minotificacion=$this->model_cursos->get_notificacion_usuario_curso ($post['id_cursos'],$post['id_modulos'],$post['id_actividades'],$post['id_usuario_estudiante'],$post['id_actividades_mensaje']);
 
 					##aqui actualizar la notificacion al estudiante que se le ha dado puntos por la x cantidad de me gusta (si la borró, la crea, de lo contrario la actualiza)
-					$data_notificaciones['id_usuarios']=$post['id_usuario_estudiante']; 
-					$data_notificaciones['mensaje']="Has ganado ".$this->config->item('puntos_10_porciento_megusta_mensaje_foro')." puntos porque del 10% de la comunidad dió me encanta a tu participación en el foro ".$nombre__foro; 
-					$data_notificaciones['id_estados']=$this->config->item('estado_no_leido'); 
-					$data_notificaciones['fecha_modificado']=date('Y-m-d H:i:s',time());  
-					$data_notificaciones['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
-					$data_notificaciones['fecha_creado']=date('Y-m-d H:i:s',time()); 
-					$data_notificaciones['id_actividades_barra']=$post['id_actividades']; 
-					$data_notificaciones['id_cursos']= $post['id_cursos']; 
-					$data_notificaciones['id_modulos']= $post['id_modulos']; 
+ 					$data_notificaciones['id_usuarios']=$post['id_usuario_estudiante']; 
+ 					$data_notificaciones['mensaje']="Has ganado ".$this->config->item('puntos_10_porciento_megusta_mensaje_foro')." puntos porque del 10% de la comunidad dió me encanta a tu participación en el foro ".$nombre__foro; 
+ 					$data_notificaciones['id_estados']=$this->config->item('estado_no_leido'); 
+ 					$data_notificaciones['fecha_modificado']=date('Y-m-d H:i:s',time());  
+ 					$data_notificaciones['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario'));  
+ 					$data_notificaciones['fecha_creado']=date('Y-m-d H:i:s',time()); 
+ 					$data_notificaciones['id_actividades_barra']=$post['id_actividades']; 
+ 					$data_notificaciones['id_cursos']= $post['id_cursos']; 
+ 					$data_notificaciones['id_modulos']= $post['id_modulos']; 
 					#Variable extra para no confundir las notificaciones cuando son varios mensajes en el mismo foro
-					$data_notificaciones['variable_extra']= $post['id_actividades_mensaje']; 
-					$data_notificaciones['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
-					
+ 					$data_notificaciones['variable_extra']= $post['id_actividades_mensaje']; 
+ 					$data_notificaciones['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
+
 					### AQUI VALIDAR SI YA TIENE EL MENSAJE DE NOTIFICACION, SI LO TIENE LO ACTUALIZA
-					$dataupmensaje['id_estados']=$this->config->item('estado_no_leido');
-					$dataupmensaje['mensaje']=$data_notificaciones['mensaje'];
+ 					$dataupmensaje['id_estados']=$this->config->item('estado_no_leido');
+ 					$dataupmensaje['mensaje']=$data_notificaciones['mensaje'];
 
 
 					##consulto si existe la notificacion del estudiante realizado en el mensaje del foro, si no existe lo insertamos, de lo conttrario lo actualizamos
-					$if_existe_noti_foro=$this->model_cursos->if_noti_foro_est($post['id_usuario_estudiante'],@$minotificacion->variable_extra);
-					if ($if_existe_noti_foro==0) {
-						$id_notificaciones=$this->model_generico->guardar('notificaciones',$data_notificaciones,'id_notificaciones',array('id_notificaciones',''));
-					} else {
-						$resultado=$this->model_cursos->update_notificacion(@$minotificacion->variable_extra,$post['id_usuario_estudiante'],$dataupmensaje);
-					}
+ 					$if_existe_noti_foro=$this->model_cursos->if_noti_foro_est($post['id_usuario_estudiante'],@$minotificacion->variable_extra);
+ 					if ($if_existe_noti_foro==0) {
+ 						$id_notificaciones=$this->model_generico->guardar('notificaciones',$data_notificaciones,'id_notificaciones',array('id_notificaciones',''));
+ 					} else {
+ 						$resultado=$this->model_cursos->update_notificacion(@$minotificacion->variable_extra,$post['id_usuario_estudiante'],$dataupmensaje);
+ 					}
 					#$id_notificaciones=$this->model_generico->guardar('notificaciones',$data_notificaciones,'id_notificaciones',array('id_notificaciones',@$minotificacion->id_notificaciones));
 
 
@@ -1863,6 +1997,12 @@ public function set_visto ($id_cursos,$id_modulos,$id_actividades_barra) {
 	if (count($if_modulo_visto)==0)  {
 		$if_modulos_vistos=$this->model_cursos->insertar_modulo_visto ($id_cursos,$id_modulos,$id_actividades_barra,$this->encrypt->decode($this->session->userdata('id_usuario')));
 	}
+
+
+	### guardo la posicion donde me encuentro actualmente de la actividad
+	$this->model_cursos->update_posicion ($id_actividades_barra,$id_cursos,$id_modulos,$this->encrypt->decode($this->session->userdata('id_usuario')));
+
+
 	echo $id_actividades_barra;
 }
 
@@ -2093,6 +2233,7 @@ public function set_puntos_pregunta_rapida_ev ($id_cursos,$id_modulos,$id_motivo
 				$resultados[$key]['opcion']=$svalue['respuesta'];
 				$resultados[$key]['retro']=$svalue['retroalimentacion'];
 				$resultados[$key]['estado']="bien";
+				$resultados[$key]['id_texto']=$svalue['keypid'];
 			}
 
 
@@ -2253,14 +2394,20 @@ public function set_puntos_pregunta_rapida_ev ($id_cursos,$id_modulos,$id_motivo
 	$oport['fecha_modificado']=date('Y-m-d H:i:s',time());  
 	$oport['id_usuario_creado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
 	$oport['id_usuario_modificado']=$this->encrypt->decode($this->session->userdata('id_usuario')); 
-
-	$tmpifexamen=$this->model_cursos->get_if_examen($id_cursos,$id_modulos,$id_actividades_barra);
+	##consulto si ya hice el examen!
+	$tmpifexamen=$this->model_cursos->get_if_examen($this->encrypt->decode($this->session->userdata('id_usuario')),$id_cursos,$id_modulos,$id_actividades_barra);
 	#si ya he realizado el examen...
 	if ($tmpifexamen->id_puntaje!='')  {
 		##si el puntaje obtenido es mayor al que habia realizado antes...
+		#echo $tmpifexamen->puntaje ."&&".$total_puntos; exit;
 		if ($tmpifexamen->puntaje < $total_puntos) {
 			#### agrego los puntos del examen! (con opcion de actualizar si ya tiene puntos de esa actividad)
 			$resultadop=$this->model_cursos->add_puntos ($id_cursos,$id_modulos,$this->encrypt->decode($this->session->userdata('id_usuario')),$total_puntos,$id_motivos,$id_actividades_barra,'update');	
+		}
+		#### si es menor entonces muestro en pantalla cero puntos
+		else {
+			#echo $tmpifexamen->puntaje ."&&".$total_puntos; exit;
+			$resultado[0]="+0 puntos";
 		}
 
 	}
@@ -2292,9 +2439,9 @@ public function set_puntos_pregunta_rapida_ev ($id_cursos,$id_modulos,$id_motivo
 			
 			else { # si es ilimitado las oportunidades de evaluacion
 				
-
-				$this->model_cursos->add_respuesta ($id_cursos,$id_modulos,$id_actividades_barra,$id_actividades,$this->encrypt->decode($this->session->userdata('id_usuario')),json_encode($post['respuesta']),$post['tipo_pregunta'],'update');
-
+				if ($tmpifexamen->puntaje < $total_puntos) {
+					$this->model_cursos->add_respuesta ($id_cursos,$id_modulos,$id_actividades_barra,$id_actividades,$this->encrypt->decode($this->session->userdata('id_usuario')),json_encode($post['respuesta']),$post['tipo_pregunta'],'update');
+				}
 			}
 
 
@@ -2317,6 +2464,7 @@ public function set_puntos_pregunta_rapida_ev ($id_cursos,$id_modulos,$id_motivo
 	$mis_puntos_actuales_curso_actual=$this->model_cursos->get_puntos_totales_en_curso ($this->encrypt->decode($this->session->userdata('id_usuario')),$id_cursos);
 	$tmp=$mis_puntos_actuales_curso_actual[0];
 	$data['mis_puntos_actuales_curso_actual']=$tmp->puntaje;
+
 	echo $resultado[0]."|".$resultado[1]."|".$resultado[2]."|".($data['mis_puntos_actuales_curso_actual']);
 
 
@@ -2391,7 +2539,7 @@ public function caja_sorpresa ($id_cursos,$id_modulos,$id_actividades_barra) {
 		$curso_info=$this->model_cursos->get_curso($id_cursos);
 
 		#si el premio son de puntos...
-		if ($mipremio_sorpresa->puntos!='0') {
+		if ($mipremio_sorpresa->puntos!='0' && $mipremio_sorpresa->puntos!='' ) {
 			$data['valor']=$mipremio_sorpresa->puntos;
 			$data['id_tipos_premio']=$this->config->item('tipos_premio_puntos');
 			$data['id_estados']=$this->config->item('estado_utilizado');  ## estado utilizado del premio (cuando son puntos, se utiliza de forma inmediata)
@@ -2416,7 +2564,7 @@ public function caja_sorpresa ($id_cursos,$id_modulos,$id_actividades_barra) {
 
 
 		#si el premio es de video...
-if ($mipremio_sorpresa->id_actividades_videos!='0') {
+if ($mipremio_sorpresa->id_actividades_videos!='0' && $mipremio_sorpresa->id_actividades_videos!='') {
 			$data['id_estados']=$this->config->item('estado_utilizado');  ## tengo un video activo y utilizado en el curso para verlo cuando yo quiera  
 			$data['id_tipos_premio']=$this->config->item('tipos_premio_video');
 			$data['valor']=$mipremio_sorpresa->id_actividades_videos;
@@ -2453,7 +2601,7 @@ $data3['extra']="mostrar_video";
 
 
 		#si el premio es de crear un foro...
-if ($mipremio_sorpresa->if_foro !='0') {
+if ($mipremio_sorpresa->if_foro !='0' && $mipremio_sorpresa->if_foro !='') {
 	$data['id_estados']=$this->config->item('estado_no_utilizado'); 
 	$data['id_tipos_premio']=$this->config->item('tipos_premio_foro');
 	$data['valor']=$mipremio_sorpresa->if_foro;
@@ -2489,7 +2637,7 @@ $data3['extra']="mostrar_foro";
 
 
 		#si el premio es un logro...
-if ($mipremio_sorpresa->id_logros!='0') {
+if ($mipremio_sorpresa->id_logros!='0' && $mipremio_sorpresa->id_logros!='') {
 			$data['id_estados']=$this->config->item('estado_utilizado');  ## se crea de forma inmediata el logro en el curso actual del estudiante y lo inserto en mi lista de logros también
 			$data['id_tipos_premio']=$this->config->item('tipos_premio_logro');
 			$data['valor']=$mipremio_sorpresa->id_logros;
@@ -2587,13 +2735,23 @@ $tmp='';
 
 
 
-
-
-		#guardo mi premio sorpresa
-			$id_premio_sorpresa=$this->model_generico->guardar('recompensas_aleatorias_usuarios',$data,'id_recompensas_aleatorias_usuarios',array('id_recompensas_aleatorias_usuarios',''));
+			if ($data['id_recompensas_aleatorias']) {
+	#guardo mi premio sorpresa
+				$id_premio_sorpresa=$this->model_generico->guardar('recompensas_aleatorias_usuarios',$data,'id_recompensas_aleatorias_usuarios',array('id_recompensas_aleatorias_usuarios',''));
 
 		##muestro en pantalla cada valor para hacer el efecto de la caja sorpresa
-			echo $data3['id_tipos_premio']."|".$data3['valor']."|".$data3['imagen']."|".$data3['mensaje']."|".$data3['fblink']."|".$data3['twlink']."|".$data3['extra']."|".$id_actividades_barra."|".$data3['extra2'];
+				echo $data3['id_tipos_premio']."|".$data3['valor']."|".$data3['imagen']."|".$data3['mensaje']."|".$data3['fblink']."|".$data3['twlink']."|".$data3['extra']."|".$id_actividades_barra."|".$data3['extra2'];
+
+			}
+
+
+			else{
+				echo "error";
+				exit;
+			}
+
+			
+
 
 
 		}
@@ -2786,21 +2944,24 @@ $tmp='';
 
 
 ### funcion para evaluar si el modulo anterior fué visto o no por medio del ajax
-	public function if_visto_actividad_barra ($id_modulos) {
+	public function if_visto_actividad_barra ($id_modulos,$id_cursos) {
 
 		$this->load->model('model_cursos');
 		$if_datosmod=$this->model_cursos->get_mod_visto($id_modulos,$this->encrypt->decode($this->session->userdata('id_usuario')));
 
 
+		### consulto la posicion actual del curso actual del usuario
+		$pos=$this->model_cursos->get_posicion ($id_cursos,$this->encrypt->decode($this->session->userdata('id_usuario')));	
+
 ### si existe informacion , es porque ya fué visto
 		if ($if_datosmod->id_modulos) 
 		{
-			echo "si";
+			echo "si|".$pos->posicion_actividad_barra."|".$pos->posicion_modulo;
 		}	
 
 
 		else {
-			echo "no";
+			echo "no|".$pos->posicion_actividad_barra."|".$pos->posicion_modulo;
 		}
 
 
@@ -2882,7 +3043,7 @@ $tmp='';
 
 	if ($estatus_actual->nombre && $tmp_estatus_mio->id_estatus!=$estatus_id) {
 	## retorno esta cadena de datos para mostrarlos en pantalla de una forma correcta
-		echo $estatus_proximo->nombre."|html/site/img/".$estatus_id.".png|".$minimo_faltante_a_otro_nivel."|".$estatus_proximo->minimo_puntos."|".$mensaje."|".$estatus_id."|".$niveldios."|".$tmp_estatus_mio_ya->id_estatus;
+		echo $estatus_proximo->nombre."|html/site/img/".$estatus_id.".png|".$minimo_faltante_a_otro_nivel."|".$estatus_proximo->minimo_puntos."|".$mensaje."|".$estatus_id."|".$niveldios."|".$tmp_estatus_mio_ya->id_estatus."|".$estatus_actual->nombre;
 	}
 
 	else {
@@ -2908,7 +3069,13 @@ public function validar_certificado ($id_cursos) {
 	$array_id_modulos=array();
 	
 	##obtengo mi plan del curso actual
-	$miplan_curso_actual=$this->model_cursos->get_plan_curso($id_cursos,$id_usuarios);
+	$miplan_curso_actual=$this->model_cursos->get_plan_curso($id_cursos,$id_usuarios,$this->config->item('estado_activo'));
+	if (!$miplan_curso_actual->id_tipo_planes)
+	{
+		$miplan_curso_actual=$this->model_cursos->get_plan_curso($id_cursos,$id_usuarios,$this->config->item('estado_finalizado'));
+	}
+
+
 	$miplan_curso_actual=$miplan_curso_actual->id_tipo_planes;
 
 	foreach ($modulos_curso as $modulos_curso_key => $modulos_curso_value) {
@@ -2955,6 +3122,12 @@ public function validar_certificado ($id_cursos) {
 		$id_certificados=$this->model_generico->guardar('certificados',$data_certi,'id_certificados',array('id_certificados',$certificado->id_certificados));
 
 
+		## actualizo el curso el estado a finalizado para que no vaya a descontar puntos.
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+		$data_up_cur_asignado=array("finalizado"=>1);
+		$this->model_cursos->update_estado_curso_asignado($id_usuarios,$id_cursos,$data_up_cur_asignado);
+
+
 		echo "true";
 	}
 
@@ -2979,11 +3152,13 @@ public function validar_certificado ($id_cursos) {
 
 
 ### funcion que se encarga de dar link de descarga del certificado validando que tenga todos los modulos realizados del curso actual
-public function get_certificado ($id_cursos) {
+public function get_certificado ($id_cursos,$id_usuarios_tmp=null) {
 
 	$this->load->model('model_cursos');
-	$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+	if ($id_usuarios_tmp) { $id_usuarios=$id_usuarios_tmp; }
 
+	else { $id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));	}
+	
 
 ##obtengo los modulos del curso actual 
 	$modulos_curso=$this->model_cursos->get_modulos_curso($id_cursos);
@@ -2996,7 +3171,13 @@ public function get_certificado ($id_cursos) {
 	$array_id_modulos=array();
 	
 	##obtengo mi plan del curso actual
-	$miplan_curso_actual=$this->model_cursos->get_plan_curso($id_cursos,$id_usuarios);
+	$miplan_curso_actual=$this->model_cursos->get_plan_curso($id_cursos,$id_usuarios,$this->config->item('estado_activo'));
+	if (!$miplan_curso_actual->id_tipo_planes)
+	{
+		$miplan_curso_actual=$this->model_cursos->get_plan_curso($id_cursos,$id_usuarios,$this->config->item('estado_finalizado'));
+	}
+
+
 	$miplan_curso_actual=$miplan_curso_actual->id_tipo_planes;
 
 	foreach ($modulos_curso as $modulos_curso_key => $modulos_curso_value) {
@@ -3038,6 +3219,7 @@ public function get_certificado ($id_cursos) {
 		############################  datos del estudiante para pasarlos al certificado #######################################
 
 
+
 		######################## consulto los datos del curso para pasarlos al certificado #####################################
 		$mi_curso_actual=$this->model_generico->detalle('cursos',array('id_cursos'=>$id_cursos));
 
@@ -3060,7 +3242,9 @@ public function get_certificado ($id_cursos) {
 
 
 
-			$this->gen_certificado ("certificado_curso_".$mi_curso_actual->titulo,$data);
+
+
+			$this->gen_certificado ("certificado_curso_".$mi_curso_actual->titulo,$data,$id_usuarios);
 
 
 		}
@@ -3078,15 +3262,25 @@ public function get_certificado ($id_cursos) {
 
 
 ##funcion para generar el certificado del curso del usuario actual.
-public function gen_certificado ($archivo,$data) {
+public function gen_certificado ($archivo,$data,$id_usuarios_tmp) {
 
 	$this->load->model('model_cursos');
-	$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+	if ($id_usuarios_tmp) {
+		$id_usuarios=$id_usuarios_tmp;
+	}
+	else {
+		$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+	}
 
 	$pdfFilePath = FCPATH."/downloads/$archivo.pdf";
 
 	ini_set('memory_limit','32M');
+	$data['custom_sistema']=$this->model_generico->detalle('personalizacion_general',array('id_personalizacion_general'=>1));
+
+
+
    $html=$this->load->view('view_certificado', $data,TRUE); // realizo un render con la información para mostrarla en pantalla
+
 
 
    $this->load->library('pdf');
@@ -3097,6 +3291,14 @@ public function gen_certificado ($archivo,$data) {
 
    $stylesheet = file_get_contents('html/pdf/certificados/style.css');
    $pdf->WriteHTML($stylesheet,1);
+
+
+   #$pdf->AddPage('L','','','','',30,30,10,45,18,12);   ### version horizontal
+
+   								#iz,der,arriba,abajo					
+   $pdf->AddPage('L','','','','',30,30,33,17,18,12);    ### version horizontal
+
+
    $pdf->WriteHTML($html); 
    $pdf->Output($pdfFilePath, 'F'); 
    #$pdf->Output(); 
@@ -3128,6 +3330,17 @@ public function mis_certificados () {
 	$data['contenidos_footer']=$this->model_generico->get_contenidos_footer('contenidos',array('id_estados'=>1));
 	$this->load->view('publico/view_mis_certificados',$data);
 }
+
+
+
+public function borrarMensajeForo ($id_actividades_foro_mensajes) {
+	$this->load->model('model_cursos');
+	$id_usuarios=$this->encrypt->decode($this->session->userdata('id_usuario'));
+	$this->model_cursos->delmensajeforo($id_usuarios,$id_actividades_foro_mensajes);
+	echo "ok";
+}
+
+
 
 
 
