@@ -70,6 +70,154 @@ class Root extends CI_Controller {
 	}
 
 
+	public function respuestas_estudiantes ($id_encuestas) {
+
+		/* Cargo variables globales */
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
+		
+		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
+
+		$data['titulos']=array("Curso","Encuesta","Usuario","Opciones");
+		$this->load->model('model_encuestas');
+		$data['lista_users']=$this->model_encuestas->get_respuestas_lista_usuarios ($id_encuestas);
+		$this->load->view('root/view_'.$variables['modulo'].'_respuestas_lista',$data);
+	}
+
+
+
+	public function estadisticas ($id_encuestas) {
+
+
+
+		/* Cargo variables globales */
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
+		$this->load->model('model_encuestas');
+		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+		}
+
+
+
+		$data['preguntas']=$this->model_encuestas->get_preguntas($id_encuestas);
+		foreach ($data['preguntas'] as $key => $value) {
+			$data['preguntas'][$key]->total_respuestas=$this->model_encuestas->get_total_respuestas ($id_encuestas,$value->id_encuestas_detalle);
+			$data['preguntas'][$key]->total_finalizados=$this->model_encuestas->get_encuesta_respondida($id_encuestas);
+		}
+
+		$this->load->view('root/view_'.$variables['modulo'].'_estadisticas',$data);
+
+	}
+
+
+	public function exportar ($id_encuestas) {
+
+
+		/* Cargo variables globales */
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['mispermisos']=$variables['mispermisos'];
+		$this->load->model('model_encuestas');
+		$data['titulo']=$variables['modulo'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+		}
+
+		$this->load->helper('csv');
+
+
+		$lista_tmp=$this->model_encuestas->get_respuestas_lista_usuarios_todos($id_encuestas);
+		
+		foreach ($lista_tmp as $key => $value) {
+			if ($value->tipo_pregunta==1) {
+				$lista_tmp[$key]->tipo_preg="Tipo test";
+			}
+
+			if ($value->tipo_pregunta==2) {
+				$lista_tmp[$key]->tipo_preg="Elegir de una lista";
+			}
+
+			if ($value->tipo_pregunta==3) {
+				$lista_tmp[$key]->tipo_preg="Campo de texto";
+			}
+			
+		}
+
+		
+
+
+
+
+
+
+#encabezado del array
+		$lista[0]=array('Curso','Nombres Completos','Correo','Pregunta','Tipo pregunta','Respuesta');	
+
+## preparo el array para exportar
+		foreach ($lista_tmp as $key => $value) {
+			$lista[$key+1]=array(utf8_decode($value->titulo),utf8_decode($value->nombres)." ".utf8_decode($value->apellidos),$value->correo,utf8_decode($value->pregunta),$value->tipo_preg,utf8_decode($value->respuesta));
+
+
+		}
+
+		header('Content-Type: application/csv');
+		header('Content-Disposition: attachement; filename="Encuesta '.utf8_decode($value->titulo).'.csv' . '"');
+		echo array_to_csv($lista);
+		exit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+
+
+
+
+	public function detalle ($id_encuestas,$id_usuario,$id_cursos) {
+
+		/* Cargo variables globales del modulo*/
+		$variables = $this->variables; $data['diccionario']=$this->variables['diccionario'];
+		$data['menus']=$this->model_generico->menus_root_categorias();
+		foreach ($data['menus'] as $key => $value) {
+			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
+
+		}
+		/* Titulo = nombre del modulo */
+		$data['titulo']=$variables['modulo'];
+
+		$this->load->model('model_encuestas');
+
+		$data['lista_respuestas']=$this->model_encuestas->get_respuestas($id_encuestas,$id_cursos,$id_usuario);
+
+
+
+
+		/* Cargo vista del modulo */
+		$this->load->view('root/view_'.$variables['modulo'].'_detalle',$data);
+
+
+
+	}
 
 
 	/* FUNCION NUEVO DATO */

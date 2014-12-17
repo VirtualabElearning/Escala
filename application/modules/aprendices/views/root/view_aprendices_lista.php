@@ -56,8 +56,10 @@
                         <?php #krumo ($lista); ?>
                         <?php foreach ($lista as $key => $value): ?>
                           <tr id="<?php echo $value->id_usuarios; ?>">
-                           <td><?php echo $value->orden; ?></td>
-                           <td><?php echo $value->id_usuarios; ?></td>
+                          <?php /* ?>
+                           <td style="display:none;"><?php echo $value->orden; ?></td>
+                           <td style="display:none;"><?php echo $value->id_usuarios; ?></td>
+                          <?php */ ?>
                            <td><?php echo $value->nombre; ?></td>
                            <?php if ($value->foto=='') { $value->foto='../../html/site/img/sin_foto.png'; } ?>
                            <td><img class="foto_img" src="escalar.php?src=<?php echo base_url().'uploads/'.$carpeta.'/'.$value->foto; ?>&w=126&h=126&zc=1" alt="img"/></td>
@@ -65,7 +67,9 @@
                            <td><?php echo $value->apellidos; ?></td>
                            <td><?php echo $value->identificacion; ?></td>
                            <td><?php echo $value->correo; ?></td>
+                          <?php /* ?>
                            <td><?php echo $value->nombre_plan; ?></td>
+<?php */ ?>
                            <td><?php echo $value->estado_nombre; ?></td>
                            <td>  
                              <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_usuarios; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 

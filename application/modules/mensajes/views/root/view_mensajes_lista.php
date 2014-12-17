@@ -62,8 +62,8 @@
                           <?php foreach ($lista as $key => $value): ?>
 
                             <tr id="<?php echo $value->id_mensajes; ?>">
-                             <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_mensajes; ?></td>
+                             <td style="display:none;"><?php echo $value->orden; ?></td>
+                             <td style="display:none;"><?php echo $value->id_mensajes; ?></td>
                              <?php  
                              $foto_estudiante=$value->foto_estudiante;
                              $ultima_letra = substr($foto_estudiante,-1 , 1); 

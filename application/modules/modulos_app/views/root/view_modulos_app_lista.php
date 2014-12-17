@@ -62,8 +62,8 @@
                         <?php foreach ($lista as $key => $value): ?>
 
                           <tr id="<?php echo $value->id_modulos_app; ?>">
-                           <td><?php echo $value->orden; ?></td>
-                           <td><?php echo $value->id_modulos_app; ?></td>
+                           <td style="display:none;"><?php echo $value->orden; ?></td>
+                           <td style="display:none;"><?php echo $value->id_modulos_app; ?></td>
                            <td><?php echo $value->nombre; ?></td>
                            <td><?php echo $value->llave; ?></td>
                            <td><?php echo $value->descripcion; ?></td>

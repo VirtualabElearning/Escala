@@ -1020,3 +1020,20 @@ if (!function_exists('envio_correo')) {
 		}
 
 	}
+
+
+
+### funcion para saber de cada posible respuesta cuantos respondieron
+	if (!function_exists('get_resp_est')) {
+		function get_resp_est($id_encuestas_detalle,$respuesta) {
+			$ci =& get_instance();
+			$ci->db->where('encuestas_respuestas.id_encuestas_detalle', $id_encuestas_detalle); 
+			$ci->db->where('encuestas_respuestas.respuesta', $respuesta); 
+			#$query = $ci->db->get('encuestas_respuestas');
+			#$r=$query->result();
+			$ci->db->from('encuestas_respuestas');
+			$r=$ci->db->count_all_results();
+			return $r;
+			
+		}
+	}

@@ -42,7 +42,7 @@ class Root extends CI_Controller {
 			$data['menus'][$key]->submenus=$this->model_generico->menus_root($value->id_categorias_modulos_app,$this->session->userdata('id_roles'));
 		}
 		$data['lista']=$this->{$variables['modelo']}->listado($variables['modulo'],'',array('orden','asc'));
-		$data['titulos']=array("Orden","ID","Modulo","Roles","Estado","Opciones");
+		$data['titulos']=array("Modulo","Roles","Estado","Opciones");
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
 

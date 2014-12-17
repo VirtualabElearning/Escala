@@ -62,8 +62,8 @@
                         <?php foreach ($lista as $key => $value): ?>
 
                           <tr id="<?php echo $value->id_diccionario; ?>">
-                           <td><?php echo $value->orden; ?></td>
-                           <td><?php echo $value->id_diccionario; ?></td>
+                           <td style="display:none;"><?php echo $value->orden; ?></td>
+                           <td style="display:none;"><?php echo $value->id_diccionario; ?></td>
                            <td><?php echo $value->singular; ?></td>
                             <td><?php echo $value->plural; ?></td>
                            <td><?php echo $value->llave; ?></td>

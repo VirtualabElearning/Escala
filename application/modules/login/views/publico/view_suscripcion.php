@@ -35,19 +35,19 @@
 
       <?php foreach ($mis_cursos_suscripcion as $key => $value): ?>
         <div class="sus_col1">
-          <h2>Tu estás registrado</h2>
+          <h2><?php echo $value->titulo; ?></h2>
           <?php if ($value->id_tipo_planes==$this->config->item('Premium')): ?>
             <h3>Usuario Premium</h3>
           <?php else: ?>
             <h3>Usuario Estándar</h3>
           <?php endif ?>
+<h4>Tu estás registrado</h4>
 
-
-          <h4>Curso <?php echo $value->titulo; ?></h4>
+         
         </div>
         <div class="sus_col2">
           <?php if ($value->id_tipo_planes==$this->config->item('Premium')): ?>
-            <h5>Pago de suscripción</h5>
+            <h5>Pago aprobado</h5>
           <?php else: ?>
             <h5>Suscripción del curso</h5>
           <?php endif ?>
@@ -63,9 +63,9 @@
 
 
          <?php if ($value->id_tipo_planes==$this->config->item('Premium')): ?>
-           <h3>Aprobado</h3>
+           <h3></h3>
          <?php else: ?>
-           <a href="http://virtualab.sem/Escala/cursos/registrarme_al_curso_premium/<?php echo amigable($value->id_cursos); ?>/<?php echo amigable($value->titulo); ?>.html"><h2>PASAR A PREMIUM AHORA</h2></a>
+           <a href="cursos/registrarme_al_curso_premium/<?php echo amigable($value->id_cursos); ?>/<?php echo amigable($value->titulo); ?>.html"><h2>PASAR A PREMIUM AHORA</h2></a>
          <?php endif ?>
 
 

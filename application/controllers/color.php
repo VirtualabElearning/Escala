@@ -176,7 +176,7 @@ border: <?php echo $custom_sistema->colores_sistema2; ?> 5pt solid;
 
 
 .light_blue:hover,.curso_btn:hover,.download_btn:hover,.send_question:hover,.discusion_btn:hover,.module_actual:hover,.volver:hover,.cert_btn:hover{
-  background-color:#33adeb;
+  background-color:<?php echo aclararColor($custom_sistema->colores_sistema2, 50); ?>;
   color: #fff;
 }
 /* ==========================================================================

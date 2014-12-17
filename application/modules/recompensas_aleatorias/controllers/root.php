@@ -43,7 +43,7 @@ class Root extends CI_Controller {
 		/* Envio header de la tabla de los campos que necesito mostrar */
 		#$data['titulos']=array("Orden","ID","Puntos","Video","Foro","Logro","Estado","Opciones");
 
-        $data['titulos']=array("Orden","ID","Tipo","Valor","Estado","Opciones");
+        $data['titulos']=array("Tipo","Valor","Estado","Opciones");
 
 		/* Cargo vista de listado de informacion */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);

@@ -87,91 +87,99 @@ class Root extends CI_Controller {
 		$curso_detalle=$this->model_generico->detalle('cursos',array('id_cursos'=>$id_cursos  ));
 
 		### si soy administrador
+		#if ($this->session->userdata('id_roles')==$this->config->item('roles_master') || $this->session->userdata('id_roles')==$this->config->item('roles_administrador')) {
+
+
 		if ($this->session->userdata('id_roles')==$this->config->item('roles_master') || $this->session->userdata('id_roles')==$this->config->item('roles_administrador')) {
 			$lista_tmp=$this->model_calificaciones->listado($this->session->userdata('id_usuario'),$variables['modulo'],'',array('usuarios.orden','asc'),$id_cursos);
-			
 			$lista[0]=array('Curso','Nombres','Apellidos','Correo','Porcentaje de avance','Puntos','Estatus','Tipo de plan');
+
+		} else {
+			$lista_tmp=$this->model_calificaciones->listado($this->session->userdata('id_usuario'),$variables['modulo'],'',array('usuarios.orden','asc'),$id_cursos,$this->config->item('Premium'));
+			$lista[0]=array('Curso','Nombres','Apellidos','Correo','Porcentaje de avance','Puntos','Estatus');
+
+		}
+
+
 
 			### detecto si tiene o no competencias en actividades de tipo evaluacion
 
 			#krumo($lista_tmp); 
 
+		$competenzias=array();
+		foreach ($lista_tmp as $key => $value) {
+			$tmp_compe=$this->model_calificaciones->get_competencias_eval($id_cursos,$value->id_usuarios);	
 
-
-			$competenzias=array();
-			foreach ($lista_tmp as $key => $value) {
-				$tmp_compe=$this->model_calificaciones->get_competencias_eval($id_cursos,$value->id_usuarios);	
-
-				foreach ($tmp_compe as $tmp_compe_key => $tmp_compe_value) {
-					$competenzias[]=$tmp_compe_value['nombre_competencia'];
-				}
+			foreach ($tmp_compe as $tmp_compe_key => $tmp_compe_value) {
+				$competenzias[]=$tmp_compe_value['nombre_competencia'];
 			}
+		}
 
 
-			$competenzias = array_unique($competenzias);
-			foreach ($competenzias as $ckey => $cvalue) {
-				$lista[0][]="Competencia ".$cvalue;
-			}
-
+		$competenzias = array_unique($competenzias);
+		foreach ($competenzias as $ckey => $cvalue) {
+			$lista[0][]="Competencia ".$cvalue;
+		}
 
 
 		## preparo el array para exportar
-			foreach ($lista_tmp as $key => $value) {
+		foreach ($lista_tmp as $key => $value) {
+			if ($this->session->userdata('id_roles')==$this->config->item('roles_master') || $this->session->userdata('id_roles')==$this->config->item('roles_administrador')) {
 				$lista[$key+1]=array(utf8_decode($curso_detalle->titulo),utf8_decode($value->nombres),utf8_decode($value->apellidos),$value->correo,get_porcentaje_usuario($value->id_usuarios,$id_cursos).'%',get_puntos_curso($value->id_usuarios,$id_cursos),utf8_decode($value->nombre_estatus),utf8_decode($value->nombre_plan));
+			} else {
+				$lista[$key+1]=array(utf8_decode($curso_detalle->titulo),utf8_decode($value->nombres),utf8_decode($value->apellidos),$value->correo,get_porcentaje_usuario($value->id_usuarios,$id_cursos).'%',get_puntos_curso($value->id_usuarios,$id_cursos),utf8_decode($value->nombre_estatus));
+			}
+
+			$tmp_compe=$this->model_calificaciones->get_competencias_eval($id_cursos,$value->id_usuarios);
 
 
-
-
-				$tmp_compe=$this->model_calificaciones->get_competencias_eval($id_cursos,$value->id_usuarios);
-				
-				
-				
-
-				if ($value->id_usuarios==43)  {
+			
+			if ($value->id_usuarios==43)  {
 					#krumo($tmp_compe); 
 					#exit;
-				}
+			}
 
-				$totalcorrectas=0;
-				$totalincorrectas=0;
-				foreach ($tmp_compe as $tmp_compe_key => $tmp_compe_value) {
-					
-					@$tmp_compe_value['correctas']=@$tmp_compe_value['correctas']+0;
-					@$tmp_compe_value['incorrectas']=@$tmp_compe_value['incorrectas']+0;
-					$totalcorrectas=@$tmp_compe_value['correctas'];
-					$totalincorrectas=@$tmp_compe_value['incorrectas'];
-					$totalcompetencia=$totalcorrectas+$totalincorrectas;
+			$totalcorrectas=0;
+			$totalincorrectas=0;
+			foreach ($tmp_compe as $tmp_compe_key => $tmp_compe_value) {
+
+				@$tmp_compe_value['correctas']=@$tmp_compe_value['correctas']+0;
+				@$tmp_compe_value['incorrectas']=@$tmp_compe_value['incorrectas']+0;
+				$totalcorrectas=@$tmp_compe_value['correctas'];
+				$totalincorrectas=@$tmp_compe_value['incorrectas'];
+				$totalcompetencia=$totalcorrectas+$totalincorrectas;
 
 					### regla de 3 simple para saber el porcentaje en competencias.
-					if ($totalcompetencia!=0) {
+				if ($totalcompetencia!=0) {
 
-						$total_correctas_competencia=round((100*$totalcorrectas)/$totalcompetencia);
+					$total_correctas_competencia=round((100*$totalcorrectas)/$totalcompetencia);
 
-					}
-					else{
-						$total_correctas_competencia=0;
-					}
-
-
-					$lista[$key+1][]=$total_correctas_competencia."%";
-
-
-
-
+				}
+				else{
+					$total_correctas_competencia=0;
 				}
 
 
-				
-
-
-
-
+				$lista[$key+1][]=$total_correctas_competencia."%";
 
 
 
 
 			}
 
+
+
+
+
+
+
+
+
+
+
+		}
+
+/*
 		### si soy docente	
 		} else {
 			$lista_tmp=$this->model_calificaciones->listado($this->session->userdata('id_usuario'),$variables['modulo'],'',array('usuarios.orden','asc'),$id_cursos,$this->config->item('Premium'));
@@ -186,7 +194,7 @@ class Root extends CI_Controller {
 				$lista[$key+1]=array(utf8_decode($curso_detalle->titulo),utf8_decode($value->nombres),utf8_decode($value->apellidos),$value->correo,get_porcentaje_usuario($value->id_usuarios,$id_cursos).'%',get_puntos_curso($value->id_usuarios,$id_cursos),utf8_decode($value->nombre_estatus));
 			}
 		}
-
+*/
 
 
 		#krumo ($lista);

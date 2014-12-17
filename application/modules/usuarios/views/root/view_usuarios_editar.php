@@ -57,7 +57,7 @@
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Foto</label>
                       <div class="col-lg-5">
-                        <input type="hidden" name="image">
+                      <input type="hidden" name="image" id="image" value="<?php echo base_url().'uploads/'.$carpeta.'/'.$detalle->foto; ?>">
                         <div class="fileupload <?php if ($detalle->foto): ?> fileupload-exists <?php else : ?> fileupload-new <?php endif ?>" data-provides="fileupload">
                           <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
                             <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA" alt="img"/>

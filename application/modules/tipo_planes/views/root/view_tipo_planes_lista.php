@@ -84,8 +84,8 @@
                           <?php foreach ($lista as $key => $value): ?>
 
                             <tr id="<?php echo $value->id_tipo_planes; ?>">
-                             <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_tipo_planes; ?></td>
+                             <td style="display:none;"><?php echo $value->orden; ?></td>
+                             <td style="display:none;"><?php echo $value->id_tipo_planes; ?></td>
                              <td><?php echo $value->nombre; ?></td>
                              <td><?php echo $value->Descripcion; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>

@@ -219,7 +219,15 @@
         </div>
         <p class="motivo_medalla">{motivo de la medalla}</p>
         <div class="seguir_block">
-         <a href="encuestas/informacion/2/<?php echo $this->uri->segment(3); ?>"><h4>ENCUESTA DE SATISFACCIÓN</h4></a>
+
+          <?php if (count($respuestas_encuesta)>0): ?>
+            <a href="cursos"><h4>VER MÁS CURSOS</h4></a>
+         <?php else: ?>
+           <a href="encuestas/informacion/2/<?php echo $this->uri->segment(3); ?>"><h4>ENCUESTA DE SATISFACCIÓN</h4></a>
+         <?php endif ?>
+
+
+
        </div>
 
      </div>
@@ -1465,7 +1473,7 @@ $('.next_btn').click(function(event) {
                           $('.box4').css({'height':'325px'});
                           $('.box4 > h3').html("¡FELICITACIONES!");
                           $('.box4 > .premio_img > #surprise_result >img').attr('src','html/site/img/icono_14.png');
-                          $('.box4 > .motivo_medalla').html('..Has finalizado con honores tu curso de '+titulo_certificado+".");
+                          $('.box4 > .motivo_medalla').html('Has finalizado con honores tu curso de '+titulo_certificado+".");
                           $('.box4 .seguir_block').show();
                           $('.box4 > .premio_img > #surprise_result > span').hide();
                           $j('.backdrop, .box').animate({'opacity':'.50'}, 300, 'linear');
@@ -3512,10 +3520,10 @@ jQuery.ajax({
     thiz.prev().prev().prev().fadeOut(2000);     <?php ##oculto el contador ?>
     setTimeout(function(){
       if ( $('#discusion'+thiz.attr('barra_foro')+' > .discusion_wrap > .disc_estudiantes > .disc_block_B').length==1 )  { $('.disc_block_B').css({'left':'28px'}); }
-       
-     
 
-     thiz.prev().fadeIn(2000); thiz.prev().prev().fadeIn(2000); }, 1000);  <?php ##muestro el mensaje de enviado! ?>
+
+
+      thiz.prev().fadeIn(2000); thiz.prev().prev().fadeIn(2000); }, 1000);  <?php ##muestro el mensaje de enviado! ?>
 
     <?php ##oculto el mensaje de enviado!, muestro el campo de texto y el contador ?>
     setTimeout(function(){ thiz.prev().prev().fadeOut(2000); thiz.prev().fadeOut(2000); thiz.prev().prev().prev().prev().fadeIn(2000); thiz.prev().prev().prev().fadeIn(2000);  }, 7000);

@@ -41,7 +41,7 @@ class Root extends CI_Controller {
 
 		}
 		$data['lista']=$this->model_generico->listado($variables['modulo'],array('id_cursos',$id_cursos),array('orden','asc'));
-		$data['titulos']=array("Orden","ID","Nombre","Descripción","Estado","Opciones");
+		$data['titulos']=array("Nombre","Descripción","Estado","Opciones");
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}
 

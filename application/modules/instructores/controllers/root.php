@@ -80,7 +80,7 @@ class Root extends CI_Controller {
 		/** Cargo listado de registros */
 		$data['lista']=$this->{$variables['modelo']}->listado('usuarios',array('usuarios.id_roles','2'),array('orden','asc'));
 		#krumo ($data['lista']); exit;
-		$data['titulos']=array("Orden","ID","Rol","Foto","Nombres","Apellidos","Identificacion","Profesión","Correo","Estado","Opciones");
+		$data['titulos']=array("Rol","Foto","Nombres","Apellidos","Identificacion","Profesión","Correo","Estado","Opciones");
 		/* Cargo vista para mostrar el listado de registros */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}

@@ -66,8 +66,10 @@
                           <?php foreach ($lista as $key => $value): ?>
 
                             <tr id="<?php echo $value->id_usuarios; ?>">
-                             <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_usuarios; ?></td>
+                             <?php /* ?>
+                             <td style="display:none;"><?php echo $value->orden; ?></td>
+                             <td style="display:none;"><?php echo $value->id_usuarios; ?></td>
+                             <?php */ ?>
                              <td><?php echo $value->nombre; ?></td>
                              <td><img  class="foto_img" src="escalar.php?src=<?php echo base_url().'uploads/'.$titulo.'/'.$value->foto; ?>&w=126&h=126&zc=1" alt="img"/></td>
                              <td><?php echo $value->nombres; ?></td>

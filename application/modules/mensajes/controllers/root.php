@@ -41,7 +41,7 @@ class Root extends CI_Controller {
 		/* Llamo ala funcion generica para traer el listado de informacion del modulo */
 		$data['lista']=$this->model_mensajes->listado($this->session->userdata('id_usuario'),$variables['modulo'],'',array('mensajes.orden','asc'));
 		/* Envio header de la tabla de los campos que necesito mostrar */
-		$data['titulos']=array("Orden","ID","Foto","Nombres","Apellidos","Curso","Mensaje","Estado","Opciones");
+		$data['titulos']=array("Foto","Nombres","Apellidos","Curso","Mensaje","Estado","Opciones");
 		/* Cargo vista de listado de informacion */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 	}

@@ -66,17 +66,20 @@
                            <td><?php echo $value->descripcion; ?></td>
                            <td><?php echo $value->estado_nombre; ?></td>
                            <td> 
-                           <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_encuestas; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
-                            <a href="<?php echo $this->uri->segment(1); ?>/root/preguntas/<?php echo $value->id_encuestas; ?>"  class="btn btn-success btn-xs"><i class="fa"></i> Generar preguntas</a> 
-                            
+                             <a href="<?php echo $this->uri->segment(1); ?>/root/editar/<?php echo $value->id_encuestas; ?>" class="btn btn-info btn-xs"><i class="fa"></i> Editar</a> 
+                             <a href="<?php echo $this->uri->segment(1); ?>/root/preguntas/<?php echo $value->id_encuestas; ?>"  class="btn btn-success btn-xs"><i class="fa"></i> Generar preguntas</a> 
+
+                             <?php if ($this->session->userdata('id_roles')==1 || $this->session->userdata('id_roles')==4 ): ?>
+                              <a href="<?php echo $this->uri->segment(1); ?>/root/respuestas_estudiantes/<?php echo $value->id_encuestas; ?>"  class="btn btn-warning btn-xs"><i class="fa"></i> Ver respuestas</a> 
+                            <?php endif; ?>
 
           <?php /* ?>
                              <a href="<?php echo $this->uri->segment(1); ?>/root/ver_respuestas/<?php echo $value->id_encuestas; ?>"  class="btn btn-warning btn-xs"><i class="fa"></i> Ver respuestas</a> 
-          <?php */ ?>
+                             <?php */ ?>
 
 
                              <a href="#" id="<?php echo $value->id_encuestas; ?>" class="btn btn-danger btn-xs lanzar_confirmacion"><i class="fa"></i> Borrar</a> 
-                             </td>
+                           </td>
                          </tr>
                        <?php endforeach ?>         
                      </tbody>

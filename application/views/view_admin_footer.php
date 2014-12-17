@@ -112,6 +112,14 @@ $('#slider_docente').nivoSlider({
   $(function () {
 
 
+
+ //$('th').eq(0).hide();
+ //$('th').eq(1).hide();
+
+
+ //$('tfoot tr th').eq(0).hide();
+ //$('tfoot tr th').eq(1).hide();
+
     $('input[type=file]').fileupload();
 
     <?php if ($this->uri->segment(1)=='inicio'): ?>

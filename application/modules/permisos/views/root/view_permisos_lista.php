@@ -74,8 +74,8 @@
                           <?php foreach ($lista as $key => $value): ?>
 
                             <tr id="<?php echo $value->id_permisos; ?>">
-                             <td><?php echo $value->orden; ?></td>
-                             <td><?php echo $value->id_permisos; ?></td>
+                             <td style="display:none;"><?php echo $value->orden; ?></td>
+                             <td style="display:none;"><?php echo $value->id_permisos; ?></td>
                               <td><?php echo $value->nombre_modulo; ?></td>
                                <td><?php echo $value->roles_permitidos; ?></td>
                              <td><?php echo $value->estado_nombre; ?></td>

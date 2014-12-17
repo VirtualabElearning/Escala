@@ -1,3 +1,7 @@
+  .custom_style {
+  margin: 40px 0 0 0; 
+}
+
 .question_btn h6 {
   font-size: 10px;
   font-weight: bold;
@@ -590,6 +594,10 @@ footer {
 }
 
 
+.color_footerx {
+
+}
+
 
 @media screen and (min-width: 720px) and (max-width: 959px) {
 
@@ -611,6 +619,9 @@ footer {
 
 }
 
+.color_footerx {
+    height: 165px!important;
+}
 
 
 @media screen and (min-width: 480px) and (max-width: 719px) {
@@ -626,6 +637,11 @@ footer {
   padding:20px 10px 30px 10px;
   margin:0 auto;
 
+}
+
+
+.color_footerx {
+    height: 120px!important;
 }
 
 
@@ -650,6 +666,12 @@ footer {
   margin:0 auto;
 
 }
+
+
+ .social {
+  margin: 7px 0 0 0; 
+}
+
 
 .inbox_numero {
 left: 38px;

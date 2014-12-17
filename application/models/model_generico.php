@@ -25,6 +25,17 @@ public function listado($tabla,$where=null,$order_by=null){
 
 
 
+public function get_encuestas_respuestas($id_cursos,$id_usuarios){
+	$this->db->where('id_cursos',$id_cursos);
+	$this->db->where('id_usuarios',$id_usuarios);
+	$query = $this->db->get("encuestas_respuestas");
+	return $query->result();
+}
+
+
+
+
+
 /**
 Funcion que carga el detalle de un dato de cualquier tabla
 **/
@@ -249,13 +260,16 @@ public function mis_cursos_suscripcion ($id_usuarios) {
 	
 	$this->db->select('cursos.*,pagos_realizados.*,cursos_asignados.*,pagos_realizados.fecha_creado as fecha_pago');
 	$this->db->join('cursos', 'cursos_asignados.id_cursos = cursos.id_cursos');
-	$this->db->join('pagos_realizados', 'pagos_realizados.id_cursos = cursos.id_cursos and pagos_realizados.id_usuarios=cursos_asignados.id_usuarios');
+	$this->db->join('pagos_realizados', 'pagos_realizados.id_cursos = cursos.id_cursos and pagos_realizados.id_usuarios=cursos_asignados.id_usuarios', 'left');
 	$this->db->order_by("cursos_asignados.orden", "desc"); 
 	$this->db->where( "cursos_asignados.id_usuarios",$id_usuarios ); 
 	#$this->db->where( "cursos_asignados.id_tipo_planes",$this->config->item('Premium') );
 	$query = $this->db->get("cursos_asignados");
-	return $query->result();
+	$resu=$query->result();
 
+	#krumo ($this->db->last_query());
+
+	return $resu;
 
 }
 

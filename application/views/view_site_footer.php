@@ -372,9 +372,9 @@ $('.profile_dark p').click(function(event) {
 <?php } ?>
 
 
-<footer style='<?php if ($custom_sistema->image_footer!='') { ?> background-image: url("uploads/personalizacion_general/<?php echo $custom_sistema->image_footer; ?>"); <?php } else {?> background-color: <?php echo $custom_sistema->colores_sistema3; ?>; height: 180px; margin:38px 0 0 0; <?php } ?>' <?php if ($this->uri->segment(1)=='cursos' && $this->uri->segment(2)=='empezar'): ?> <?php else: ?> class="special_footer" <?php endif ?>>
+<footer style='<?php if ($custom_sistema->image_footer!='') { ?> background-image: url("uploads/personalizacion_general/<?php echo $custom_sistema->image_footer; ?>"); <?php } else {?> background-color: <?php echo $custom_sistema->colores_sistema3; ?> <?php } ?>' <?php if ($this->uri->segment(1)=='cursos' && $this->uri->segment(2)=='empezar'): ?> class="<?php if ($custom_sistema->image_footer!='') { ?> <?php } else  { echo "color_footerx";  } ?>" <?php else: ?> class="special_footer <?php if ($custom_sistema->image_footer!='') { ?> <?php } else  { echo "color_footerx";  } ?>" <?php endif ?>>
   <div class="footer_wrap">
-    <div class="social" style='<?php if ($custom_sistema->image_footer!='') { ?> <?php } else { ?> margin: 40px 0 0 0; <?php } ?>'>  
+    <div class="social <?php if ($custom_sistema->image_footer!='') { ?> <?php } else { ?> custom_style <?php } ?>">  
      <a target="_blank" href="<?php echo $custom_sistema->facebook_sistema; ?>"><img src="html/site/img/face_icon.png" alt="facebook"></a>
      <a target="_blank" href="<?php echo $custom_sistema->twitter_sistema; ?> "><img src="html/site/img/tweet_icon.png" alt="twitter"> </a>
    </div>
@@ -393,4 +393,6 @@ $('.profile_dark p').click(function(event) {
 
 
 </div>
+
+
 </footer>

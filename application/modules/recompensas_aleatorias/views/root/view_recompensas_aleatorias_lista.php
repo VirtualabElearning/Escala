@@ -62,8 +62,8 @@
                         <?php foreach ($lista as $key => $value): ?>
 
                           <tr id="<?php echo $value->id_recompensas_aleatorias; ?>">
-                           <td><?php echo $value->orden; ?></td>
-                           <td><?php echo $value->id_recompensas_aleatorias; ?></td>
+                           <td style="display:none;"><?php echo $value->orden; ?></td>
+                           <td style="display:none;"><?php echo $value->id_recompensas_aleatorias; ?></td>
                            <td><?php if ($value->puntos) { echo "Puntos"; } if ($value->nombre_video) { echo "Video"; }  if ($value->if_foro!='' && $value->puntos==0 && !$value->nombre_video && !$value->nombre_logro) { echo "Foro"; }  if ($value->nombre_logro) { echo "Logro"; } ?></td>
                            <td><?php if ($value->puntos) { echo $value->puntos; } if ($value->nombre_video) { echo $value->nombre_video; }  if ($value->if_foro!='' && $value->puntos==0 && !$value->nombre_video && !$value->nombre_logro ) { if ($value->if_foro==1) { echo "Si"; } else { echo "No"; }   }   if ($value->nombre_logro) { echo $value->nombre_logro; } ?></td>
                            <td><?php echo $value->nombre_estado; ?></td>

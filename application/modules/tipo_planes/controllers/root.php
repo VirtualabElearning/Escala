@@ -36,7 +36,7 @@ public function lista()
 
 		}
 	$data['lista']=$this->model_generico->listado($variables['modulo'],'',array('orden','asc'));
-	$data['titulos']=array("Orden","ID","Nombre","Descripcion","Estado","Opciones");
+	$data['titulos']=array("Nombre","Descripcion","Estado","Opciones");
 	$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
 }
 

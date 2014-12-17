@@ -90,7 +90,7 @@ class Root extends CI_Controller {
 		$data['lista']=$this->{$variables['modelo']}->listado('usuarios',array('usuarios.id_roles',3),array('orden','asc'));
 
 		/* Cargo los campos que necesito en el listado ( Solo las etiquetas header ) */
-		$data['titulos']=array("Orden","ID","Rol","Foto","Nombres","Apellidos","Identificacion","Correo","Tipo plan","Estado","Opciones");
+		$data['titulos']=array("Rol","Foto","Nombres","Apellidos","Identificacion","Correo","Estado","Opciones");
 
 		/* Cargo la vista de forma dinamica */
 		$this->load->view('root/view_'.$variables['modulo'].'_lista',$data);
@@ -298,24 +298,27 @@ class Root extends CI_Controller {
 
 
 ##funcion para borrar los cursos no seleccionados
+			if ($list) {
 			foreach ($list as $key => $value) {
 				$tmpxx=explode ("|",$value);
 
-				if ( !in_array($tmpxx[0], $this->input->post ('id_cursos_asignados')) ) {
+				if ( @!in_array($tmpxx[0], $this->input->post ('id_cursos_asignados')) ) {
 					$this->model_generico->borrar('cursos_asignados',array('id_cursos_asignados'=>$tmpxx[1]));
-					echo "Borrado: ".$tmpxx[1];
+					#echo "Borrado: ".$tmpxx[1];
 				} 
 				else {
 					$list2[]=$tmpxx[0];
 				}
 
 			}
- 
+ }
 
-#exit;
+if ($this->input->post ('id_cursos_asignados') ) {
+	
+
 			foreach ($this->input->post ('id_cursos_asignados') as $postkey => $postvalue) {
 				##si no está entre la lista de los cursos asignados del estudiante...
-				if ( !in_array($postvalue, $list2) ) {
+				if ( @!in_array($postvalue, $list2) ) {
 
 				## guardo los cursos asignados al estudiante
 					/* asigno valores a un array para enviarlos al modelo */
@@ -339,7 +342,7 @@ class Root extends CI_Controller {
 			}
 
 
-
+}
 
 
 

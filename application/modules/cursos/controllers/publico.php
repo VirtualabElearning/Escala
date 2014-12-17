@@ -1118,7 +1118,7 @@ class Publico extends CI_Controller {
 
 			
 
-
+	$data['respuestas_encuesta']=$this->model_generico->get_encuestas_respuestas($id_cursos,$this->encrypt->decode($this->session->userdata('id_usuario')));
 
 
 
@@ -3066,6 +3066,7 @@ public function validar_certificado ($id_cursos) {
 	$modulos_curso=$this->model_cursos->get_modulos_curso($id_cursos);
 
 
+
 	$array_id_modulos=array();
 	
 	##obtengo mi plan del curso actual
@@ -3082,13 +3083,28 @@ public function validar_certificado ($id_cursos) {
 		## si soy plan estandar...
 		if ($this->config->item('Estandar')==$miplan_curso_actual)  {
 			if ($modulos_curso_value->id_tipo_planes==$this->config->item('Estandar'))  {
-				$array_id_modulos[]=$modulos_curso_value->id_modulos;
+### condicionar de qur tenga al menos una actividad, si no tiene... no se vale el modulo
+
+				$conttmp=$this->model_cursos->get_actividades($modulos_curso_value->id_modulos);
+				if (count($conttmp)>0) {
+					$array_id_modulos[]=$modulos_curso_value->id_modulos;
+				}
+
+
 			}
 		}
 
 		##si soy premium
 		if ($this->config->item('Premium')==$miplan_curso_actual)  {
-			$array_id_modulos[]=$modulos_curso_value->id_modulos;
+### condicionar de qur tenga al menos una actividad, si no tiene... no se vale el modulo
+
+			$conttmp=$this->model_cursos->get_actividades($modulos_curso_value->id_modulos);
+			if (count($conttmp)>0) {
+				$array_id_modulos[]=$modulos_curso_value->id_modulos;
+			}
+
+
+
 		}
 	}
 
@@ -3140,7 +3156,7 @@ public function validar_certificado ($id_cursos) {
 
 		else {
 		### es porque la cantidad de modulos vistos es menor a la cantidad de modulos por realizar (no ha terminado el curso!)
-			echo "error";
+			echo "error".$total_modulos."|".$total_modulos_realizados;
 		}
 
 
